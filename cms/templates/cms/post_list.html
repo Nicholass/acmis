@@ -1,4 +1,13 @@
 <html>
     <p>Hi there!</p>
     <p>It works!</p>
+
+
+    {% for post in posts %}
+    <div>
+      <p>published: {{ post.author }}</p>
+      <h1><a href="">{{ post.title }}</a></h1>
+      <p>{{ post.text|linebreaksbr }}</p>
+    </div>
+    {% endfor %}
 </html>
