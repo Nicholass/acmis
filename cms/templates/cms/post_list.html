@@ -1,13 +1,13 @@
-<html>
-    <p>Hi there!</p>
-    <p>It works!</p>
+{% extends 'cms/base.html' %}
 
-
-    {% for post in posts %}
-    <div>
-      <p>published: {{ post.author }}</p>
-      <h1><a href="">{{ post.title }}</a></h1>
-      <p>{{ post.text|linebreaksbr }}</p>
-    </div>
-    {% endfor %}
-</html>
+{% block content %}
+{% for post in posts %}
+<div class="post">
+  <div class="author">
+    {{ post.author }}
+  </div>
+  <h1><a href="">{{ post.title }}</a></h1>
+  <p>{{ post.text|linebreaksbr }}</p>
+</div>
+{% endfor %}
+{% endblock content %}
