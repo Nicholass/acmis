@@ -1,5 +1,5 @@
 *.pyc
-acis/__pycache__
+__pycache__/
 acis_venv
 db.sqlite3
 .DS_Store
