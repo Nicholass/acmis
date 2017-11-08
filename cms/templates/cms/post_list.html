@@ -3,6 +3,7 @@
 {% block content %}
 {% for post in posts %}
 <div class="post">
+  <i>{{ post.get_kind_verbose }}</i><b>/</b><i>{{ post.get_category_verbose }}</i>
   <div class="author">
     {{ post.author }}
   </div>

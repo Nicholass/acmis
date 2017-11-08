@@ -1,7 +1,9 @@
 {% extends 'cms/base.html' %}
 
 {% block content %}
-  <div class="post">
+<div class="post">
+  Published under: <i>{{ post.kind }}</i><b>/</b><i>{{ post.category }}</i>
+
     {% if post.author %}
     <div class="author">
       {{ post.author }}
