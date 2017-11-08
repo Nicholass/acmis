@@ -10,7 +10,7 @@
   <body>
     <div class="page-header">
       {% if user.is_authenticated %}
-        <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
+        <a href="{% url 'post_new' kind='p' category='p' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
       {% endif %}
       <h1><a href="/">A C I S</a></h1>
     </div>
