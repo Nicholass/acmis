@@ -1,14 +1,29 @@
 {% extends 'cms/base.html' %}
 
 {% block content %}
-{% for post in posts %}
-<div class="post">
-  <i>{{ post.get_kind_verbose }}</i><b>/</b><i>{{ post.get_category_verbose }}</i>
-  <div class="author">
-    {{ post.author }}
+
+<div class="block">
+  <h2 class="header-simple">Новости и события</h2>
+  <div class="category-menu">
+    <a href="{% url 'post_new' kind='p' category='p' %}">Добавить новость</a>
   </div>
-  <h1><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h1>
-  <p>{{ post.text|linebreaksbr }}</p>
+  <div class="content">
+
+    {% for post in posts %}
+    <div class="post" id="{{ post.pk }}">
+      <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+      <p class="info">
+        <span class="author">{{ post.author }}</span>&nbsp;|&nbsp;
+        <span class="date">{{ post.created_date }}</span> |
+        <span class="category">{{ post.get_kind_verbose }}<strong>/</strong>{{ post.get_category_verbose }}</span>
+      </p>
+      <p class="content">
+        {{ post.text|linebreaksbr }}
+      </p>
+    </div>
+    {% endfor %}
+
+  </div>
 </div>
-{% endfor %}
+
 {% endblock content %}

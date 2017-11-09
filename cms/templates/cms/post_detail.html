@@ -1,18 +1,23 @@
 {% extends 'cms/base.html' %}
 
 {% block content %}
-<div class="post">
-  Published under: <i>{{ post.kind }}</i><b>/</b><i>{{ post.category }}</i>
 
-    {% if post.author %}
-    <div class="author">
-      {{ post.author }}
-    </div>
-    {% endif %}
-    <a class="btn btn-default pull-right" href="{% url 'post_edit' pk=post.pk %}">
-      <span class="glyphicon glyphicon-pencil"></span>
-    </a>
-    <h1>{{ post.title }}</h1>
-    <p>{{ post.text|linebreaksbr }}</p>
-  </div>
+            <div class="block article">
+                <div class="buttons">
+                    <span><a href="#">Список статей</a></span>
+                    <span><a href="{% url 'post_edit' pk=post.pk %}">Редактировать</a></span>
+                    <span><a href="#">Удалить</a></span>
+                </div>
+                <div class="info">
+                    {% if post.author %}
+                    <p><strong>Автор (Источник): </strong><span class="author">{{ post.author }}</span></p>
+                    {% endif %}
+                    <p><strong>Опубликован: </strong><span class="published">{{ post.created_date }}</span></p>
+                </div>
+                <h1 class="header-simple">{{ post.title }}</h1>
+                <div class="content">
+                    {{ post.text|linebreaksbr }}
+                </div>
+            </div>
+
 {% endblock %}
