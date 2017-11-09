@@ -6,3 +6,4 @@ acis_venv
 db.sqlite3
 .DS_Store
 /aics_venv/bin/activate
+/cms/migrations/

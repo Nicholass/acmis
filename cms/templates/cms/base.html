@@ -1,26 +1,118 @@
 {% load staticfiles %}
-<html>
-  <head>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>ACIS</title>
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
-    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
-    <link href='//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
-    <link rel="stylesheet" href="{% static 'css/main.css' %}">
-  </head>
-  <body>
-    <div class="page-header">
-      {% if user.is_authenticated %}
-        <a href="{% url 'post_new' kind='p' category='p' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
-      {% endif %}
-      <h1><a href="/">A C I S</a></h1>
-    </div>
-    <div class="content container">
-      <div class="row">
-        <div class="col-md-8">
-          {% block content %}
-          {% endblock %}
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+</head>
+<body>
+
+<div class="container-fluid wrapper">
+    <div class="row header">
+        <div class="col-md-2 col-xs-12 logo">
+            <a href="/">
+                <img src="{% static 'images/logo.jpg' %}" alt="logo" />
+            </a>
         </div>
-      </div>
+        <div class="col-md-10 col-xs-12 slogan">
+            <img src="{% static 'images/slogan.gif' %}" alt="logo" />
+        </div>
     </div>
-  </body>
+    <div class="row">
+        <div class="col-md-12 col-xs-12" id="acisMenu">
+            <!--
+            <ul class="main-menu">
+                <li>
+                    <a href="#">О нас</a>
+                    <ul class="sub" style="display: none">
+                        <li><a href="#">Про ACIS</a></li>
+                        <li><a href="#">Про диггеров</a></li>
+                    </ul>
+                </li>
+                <li><a href="#">Новости</a></li>
+                <li><a href="#">Подземелья</a></li>
+                <li><a href="#">Творчество</a></li>
+                <li><a href="#">Общение</a></li>
+                <li><a href="#">Ссылки</a></li>
+                <li><a href="#">Wiki/FAQ</a></li>
+                <li><a href="#">Вход</a></li>
+            </ul>
+            -->
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12 main">
+            {% block content %}
+            {% endblock %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12 col-xs-12 footer">
+            Copyright © 2001-2016 ACIS
+        </div>
+    </div>
+</div>
+
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="{% static 'js/bootstrap.min.js' %}"></script>
+
+<script
+        src="https://code.jquery.com/jquery-3.1.1.min.js"
+        integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+        crossorigin="anonymous"></script>
+<script src="{% static 'js/menu.js' %}"></script>
+<script>
+    var menu = {
+        'О нас': {
+            'Про ACIS': '#',
+            'Про диггеров': '#'
+        },
+        'Новости': '#',
+        'Подземелья': {
+            'Статьи': '#',
+            'Очеты: Киев': '#',
+            'Очеты: Украина': '#',
+            'Другие отчеты': '#',
+            'Фотографии': '#',
+            'Карты': '#'
+        },
+        'Творчество': {
+            'Графика': '#',
+            'Писательство': '#',
+            'Анекдоты': '#',
+            'Перлы форума': '#',
+            'Литература': '#'
+        },
+        'Общение': {
+            'Форум': '#',
+            'Вылазки': '#',
+            'Курилка': '#'
+        },
+        'Ссылки': '#',
+        'Wiki/FAQ': '#',
+        'Вход': '#'
+    };
+    $('#acisMenu').acisMenu({
+        class: 'main-menu',
+        items: menu
+    });
+</script>
+</body>
 </html>

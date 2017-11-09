@@ -1,0 +1,551 @@
+body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font: 12px/14px verdana, tahoma, Segoe, sans-serif;
+    background: #FFF;
+}
+a {
+    text-decoration: underline;
+}
+
+.wrapper {
+    max-width: 1600px;
+}
+
+/**
+ *  Хедер
+ */
+
+.row.header {
+    min-height: 74px;
+}
+.row.header {
+    background: #575757;
+}
+.row.header .logo {
+    padding-left: 0;
+    padding-top: 3px;
+}
+.row.header .slogan {
+    text-align: center;
+    line-height: 72px;
+}
+
+/**
+ * Главное меню
+ */
+
+#acisMenu {
+    height: 16px;
+    border-top: 1px solid #8A8A8A;
+    background: #000000;
+    color: #FFFFFF;
+    -webkit-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.75);
+    box-shadow: 0px 4px 6px 0px rgba(0,0,0,0.75);
+}
+#acisMenu ul{
+    list-style: none;
+    padding-left: 0;
+}
+#acisMenu ul li:hover {
+    background: #777777;
+}
+#acisMenu ul li a {
+    color: #FFFFFF;
+    text-decoration: none;
+}
+ul.main-menu {
+    margin: 0 0;
+}
+ul.main-menu > li {
+    position: relative;
+    display: inline-block;
+    vertical-align: top;
+    font-weight: bold;
+    font-size: 1em;
+    padding: 0 2px;
+    width: 115px;
+}
+ul.main-menu .sub {
+    position: absolute;
+    top: 15px;
+    left: 0px;
+    background: #000000;
+    z-index: 9000;
+    width: 100%;
+}
+ul.main-menu .sub > li {
+    display: block;
+    padding: 2px;
+    font-size: 1em;
+}
+ul.main-menu .sub > li a {
+    font-weight: normal;
+}
+
+/**
+ * Контент
+ */
+
+.main {
+    padding: 28px 30px 0 28px;
+}
+
+/**
+ * Стили контентных блоков разного вида
+ */
+
+/* Заголовк с текстом, отбрасывающим тень */
+.block > .header {
+    position: relative;
+    margin-top: 14px;
+}
+.block > .header .bg {
+    width: 100%;
+    height: 17px;
+    background: #353535;
+    padding: 0 13px;
+    -webkit-box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+}
+.block > .header .text {
+    position: absolute;
+    bottom: -2px;
+    left: 11px;
+    color: #E4E4E4;
+    font-size: 31px;
+    font-weight: bold;
+    text-shadow:
+    -1px -1px 0 #000,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000,
+    5px 5px 6px #000;
+
+}
+
+/* Обычный тонкий заголовок */
+.block > .header-simple {
+    background: #353535;
+    color: #FFFFFF;
+    padding: 1px 10px;
+    margin: 0 0;
+    font-size: 1.05em;
+    font-weight: bold;
+    -webkit-box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+    box-shadow: 4px 4px 6px 0px rgba(0,0,0,0.75);
+}
+
+/* Блок контента прямоугольный*/
+.block-box .header {
+    color: #FFFFFF;
+    background: #000000;
+    font-weight: bold;
+    padding: 2px 3px;
+}
+.block-box .content {
+    padding: 5px;
+}
+.block-box {
+    border: 1px solid #000000;
+    background: #F7F7F7;
+}
+
+/* Блок информации на главной */
+.block.info a {
+    font-weight: bold;
+}
+
+/* Блок типа блог */
+.block > .content {
+    padding: 20px 17px;
+}
+.block .category-menu {
+    margin: 10px 0 0 0;
+    padding: 0 17px;
+}
+.post {
+     margin-bottom: 20px;
+}
+.post > h3 {
+    font-weight: bold;
+    font-style: italic;
+    font-size: 1em;
+    margin: 0 0;
+}
+.post > h3 a {
+    color: #000;
+}
+.post .info {
+    font-style: italic;
+    margin: 5px 0;
+}
+.post .content {
+    margin: 0 0;
+}
+
+/* Форма добавления материала */
+.block label {
+    display: block;
+}
+
+/* Страница материала */
+.article .buttons {
+    margin-top: 10px;
+}
+.article .buttons a{
+    display: inline-block;
+}
+.article .buttons a:first-child {
+    margin-right: 20px;
+}
+
+.article .info {
+    margin-top: 15px;
+}
+.article .info p {
+    margin: 0;
+}
+.article .info p:last-child {
+    margin-top: 10px;
+}
+
+.article .header-simple {
+    margin-top: 20px;
+}
+
+.comments {
+    margin: 0 auto;
+    width: 98%;
+    border: 1px solid #000000;
+}
+.comments .header {
+    background: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
+    padding: 2px 5px;
+}
+.comment {
+    padding: 2px 10px 15px 10px;
+}
+.comment:nth-child(odd) {
+    background: #E1E1E1;
+}
+.comment:nth-child(even) {
+    background: #F7F7F7;
+}
+.comment .content {
+    margin: 0px;
+}
+.comment .info {
+    margin-bottom: 5px;
+}
+.comment .info .author {
+    font-weight: bold;
+}
+.comment .info .date {
+    font-style: italic;
+}
+.addcomment {
+    display: block;
+    width: 52%;
+    margin: 30px auto 20px auto;
+    background: #E1E1E1;
+}
+.addcomment .info {
+    margin: 5px 5px;
+}
+.addcomment textarea {
+    padding: 0 2px;
+    margin: 0 auto;
+    width: 98%;
+    display: block;
+}
+.addcomment button {
+    margin: 5px auto;
+    display: block;
+}
+.addcomment .content {
+    padding: 0px;
+}
+
+table .mobile-visible {
+    display: none;
+}
+table .screen-visible {
+    display: table-cell;
+}
+
+/* Блоки подразделов на странице раздела */
+.sections {
+    margin-top: 25px;
+}
+.section {
+    margin-bottom: 20px;
+}
+.section .content {
+    min-height: 40px;
+}
+.section img {
+    float: left;
+    width: 150px;
+    height: auto;
+}
+.section .text {
+    padding: 5px 5px 5px 5px;
+}
+.section .info {
+    padding: 0px 5px 5px 5px;
+}
+.section .info > span {
+    margin-right: 20px;
+}
+
+.sections.tile .section {
+    width: 45%;
+}
+.sections.tile .section .content {
+    padding: 10px;
+    min-height: 120px;
+}
+.sections.tile .section .text {
+    padding-left: 160px;
+}
+.sections.tile .section:nth-child(odd) {
+    float: left;
+    margin-left: 35px;
+}
+.sections.tile .section:nth-child(even) {
+    float: right;
+    margin-right: 35px;
+}
+
+.sections.column .section {
+    width: 91%;
+    margin: 0px auto 20px auto;
+}
+
+/* Страница материалов подраздела */
+.subsection table {
+    width: 100%;
+    border: 1px solid #000000;
+}
+.subsection table thead {
+    background: #000000;
+    color: #FFFFFF;
+    font-weight: bold;
+}
+.subsection table th, .subsection table td {
+    padding: 2px;
+}
+.subsection table > tbody > tr:nth-of-type(odd) {
+    background-color: #E1E1E1;
+}
+.subsection table > tbody > tr:nth-of-type(even) {
+    background-color: #F7F7F7;
+}
+.subsection .w150 {
+    width: 150px;
+}
+.subsection .w100 {
+    width: 100px;
+}
+.subsection .buttons {
+    margin: 5px 0;
+}
+.subsection .buttons:first-child {
+    margin: 20px 0px 5px 0;
+}
+.subsection .buttons a {
+    display: inline-block;
+    margin-right: 10px;
+}
+
+.subsection table a {
+    font-weight: bold;
+}
+
+/* Раздел ссылок */
+.links .link p:first-child {
+    margin: 0;
+}
+.links .link a {
+    font-weight: bold;
+}
+.links .section .info span {
+    margin-right: 0;
+}
+
+.links-subsection .buttons {
+    padding-bottom: 5px;
+}
+.links-subsection .link .description {
+    margin: 0;
+}
+.links-subsection .link .info {
+    font-size: 12px;
+}
+.links-subsection .link .info span {
+    margin-right: 10px;
+}
+.links-subsection .link p:first-child {
+    margin: 0;
+}
+.links-subsection .link p:first-child a {
+    font-weight: bold;
+}
+
+/* Cтраница новостей */
+.news-page .info {
+    padding-bottom: 0;
+}
+.news-page .info .author {
+    font-weight: bold;
+}
+.news-page .info span {
+    margin-right: 0;
+}
+.news-page .datepicker {
+    margin: 10px 50px 0px 50px;
+}
+.news-page .years {
+    float: left;
+}
+.news-page .mounthes {
+    padding-left: 150px;
+}
+.news-page .mounthes span {
+    width: 80px;
+    display: inline-block;
+    vertical-align: top;
+}
+
+.news-page .no-news .content {
+    text-align: center;
+    line-height: 47px;
+    height: 60px;
+}
+
+.footer {
+    padding-left: 28px;
+    margin: 10px 0;
+}
+
+/* Медиа запросы */
+
+/*
+@media screen and (max-width: 640px) {
+    #header .logo {
+        text-align: center;
+    }
+    #header .slogan {
+        height: 40px;
+        line-height: 40px;
+    }
+    #header .slogan img {
+        width: 100%;
+        height: auto;
+    }
+
+    .acisMenu {
+        height: auto;
+    }
+    .acisMenu .main-menu {
+        text-align: center;
+    }
+    .acisMenu ul.main-menu > li {
+        display: block;
+        width: 100%;
+        margin: 10px 0;
+        padding: 2px 0 0;
+    }
+    .acisMenu ul .sub {
+        position: relative;
+        top: 0px;
+        left: 0px;
+        margin-bottom: 20px;
+    }
+    .acisMenu ul .sub > li {
+        margin: 10px 0;
+    }
+
+    > .content {
+        padding: 14px 10px 0 5px;
+    }
+
+    .buttons {
+        text-align: center;
+    }
+    .buttons span {
+        display: inline-block;
+        width: 100%;
+        padding: 10px;
+    }
+
+    .subsection table .info {
+        margin: 5px 0 0;
+    }
+
+    .addcomment {
+        width: 98%;
+    }
+
+    table .mobile-visible {
+        display: block;
+    }
+    table .screen-visible {
+        display: none;
+    }
+
+    .sections.column .section {
+        width: 100%;
+    }
+
+    .links-subsection .info > span {
+        display: block;
+    }
+
+    .news-page .datepicker {
+        margin: 10px 0px 0px 0px;
+    }
+    .news-page .years {
+        float: none;
+        text-align: center;
+    }
+    .news-page .mounthes {
+        padding-left: 0;
+        text-align: center;
+    }
+    .news-page .mounthes span {
+        width: 100%;
+        display: block;
+        padding: 10px 0;
+    }
+
+    .section .info > span {
+        width: 100%;
+        display: block;
+    }
+
+    .sections.tile .section:nth-child(n) {
+        float: none;
+        margin-left: 0px;
+        margin-right: 0px;
+        width: 100%;
+    }
+    .section img {
+        float: none;
+    }
+    .sections.tile .section .text {
+        padding: 5px 0;
+        margin: 0;
+    }
+    .sections.tile .section .content {
+        text-align: center;
+    }
+}
+*/
