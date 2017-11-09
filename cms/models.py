@@ -53,14 +53,20 @@ class Post(models.Model):
   published_date = models.DateTimeField(blank=True, null=True)
 
   def get_kind_verbose(self):
-        return dict(Post.KINDS)[self.kind]
-
+    return dict(Post.KINDS)[self.kind]
 
   def get_category_verbose(self):
-        return dict(Post.CATEGORIES)[self.category]
+    return dict(Post.CATEGORIES)[self.kind]
+
+  def set_category_verbose(self, val):
+    #TODO validation kind vs cat here
+    self.kind = dict(Post.CATEGORIES)[val][0]
+
 
   def publish(self):
     self.published_date = timezone.now()
+    self.kind = 'f' #todo compute
+    #TODO: validate here
     self.save()
 
   def __str__(self):
