@@ -20,7 +20,7 @@ def post_list(request, tag='', category='', author=''):
   else:
     posts = Post.objects.all()
 
-  return render(request, 'cms/post_list.html', {'posts': posts})
+  return render(request, 'cms/post_list.html', {'posts': posts, 'category': Category.objects.get(route=category)})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)

@@ -2,13 +2,47 @@
 
 {% block content %}
 
+{% trans "Добавить " t_add %}
+{% trans "Изменить " t_edit %}
+
 <div class="block">
-  <h1 class="header-simple">Изменить статью</h1>
+  {% if category == 'drawing' %}
+  <h1 class="header-simple">
+    {{ t_edit}}
+    {% trans "рисунок" %}
+  </h1>
+  {% elif category == 'map' %}
+  <h1 class="header-simple">
+    {{ t_edit}}
+    {% trans "карту" %}
+  </h1>
+  {% if category == 'news' %}
+  <h1 class="header-simple">
+    {{ t_edit}}
+    {% trans "новость" %}
+  </h1>
+  {% elif category == 'photo' %}
+  <h1 class="header-simple">
+    {{ t_edit}}
+    {% trans "фотографию" %}
+  </h1>
+  {% elif category == 'prose' %}
+  <h1 class="header-simple">
+    {{ t_edit}}
+    {% trans "текст" %}
+  </h1>
+  {% elif category == 'report' %}
+  <h1 class="header-simple">
+    {{ t_edit}}
+    {% trans "отчет" %}
+  </h1>
+  {% endif %}
+
   <div class="content">
     <form method="POST" class="post-form">
       {% csrf_token %}
       {{ form.as_p }}
-      <button type="submit" class="save btn btn-default">Отправить</button>
+      <button type="submit" class="save btn btn-default">{% trans "Отправить" %}</button>
     </form>
   </div>
 </div>

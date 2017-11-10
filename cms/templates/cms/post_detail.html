@@ -4,20 +4,28 @@
 
             <div class="block article">
                 <div class="buttons">
-                    <span><a href="#">Список статей</a></span>
-                    <span><a href="{% url 'post_edit' pk=post.pk %}">Редактировать</a></span>
-                    <span><a href="#">Удалить</a></span>
+                    <a href="#">Список статей</a>
+                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a>
+                    <a href="#">{% trans "Удалить" %}</a>
+                    <a href="#">{% trans "Опубликовать" %}</a>
+                    <a href="#">{% trans "Скрыть" %}</a>
                 </div>
                 <div class="info">
-                    {% if post.author %}
-                    <p><strong>Автор (Источник): </strong><span class="author">{{ post.author }}</span></p>
-                    {% endif %}
-                    <p><strong>Опубликован: </strong><span class="published">{{ post.created_date }}</span></p>
+                    <p><strong>{% trans Автор (Источник): %}</strong> {{ post.author }}</p>
+                    <p><strong>{% trans Дата: %}</strong> {{ post.created_date }}</p>
+                    <p><strong>{% trans Категория: %}</strong> {{ trans category.name }}</p>
+                    <p><strong>{% trans Статус: %} </strong> Опубликовано</p>
                 </div>
                 <h1 class="header-simple">{{ post.title }}</h1>
                 <div class="content">
                     {{ post.text|linebreaksbr }}
                 </div>
+                <p class="tags">
+                    {% trans Теги: %}
+                    <a href="#">#тег</a>,
+                    <a href="#">#тег1</a>,
+                    <a href="#">#тег2</a>
+                </p>
             </div>
 
 {% endblock %}

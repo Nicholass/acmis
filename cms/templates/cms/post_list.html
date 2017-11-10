@@ -1,24 +1,82 @@
 {% extends 'cms/base.html' %}
+{% load i18n %}
 
 {% block content %}
 
 <div class="block">
-  <h2 class="header-simple">Новости и события</h2>
+
+  {% if category == 'drawing' %}
+  <h2 class="header-simple">{% trans "Рисунок" %}</h2>
   <div class="category-menu">
-    <a href="{% url 'post_new' category='p' %}">Добавить новость</a>
+    {% if user.is_authenticated %}
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить рисунок" %}</a>
+    {% endif %}
   </div>
+  {% elif category == 'map' %}
+  <h2 class="header-simple">{% trans "Карты" %}</h2>
+  <div class="category-menu">
+    {% if user.is_authenticated %}
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить карту" %}</a>
+    {% endif %}
+  </div>
+  {% if category == 'news' %}
+  <h2 class="header-simple">{% trans "Новости и события" %}</h2>
+  <div class="category-menu">
+    {% if user.is_authenticated %}
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить новость" %}</a>
+    {% endif %}
+  </div>
+  {% elif category == 'photo' %}
+  <h2 class="header-simple">{% trans "Фотографии" %}</h2>
+  <div class="category-menu">
+    {% if user.is_authenticated %}
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить фотографию" %}</a>
+    {% endif %}
+  </div>
+  {% elif category == 'prose' %}
+  <h2 class="header-simple">{% trans "Писательство" %}</h2>
+  <div class="category-menu">
+    {% if user.is_authenticated %}
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить текст" %}</a>
+    {% endif %}
+  </div>
+  {% elif category == 'report' %}
+  <h2 class="header-simple">{% trans "Отчеты" %}</h2>
+  <div class="category-menu">
+    {% if user.is_authenticated %}
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить отчет" %}</a>
+    {% endif %}
+  </div>
+  {% endif %}
+
+
   <div class="content">
 
     {% for post in posts %}
     <div class="post" id="{{ post.pk }}">
       <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
       <p class="info">
-        <span class="author">{{ post.author }}</span>&nbsp;|&nbsp;
-        <span class="date">{{ post.created_date }}</span> |
-        <span class="category">{{ post.get_kind_verbose }}<strong>/</strong>{{ post.get_category_verbose }}</span>
+        <span>{% blocktrans %}Автор: {{ post.author }} {% endblocktrans %}</span>&nbsp;|&nbsp;
+        <span>{% blocktrans %}Дата: {{ post.created_date }} {% endblocktrans %}</span> |
+        <span>{% blocktrans %}Категория: {{ trans category.name }} {% endblocktrans %}</span>
+        <span>{% blocktrans %}Статус: Опубликовано {% endblocktrans %}</span>
       </p>
       <p class="content">
         {{ post.text|linebreaksbr }}
+      </p>
+      <p class="tags">
+        {% trans Теги: %}
+        <a href="#">#тег</a>,
+        <a href="#">#тег1</a>,
+        <a href="#">#тег2</a>
+      </p>
+      <p class="actions">
+        {% if user.is_authenticated %}
+        <a href="{ url 'post_edit' pk=post.pk }">{% trans "Редактировать" %}</a> |
+        <a href="#">{% trans "Удалить" %}</a>
+        <a href="#">{% trans "Опубликовать" %}</a>
+        <a href="#">{% trans "Скрыть" %}</a>
+        {% endif %}
       </p>
     </div>
     {% endfor %}
