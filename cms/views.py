@@ -1,7 +1,7 @@
 from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.utils import timezone
 
-from .models import Post
+from .models import Post, Category
 from .forms import PostForm
 
 def post_list(request, tag='', category='', author=''):
@@ -34,7 +34,8 @@ def post_new(request,category):
       post = form.save(commit=False)
       post.author = request.user
       post.published_date = timezone.now()
-      post.category = category
+      post.category = Category.objects.get(route=category)
+
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:

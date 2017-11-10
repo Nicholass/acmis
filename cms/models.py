@@ -6,9 +6,12 @@ from taggit.managers import TaggableManager
 class Post(models.Model):
   '''
   TODO:
-  nice and transperent ENUM types for KIND and CATEGORY
-  CATGORY should depend on TYPE
-  should be easy to use in urls
+  share post on save
+  public/moderation part
+
+  search and indexes
+
+  comments
   '''
   author = models.ForeignKey('auth.User')
   title = models.CharField(max_length=200)
@@ -19,7 +22,16 @@ class Post(models.Model):
   created_date = models.DateTimeField(default=timezone.now)
   published_date = models.DateTimeField(blank=True, null=True)
 
+  is_public = models.BooleanField(default=True)
+  is_moderated = models.BooleanField(default=True)
+
+  def _tags(self):
+        return [t.name for t in self.tags.all()]
+
   def publish(self):
+    '''
+    TODO set is_public/is_moderated basing on category/etc
+    '''
     self.published_date = timezone.now()
 
     self.save()
@@ -57,7 +69,7 @@ class Category(models.Model):
   route = models.CharField(max_length=200)
 
   def publish(self):
-    self.kind = DATA_KINDS[self.name] #todo compute
+    self.kind = DATA_KINDS[self.name]
     #TODO: validate here
     self.save()
 
