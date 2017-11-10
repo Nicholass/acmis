@@ -1,15 +1,24 @@
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render, get_object_or_404, get_list_or_404, redirect
 from django.utils import timezone
 
 from .models import Post
 from .forms import PostForm
 
-def post_list(request, kind, category):
-  posts = Post.objects.all()
-  if kind:
-    posts = posts.filter(kind = kind)
-  if category:
-    posts = posts.filter(category = category)
+def post_list(request, tag='', category='', author=''):
+  '''TODO posts.filter of get new list
+  in case of complex situations like `/author|category/tag`
+
+  posts = posts and posts.filter(%filter%) or get_list_or_404(post, %filter%)
+  '''
+
+  if tag:
+    posts = get_list_or_404(Post, tags = tag) #FIXME
+  elif category:
+    posts = get_list_or_404(Post, category__route = category)
+  elif author:
+    posts = get_list_or_404(Post, author__username = author)
+  else:
+    posts = Post.objects.all()
 
   return render(request, 'cms/post_list.html', {'posts': posts})
 
@@ -17,7 +26,7 @@ def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
   return render(request, 'cms/post_detail.html', {'post': post})
 
-def post_new(request, kind, category):
+def post_new(request,category):
   if request.method == "POST":
     form = PostForm(request.POST)
 
@@ -26,7 +35,6 @@ def post_new(request, kind, category):
       post.author = request.user
       post.published_date = timezone.now()
       post.category = category
-      post.kind = kind
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:

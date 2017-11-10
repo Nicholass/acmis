@@ -10,15 +10,42 @@ class Post(models.Model):
   CATGORY should depend on TYPE
   should be easy to use in urls
   '''
-  UNKNOWN = 'u'
+  author = models.ForeignKey('auth.User')
+  title = models.CharField(max_length=200)
+  category = models.ForeignKey('Category', blank=True, null=False)
 
-  POST = 'p'
-  FILE = 'f'
+  text = models.TextField()
+  tags = TaggableManager()
+  created_date = models.DateTimeField(default=timezone.now)
+  published_date = models.DateTimeField(blank=True, null=True)
+
+  def publish(self):
+    self.published_date = timezone.now()
+
+    self.save()
+
+  def __str__(self):
+    return self.title
+
+class Category(models.Model):
+  FILE = 0
+  POST = 1
+  UNKNOWN = 3
   KINDS = (
-    (FILE, u'File'),
-    (POST, u'Post'),
-    (UNKNOWN, u'Unknown')
+    (FILE, "File"),
+    (POST, "Post"),
+    (UNKNOWN, "Unknown"),
   )
+
+  DATA_KINDS = {
+    'Drawing': FILE,
+    'Map': FILE,
+    'News': POST,
+    'Photo': FILE,
+    'Prose': POST,
+    'Report': POST
+  }
+
   kind = models.CharField(
     max_length=254,
     null=False,
@@ -26,48 +53,13 @@ class Post(models.Model):
     choices=KINDS,
     default=UNKNOWN,
   )
-
-
-  MAP = 'm'
-  PHOTO = 'p'
-  CATEGORIES =(
-    (MAP, u'Map'),
-    (PHOTO, u'Photo'),
-    (UNKNOWN, u'Unknown')
-  )
-  category = models.CharField(
-    max_length=254,
-    null=False,
-    blank=False,
-    choices=CATEGORIES,
-    default=UNKNOWN,
-  )
-
-  author = models.ForeignKey('auth.User')
-  title = models.CharField(max_length=200)
-
-
-  text = models.TextField()
-  tags = TaggableManager()
-  created_date = models.DateTimeField(default=timezone.now)
-  published_date = models.DateTimeField(blank=True, null=True)
-
-  def get_kind_verbose(self):
-    return dict(Post.KINDS)[self.kind]
-
-  def get_category_verbose(self):
-    return dict(Post.CATEGORIES)[self.kind]
-
-  def set_category_verbose(self, val):
-    #TODO validation kind vs cat here
-    self.kind = dict(Post.CATEGORIES)[val][0]
-
+  name = models.CharField(max_length=200)
+  route = models.CharField(max_length=200)
 
   def publish(self):
-    self.published_date = timezone.now()
-    self.kind = 'f' #todo compute
+    self.kind = DATA_KINDS[self.name] #todo compute
     #TODO: validate here
     self.save()
 
   def __str__(self):
-    return self.title
+    return self.name
