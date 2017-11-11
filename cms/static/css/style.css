@@ -36,6 +36,10 @@ a {
  * Главное меню
  */
 
+.menu {
+    margin-bottom: 28px;
+}
+
 #acisMenu {
     height: 16px;
     border-top: 1px solid #8A8A8A;
@@ -67,10 +71,11 @@ ul.main-menu > li {
     font-size: 1em;
     padding: 0 2px;
     width: 115px;
+    height: 15px;
 }
 ul.main-menu .sub {
     position: absolute;
-    top: 15px;
+    top: 14px;
     left: 0px;
     background: #000000;
     z-index: 9000;
@@ -86,11 +91,68 @@ ul.main-menu .sub > li a {
 }
 
 /**
+ * Навигация
+ */
+
+.nav {
+    margin-bottom: 15px;
+}
+.nav-left {
+    padding-left: 28px;
+}
+.nav-right {
+    padding-right: 30px;
+}
+
+/* Хдебные крошки */
+ul.breadcrumbs {
+    list-style: none;
+    padding: 8px 0;
+    margin-bottom: 0;
+    height: 32px;
+}
+ul.breadcrumbs li {
+    display: inline-block;
+    vertical-align: middle;
+}
+ul.breadcrumbs li.sep {
+    margin: 0 5px;
+    font-size: 1.2em;
+}
+ul.breadcrumbs a {
+    font-style: italic;
+}
+
+/* Перекоючатель языка*/
+.langSwitcher ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 0;
+    text-align: right;
+}
+.langSwitcher ul li {
+    display: inline-block;
+    margin-left: 10px;
+}
+.langSwitcher ul li img {
+    opacity: 0.3;
+    -moz-opacity: 0.3;
+}
+.langSwitcher ul li.selected a {
+    cursor: default;
+}
+.langSwitcher ul li.selected img,
+.langSwitcher ul li a:hover img {
+    opacity: 1.0;
+    -moz-opacity: 1.0;
+}
+
+/**
  * Контент
  */
 
 .main {
-    padding: 28px 30px 0 28px;
+    padding: 0 30px 0 28px;
 }
 
 /**

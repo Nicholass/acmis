@@ -1,8 +1,9 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 from . import views
 
 urlpatterns = [
   url(r'^$', views.post_list, name='post_list'),
+  url(r'^i18n/', include('django.conf.urls.i18n')),
   url(r'^author/(?P<author>\w+)/?(?P<tag>\w+)?/$', views.post_list, name='author_list'),
   url(r'^category/(?P<category>\w+)/?(?P<tag>\w+)?/$', views.post_list, name='category_list'),
   url(r'^tag/(?P<tag>\w+)/$', views.post_list, name='tag_list'),

@@ -21,7 +21,7 @@ def post_list(request, tag=None, category=None, author=None):
 
   posts = Post.objects.filter(**q)
 
-  return render(request, 'cms/post_list.html', {'posts': posts, 'category': Category.objects.get(route=category)})
+  return render(request, 'cms/post_list.html', {'posts': posts, 'category': category})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)

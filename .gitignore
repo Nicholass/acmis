@@ -1,9 +1,8 @@
 .idea/
-*.pyc
 __pycache__/
-
-acis_venv
+acis_venv/
+cms/migrations/
+*.pyc
+*.mo
 db.sqlite3
 .DS_Store
-/aics_venv/bin/activate
-/cms/migrations/

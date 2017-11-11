@@ -1,9 +1,10 @@
 {% extends 'cms/base.html' %}
+{% load i18n %}
 
 {% block content %}
 
-{% trans "Добавить " t_add %}
-{% trans "Изменить " t_edit %}
+{% trans "Добавить " as t_add %}
+{% trans "Редактировать " as t_edit %}
 
 <div class="block">
   {% if category == 'drawing' %}
@@ -16,7 +17,7 @@
     {{ t_edit}}
     {% trans "карту" %}
   </h1>
-  {% if category == 'news' %}
+  {% elif category == 'news' %}
   <h1 class="header-simple">
     {{ t_edit}}
     {% trans "новость" %}

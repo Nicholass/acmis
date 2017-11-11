@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-11 04:45+0200\n"
+"POT-Creation-Date: 2017-11-11 04:27+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,31 +16,32 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 #: .\acis_venv\Lib\site-packages\django\contrib\messages\apps.py:7
 msgid "Messages"
-msgstr "Messages"
+msgstr ""
 
 #: .\acis_venv\Lib\site-packages\django\contrib\sitemaps\apps.py:7
 msgid "Site Maps"
-msgstr "Site Maps"
+msgstr ""
 
 #: .\acis_venv\Lib\site-packages\django\contrib\staticfiles\apps.py:7
 msgid "Static Files"
-msgstr "Static Files"
+msgstr ""
 
 #: .\acis_venv\Lib\site-packages\django\contrib\syndication\apps.py:7
 msgid "Syndication"
-msgstr "Syndication"
+msgstr ""
 
 #: .\acis_venv\Lib\site-packages\django\core\paginator.py:43
 msgid "That page number is not an integer"
-msgstr "That page number is not an integer"
+msgstr ""
 
 #: .\acis_venv\Lib\site-packages\django\core\paginator.py:45
 msgid "That page number is less than 1"
-msgstr "That page number is less than 1"
+msgstr ""
 
 #: .\acis_venv\Lib\site-packages\django\core\paginator.py:50
 msgid "That page contains no results"
@@ -1142,237 +1143,237 @@ msgstr ""
 
 #: .\cms\templates\cms\base.html:65
 msgid "О нас"
-msgstr "About"
+msgstr "Про нас"
 
 #: .\cms\templates\cms\base.html:66
 msgid "Про ACIS"
-msgstr "About ACIS"
+msgstr "Про ACIS"
 
 #: .\cms\templates\cms\base.html:67
 msgid "Про диггеров"
-msgstr "About diggers"
+msgstr ""
 
 #: .\cms\templates\cms\base.html:69
 msgid "Новости"
-msgstr "News"
+msgstr "Новини"
 
 #: .\cms\templates\cms\base.html:70
 msgid "Подземелья"
-msgstr "Undergound"
+msgstr "Підземелля"
 
 #: .\cms\templates\cms\base.html:71
 msgid "Статьи"
-msgstr "Articles"
+msgstr "Статті"
 
 #: .\cms\templates\cms\base.html:72
-msgid "Очеты: Киев"
-msgstr "Reports: Kiev"
+msgid "Отчеты: Киев"
+msgstr "Звіти: Київ"
 
 #: .\cms\templates\cms\base.html:73
 msgid "Очеты: Украина"
-msgstr "Reports: Ukraine"
+msgstr "Звіти: Україна"
 
 #: .\cms\templates\cms\base.html:74
 msgid "Другие отчеты"
-msgstr "Other reports"
+msgstr "Інші звіти"
 
 #: .\cms\templates\cms\base.html:75 .\cms\templates\cms\post_list.html:30
 msgid "Фотографии"
-msgstr "Photos"
+msgstr "Фотографії"
 
 #: .\cms\templates\cms\base.html:76 .\cms\templates\cms\post_list.html:16
 msgid "Карты"
-msgstr "Maps"
+msgstr "Карти"
 
 #: .\cms\templates\cms\base.html:77
 msgid "Литература"
-msgstr "Books"
+msgstr "Література"
 
 #: .\cms\templates\cms\base.html:79
 msgid "Творчество"
-msgstr "Creation"
+msgstr "Творчість"
 
 #: .\cms\templates\cms\base.html:80
 msgid "Графика"
-msgstr "Graphic art"
+msgstr "Графіка"
 
 #: .\cms\templates\cms\base.html:81 .\cms\templates\cms\post_list.html:37
 msgid "Писательство"
-msgstr "Stories"
+msgstr "Письменство"
 
 #: .\cms\templates\cms\base.html:83
 msgid "Общение"
-msgstr "Discussions"
+msgstr "Cпілкування"
 
 #: .\cms\templates\cms\base.html:84
 msgid "Форум"
-msgstr "Forum"
+msgstr "Форум"
 
 #: .\cms\templates\cms\base.html:85
 msgid "Вылазки"
-msgstr "Underground trips"
+msgstr "Вилазки"
 
 #: .\cms\templates\cms\base.html:86
 msgid "Снаряжение"
-msgstr "Equipment"
+msgstr "Спорядження"
 
 #: .\cms\templates\cms\base.html:87
 msgid "Другие вылазки"
-msgstr "Other trips"
+msgstr "Інші вилазки"
 
 #: .\cms\templates\cms\base.html:88
 msgid "Курилка"
-msgstr "Smocking room"
+msgstr "Курилка"
 
 #: .\cms\templates\cms\base.html:89
 msgid "Техн. раздел"
-msgstr "Tech. section"
+msgstr "Техн. розділ"
 
 #: .\cms\templates\cms\base.html:91
 msgid "Ссылки"
-msgstr "Links"
+msgstr "Посилання"
 
 #: .\cms\templates\cms\base.html:94
 msgid "Выход"
-msgstr "Logout"
+msgstr "Вихід"
 
 #: .\cms\templates\cms\base.html:96
 msgid "Вход"
-msgstr "Login"
+msgstr "Вхід"
 
 #: .\cms\templates\cms\post_detail.html:9
 #: .\cms\templates\cms\post_list.html:77
 msgid "Редактировать"
-msgstr "Edit"
+msgstr "Редагувати"
 
 #: .\cms\templates\cms\post_detail.html:10
 #: .\cms\templates\cms\post_list.html:78
 msgid "Удалить"
-msgstr "Delete"
+msgstr "Видалити"
 
 #: .\cms\templates\cms\post_detail.html:11
 #: .\cms\templates\cms\post_list.html:79
 msgid "Опубликовать"
-msgstr "Publish"
+msgstr "Оприлюднити"
 
 #: .\cms\templates\cms\post_detail.html:12
 #: .\cms\templates\cms\post_list.html:80
 msgid "Скрыть"
-msgstr "Hide"
+msgstr "Приховати"
 
 #: .\cms\templates\cms\post_detail.html:15
 msgid "Автор (Источник):"
-msgstr "Author (Source):"
+msgstr "Автор (Джерело):"
 
 #: .\cms\templates\cms\post_detail.html:16
 msgid "Дата:"
-msgstr "Date:"
+msgstr "Дата:"
 
 #: .\cms\templates\cms\post_detail.html:17
 msgid "Категория:"
-msgstr "Category:"
+msgstr ""
 
 #: .\cms\templates\cms\post_detail.html:18
 msgid "Статус:"
-msgstr "Status:"
+msgstr "Статус:"
 
 #: .\cms\templates\cms\post_detail.html:25
 #: .\cms\templates\cms\post_list.html:70
 msgid "Теги:"
-msgstr "Tags"
+msgstr ""
 
 #: .\cms\templates\cms\post_edit.html:6
 msgid "Добавить "
-msgstr "Add "
+msgstr "Додати "
 
 #: .\cms\templates\cms\post_edit.html:7
 msgid "Редактировать "
-msgstr "Edit "
+msgstr "Редагувати "
 
 #: .\cms\templates\cms\post_edit.html:13
 msgid "рисунок"
-msgstr "graphic art"
+msgstr "малюнок"
 
 #: .\cms\templates\cms\post_edit.html:18
 msgid "карту"
-msgstr "map"
+msgstr "карту"
 
 #: .\cms\templates\cms\post_edit.html:23
 msgid "новость"
-msgstr "news"
+msgstr "новину"
 
 #: .\cms\templates\cms\post_edit.html:28
 msgid "фотографию"
-msgstr "photo"
+msgstr "фотографію"
 
 #: .\cms\templates\cms\post_edit.html:33
 msgid "текст"
-msgstr "text"
+msgstr "текст"
 
 #: .\cms\templates\cms\post_edit.html:38
 msgid "отчет"
-msgstr "report"
+msgstr "звіт"
 
 #: .\cms\templates\cms\post_edit.html:46
 msgid "Отправить"
-msgstr "Send"
+msgstr "Відправити"
 
 #: .\cms\templates\cms\post_list.html:9
 msgid "Рисунок"
-msgstr "Graphic art"
+msgstr "Малюнок"
 
 #: .\cms\templates\cms\post_list.html:12
 msgid "Добавить рисунок"
-msgstr "Add graphic art"
+msgstr "Додати малюнок"
 
 #: .\cms\templates\cms\post_list.html:19
 msgid "Добавить карту"
-msgstr "Add map"
+msgstr "Додати карту"
 
 #: .\cms\templates\cms\post_list.html:23
 msgid "Новости и события"
-msgstr "News and events"
+msgstr "Новини та події"
 
 #: .\cms\templates\cms\post_list.html:26
 msgid "Добавить новость"
-msgstr "Add news"
+msgstr "Додати новину"
 
 #: .\cms\templates\cms\post_list.html:33
 msgid "Добавить фотографию"
-msgstr "Add photo"
+msgstr "Додати фотографію"
 
 #: .\cms\templates\cms\post_list.html:40
 msgid "Добавить текст"
-msgstr "Add text"
+msgstr "Додати текст"
 
 #: .\cms\templates\cms\post_list.html:44
 msgid "Отчеты"
-msgstr "Reports"
+msgstr "Звіти"
 
 #: .\cms\templates\cms\post_list.html:47
 msgid "Добавить отчет"
-msgstr "Add report"
+msgstr "Додати звіт"
 
 #: .\cms\templates\cms\post_list.html:51
 msgid "Все материалы"
-msgstr "All materials"
+msgstr "Всі матеріали"
 
 #: .\cms\templates\cms\post_list.html:61
 #, python-format
 msgid "Автор: %(author)s "
-msgstr "Author: %(author)s "
+msgstr "Автор: %(author)s "
 
 #: .\cms\templates\cms\post_list.html:62
 #, python-format
 msgid "Дата: %(date)s "
-msgstr "Date: %(date)s "
+msgstr "Дата: %(date)s "
 
 #: .\cms\templates\cms\post_list.html:63
 #, python-format
 msgid "Категория: %(category_name)s "
-msgstr "Сategory: %(category_name)s "
+msgstr "Категорія: %(category_name)s "
 
 #: .\cms\templates\cms\post_list.html:64
 #, python-format
 msgid "Статус: %(pub_status)s "
-msgstr "Status: %(pub_status)s "
+msgstr "Статус: %(pub_status)s "

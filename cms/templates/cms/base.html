@@ -11,7 +11,7 @@
     <title>ACIS</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -34,8 +34,37 @@
             <img src="{% static 'images/slogan.gif' %}" alt="logo" />
         </div>
     </div>
-    <div class="row">
+    <div class="row menu">
         <div class="col-md-12 col-xs-12" id="acisMenu"></div>
+    </div>
+    <div class="row nav">
+        <div class="col-md-9 col-xs-9 nav-left">
+            <ul class="breadcrumbs">
+                <li><a href="/">Главная</a></li>
+                <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+                <li><a href="#">Категория</a></li>
+                <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+                <li><a href="#">Тег</a></li>
+            </ul>
+        </div>
+        <div class="col-md-3 col-xs-3 nav-right">
+            <form action="{% url 'set_language' %}" class="langSwitcher" method="post">{% csrf_token %}
+                <input name="next" type="hidden" value="{{ redirect_to }}" />
+                <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}">
+                <ul>
+                    {% get_current_language as LANGUAGE_CODE %}
+                    {% get_available_languages as LANGUAGES %}
+                    {% get_language_info_list for LANGUAGES as languages %}
+                    {% for language in languages %}
+                    <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}" id="{{ language.code }}">
+                        <a href="#" title="{{ language.name_local }} ({{ language.code }})">
+                            <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}" />
+                        </a>
+                    </li>
+                    {% endfor %}
+                </ul>
+            </form>
+        </div>
     </div>
     <div class="row">
         <div class="col-md-12 col-xs-12 main">
@@ -53,32 +82,30 @@
 <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
 <!-- Include all compiled plugins (below), or include individual files as needed -->
-<script src="{% static 'js/bootstrap.min.js' %}"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
 <script
         src="https://code.jquery.com/jquery-3.1.1.min.js"
         integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
         crossorigin="anonymous"></script>
 <script src="{% static 'js/menu.js' %}"></script>
+<script src="{% static 'js/misc.js' %}"></script>
 <script>
     var menu = {
         '{% trans "О нас" %}': {
             '{% trans "Про ACIS" %}': '#',
             '{% trans "Про диггеров" %}': '#'
         },
-        '{% trans "Новости" %}': '#',
+        '{% trans "Новости" %}': '/category/news',
         '{% trans "Подземелья" %}': {
-            '{% trans "Статьи" %}': '#',
-            '{% trans "Очеты: Киев" %}': '#',
-            '{% trans "Очеты: Украина" %}': '#',
-            '{% trans "Другие отчеты" %}': '#',
-            '{% trans "Фотографии" %}': '#',
-            '{% trans "Карты" %}': '#',
+            '{% trans "Очеты" %}': '/category/reports',
+            '{% trans "Фотографии" %}': '/category/photo',
+            '{% trans "Карты" %}': '/category/maps',
             '{% trans "Литература" %}': '#'
         },
         '{% trans "Творчество" %}': {
-            '{% trans "Графика" %}': '#',
-            '{% trans "Писательство" %}': '#'
+            '{% trans "Графика" %}': '/category/drawing',
+            '{% trans "Писательство" %}': '/category/prose'
         },
         '{% trans "Общение" %}': {
             '{% trans "Форум" %}': '#',

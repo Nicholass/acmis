@@ -9,44 +9,46 @@
   <h2 class="header-simple">{% trans "Рисунок" %}</h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить рисунок" %}</a>
+    <a href="{% url 'post_new' category=category %}">{% trans "Добавить рисунок" %}</a>
     {% endif %}
   </div>
   {% elif category == 'map' %}
   <h2 class="header-simple">{% trans "Карты" %}</h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить карту" %}</a>
+    <a href="{% url 'post_new' category=category %}">{% trans "Добавить карту" %}</a>
     {% endif %}
   </div>
-  {% if category == 'news' %}
+  {% elif category == 'news' %}
   <h2 class="header-simple">{% trans "Новости и события" %}</h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить новость" %}</a>
+    <a href="{% url 'post_new' category=category %}">{% trans "Добавить новость" %}</a>
     {% endif %}
   </div>
   {% elif category == 'photo' %}
   <h2 class="header-simple">{% trans "Фотографии" %}</h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить фотографию" %}</a>
+    <a href="{% url 'post_new' category=category %}">{% trans "Добавить фотографию" %}</a>
     {% endif %}
   </div>
   {% elif category == 'prose' %}
   <h2 class="header-simple">{% trans "Писательство" %}</h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить текст" %}</a>
+    <a href="{% url 'post_new' category=category %}">{% trans "Добавить текст" %}</a>
     {% endif %}
   </div>
   {% elif category == 'report' %}
   <h2 class="header-simple">{% trans "Отчеты" %}</h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить отчет" %}</a>
+    <a href="{% url 'post_new' category=category %}">{% trans "Добавить отчет" %}</a>
     {% endif %}
   </div>
+  {% else %}
+  <h2 class="header-simple">{% trans "Все материалы" %}</h2>
   {% endif %}
 
 
@@ -56,16 +58,16 @@
     <div class="post" id="{{ post.pk }}">
       <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
       <p class="info">
-        <span>{% blocktrans %}Автор: {{ post.author }} {% endblocktrans %}</span>&nbsp;|&nbsp;
-        <span>{% blocktrans %}Дата: {{ post.created_date }} {% endblocktrans %}</span> |
-        <span>{% blocktrans %}Категория: {{ trans category.name }} {% endblocktrans %}</span>
-        <span>{% blocktrans %}Статус: Опубликовано {% endblocktrans %}</span>
+        <span>{% blocktrans with author=post.author %}Автор: {{ author }} {% endblocktrans %}</span>&nbsp;|&nbsp;
+        <span>{% blocktrans with date=post.created_date %}Дата: {{ date }} {% endblocktrans %}</span> |
+        <span>{% blocktrans with category_name=post.category.name %}Категория: {{ category_name }} {% endblocktrans %}</span> |
+        <span>{% blocktrans with pub_status="Опубликовано" %}Статус: {{ pub_status }} {% endblocktrans %}</span>
       </p>
       <p class="content">
         {{ post.text|linebreaksbr }}
       </p>
       <p class="tags">
-        {% trans Теги: %}
+        {% trans "Теги:" %}
         <a href="#">#тег</a>,
         <a href="#">#тег1</a>,
         <a href="#">#тег2</a>
@@ -73,8 +75,8 @@
       <p class="actions">
         {% if user.is_authenticated %}
         <a href="{ url 'post_edit' pk=post.pk }">{% trans "Редактировать" %}</a> |
-        <a href="#">{% trans "Удалить" %}</a>
-        <a href="#">{% trans "Опубликовать" %}</a>
+        <a href="#">{% trans "Удалить" %}</a> |
+        <a href="#">{% trans "Опубликовать" %}</a> |
         <a href="#">{% trans "Скрыть" %}</a>
         {% endif %}
       </p>
