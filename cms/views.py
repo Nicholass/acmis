@@ -4,23 +4,24 @@ from django.utils import timezone
 from .models import Post, Category
 from .forms import PostForm
 
-def post_list(request, tag='', category='', author=''):
-  '''TODO posts.filter of get new list
-  in case of complex situations like `/author|category/tag`
+def post_list(request, tag=None, category=None, author=None):
 
-  posts = posts and posts.filter(%filter%) or get_list_or_404(post, %filter%)
-  '''
+  c = None
+  if category:
+    c = get_object_or_404(Category, route=category)
 
-  if tag:
-    posts = get_list_or_404(Post, tags = tag) #FIXME
-  elif category:
-    posts = get_list_or_404(Post, category__route = category)
-  elif author:
-    posts = get_list_or_404(Post, author__username = author)
-  else:
-    posts = Post.objects.all()
+  query = {
+    'is_public': True,
+    'tags': tag, # fixme
+    'author__username': author,
+    'category': c,
+  }
 
-  return render(request, 'cms/post_list.html', {'posts': posts, 'category': Category.objects.get(route=category)})
+  q = {k: v for k, v in query.items() if v is not None}
+
+  posts = Post.objects.filter(**q)
+
+  return render(request, 'cms/post_list.html', {'posts': posts})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
