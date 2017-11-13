@@ -4,22 +4,25 @@ from django.utils import timezone
 from .models import Post, Category
 from .forms import PostForm
 
-def post_list(request, tag=None, category=None, author=None):
+def post_list(request, tags=None, category=None, author=None):
 
-  c = None
+  t = c = None
   if category:
     c = get_object_or_404(Category, route=category)
 
+  if tags:
+    t = tags.split(",")
+
   query = {
     'is_public': True,
-    'tags': tag, # fixme
+    'tags_in_name': t,
     'author__username': author,
     'category': c,
   }
 
   q = {k: v for k, v in query.items() if v is not None}
 
-  posts = Post.objects.filter(**q)
+  posts = Post.objects.filter(**q).distinct()
 
   return render(request, 'cms/post_list.html', {'posts': posts, 'category': category})
 
