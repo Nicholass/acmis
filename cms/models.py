@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from polymorphic.models import PolymorphicModel
 
 from taggit.managers import TaggableManager
 
@@ -17,7 +18,6 @@ class Post(models.Model):
   title = models.CharField(max_length=200)
   category = models.ForeignKey('Category', blank=True, null=False)
 
-  text = models.TextField()
   tags = TaggableManager()
   created_date = models.DateTimeField(default=timezone.now)
   published_date = models.DateTimeField(blank=True, null=True)
@@ -75,3 +75,9 @@ class Category(models.Model):
 
   def __str__(self):
     return self.name
+
+class TextPodst(Post):
+  text = models.TextField()
+
+class BinaryPost(Post):
+  content = models.ImageField(blank=True, null=True) #TODO upload_to
