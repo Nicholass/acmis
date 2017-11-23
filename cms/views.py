@@ -15,7 +15,7 @@ def post_list(request, tags=None, category=None, author=None):
 
   query = {
     'is_public': True,
-    'tags_in_name': t,
+    'tags__name__in': t,
     'author__username': author,
     'category': c,
   }

@@ -90,43 +90,8 @@
         crossorigin="anonymous"></script>
 <script src="{% static 'js/menu.js' %}"></script>
 <script src="{% static 'js/misc.js' %}"></script>
-<script>
-    var menu = {
-        '{% trans "О нас" %}': {
-            '{% trans "Про ACIS" %}': '#',
-            '{% trans "Про диггеров" %}': '#'
-        },
-        '{% trans "Новости" %}': '/category/news',
-        '{% trans "Подземелья" %}': {
-            '{% trans "Очеты" %}': '/category/reports',
-            '{% trans "Фотографии" %}': '/category/photo',
-            '{% trans "Карты" %}': '/category/maps',
-            '{% trans "Литература" %}': '#'
-        },
-        '{% trans "Творчество" %}': {
-            '{% trans "Графика" %}': '/category/drawing',
-            '{% trans "Писательство" %}': '/category/prose'
-        },
-        '{% trans "Общение" %}': {
-            '{% trans "Форум" %}': '#',
-            '{% trans "Вылазки" %}': '#',
-            '{% trans "Снаряжение" %}': '#',
-            '{% trans "Другие вылазки" %}': '#',
-            '{% trans "Курилка" %}': '#',
-            '{% trans "Техн. раздел" %}': '#'
-        },
-        '{% trans "Ссылки" %}': '#',
-        'Wiki/FAQ': '#',
-        {% if user.is_authenticated %}
-            '{% trans "Выход" %}': '#'
-        {% else %}
-            '{% trans "Вход" %}': '#'
-        {% endif %}
-    };
-    $('#acisMenu').acisMenu({
-        class: 'main-menu',
-        items: menu
-    });
-</script>
+
+{% include "cms/menu.html" %}
+
 </body>
 </html>
