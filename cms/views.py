@@ -6,13 +6,14 @@ from .forms import PostForm
 
 def post_list(request, tags=None, category=None, author=None):
 
+  print(category)
+
   t = c = None
   if category:
     c = get_object_or_404(Category, route=category)
 
   if tags:
     t = tags.split(",")
-
   query = {
     'is_public': True,
     'tags__name__in': t,
@@ -24,13 +25,15 @@ def post_list(request, tags=None, category=None, author=None):
 
   posts = Post.objects.filter(**q).distinct()
 
-  return render(request, 'cms/post_list.html', {'posts': posts, 'category': category})
+  return render(request, 'cms/post_list.html', {'posts': posts, 'category': c, 'tags': tags, 'taglist': t, 'author': author})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
-  return render(request, 'cms/post_detail.html', {'post': post})
+  return render(request, 'cms/post_detail.html', {'post': post, 'category': post.category})
 
 def post_new(request,category):
+  c = Category.objects.get(route=category)
+
   if request.method == "POST":
     form = PostForm(request.POST)
 
@@ -38,13 +41,13 @@ def post_new(request,category):
       post = form.save(commit=False)
       post.author = request.user
       post.published_date = timezone.now()
-      post.category = Category.objects.get(route=category)
+      post.category = c
 
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
     form = PostForm()
-  return render(request, 'cms/post_edit.html', {'form': form})
+  return render(request, 'cms/post_edit.html', {'form': form, 'category': c, 'is_post_add': True})
 
 def post_edit(request, pk):
   post = get_object_or_404(Post, pk=pk)
@@ -58,4 +61,4 @@ def post_edit(request, pk):
       return redirect('post_detail', pk=post.pk)
   else:
     form = PostForm(instance=post)
-  return render(request, 'cms/post_edit.html', {'form': form})
+  return render(request, 'cms/post_edit.html', {'form': form, 'category': post.category, 'is_post_edit': True})

@@ -3,18 +3,25 @@
 
 {% block content %}
             <div class="block article">
-                <div class="buttons">
-                    <a href="#">Список статей</a>
-                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a>
-                    <a href="#">{% trans "Удалить" %}</a>
-                    <a href="#">{% trans "Опубликовать" %}</a>
+                <p class="actions">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a> |
+                    <a href="#">{% trans "Удалить" %}</a> |
+                    <a href="#">{% trans "Опубликовать" %}</a> |
                     <a href="#">{% trans "Скрыть" %}</a>
-                </div>
+                    {% endif %}
+                </p>
                 <div class="info">
-                    <p><strong>{% trans "Автор (Источник):" %}</strong> {{ post.author }}</p>
-                    <p><strong>{% trans "Дата:" %}</strong> {{ post.created_date }}</p>
-                    <p><strong>{% trans "Категория:" %}</strong> {{ post.category.name }}</p>
-                    <p><strong>{% trans "Статус:" %} </strong> Опубликовано</p>
+                    <p>
+                        <strong>{% trans "Автор: " %}</strong>
+                        <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
+                    </p>
+                    <p><strong>{% trans "Дата: " %}</strong>{{ post.created_date }}</p>
+                    <p>
+                        <strong>{% trans "Категория: " %}</strong>
+                        <a href="{% url 'category_list' category=category.route %}">{{ category }}</a>
+                    </p>
+                    <p><strong>{% trans "Статус: " %} </strong>Опубликовано</p>
                 </div>
                 <h1 class="header-simple">{{ post.title }}</h1>
                 <div class="content">

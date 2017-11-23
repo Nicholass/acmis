@@ -9,7 +9,7 @@ urlpatterns = [
   url(r'^category/(?P<category>\w+)/new/$', views.post_new, name='post_new'),
   url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
 
-  url(r'^author/(?P<author>\w+)/?(tags/(?P<tags>[\w,]+))?/$', views.post_list, name='author_list'),
-  url(r'^category/(?P<category>\w+)/?(tags/(?P<tags>[\w,]+))?/$', views.post_list, name='category_list'),
-  url(r'^tags/(?P<tags>[\w,]+)/$', views.post_list, name='tag_list'),
+  url(r'^author/(?P<author>\w+)/?(tags/(?P<tags>[\w\s\d\-_,]+))?/$', views.post_list, name='author_list'),
+  url(r'^category/(?P<category>\w+)/?(tags/(?P<tags>[\w\s\d\-_,]+))?/$', views.post_list, name='category_list'),
+  url(r'^tags/(?P<tags>[\w\s\d\-_,]+)/$', views.post_list, name='tag_list'),
 ]

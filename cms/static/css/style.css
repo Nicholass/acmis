@@ -8,6 +8,9 @@ body {
 a {
     text-decoration: underline;
 }
+a.tags {
+    text-decoration: none;
+}
 
 .wrapper {
     max-width: 1600px;
@@ -193,7 +196,7 @@ ul.breadcrumbs a {
 .block > .header-simple {
     background: #353535;
     color: #FFFFFF;
-    padding: 1px 10px;
+    padding: 5px 10px;
     margin: 0 0;
     font-size: 1.05em;
     font-weight: bold;
@@ -242,12 +245,18 @@ ul.breadcrumbs a {
 .post > h3 a {
     color: #000;
 }
+.post p {
+    margin-bottom: 0px;
+}
 .post .info {
     font-style: italic;
     margin: 5px 0;
 }
 .post .content {
-    margin: 0 0;
+    margin: 10px 0;
+}
+.post .tags {
+    margin: 5px 0;
 }
 
 /* Форма добавления материала */
@@ -256,16 +265,6 @@ ul.breadcrumbs a {
 }
 
 /* Страница материала */
-.article .buttons {
-    margin-top: 10px;
-}
-.article .buttons a{
-    display: inline-block;
-}
-.article .buttons a:first-child {
-    margin-right: 20px;
-}
-
 .article .info {
     margin-top: 15px;
 }

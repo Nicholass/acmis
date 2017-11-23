@@ -39,13 +39,7 @@
     </div>
     <div class="row nav">
         <div class="col-md-9 col-xs-9 nav-left">
-            <ul class="breadcrumbs">
-                <li><a href="/">Главная</a></li>
-                <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
-                <li><a href="#">Категория</a></li>
-                <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
-                <li><a href="#">Тег</a></li>
-            </ul>
+            {% include "cms/breadcrumbs.html" %}
         </div>
         <div class="col-md-3 col-xs-3 nav-right">
             <form action="{% url 'set_language' %}" class="langSwitcher" method="post">{% csrf_token %}

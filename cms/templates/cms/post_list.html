@@ -4,64 +4,106 @@
 {% block content %}
 
 <div class="block">
-
-  {% if category == 'drawing' %}
-  <h2 class="header-simple">{% trans "Рисунок" %}</h2>
+  {% if category.route == 'drawing' %}
+  <h2 class="header-simple">
+    {% trans "Рисунки" %}
+    {% if tags %}
+    {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    {% endif %}
+  </h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category %}">{% trans "Добавить рисунок" %}</a>
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить рисунок" %}</a>
     {% endif %}
   </div>
-  {% elif category == 'map' %}
-  <h2 class="header-simple">{% trans "Карты" %}</h2>
+  {% elif category.route == 'map' %}
+  <h2 class="header-simple">
+    {% trans "Карты" %}
+    {% if tags %}
+    {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    {% endif %}
+  </h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category %}">{% trans "Добавить карту" %}</a>
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить карту" %}</a>
     {% endif %}
   </div>
-  {% elif category == 'news' %}
-  <h2 class="header-simple">{% trans "Новости и события" %}</h2>
+  {% elif category.route == 'news' %}
+  <h2 class="header-simple">
+    {% trans "Новости и события" %}
+    {% if tags %}
+    {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    {% endif %}
+  </h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category %}">{% trans "Добавить новость" %}</a>
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить новость" %}</a>
     {% endif %}
   </div>
-  {% elif category == 'photo' %}
-  <h2 class="header-simple">{% trans "Фотографии" %}</h2>
+  {% elif category.route == 'photo' %}
+  <h2 class="header-simple">
+    {% trans "Фотографии" %}
+    {% if tags %}
+    {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    {% endif %}
+  </h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category %}">{% trans "Добавить фотографию" %}</a>
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить фотографию" %}</a>
     {% endif %}
   </div>
-  {% elif category == 'prose' %}
-  <h2 class="header-simple">{% trans "Писательство" %}</h2>
+  {% elif category.route == 'prose' %}
+  <h2 class="header-simple">
+    {% trans "Писательство" %}
+    {% if tags %}
+    {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    {% endif %}
+  </h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category %}">{% trans "Добавить текст" %}</a>
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить текст" %}</a>
     {% endif %}
   </div>
-  {% elif category == 'report' %}
-  <h2 class="header-simple">{% trans "Отчеты" %}</h2>
+  {% elif category.route == 'report' %}
+  <h2 class="header-simple">
+    {% trans "Отчеты" %}
+    {% if tags %}
+    {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    {% endif %}
+  </h2>
   <div class="category-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' category=category %}">{% trans "Добавить отчет" %}</a>
     {% endif %}
   </div>
   {% else %}
-  <h2 class="header-simple">{% trans "Все материалы" %}</h2>
+    {% if author %}
+      <h2 class="header-simple">
+        {% trans "Материалы автора " %}{{ author }}
+        {% if tags %}
+        {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+        {% endif %}
+      </h2>
+    {% elif tags %}
+      <h2 class="header-simple">
+        {% trans "Материалы по тегам " %}
+        {% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+      </h2>
+    {% else %}
+      <h2 class="header-simple">{% trans "Все материалы" %}</h2>
+    {% endif %}
   {% endif %}
 
 
   <div class="content">
-
     {% for post in posts %}
     <div class="post" id="{{ post.pk }}">
       <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
       <p class="info">
-        <span>{% blocktrans with author=post.author %}Автор: {{ author }} {% endblocktrans %}</span>&nbsp;|&nbsp;
-        <span>{% blocktrans with date=post.created_date %}Дата: {{ date }} {% endblocktrans %}</span> |
-        <span>{% blocktrans with category_name=post.category.name %}Категория: {{ category_name }} {% endblocktrans %}</span> |
-        <span>{% blocktrans with pub_status="Опубликовано" %}Статус: {{ pub_status }} {% endblocktrans %}</span>
+        <span>{% trans "Автор: " %}<a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a></span> |&nbsp;
+        <span>{% trans "Дата: " %}{{ post.created_date }}</span> |
+        <span>{% trans "Категория: " %}<a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></span> |
+        <span>{% trans "Статус: " %}Опубликовано</span>
       </p>
       <p class="content">
         {{ post.text|linebreaksbr }}
@@ -74,7 +116,7 @@
       </p>
       <p class="actions">
         {% if user.is_authenticated %}
-        <a href="{ url 'post_edit' pk=post.pk }">{% trans "Редактировать" %}</a> |
+        <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a> |
         <a href="#">{% trans "Удалить" %}</a> |
         <a href="#">{% trans "Опубликовать" %}</a> |
         <a href="#">{% trans "Скрыть" %}</a>

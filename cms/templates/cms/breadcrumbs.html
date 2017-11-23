@@ -1,0 +1,41 @@
+{% load i18n %}
+
+<ul class="breadcrumbs">
+    <li><a href="/">Главная</a></li>
+    <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+
+    {% if category %}
+        {% if tags or post or is_post_add or is_post_edit %}
+        <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
+        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+        {% else %}
+        {{ category }}
+        {% endif %}
+    {% endif %}
+
+    {% if author %}
+    <li>
+        {% if tags %}
+        <a href="{% url 'author_list' author=author %}">{{ author }}</a>
+        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+        {% else %}
+        {{ author }}
+        {% endif %}
+    </li>
+    {% endif %}
+
+    {% if tags %}
+        <li>{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
+    {% endif %}
+
+    {% if post %}
+    <li>{{ post.title }}</li>
+    {% endif %}
+
+    {% if is_post_add %}
+    <li>{% trans "Добавить материал" %}</li>
+    {% endif %}
+    {% if is_post_edit %}
+    <li>{% trans "Редактировать материал" %}</li>
+    {% endif %}
+</ul>
