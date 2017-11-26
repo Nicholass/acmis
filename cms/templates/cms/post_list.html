@@ -107,6 +107,11 @@
       </p>
       <p class="content">
         {{ post.text|linebreaksbr }}
+
+        {% if post.file %}
+        <br>
+        File uploaded at: <a href="{{ post.file }}">{{ post.file }}</a>
+        {% endif %}
       </p>
       <p class="tags">
         {% trans "Теги:" %}

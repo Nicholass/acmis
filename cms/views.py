@@ -2,11 +2,9 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404, redirec
 from django.utils import timezone
 
 from .models import Post, Category
-from .forms import PostForm
+from .forms import TextPostForm, BinaryPostForm, PostForm
 
 def post_list(request, tags=None, category=None, author=None):
-
-  print(category)
 
   t = c = None
   if category:
@@ -14,9 +12,10 @@ def post_list(request, tags=None, category=None, author=None):
 
   if tags:
     t = tags.split(",")
+
   query = {
     'is_public': True,
-    'tags__name__in': t,
+    'tags_in_name': t,
     'author__username': author,
     'category': c,
   }
@@ -25,40 +24,61 @@ def post_list(request, tags=None, category=None, author=None):
 
   posts = Post.objects.filter(**q).distinct()
 
-  return render(request, 'cms/post_list.html', {'posts': posts, 'category': c, 'tags': tags, 'taglist': t, 'author': author})
+  return render(request, 'cms/post_list.html', {'posts': posts, 'category': category})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
-  return render(request, 'cms/post_detail.html', {'post': post, 'category': post.category})
+  return render(request, 'cms/post_detail.html', {'post': post})
 
 def post_new(request,category):
-  c = Category.objects.get(route=category)
+  categoryObj = Category.objects.get(route=category)
+
+  if categoryObj.kind == '0':
+    formClass = BinaryPostForm
+  elif categoryObj.kind == '1':
+    formClass = TextPostForm
+  else:
+    formClass = PostForm
 
   if request.method == "POST":
-    form = PostForm(request.POST)
+    form = formClass(request.POST, request.FILES)
 
     if form.is_valid():
       post = form.save(commit=False)
       post.author = request.user
       post.published_date = timezone.now()
-      post.category = c
+      post.category = categoryObj
 
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm()
-  return render(request, 'cms/post_edit.html', {'form': form, 'category': c, 'is_post_add': True})
+    form = formClass()
+
+  return render(request, 'cms/post_edit.html', {'form': form})
 
 def post_edit(request, pk):
   post = get_object_or_404(Post, pk=pk)
+
+  if post.category.kind == '0':
+    formClass = BinaryPostForm
+  elif post.category.kind == '1':
+    formClass = TextPostForm
+  else:
+    formClass = PostForm
+
   if request.method == "POST":
-    form = PostForm(request.POST, instance=post)
+    print(request.POST)
+    print(request.FILES)
+    form = formClass(request.POST, request.FILES, instance=post)
+
     if form.is_valid():
       post = form.save(commit=False)
       post.author = request.user
       post.published_date = timezone.now()
+
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm(instance=post)
-  return render(request, 'cms/post_edit.html', {'form': form, 'category': post.category, 'is_post_edit': True})
+    form = formClass(instance=post)
+
+  return render(request, 'cms/post_edit.html', {'form': form})
