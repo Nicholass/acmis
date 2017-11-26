@@ -1,40 +1,47 @@
 {% load i18n %}
 
 <ul class="breadcrumbs">
-    <li><a href="/">Главная</a></li>
     <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+    {% if request.path != "/" %}
+        <li><a href="/">{% trans "Главная" %}</a></li>
+        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+    {% else %}
+        <li><span class="current">{% trans "Главная" %}</span></li>
+    {% endif %}
 
     {% if category %}
         {% if tags or is_post_add or is_post_edit %}
-        <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
-        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+            <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
+            <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
         {% else %}
-        {{ category }}
+            <span class="current">{{ category }}</span>
         {% endif %}
     {% endif %}
 
     {% if author %}
-    <li>
-        {% if tags %}
-        <a href="{% url 'author_list' author=author %}">{{ author }}</a>
-        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
-        {% else %}
-        {{ author }}
-        {% endif %}
-    </li>
+        <li>
+            {% if tags %}
+                <a href="{% url 'author_list' author=author %}">{{ author }}</a>
+                <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+            {% else %}
+                <span class="current">{{ author }}</span>
+            {% endif %}
+        </li>
     {% endif %}
 
     {% if tags %}
-        <li>{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
+        <li>
+            <span class="current">{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</span>
+        </li>
     {% endif %}
 
     {% if post %}
-    <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
-    <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
-    <li>{{ post.title }}</li>
+        <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
+        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+        <li><span class="current">{{ post.title }}</span></li>
     {% elif is_post_add %}
-    <li>{% trans "Добавить материал" %}</li>
+        <li><span class="current">{% trans "Добавить материал" %}</span></li>
     {% elif is_post_edit %}
-    <li>{% trans "Редактировать материал" %}</li>
+        <li><span class="current">{% trans "Редактировать материал" %}</span></li>
     {% endif %}
 </ul>

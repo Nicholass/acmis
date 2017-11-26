@@ -2,14 +2,14 @@
 
 <script>
     var menu = {
-        '{% trans "Все материалы" %}': '/',
+        '{% trans "Все материалы" %}': '{% url 'post_list' %}',
         '{% trans "Категории" %}': {
-            '{% trans "Новости" %}': '/category/news',
-            '{% trans "Очеты" %}': '/category/report',
-            '{% trans "Фотографии" %}': '/category/photo',
-            '{% trans "Карты" %}': '/category/map',
-            '{% trans "Графика" %}': '/category/drawing',
-            '{% trans "Писательство" %}': '/category/prose'
+            '{% trans "Новости" %}': '{% url 'category_list' category='news' %}',
+            '{% trans "Очеты" %}': '{% url 'category_list' category='report' %}',
+            '{% trans "Фотографии" %}': '{% url 'category_list' category='photo' %}',
+            '{% trans "Карты" %}': '{% url 'category_list' category='map' %}',
+            '{% trans "Графика" %}': '{% url 'category_list' category='drawing' %}',
+            '{% trans "Писательство" %}': '{% url 'category_list' category='prose' %}'
         },
         '{% trans "Общение" %}': {
             '{% trans "Форум" %}': '#',

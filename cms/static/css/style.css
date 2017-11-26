@@ -44,7 +44,7 @@ a.tags {
 }
 
 #acisMenu {
-    height: 16px;
+    height: 18px;
     border-top: 1px solid #8A8A8A;
     background: #000000;
     color: #FFFFFF;
@@ -72,13 +72,16 @@ ul.main-menu > li {
     vertical-align: top;
     font-weight: bold;
     font-size: 1em;
-    padding: 0 2px;
+    padding: 2px 2px 1px 2px;
     width: 115px;
-    height: 15px;
+    height: 18px;
+}
+ul.main-menu > li:first-child {
+    width: 150px
 }
 ul.main-menu .sub {
     position: absolute;
-    top: 14px;
+    top: 17px;
     left: 0px;
     background: #000000;
     z-index: 9000;
@@ -125,6 +128,9 @@ ul.breadcrumbs li.sep {
 }
 ul.breadcrumbs a {
     font-style: italic;
+}
+ul.breadcrumbs .current {
+    font-weight: bold;
 }
 
 /* Перекоючатель языка*/
