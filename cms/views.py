@@ -15,16 +15,16 @@ def post_list(request, tags=None, category=None, author=None):
 
   query = {
     'is_public': True,
-    'tags_in_name': t,
+    'tags__name__in': t,
     'author__username': author,
     'category': c,
   }
 
   q = {k: v for k, v in query.items() if v is not None}
 
-  posts = Post.objects.filter(**q).distinct()
+  posts = Post.objects.filter(**q).distinct().order_by('-created_date', 'title')
 
-  return render(request, 'cms/post_list.html', {'posts': posts, 'category': category})
+  return render(request, 'cms/post_list.html', {'posts': posts, 'category': c, 'tags': tags, 'taglist': t, 'author': author})
 
 def post_detail(request, pk):
   post = get_object_or_404(Post, pk=pk)
@@ -50,11 +50,12 @@ def post_new(request,category):
       post.category = categoryObj
 
       post.save()
+      form.save_m2m()
       return redirect('post_detail', pk=post.pk)
   else:
     form = formClass()
 
-  return render(request, 'cms/post_edit.html', {'form': form})
+  return render(request, 'cms/post_edit.html', {'form': form, 'category':  categoryObj, 'is_post_add': True})
 
 def post_edit(request, pk):
   post = get_object_or_404(Post, pk=pk)
@@ -67,8 +68,6 @@ def post_edit(request, pk):
     formClass = PostForm
 
   if request.method == "POST":
-    print(request.POST)
-    print(request.FILES)
     form = formClass(request.POST, request.FILES, instance=post)
 
     if form.is_valid():
@@ -77,8 +76,15 @@ def post_edit(request, pk):
       post.published_date = timezone.now()
 
       post.save()
+      form.save_m2m()
       return redirect('post_detail', pk=post.pk)
   else:
     form = formClass(instance=post)
 
-  return render(request, 'cms/post_edit.html', {'form': form})
+  return render(request, 'cms/post_edit.html', {'form': form, 'category': post.category, 'is_post_edit': True})
+
+def post_delete(request, pk):
+  post = get_object_or_404(Post, pk=pk)
+  category = post.category.route
+  post.delete()
+  return redirect('category_list', category=category)

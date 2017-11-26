@@ -59,7 +59,7 @@ class BinaryPost(Post):
     upload_to='uploads/%Y/%m/%d/',
     verbose_name=_("Файл")
   )
-  description = models.CharField(max_length=200, verbose_name=_("Описание"))
+  description = models.TextField(max_length=200, verbose_name=_("Описание"))
 
   class Meta:
     verbose_name = _("Изображение")

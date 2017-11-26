@@ -5,7 +5,7 @@
     <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
 
     {% if category %}
-        {% if tags or post or is_post_add or is_post_edit %}
+        {% if tags or is_post_add or is_post_edit %}
         <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
         <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
         {% else %}
@@ -29,6 +29,8 @@
     {% endif %}
 
     {% if post %}
+    <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
+    <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
     <li>{{ post.title }}</li>
     {% endif %}
 
