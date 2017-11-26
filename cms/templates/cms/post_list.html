@@ -16,7 +16,7 @@
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить рисунок" %}</a>
     {% endif %}
   </div>
-  {% elif category.route == 'maps' %}
+  {% elif category.route == 'map' %}
   <h2 class="header-simple">
     {% trans "Карты" %}
     {% if tags %}
@@ -77,29 +77,32 @@
     {% endif %}
   </div>
   {% else %}
-  {% if author %}
-  <h2 class="header-simple">
-    {% trans "Материалы автора " %}{{ author }}
-    {% if tags %}
-    {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    {% if author %}
+    <h2 class="header-simple">
+      {% trans "Материалы автора " %}{{ author }}
+      {% if tags %}
+      {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+      {% endif %}
+    </h2>
+    {% elif tags %}
+    <h2 class="header-simple">
+      {% trans "Материалы по тегам " %}
+      {% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
+    </h2>
+    {% else %}
+    <h2 class="header-simple">{% trans "Все материалы" %}</h2>
     {% endif %}
-  </h2>
-  {% elif tags %}
-  <h2 class="header-simple">
-    {% trans "Материалы по тегам " %}
-    {% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
-  </h2>
-  {% else %}
-  <h2 class="header-simple">{% trans "Все материалы" %}</h2>
-  {% endif %}
   {% endif %}
 
 
   <div class="content">
     {% if not posts %}
-    <p>В категории пока нет материалов.
+    <p>
       {% if category %}
-      Вы можете <a href="{% url 'post_new' category=category.route %}">добавить</a> первым.
+      {% url 'post_new' category=category.route as post_new_url %}
+      {% blocktrans with post_new_url=post_new_url %}В категории пока нет материалов. Вы можете <a href="{{ post_new_url }}">добавить</a> первым.{% endblocktrans %}
+      {% else %}
+      {% trans "На сайте пока нет материалов. Вы можете добавить материал первым. Для этого перейдите в соответствующую категорию меню." %}
       {% endif %}
     </p>
     {% endif %}

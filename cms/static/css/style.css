@@ -86,11 +86,12 @@ ul.main-menu .sub {
 }
 ul.main-menu .sub > li {
     display: block;
-    padding: 2px;
     font-size: 1em;
 }
 ul.main-menu .sub > li a {
+    display: block;
     font-weight: normal;
+    padding: 2px;
 }
 
 /**

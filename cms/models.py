@@ -76,12 +76,12 @@ class Category(models.Model):
   )
 
   DATA_KINDS = {
-    'Drawings': FILE,
-    'Maps': FILE,
+    'Drawing': FILE,
+    'Map': FILE,
     'News': POST,
-    'Photos': FILE,
-    'Proses': POST,
-    'Reports': POST
+    'Photo': FILE,
+    'Prose': POST,
+    'Report': POST
   }
 
   kind = models.CharField(

@@ -32,12 +32,9 @@
     <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
     <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
     <li>{{ post.title }}</li>
-    {% endif %}
-
-    {% if is_post_add %}
+    {% elif is_post_add %}
     <li>{% trans "Добавить материал" %}</li>
-    {% endif %}
-    {% if is_post_edit %}
+    {% elif is_post_edit %}
     <li>{% trans "Редактировать материал" %}</li>
     {% endif %}
 </ul>

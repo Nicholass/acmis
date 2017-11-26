@@ -2,18 +2,12 @@
 
 <script>
     var menu = {
-        '{% trans "О нас" %}': {
-            '{% trans "Про ACIS" %}': '#',
-            '{% trans "Про диггеров" %}': '#'
-        },
-        '{% trans "Новости" %}': '/category/news',
-        '{% trans "Подземелья" %}': {
-            '{% trans "Очеты" %}': '/category/reports',
+        '{% trans "Все материалы" %}': '/',
+        '{% trans "Категории" %}': {
+            '{% trans "Новости" %}': '/category/news',
+            '{% trans "Очеты" %}': '/category/report',
             '{% trans "Фотографии" %}': '/category/photo',
-            '{% trans "Карты" %}': '/category/maps',
-            '{% trans "Литература" %}': '#'
-        },
-        '{% trans "Творчество" %}': {
+            '{% trans "Карты" %}': '/category/map',
             '{% trans "Графика" %}': '/category/drawing',
             '{% trans "Писательство" %}': '/category/prose'
         },
@@ -25,13 +19,12 @@
             '{% trans "Курилка" %}': '#',
             '{% trans "Техн. раздел" %}': '#'
         },
-        '{% trans "Ссылки" %}': '#',
         'Wiki/FAQ': '#',
-    {% if user.is_authenticated %}
-    '{% trans "Выход" %}': '#'
-    {% else %}
-    '{% trans "Вход" %}': '#'
-    {% endif %}
+        {% if user.is_authenticated %}
+        '{% trans "Выход" %}': '#'
+        {% else %}
+        '{% trans "Вход" %}': '#'
+        {% endif %}
     };
     $('#acisMenu').acisMenu({
         class: 'main-menu',
