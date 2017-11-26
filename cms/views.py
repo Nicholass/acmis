@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, get_list_or_404, redirec
 from django.utils import timezone
 
 from .models import Post, Category
-from .forms import PostForm
+from .forms import TextPostForm, BinaryPostForm, PostForm
 
 def post_list(request, tags=None, category=None, author=None):
 
@@ -31,31 +31,54 @@ def post_detail(request, pk):
   return render(request, 'cms/post_detail.html', {'post': post})
 
 def post_new(request,category):
+  categoryObj = Category.objects.get(route=category)
+
+  if categoryObj.kind == '0':
+    formClass = BinaryPostForm
+  elif categoryObj.kind == '1':
+    formClass = TextPostForm
+  else:
+    formClass = PostForm
+
   if request.method == "POST":
-    form = PostForm(request.POST)
+    form = formClass(request.POST, request.FILES)
 
     if form.is_valid():
       post = form.save(commit=False)
       post.author = request.user
       post.published_date = timezone.now()
-      post.category = Category.objects.get(route=category)
+      post.category = categoryObj
 
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm()
+    form = formClass()
+
   return render(request, 'cms/post_edit.html', {'form': form})
 
 def post_edit(request, pk):
   post = get_object_or_404(Post, pk=pk)
+
+  if post.category.kind == '0':
+    formClass = BinaryPostForm
+  elif post.category.kind == '1':
+    formClass = TextPostForm
+  else:
+    formClass = PostForm
+
   if request.method == "POST":
-    form = PostForm(request.POST, instance=post)
+    print(request.POST)
+    print(request.FILES)
+    form = formClass(request.POST, request.FILES, instance=post)
+
     if form.is_valid():
       post = form.save(commit=False)
       post.author = request.user
       post.published_date = timezone.now()
+
       post.save()
       return redirect('post_detail', pk=post.pk)
   else:
-    form = PostForm(instance=post)
+    form = formClass(instance=post)
+
   return render(request, 'cms/post_edit.html', {'form': form})

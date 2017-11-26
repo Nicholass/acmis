@@ -2,6 +2,7 @@
 __pycache__/
 acis_venv/
 cms/migrations/
+media/
 *.pyc
 *.mo
 db.sqlite3
