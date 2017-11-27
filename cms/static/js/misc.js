@@ -1,16 +1,23 @@
-//Переключатель языка
-$('.langBtn').click(function (event) {
-    var element = $(event.target).parent().parent();
-    if(element.hasClass('selected')){
-        return;
-    }
+$(document).ready(function(){
+    "use strict";
 
-    element.siblings().removeClass('selected');
-    element.addClass('selected');
+    //Переключатель языка
+    $('.langBtn').click(function (event) {
+        var element = $(event.target).parent().parent();
+        if(element.hasClass('selected')){
+            return;
+        }
 
-    var languageCode = element.attr('id');
-    $('input[name=language]').val(languageCode);
-    $('.langSwitcher').submit();
+        element.siblings().removeClass('selected');
+        element.addClass('selected');
 
-    return false;
+        var languageCode = element.attr('id');
+        $('input[name=language]').val(languageCode);
+        $('.langSwitcher').submit();
+
+        return false;
+    });
+
+    //Подсказки в комментариях
+    $('[data-toggle="tooltip"]').tooltip({html: true});
 });

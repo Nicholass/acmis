@@ -3,7 +3,12 @@ from django.utils import timezone
 from polymorphic.models import PolymorphicModel
 
 from taggit.managers import TaggableManager
+
 from django.utils.translation import ugettext as _
+from django.core.urlresolvers import reverse
+
+from django_comments.moderation import CommentModerator
+from django_comments_xtd.moderation import moderator
 
 class Post(PolymorphicModel):
   '''
@@ -52,6 +57,9 @@ class TextPost(Post):
     verbose_name = _("Текстовый пост")
     verbose_name_plural = _("Текстовые посты")
 
+  def get_absolute_url(self):
+      return reverse('post_detail', kwargs={'pk': self.pk})
+
 class BinaryPost(Post):
   file = models.ImageField(
     blank=True,
@@ -64,6 +72,9 @@ class BinaryPost(Post):
   class Meta:
     verbose_name = _("Изображение")
     verbose_name_plural = _("Изображения")
+
+  def get_absolute_url(self):
+      return reverse('post_detail', kwargs={'pk': self.pk})
 
 class Category(models.Model):
   FILE = '0'
@@ -107,3 +118,11 @@ class Category(models.Model):
   class Meta:
     verbose_name = _("Категория")
     verbose_name_plural = _("Категории")
+
+
+class PostCommentModerator(CommentModerator):
+    email_notification = False
+    auto_moderate_field = 'published_date'
+    moderate_after = 365
+
+moderator.register(Post, PostCommentModerator)

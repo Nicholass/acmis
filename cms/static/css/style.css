@@ -287,58 +287,11 @@ ul.breadcrumbs .current {
 }
 
 .comments {
-    margin: 0 auto;
+    margin: 0 auto 20px auto;
     width: 98%;
-    border: 1px solid #000000;
 }
-.comments .header {
-    background: #000000;
-    color: #FFFFFF;
-    font-weight: bold;
-    padding: 2px 5px;
-}
-.comment {
-    padding: 2px 10px 15px 10px;
-}
-.comment:nth-child(odd) {
-    background: #E1E1E1;
-}
-.comment:nth-child(even) {
-    background: #F7F7F7;
-}
-.comment .content {
-    margin: 0px;
-}
-.comment .info {
-    margin-bottom: 5px;
-}
-.comment .info .author {
-    font-weight: bold;
-}
-.comment .info .date {
-    font-style: italic;
-}
-.addcomment {
-    display: block;
-    width: 52%;
-    margin: 30px auto 20px auto;
-    background: #E1E1E1;
-}
-.addcomment .info {
-    margin: 5px 5px;
-}
-.addcomment textarea {
-    padding: 0 2px;
-    margin: 0 auto;
-    width: 98%;
-    display: block;
-}
-.addcomment button {
-    margin: 5px auto;
-    display: block;
-}
-.addcomment .content {
-    padding: 0px;
+.comments li {
+    list-style: none;
 }
 
 table .mobile-visible {
