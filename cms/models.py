@@ -52,6 +52,8 @@ class TextPost(Post):
     verbose_name = _("Текстовый пост")
     verbose_name_plural = _("Текстовые посты")
 
+
+
 class BinaryPost(Post):
   file = models.ImageField(
     blank=True,
@@ -59,11 +61,12 @@ class BinaryPost(Post):
     upload_to='uploads/%Y/%m/%d/',
     verbose_name=_("Файл")
   )
-  description = models.TextField(max_length=200, verbose_name=_("Описание"))
+  description = models.TextField(max_length=200, verbose_name=_("Описание"), null=True)
 
   class Meta:
     verbose_name = _("Изображение")
     verbose_name_plural = _("Изображения")
+
 
 class Category(models.Model):
   FILE = '0'
