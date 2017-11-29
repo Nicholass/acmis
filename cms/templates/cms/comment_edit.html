@@ -1,0 +1,23 @@
+{% extends 'cms/base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<div class="block">
+    <h1 class="header-simple">
+        {% if not parent %}
+        {% trans "Редактировать комментарий " %}{{ cpk }}
+        {% else %}
+        {% trans "Ответ на комментарий " %} {{ parent.author }}: {{ parent.short_text }}
+        {% endif %}
+    </h1>
+
+    <div class="content">
+        <form method="POST" class="post-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="save btn btn-default">{% trans "Отправить" %}</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

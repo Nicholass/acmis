@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, TextPost, BinaryPost
+from .models import Post, TextPost, BinaryPost, Comment
 
 class PostForm(forms.ModelForm):
 
@@ -18,3 +18,10 @@ class BinaryPostForm(PostForm):
   class Meta(PostForm.Meta):
     model = BinaryPost
     fields = ('title', 'file', 'description', 'tags', 'is_public')
+
+class CommentForm(forms.ModelForm):
+  text = forms.CharField(widget=forms.Textarea(attrs={'rows':6, 'cols':80}), label='')
+
+  class Meta:
+    fields = ('text',)
+    model = Comment

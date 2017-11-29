@@ -6,9 +6,9 @@ from taggit.managers import TaggableManager
 
 from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
+from django.template.defaultfilters import truncatechars
 
-from django_comments.moderation import CommentModerator
-from django_comments_xtd.moderation import moderator
+from mptt.models import MPTTModel, TreeForeignKey
 
 class Post(PolymorphicModel):
   '''
@@ -29,8 +29,8 @@ class Post(PolymorphicModel):
   created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Дата создания"))
   published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Дата публикации"))
 
-  is_public = models.BooleanField(default=True, verbose_name=_("Опубликовано"))
-  is_moderated = models.BooleanField(default=True, verbose_name=_("Одобрено модератором"))
+  is_public = models.BooleanField(default=True, verbose_name=_("Опубликован"))
+  is_moderated = models.BooleanField(default=True, verbose_name=_("Одобрен"))
 
   def _tags(self):
         return [t.name for t in self.tags.all()]
@@ -42,6 +42,10 @@ class Post(PolymorphicModel):
     self.published_date = timezone.now()
 
     self.save()
+
+  @property
+  def short_title(self):
+    return truncatechars(self.title, 100)
 
   def __str__(self):
     return self.title
@@ -120,9 +124,32 @@ class Category(models.Model):
     verbose_name_plural = _("Категории")
 
 
-class PostCommentModerator(CommentModerator):
-    email_notification = False
-    auto_moderate_field = 'published_date'
-    moderate_after = 365
+class Comment(MPTTModel):
 
-moderator.register(Post, PostCommentModerator)
+  post = models.ForeignKey('Post', on_delete=models.CASCADE, verbose_name=_("Пост"))
+  author = models.ForeignKey('auth.User', verbose_name=_("Автор"))
+  text = models.TextField(max_length=600, verbose_name=_("Текст"))
+
+  parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+
+
+  is_public = models.BooleanField(default=True, verbose_name=_("Опубликован"))
+  is_moderated = models.BooleanField(default=True, verbose_name=_("Одобрен"))
+  is_deleted = models.BooleanField(default=False, verbose_name=_("Удален"))
+
+  created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Дата создания"), unique=True)
+  modifed_date = models.DateTimeField(null=True, blank=True, verbose_name=_("Дата редактирования"))
+
+  @property
+  def short_text(self):
+    return truncatechars(self.text, 50)
+
+  def __str__(self):
+    return self.text
+
+  class Meta:
+    verbose_name = _("Комментарий")
+    verbose_name_plural = _("Комментарии")
+
+  class MPTTMeta:
+    order_insertion_by = ['created_date']

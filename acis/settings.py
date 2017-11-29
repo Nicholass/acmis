@@ -42,9 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'taggit',
     'cms',
-    'django.contrib.sites',
-    'django_comments_xtd',
-    'django_comments',
+    'mptt'
 ]
 
 MIDDLEWARE = [
@@ -136,37 +134,3 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/';
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media');
-
-SITE_ID = 1
-
-COMMENTS_APP = 'django_comments_xtd'
-COMMENTS_XTD_MAX_THREAD_LEVEL = 9
-COMMENTS_XTD_CONFIRM_EMAIL = False
-COMMENTS_XTD_APP_MODEL_OPTIONS = {
-    'default': {
-        'allow_flagging': True,
-        'allow_feedback': True,
-        'show_feedback': True,
-    }
-}
-
-'''
-TODO: Enable for comments confirmation
-
-#  To help obfuscating comments before they are sent for confirmation.
-COMMENTS_XTD_SALT = ''
-# Source mail address used for notifications.
-COMMENTS_XTD_FROM_EMAIL = "noreply@example.com"
-# Contact mail address to show in messages.
-COMMENTS_XTD_CONTACT_EMAIL = "helpdesk@example.com"
-
-EMAIL_HOST = "smtp.mail.com"
-EMAIL_PORT = "587"
-EMAIL_HOST_USER = "alias@mail.com"
-EMAIL_HOST_PASSWORD = "yourpassword"
-DEFAULT_FROM_EMAIL = "Helpdesk <helpdesk@yourdomain>"
-'''
-
-MANAGERS = (
-    ('Ramenky', 'ramenky27@gmail.com'),
-)

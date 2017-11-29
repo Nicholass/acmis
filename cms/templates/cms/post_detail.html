@@ -1,7 +1,6 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 {% load comments %}
-{% load comments_xtd %}
 
 {% block content %}
             <div class="block article">
@@ -24,9 +23,9 @@
                         <a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a>
                     </p>
                     <p><strong>{% trans "Статус: " %} </strong>Опубликовано</p>
-                    {% get_comment_count for post as comment_count %}
-                    {% if comment_count %}
-                    <p><strong>{% trans "Комментариев: " %} </strong> {{ comment_count }}</p>
+                    {% comment_count as com_count %}
+                    {% if com_count %}
+                    <p><strong>{% trans "Комментариев: " %}</strong> {{ com_count }}</p>
                     {% endif %}
                 </div>
                 <h1 class="header-simple">{{ post.title }}</h1>
@@ -48,17 +47,13 @@
                 {% endif %}
             </div>
 
-            <div class="comment">
-                <h4 class="text-center">{% trans "Комментарий" %}</h4>
-                <div class="well">
-                    {% render_comment_form for post %}
+            <div class="comments-form">
+                <h5 class="text-center">{% trans "Комментарий" %}</h5>
+                <div class="well text-center">
+                    {% comment_form post %}
                 </div>
             </div>
 
-            {% if comment_count %}
-            <hr/>
-            <div class="comments">
-                {% render_xtdcomment_tree for post allow_flagging allow_feedback show_feedback %}
-            </div>
-            {% endif %}
+            {% comment_list %}
+
 {% endblock %}

@@ -1,6 +1,8 @@
 from django.contrib import admin
-from .models import Post, TextPost, BinaryPost, Category
+from .models import Post, TextPost, BinaryPost, Category, Comment
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
+
+from mptt.admin import MPTTModelAdmin
 
 from django import forms
 from django.contrib.contenttypes.models import ContentType
@@ -34,8 +36,8 @@ class PostFormAdmin(forms.ModelForm):
 class PostParentAdmin(PolymorphicParentModelAdmin):
     base_model = Post
     child_models = (TextPost, BinaryPost)
-    list_filter = (PolymorphicChildModelFilter, 'created_date', 'tags')
-    list_display = ('title', 'created_date', 'is_public', 'is_moderated', 'pk')
+    list_filter = (PolymorphicChildModelFilter, 'created_date', 'is_moderated', 'tags')
+    list_display = ('short_title', 'created_date', 'author', 'is_public', 'is_moderated', 'pk')
     date_hierarchy = 'created_date'
     ordering = ('-created_date', 'title',)
     search_fields = ['title']
@@ -55,3 +57,14 @@ class CategoryAdmin(admin.ModelAdmin):
     ordering = ('name',)
 
 admin.site.register(Category, CategoryAdmin)
+
+class CustomMPTTModelAdmin(MPTTModelAdmin):
+    # specify pixel amount for this ModelAdmin only:
+    mptt_level_indent = 10
+    mptt_indent_field = 'short_text'
+    list_filter = ['created_date', 'is_moderated']
+    list_display = ('short_text', 'created_date', 'author', 'is_moderated', 'is_deleted', 'pk')
+    date_hierarchy = 'created_date'
+    search_fields = ['text']
+
+admin.site.register(Comment, CustomMPTTModelAdmin)

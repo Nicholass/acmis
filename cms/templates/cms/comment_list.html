@@ -1,0 +1,40 @@
+{% load i18n %}
+{% load mptt_tags %}
+
+<div id="comments" class="media-list">
+    {% recursetree comments %}
+        <div id="comment{{ node.pk }}" class="media{% if node.is_deleted %} deleted{% endif %}">
+            <div class="media-body">
+                <div class="comment">
+                {% if not node.is_deleted %}
+                <div class="media-heading">
+                    <span>{{ node.author }}</span> |
+                    <span> {{ node.created_date }}</span>
+                </div>
+                <div class="media-content">
+                    {{ node.text }}
+                    {% if node.modifed_date %}
+                    <br />
+                    <br />
+                    <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
+                    {% endif %}
+                </div>
+                <div class="media-footer">
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">Ответ</a> |
+                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">Редактировать</a> |
+                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">Удалить</a> |
+                    {% endif %}
+                    <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">{% trans "Ссылка" %}</a></span>
+                </div>
+                {% else %}
+                <i>Комментарий был удален</i>
+                {% endif %}
+                </div>
+                {% if not node.is_leaf_node %}
+                    {{ children }}
+                {% endif %}
+            </div>
+        </div>
+    {% endrecursetree %}
+</div>

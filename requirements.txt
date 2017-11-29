@@ -3,4 +3,4 @@ django-polymorphic==1.3
 django-taggit==0.22.1
 pytz==2017.2
 Pillow==4.3.0
-django-comments-xtd==2.0.9
+django-mptt=0.8.7
