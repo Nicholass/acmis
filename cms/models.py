@@ -130,10 +130,8 @@ class Comment(MPTTModel):
   author = models.ForeignKey('auth.User', verbose_name=_("Автор"))
   text = models.TextField(max_length=600, verbose_name=_("Текст"))
 
-  parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True)
+  parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True, verbose_name=_("Ответ на"))
 
-
-  is_public = models.BooleanField(default=True, verbose_name=_("Опубликован"))
   is_moderated = models.BooleanField(default=True, verbose_name=_("Одобрен"))
   is_deleted = models.BooleanField(default=False, verbose_name=_("Удален"))
 
