@@ -1,5 +1,8 @@
 from django.conf.urls import url, include
 from . import views
+from django.contrib.auth import views as auth_views
+
+from django.urls import reverse_lazy
 
 urlpatterns = [
   url(r'^$', views.post_list, name='post_list'),
@@ -24,4 +27,36 @@ urlpatterns = [
   url(r'^tags/(?P<tags>[\w\s\d\-_,]+)/$', views.post_list, name='tag_list'),
 
   url(r'^map/(?P<map_hash>\w+)/$', views.serve_map_file, name='map_file'),
+
+  # Fixed django-registration urls
+  # TODO: Remove after fix in next versions of package
+  # https://github.com/ubernostrum/django-registration/issues/106
+  # https://github.com/ubernostrum/django-registration/pull/111
+  url(r'^accounts/password/change/$',
+      auth_views.PasswordChangeView.as_view(
+          success_url=reverse_lazy('auth_password_change_done')
+      ),
+      name='auth_password_change'),
+  url(r'^accounts/password/change/done/$',
+      auth_views.PasswordChangeDoneView.as_view(),
+      name='auth_password_change_done'),
+  url(r'^accounts/password/reset/$',
+      auth_views.PasswordResetView.as_view(
+          success_url=reverse_lazy('auth_password_reset_done')
+      ),
+      name='auth_password_reset'),
+  url(r'^accounts/password/reset/complete/$',
+      auth_views.PasswordResetCompleteView.as_view(),
+      name='auth_password_reset_complete'),
+  url(r'^accounts/password/reset/done/$',
+      auth_views.PasswordResetDoneView.as_view(),
+      name='auth_password_reset_done'),
+  url(r'^accounts/password/reset/confirm/(?P<uidb64>[0-9A-Za-z_\-]+)/'
+      r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth_views.PasswordResetConfirmView.as_view(
+            success_url=reverse_lazy('auth_password_reset_complete')
+        ),
+        name='auth_password_reset_confirm'),
+
+  url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]

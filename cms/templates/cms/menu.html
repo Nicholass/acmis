@@ -21,9 +21,9 @@
         },
         'Wiki/FAQ': '#',
         {% if user.is_authenticated %}
-        '{% trans "Выход" %}': '#'
+        '{% trans "Выход" %}': '{% url 'auth_logout' %}?next={{request.path}}'
         {% else %}
-        '{% trans "Вход" %}': '#'
+        '{% trans "Вход" %}': '{% url 'auth_login' %}?next={{request.path}}'
         {% endif %}
     };
     $('#acisMenu').acisMenu({

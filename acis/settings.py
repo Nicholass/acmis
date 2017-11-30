@@ -33,7 +33,6 @@ ALLOWED_HOSTS = []
 
 # Application definition
 INSTALLED_APPS = [
-    'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.sessions',
     'django.contrib.messages',
@@ -41,8 +40,9 @@ INSTALLED_APPS = [
     'polymorphic',
     'django.contrib.contenttypes',
     'taggit',
+    'mptt',
     'cms',
-    'mptt'
+    'django.contrib.admin',
 ]
 
 MIDDLEWARE = [
@@ -134,3 +134,14 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/';
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media');
+
+ACCOUNT_ACTIVATION_DAYS = 2
+REGISTRATION_OPEN = True
+REGISTRATION_SALT = 'FfjoH3YJSavC67d6MvZCzAUGZJluMJqYlZ10WqLfPM79uydOe4CqMQMuJWeie9yA'
+
+EMAIL_HOST = 'localhost'
+EMAIL_PORT = 1025
+EMAIL_HOST_USER = ''
+EMAIL_HOST_PASSWORD = ''
+EMAIL_USE_TLS = False
+DEFAULT_FROM_EMAIL = 'info@acis'

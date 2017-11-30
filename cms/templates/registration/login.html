@@ -1,0 +1,37 @@
+{% extends "cms/base.html" %}
+{% load i18n %}
+
+{% block content %}
+<div class="centred-form">
+  <h1>{% trans "Вход в систему" %}</h1>
+  <form method="post" action=".">
+    {% csrf_token %}
+
+    {% for field in form.visible_fields %}
+    <div class="form-group">
+      <p class="errors">{{ field.errors }}</p>
+      <div class="form-label">{{ field.label_tag }}</div>
+      <div class="form-field">
+        {{ field }}
+      </div>
+      {% if field.help_text %}
+      <p class="help">{{ field.help_text|safe }}</p>
+      {% endif %}
+    </div>
+    {% endfor %}
+
+    {{ form.non_field_errors }}
+
+    {% for hidden in form.hidden_fields %}
+    {{ hidden }}
+    {% endfor %}
+
+    <button type="submit" class="submit btn btn-default">{% trans "Вход" %}</button>
+    <input type="hidden" name="next" value="{{ next }}" />
+  </form>
+  <div class="actions">
+    <p><a href="{% url 'auth_password_reset' %}">{% trans "Забыли пароль?" %}</a></p>
+    <p><a href="{% url 'registration_register' %}">{% trans "Регистрация" %}</a></p>
+  </div>
+</div>
+{% endblock %}
