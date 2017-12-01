@@ -2,18 +2,14 @@
 {% load i18n %}
 
 {% block content %}
-  <h1 class="form-header">{% trans "Вход в систему" %}</h1>
+  <h1 class="form-header login-header">{% trans "Вход в систему" %}</h1>
 
   <form method="post" action="." class="grid-form login-form">
     {% csrf_token %}
 
     {% for field in form.visible_fields %}
-      <p class="errors">{{ field.errors }}</p>
       {{ field.label_tag }}
       {{ field }}
-      {% if field.help_text %}
-      <p class="help">{{ field.help_text|safe }}</p>
-      {% endif %}
     {% endfor %}
 
     {{ form.non_field_errors }}

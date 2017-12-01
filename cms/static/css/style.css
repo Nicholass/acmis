@@ -419,7 +419,6 @@ button[disabled] {
 
 /* Двухколоночная форма */
 .form-header {
-    text-align: center;
     font-weight: bold;
     font-size: 1.5em;
     margin-bottom: 30px;
@@ -427,35 +426,81 @@ button[disabled] {
 .grid-form {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: repeat(auto-fill, 1fr);
+    grid-template-rows: repeat(auto-fill, minmax(34px, 1fr));
+    grid-gap: 10px 0;
 }
 .grid-form .help,
-.grid-form .errors,
 .grid-form .buttons,
 .grid-form .errorlist {
     grid-column-start: span 2;
-    text-align: center;
-    list-style: none;
-    padding-left: 0;
-    font-size: 0.95em;
 }
 .grid-form label {
-    text-align: right;
     padding-right: 10px;
     align-self: center;
-    justify-self: end;
+    justify-self: self-start;
 }
 .grid-form .buttons {
     margin-top: 15px;
 }
-
+.grid-form .help,
+.grid-form .errorlist {
+    font-size: 0.95em;
+}
+.grid-form .help ul {
+    text-align: left;
+    list-style: none;
+    font-size: 0.95em;
+    color: #999;
+    padding-left: 0;
+}
+.grid-form .help ul li,
+.grid-form .errorlist li{
+    margin-bottom: 5px;
+}
+.grid-form .errorlist {
+    align-self: flex-end;
+    list-style: none;
+    color: red;
+    padding-left: 0;
+    margin: 0;
+}
+.login-header{
+    text-align: center;
+}
 .login-form {
     width: 30%;
     margin: 0 auto;
 }
+.login-form label {
+    text-align: right;
+    justify-self: self-end;
+}
+.login-form .help,
+.login-form .errors,
+.login-form .buttons,
+.login-form .errorlist
+{
+    text-align: center;
+}
 .accounts-actions {
     text-align: center;
     margin-top: 20px;
+}
+
+.password-change-form {
+    width: 30%;
+}
+.password-reset-form {
+    width: 30%;
+    grid-template-columns: 1fr;
+}
+.password-reset-form .help,
+.password-reset-form .buttons,
+.password-reset-form .errorlist {
+    grid-column-start: 1;
+}
+.password-reset-form .buttons {
+    margin-top: 5px;
 }
 
 /* Футер */
