@@ -1,18 +1,17 @@
 {% load i18n %}
 
 <ul class="breadcrumbs">
-    <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
     {% if request.path != "/" %}
-        <li><a href="/">{% trans "Главная" %}</a></li>
-        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+        <li><a href="{% url 'post_list' %}">{% trans "Главная" %}</a></li>
     {% else %}
         <li><span class="current">{% trans "Главная" %}</span></li>
     {% endif %}
+    <li class="sep">&#187;</li>
 
     {% if category %}
         {% if tags or is_post_add or is_post_edit %}
             <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
-            <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+            <li class="sep">&#187;</li>
         {% else %}
             <span class="current">{{ category }}</span>
         {% endif %}
@@ -22,7 +21,7 @@
         <li>
             {% if tags %}
                 <a href="{% url 'author_list' author=author %}">{{ author }}</a>
-                <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+                <li class="sep">&#187;</li>
             {% else %}
                 <span class="current">{{ author }}</span>
             {% endif %}
@@ -37,7 +36,7 @@
 
     {% if post %}
         <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
-        <li class="sep"><span class="glyphicon glyphicon-menu-right"></span></li>
+        <li class="sep">&#187;</li>
         <li><span class="current">{{ post.title }}</span></li>
     {% elif is_post_add %}
         <li><span class="current">{% trans "Добавить материал" %}</span></li>

@@ -6,72 +6,72 @@
 
 <div class="block">
   {% if category.route == 'drawing' %}
-  <h2 class="header-simple">
+  <h1 class="header-simple">
     {% trans "Рисунки" %}
     {% if tags %}
     {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
     {% endif %}
-  </h2>
+  </h1>
   <div class="category-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить рисунок" %}</a>
     {% endif %}
   </div>
   {% elif category.route == 'map' %}
-  <h2 class="header-simple">
+  <h1 class="header-simple">
     {% trans "Карты" %}
     {% if tags %}
     {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
     {% endif %}
-  </h2>
+  </h1>
   <div class="category-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить карту" %}</a>
     {% endif %}
   </div>
   {% elif category.route == 'news' %}
-  <h2 class="header-simple">
+  <h1 class="header-simple">
     {% trans "Новости и события" %}
     {% if tags %}
     {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
     {% endif %}
-  </h2>
+  </h1>
   <div class="category-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить новость" %}</a>
     {% endif %}
   </div>
   {% elif category.route == 'photo' %}
-  <h2 class="header-simple">
+  <h1 class="header-simple">
     {% trans "Фотографии" %}
     {% if tags %}
     {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
     {% endif %}
-  </h2>
+  </h1>
   <div class="category-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить фотографию" %}</a>
     {% endif %}
   </div>
   {% elif category.route == 'prose' %}
-  <h2 class="header-simple">
+  <h1 class="header-simple">
     {% trans "Писательство" %}
     {% if tags %}
     {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
     {% endif %}
-  </h2>
+  </h1>
   <div class="category-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить текст" %}</a>
     {% endif %}
   </div>
   {% elif category.route == 'report' %}
-  <h2 class="header-simple">
+  <h1 class="header-simple">
     {% trans "Отчеты" %}
     {% if tags %}
     {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
     {% endif %}
-  </h2>
+  </h1>
   <div class="category-menu">
     {% if user.is_authenticated %}
     <a href="{% url 'post_new' category=category %}">{% trans "Добавить отчет" %}</a>
@@ -79,19 +79,19 @@
   </div>
   {% else %}
     {% if author %}
-    <h2 class="header-simple">
+    <h1 class="header-simple">
       {% trans "Материалы автора " %}{{ author }}
       {% if tags %}
       {% trans " по тегам " %}{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
       {% endif %}
-    </h2>
+    </h1>
     {% elif tags %}
-    <h2 class="header-simple">
+    <h1 class="header-simple">
       {% trans "Материалы по тегам " %}
       {% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
-    </h2>
+    </h1>
     {% else %}
-    <h2 class="header-simple">{% trans "Все материалы" %}</h2>
+    <h1 class="header-simple">{% trans "Все материалы" %}</h1>
     {% endif %}
   {% endif %}
 
@@ -110,7 +110,7 @@
 
     {% for post in posts %}
     <div class="post" id="{{ post.pk }}">
-      <h3><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h3>
+      <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
       <p class="info">
         <span>{% trans "Автор: " %}<a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a></span> |&nbsp;
         <span>{% trans "Дата: " %}{{ post.created_date }}</span> |

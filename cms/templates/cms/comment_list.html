@@ -1,40 +1,42 @@
 {% load i18n %}
 {% load mptt_tags %}
 
-<div id="comments" class="media-list">
+<ul id="comments" class="comments">
     {% recursetree comments %}
-        <div id="comment{{ node.pk }}" class="media{% if node.is_deleted %} deleted{% endif %}">
-            <div class="media-body">
-                <div class="comment">
+        <li>
+            <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
-                <div class="media-heading">
+                <p class="comment-heading">
                     <span>{{ node.author }}</span> |
                     <span> {{ node.created_date }}</span>
-                </div>
-                <div class="media-content">
+                </p>
+                <p class="comment-content">
                     {{ node.text }}
                     {% if node.modifed_date %}
                     <br />
                     <br />
                     <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
                     {% endif %}
-                </div>
-                <div class="media-footer">
+                </p>
+                <p class="comment-footer">
                     {% if user.is_authenticated %}
                     <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">Ответ</a> |
                     <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">Редактировать</a> |
                     <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">Удалить</a> |
                     {% endif %}
                     <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">{% trans "Ссылка" %}</a></span>
-                </div>
+                </p>
                 {% else %}
-                <i>Комментарий был удален</i>
-                {% endif %}
-                </div>
-                {% if not node.is_leaf_node %}
-                    {{ children }}
+                <p class="media-content">
+                    <i>Комментарий был удален</i>
+                </p>
                 {% endif %}
             </div>
-        </div>
+            {% if not node.is_leaf_node %}
+            <ul class="thread">
+                {{ children }}
+            </ul>
+            {% endif %}
+        </li>
     {% endrecursetree %}
-</div>
+</ul>

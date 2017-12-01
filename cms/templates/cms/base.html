@@ -10,8 +10,6 @@
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>ACIS</title>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -23,53 +21,39 @@
 </head>
 <body>
 
-<div class="container-fluid wrapper">
-    <div class="row header">
-        <div class="col-md-2 col-xs-12 logo">
-            <a href="/">
-                <img src="{% static 'images/logo.jpg' %}" alt="logo" />
-            </a>
-        </div>
-        <div class="col-md-10 col-xs-12 slogan">
-            <img src="{% static 'images/slogan.gif' %}" alt="logo" />
-        </div>
+<div class="container-wrapper">
+    <div class="header">
+        <img src="{% static 'images/logo.jpg' %}" class="logo" alt="ACIS logo" />
+        <img src="{% static 'images/slogan.gif' %}" class="slogan" alt="Artificial Caves Investigation System" />
     </div>
-    <div class="row menu">
-        <div class="col-md-12 col-xs-12" id="acisMenu"></div>
+    <div class="menu" id="acisMenu">
     </div>
-    <div class="row nav">
-        <div class="col-md-9 col-xs-9 nav-left">
-            {% include "cms/breadcrumbs.html" %}
-        </div>
-        <div class="col-md-3 col-xs-3 nav-right">
-            <form action="{% url 'set_language' %}" class="langSwitcher" method="post">{% csrf_token %}
-                <input name="next" type="hidden" value="{{ redirect_to }}" />
-                <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}">
-                <ul>
-                    {% get_current_language as LANGUAGE_CODE %}
-                    {% get_available_languages as LANGUAGES %}
-                    {% get_language_info_list for LANGUAGES as languages %}
-                    {% for language in languages %}
-                    <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}" id="{{ language.code }}">
-                        <a href="#" title="{{ language.name_local }} ({{ language.code }})">
-                            <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}" />
-                        </a>
-                    </li>
-                    {% endfor %}
-                </ul>
-            </form>
-        </div>
+    <div class="navbar">
+        {% include "cms/breadcrumbs.html" %}
+
+        <form action="{% url 'set_language' %}" class="langSwitcher" method="post">{% csrf_token %}
+            <input name="next" type="hidden" value="{{ redirect_to }}" />
+            <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}">
+            <ul>
+                {% get_current_language as LANGUAGE_CODE %}
+                {% get_available_languages as LANGUAGES %}
+                {% get_language_info_list for LANGUAGES as languages %}
+                {% for language in languages %}
+                <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}" id="{{ language.code }}">
+                    <a href="#" title="{{ language.name_local }} ({{ language.code }})">
+                        <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}" />
+                    </a>
+                </li>
+                {% endfor %}
+            </ul>
+        </form>
     </div>
-    <div class="row">
-        <div class="col-md-12 col-xs-12 main">
-            {% block content %}
-            {% endblock %}
-        </div>
+    <div class="main">
+        {% block content %}
+        {% endblock %}
     </div>
-    <div class="row">
-        <div class="col-md-12 col-xs-12 footer">
-            Copyright © 2001-2016 ACIS
-        </div>
+    <div class="footer">
+        Copyright © 2001-2016 ACIS
     </div>
 </div>
 
