@@ -1,11 +1,12 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
 
+{% block content %}
 <h1>{% trans "Активация" %}</h1>
-{% url auth_login as auth_url %}
 
-{% blocktrans with url=auth_url %}
-<p>Учетная запись активирована. Теперь вы можете <a href="{{ url }}">войти</a> на сайт.</p>
+{% url 'auth_login' as auth_url %}
+{% blocktrans %}
+<p>Учетная запись активирована. Теперь вы можете <a href="{{ auth_url }}">войти</a> на сайт.</p>
 {% endblocktrans %}
 
 {% endblock %}

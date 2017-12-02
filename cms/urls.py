@@ -1,8 +1,8 @@
 from django.conf.urls import url, include
+from django.urls import reverse_lazy
+
 from . import views
 from django.contrib.auth import views as auth_views
-
-from django.urls import reverse_lazy
 
 urlpatterns = [
   url(r'^$', views.post_list, name='post_list'),
@@ -28,10 +28,12 @@ urlpatterns = [
 
   url(r'^map/(?P<map_hash>\w+)/$', views.serve_map_file, name='map_file'),
 
-  # Fixed django-registration urls
-  # TODO: Remove after fix in next versions of package
-  # https://github.com/ubernostrum/django-registration/issues/106
-  # https://github.com/ubernostrum/django-registration/pull/111
+  url(r'^accounts/login/$', auth_views.LoginView.as_view(template_name='registration/login.html'), name='auth_login'),
+  url(r'^accounts/logout/$', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='auth_logout'),
+
+  url(r'^accounts/activate/(?P<activation_key>[-:\w]+)/$', views.activation, name='registration_activate'),
+  url(r'^accounts/register/$', views.registration, name='registration_register'),
+
   url(r'^accounts/password/change/$',
       auth_views.PasswordChangeView.as_view(
           success_url=reverse_lazy('auth_password_change_done')
@@ -57,6 +59,4 @@ urlpatterns = [
             success_url=reverse_lazy('auth_password_reset_complete')
         ),
         name='auth_password_reset_confirm'),
-
-  url(r'^accounts/', include('registration.backends.hmac.urls')),
 ]

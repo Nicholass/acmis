@@ -23,6 +23,7 @@
         {% if user.is_authenticated %}
         '{% trans "Выход" %}': '{% url 'auth_logout' %}?next={{request.path}}'
         {% else %}
+        '{% trans "Регистрация" %}': '{% url 'registration_register' %}',
         '{% trans "Вход" %}': '{% url 'auth_login' %}?next={{request.path}}'
         {% endif %}
     };

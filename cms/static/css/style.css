@@ -34,6 +34,12 @@ input, textarea {
 textarea {
     height: auto;
 }
+input[type=file] {
+    display: block;
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
 input::-moz-placeholder {
     color: #999;
     opacity: 1;
@@ -446,11 +452,13 @@ button[disabled] {
 .grid-form .errorlist {
     font-size: 0.95em;
 }
+.grid-form .help {
+    font-size: 0.95em;
+    color: #999;
+}
 .grid-form .help ul {
     text-align: left;
     list-style: none;
-    font-size: 0.95em;
-    color: #999;
     padding-left: 0;
 }
 .grid-form .help ul li,
@@ -490,6 +498,7 @@ button[disabled] {
 .password-change-form {
     width: 30%;
 }
+
 .password-reset-form {
     width: 30%;
     grid-template-columns: 1fr;
@@ -501,6 +510,24 @@ button[disabled] {
 }
 .password-reset-form .buttons {
     margin-top: 5px;
+}
+
+.registration-rules-form p {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+.registration-rules-form p label {
+    margin-left: 10px;
+}
+
+.registration-form {
+    width: 50%;
+}
+
+.profile-edit-form h2,
+.profile-edit-form h3 {
+    grid-column-start: span 2;
 }
 
 /* Футер */

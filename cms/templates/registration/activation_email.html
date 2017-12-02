@@ -1,9 +1,9 @@
 {% load i18n %}
 {% blocktrans %}
-Вы зарегистрировались на сайте ACIS под никнеймом {{ user }}.
+Вы зарегистрировались на сайте {{ site_name }} под никнеймом {{ user }}.
 Для активации аккаунта необходимо перейти по ссылке:
 {% endblocktrans %}
 
-http://{{ request.META['HTTP_HOST'] }}/accounts/activate/{{ activation_key }}/
+{{ protocol }}://{{ domain }}{% url 'registration_activate' activation_key %}
 
 {% blocktrans %}Ссылка будет активна {{ expiration_days }} дней.{% endblocktrans %}

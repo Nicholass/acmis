@@ -159,7 +159,7 @@ class Comment(MPTTModel):
 class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    has_avatar = models.BooleanField(default=False)
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name=_("Аватар"))
     birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Дата рождения"))
     location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Местонахождение"))
     site = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Вебсайт"))

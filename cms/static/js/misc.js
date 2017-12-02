@@ -17,7 +17,4 @@ $(document).ready(function(){
 
         return false;
     });
-
-    //Подсказки в комментариях
-    $('[data-toggle="tooltip"]').tooltip({html: true});
 });
