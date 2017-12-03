@@ -9,18 +9,15 @@ from django.utils.translation import ugettext_lazy as _
 
 from confusable_homoglyphs import confusables
 
-
-CONFUSABLE = _(u"This name cannot be registered. "
-               "Please choose a different name.")
-CONFUSABLE_EMAIL = _(u"This email address cannot be registered. "
-                     "Please supply a different email address.")
-DUPLICATE_EMAIL = _(u"This email address is already in use. "
-                    u"Please supply a different email address.")
-FREE_EMAIL = _(u"Registration using free email addresses is prohibited. "
-               u"Please supply a different email address.")
-RESERVED_NAME = _(u"This name is reserved and cannot be registered.")
-TOS_REQUIRED = _(u"You must agree to the terms to register")
-
+BAD_EMAIL_DOMAINS = [
+    'aim.com',
+    'aol.com',
+    'email.com',
+    'hotmail.com',
+    'mailinator.com',
+    'live.com',
+    'yahoo.com'
+]
 
 # Below we construct a large but non-exhaustive list of names which
 # users probably should not be able to register with, due to various
@@ -69,10 +66,14 @@ PROTOCOL_HOSTNAMES = [
 
 
 CA_ADDRESSES = [
-    # Email addresses known used by certificate authorities during
-    # verification.
+    'админ',
+    'администратор',
+    'модер',
+    'модератор',
     'admin',
     'administrator',
+    'moderator',
+    'moder',
     'hostmaster',
     'info',
     'is',
@@ -169,32 +170,39 @@ OTHER_SENSITIVE_NAMES = [
     'work',
 ]
 
-
 DEFAULT_RESERVED_NAMES = (SPECIAL_HOSTNAMES + PROTOCOL_HOSTNAMES +
                           CA_ADDRESSES + RFC_2142 + NOREPLY_ADDRESSES +
                           SENSITIVE_FILENAMES + OTHER_SENSITIVE_NAMES)
 
+def free_email(value):
+  """
+  Validator which disallows registration with
+  email addresses from popular free webmail services moderately
+  useful for preventing automated spam registrations.
 
-class ReservedNameValidator(object):
-    """
-    Validator which disallows many reserved names as form field
-    values.
+  """
 
-    """
-    def __init__(self, reserved_names=DEFAULT_RESERVED_NAMES):
-        self.reserved_names = reserved_names
+  if '@' not in value:
+    return
 
-    def __call__(self, value):
-        # GH issue 82: this validator only makes sense when the
-        # username field is a string type.
-        if not isinstance(value, six.text_type):
-            return
-        if value in self.reserved_names or \
-           value.startswith('.well-known'):
-            raise ValidationError(
-                RESERVED_NAME, code='invalid'
-            )
+  try:
+    email_domain = value.split('@')[1]
 
+    if email_domain.lower() in BAD_EMAIL_DOMAINS:
+      raise ValidationError(_("Регистрация e-mail данного почтового сервиса запрещена."))
+  except IndexError:
+    pass
+
+def reserved_name(value):
+  """
+  Validator which disallows many reserved names as form field
+  values.
+
+  """
+  if not isinstance(value, six.text_type):
+    return
+  if value.lower() in DEFAULT_RESERVED_NAMES:
+    raise ValidationError(_("Это имя пользователя зарезервировано."))
 
 def validate_confusables(value):
     """
@@ -207,9 +215,9 @@ def validate_confusables(value):
 
     """
     if not isinstance(value, six.text_type):
-        return
+      return
     if confusables.is_dangerous(value):
-        raise ValidationError(CONFUSABLE, code='invalid')
+      raise ValidationError(_("Это имя пользователя не может быть зарегистрировано."))
 
 
 def validate_confusables_email(value):
@@ -224,8 +232,8 @@ def validate_confusables_email(value):
 
     """
     if '@' not in value:
-        return
+      return
     local_part, domain = value.split('@')
     if confusables.is_dangerous(local_part) or \
-       confusables.is_dangerous(domain):
-        raise ValidationError(CONFUSABLE_EMAIL, code='invalid')
+      confusables.is_dangerous(domain):
+       raise ValidationError(_("Этот e-mail не может быть зарегистрирован."))

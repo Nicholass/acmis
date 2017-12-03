@@ -6,6 +6,8 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import Post, TextPost, BinaryPost, Comment, Profile
 
+from . import validators
+
 class PostForm(forms.ModelForm):
 
   class Meta:
@@ -32,6 +34,11 @@ class CommentForm(forms.ModelForm):
     model = Comment
 
 class RegistrationForm(UserCreationForm):
+  def __init__(self, *args, **kwargs):
+    super(RegistrationForm, self).__init__(*args, **kwargs)
+    self.fields['username'].validators=[validators.reserved_name, validators.validate_confusables]
+    self.fields['email'].validators=[validators.validate_confusables_email, validators.free_email]
+
   class Meta:
     model = User
     fields = ('username', 'email', 'password1', 'password2', )
@@ -51,6 +58,8 @@ class ProfileForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super(ProfileForm, self).__init__(*args, **kwargs)
     self.fields['avatar'].help_text = _('<ul><li>Аватар не должен быть размером больше %s x %s пикселей.</li><li>Аватар должен быть изображением в формате JPEG, GIF или PNG</li><li>Аватар должен быть меньше %s Кб размером</li></ul>' % (self.AVATAR_MAX_WIDTH, self.AVATAR_MAX_HEIGHT, self.AVATAR_MAX_SIZE))
+    self.fields['username'].validators=[validators.ReservedNameValidator, validators.validate_confusables]
+    self.fields['email'].validators=[validators.validate_confusables_email]
 
   class Meta:
     model = Profile

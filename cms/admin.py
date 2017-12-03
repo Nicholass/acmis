@@ -1,12 +1,16 @@
-from django.contrib import admin
-from .models import Post, TextPost, BinaryPost, Category, Comment
-from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
-
-from mptt.admin import MPTTModelAdmin
-
+from django.contrib import admin, messages
 from django import forms
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
+from django.utils.translation import ugettext as _
+from .views import send_activation_code
+
+from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
+from mptt.admin import MPTTModelAdmin
+
+from .models import Post, TextPost, BinaryPost, Category, Comment
+from django.contrib.auth.models import User
+from django.contrib.auth.admin import UserAdmin
 
 class PostFormAdmin(forms.ModelForm):
     def __init__(self, *args, **kwargs):
@@ -91,3 +95,20 @@ def add_related_field_wrapper(form, col_name):
     rel_model = form.Meta.model
     rel = rel_model._meta.get_field(col_name).rel
     form.fields[col_name].widget = RelatedFieldWidgetWrapper(form.fields[col_name].widget, rel, admin.site, can_add_related=True, can_change_related=True)
+
+def send_activation(modeladmin, request, queryset):
+    for user in queryset:
+        send_activation_code(user, request)
+
+    messages.add_message(request, messages.INFO, _('Коды активации были отправлены выбранным аккаунтам'))
+
+send_activation.short_description = _('Отправить код активации')
+
+class UserAdminModel(UserAdmin):
+    model = User
+    list_filter = ['is_active', 'is_staff', 'last_login']
+    list_display = ('username', 'email', 'is_active', 'is_staff', 'last_login')
+    actions = [send_activation,]
+
+admin.site.unregister(User)
+admin.site.register(User, UserAdminModel)

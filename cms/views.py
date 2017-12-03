@@ -1,9 +1,3 @@
-from hashlib import md5
-from django.conf import settings
-from django.core import signing
-from django.template.loader import render_to_string
-from django.contrib.sites.shortcuts import get_current_site
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.utils import timezone
 from django.http import HttpResponse, Http404
@@ -16,6 +10,7 @@ from .models import Post, Category, Comment
 from .forms import TextPostForm, BinaryPostForm, PostForm, CommentForm, RegistrationForm, ProfileForm
 
 #TODO move to user's part
+from hashlib import md5
 from django.contrib.auth.signals import user_logged_in
 def do_stuff(sender, user, request, **kwargs):
   maps = Post.objects.filter(category__route = 'maps')
@@ -196,6 +191,34 @@ def serve_map_file(request, map_hash):
   except KeyError:
     raise Http404("No map found.")
 
+#TODO move to user's part
+from django.conf import settings
+from django.core import signing
+from django.template.loader import render_to_string
+from django.contrib.sites.shortcuts import get_current_site
+
+def send_activation_code(user, request):
+  current_site = get_current_site(request)
+  site_name = current_site.name
+  domain = current_site.domain
+
+  subject = render_to_string('registration/activation_email_subject.txt')
+  message = render_to_string('registration/activation_email.html', {
+    'email': user.email,
+    'domain': domain,
+    'site_name': site_name,
+    'protocol': 'https' if request.is_secure() else 'http',
+    'user': user,
+    'activation_key': signing.dumps(
+      obj = getattr(user, user.USERNAME_FIELD),
+      salt = getattr(settings, 'REGISTRATION_SALT', 'registration')
+    ),
+    'expiration_days': getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2)
+  })
+  user.email_user(subject, message)
+
+#end TODO
+
 def registration(request):
   if not getattr(settings, 'REGISTRATION_OPEN', True):
     return render(request, 'cms/registration/registration_closed.html')
@@ -208,24 +231,7 @@ def registration(request):
       user.is_active = False
       user.save()
 
-      current_site = get_current_site(request)
-      site_name = current_site.name
-      domain = current_site.domain
-
-      subject = render_to_string('registration/activation_email_subject.txt')
-      message = render_to_string('registration/activation_email.html', {
-        'email': user.email,
-        'domain': domain,
-        'site_name': site_name,
-        'protocol': 'https' if request.is_secure() else 'http',
-        'user': user,
-        'activation_key': signing.dumps(
-          obj = getattr(user, user.USERNAME_FIELD),
-          salt = getattr(settings, 'REGISTRATION_SALT', 'registration')
-        ),
-        'expiration_days': getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2)
-      })
-      user.email_user(subject, message)
+      send_activation(user)
 
       return render(request, 'registration/registration_complete.html')
 
