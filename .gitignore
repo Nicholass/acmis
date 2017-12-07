@@ -2,6 +2,7 @@
 __pycache__/
 acis_venv/
 media/
+draft/
 *.pyc
 *.mo
 db.sqlite3

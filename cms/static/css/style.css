@@ -141,6 +141,9 @@ button[disabled] {
 
 /* Главное меню */
 .menu {
+    display: grid;
+    grid-template-columns: 8fr 3fr;
+    align-items: center;
     border-top: 1px solid #8A8A8A;
     background: #000000;
     color: #FFFFFF;
@@ -149,6 +152,11 @@ button[disabled] {
     box-shadow: 0 4px 6px 0 rgba(0,0,0,0.75);
     margin-bottom: 28px;
     min-height: 1.5em;
+}
+.menu .greeting {
+    margin: 0 10px 0 0;
+    justify-self: self-end;
+    grid-column-start: 2;
 }
 .menu ul{
     list-style: none;

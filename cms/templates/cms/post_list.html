@@ -1,6 +1,7 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 {% load comments %}
+{% load auth %}
 
 {% block content %}
 
@@ -13,7 +14,7 @@
     {% endif %}
   </h1>
   <div class="category-menu">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.cms.add_post %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить рисунок" %}</a>
     {% endif %}
   </div>
@@ -25,7 +26,7 @@
     {% endif %}
   </h1>
   <div class="category-menu">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.cms.add_post %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить карту" %}</a>
     {% endif %}
   </div>
@@ -37,7 +38,7 @@
     {% endif %}
   </h1>
   <div class="category-menu">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.cms.add_post %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить новость" %}</a>
     {% endif %}
   </div>
@@ -49,7 +50,7 @@
     {% endif %}
   </h1>
   <div class="category-menu">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.cms.add_post %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить фотографию" %}</a>
     {% endif %}
   </div>
@@ -61,7 +62,7 @@
     {% endif %}
   </h1>
   <div class="category-menu">
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated and perms.cms.add_post %}
     <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить текст" %}</a>
     {% endif %}
   </div>
@@ -73,8 +74,8 @@
     {% endif %}
   </h1>
   <div class="category-menu">
-    {% if user.is_authenticated %}
-    <a href="{% url 'post_new' category=category %}">{% trans "Добавить отчет" %}</a>
+    {% if user.is_authenticated and perms.cms.add_post %}
+    <a href="{% url 'post_new' category=category.route %}">{% trans "Добавить отчет" %}</a>
     {% endif %}
   </div>
   {% else %}
@@ -109,6 +110,10 @@
     {% endif %}
 
     {% for post in posts %}
+
+    {% auth_is_owner post as is_post_owner %}
+    {% comment_count as comm_count %}
+
     <div class="post" id="{{ post.pk }}">
       <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
       <p class="info">
@@ -116,13 +121,12 @@
         <span>{% trans "Дата: " %}{{ post.created_date }}</span> |
         <span>{% trans "Категория: " %}<a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></span> |
         <span>{% trans "Статус: " %}Опубликовано</span>
-        {% comment_count as com_count %}
-        {% if com_count %}
+        {% if comm_count %}
          | <span>
-            <a href="{% url 'post_detail' pk=post.pk %}#comments">{{ com_count }}
-            {% if com_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
-            {% if com_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
-            {% if com_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
+            <a href="{% url 'post_detail' pk=post.pk %}#comments">{{ comm_count }}
+            {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
+            {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
+            {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
             </a>
           </span>
         {% endif %}
@@ -140,8 +144,13 @@
       {% endif %}
       <p class="actions">
         {% if user.is_authenticated %}
+        {% auth_is_owner post as is_post_owner %}
+        {% if perms.cms.change_post and is_post_owner %}
         <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a> |
+        {% endif %}
+        {% if perms.cms.delete_post and is_post_owner %}
         <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')">{% trans "Удалить" %}</a> |
+        {% endif %}
         <a href="#">{% trans "Опубликовать" %}</a> |
         <a href="#">{% trans "Скрыть" %}</a>
         {% endif %}

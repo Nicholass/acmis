@@ -27,6 +27,9 @@
         <img src="{% static 'images/slogan.gif' %}" class="slogan" alt="Artificial Caves Investigation System" />
     </div>
     <div class="menu" id="acisMenu">
+        {% if user.is_authenticated %}
+        <p class="greeting">{% trans "Вы вошли как: " %}<strong>{{ user.username }}</strong></p>
+        {% endif %}
     </div>
     <div class="navbar">
         {% include "cms/breadcrumbs.html" %}

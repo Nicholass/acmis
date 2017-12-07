@@ -9,7 +9,7 @@ from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModel
 from mptt.admin import MPTTModelAdmin
 
 from .models import Post, TextPost, BinaryPost, Category, Comment
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Permission
 from django.contrib.auth.admin import UserAdmin
 
 class PostFormAdmin(forms.ModelForm):
@@ -42,10 +42,15 @@ class PostParentAdmin(PolymorphicParentModelAdmin):
     base_model = Post
     child_models = (TextPost, BinaryPost)
     list_filter = (PolymorphicChildModelFilter, 'created_date', 'is_moderated', 'tags')
-    list_display = ('short_title', 'created_date', 'author', 'is_public', 'is_moderated', 'pk')
+    list_display = ('get_short_title', 'category', 'created_date', 'author', 'is_public', 'is_moderated', 'pk')
     date_hierarchy = 'created_date'
     ordering = ('-created_date', 'title',)
     search_fields = ['title']
+
+    def get_short_title(self, obj):
+      return obj.short_title
+
+    get_short_title.short_description = _('Пост')
 
 class PostChildAdmin(PolymorphicChildModelAdmin):
     base_model = Post
@@ -58,7 +63,8 @@ admin.site.register(BinaryPost, PostChildAdmin)
 class CategoryAdmin(admin.ModelAdmin):
     base_model = Category
     list_filter = ['kind']
-    list_display = ('name', 'route', 'kind')
+    filter_horizontal = ('groups', )
+    list_display = ('name', 'route', 'kind', 'allow_anonymous')
     ordering = ('name',)
 
 admin.site.register(Category, CategoryAdmin)
@@ -82,12 +88,22 @@ class CustomMPTTAdminForm(forms.ModelForm):
 class CustomMPTTModelAdmin(MPTTModelAdmin):
     # specify pixel amount for this ModelAdmin only:
     mptt_level_indent = 10
-    mptt_indent_field = 'short_text'
+    mptt_indent_field = 'get_short_text'
     list_filter = ['created_date', 'is_moderated']
-    list_display = ('short_text', 'created_date', 'author', 'is_moderated', 'is_deleted', 'pk')
+    list_display = ('get_short_text', 'get_post', 'created_date', 'author', 'is_moderated', 'is_deleted', 'pk')
     date_hierarchy = 'created_date'
     search_fields = ['text']
     form = CustomMPTTAdminForm
+
+    def get_post(self, obj):
+      return obj.post.short_title
+
+    def get_short_text(self, obj):
+      return obj.short_text
+
+    get_short_text.short_description = _('Комментарий')
+    get_post.short_description = _('Пост')
+
 
 admin.site.register(Comment, CustomMPTTModelAdmin)
 
@@ -112,3 +128,13 @@ class UserAdminModel(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, UserAdminModel)
+
+
+class PermissionModel(admin.ModelAdmin):
+    model = Permission
+    list_filter = ['content_type']
+    list_display = ('name', 'content_type', 'codename',)
+    search_fields = ['name']
+    ordering = ('name',)
+
+admin.site.register(Permission, PermissionModel)

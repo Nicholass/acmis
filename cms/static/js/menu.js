@@ -50,7 +50,7 @@
 
         menu
             .addClass(this.options.class)
-            .appendTo(this.element);
+            .prependTo(this.element);
 
         $(document).on('mouseenter', 'li.ext', function(event){
             that.element.find('.sub').hide();

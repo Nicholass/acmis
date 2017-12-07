@@ -1,13 +1,22 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 {% load comments %}
+{% load auth %}
 
 {% block content %}
+            {% auth_is_owner post as is_post_owner %}
+            {% comment_count as comm_count %}
+
             <div class="block article">
                 <p class="actions">
                     {% if user.is_authenticated %}
+
+                    {% if perms.cms.change_post and is_post_owner %}
                     <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a> |
+                    {% endif %}
+                    {% if perms.cms.delete_post and is_post_owner %}
                     <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')">{% trans "Удалить" %}</a> |
+                    {% endif %}
                     <a href="#">{% trans "Опубликовать" %}</a> |
                     <a href="#">{% trans "Скрыть" %}</a>
                     {% endif %}
@@ -23,10 +32,6 @@
                         <a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a>
                     </p>
                     <p><strong>{% trans "Статус: " %} </strong>Опубликовано</p>
-                    {% comment_count as com_count %}
-                    {% if com_count %}
-                    <p><strong>{% trans "Комментариев: " %}</strong> {{ com_count }}</p>
-                    {% endif %}
                 </div>
                 <h1 class="header-simple">{{ post.title }}</h1>
                 <div class="content">
@@ -47,13 +52,20 @@
                 {% endif %}
             </div>
 
+            {% if comm_count or perms.cms.add_comment %}
+            <h3 id="comments">{% trans "Комментарии:" %}</h3>
+            {% endif %}
+
+            {% if perms.cms.add_comment %}
             <div class="comments-form">
-                <h3>{% trans "Комментарий" %}</h3>
                 <div class="well">
                     {% comment_form post %}
                 </div>
             </div>
+            {% endif %}
 
+            {% if comm_count %}
             {% comment_list %}
+            {% endif %}
 
 {% endblock %}

@@ -18,7 +18,11 @@
     {{ hidden }}
     {% endfor %}
 
+    {% if next %}
     <input type="hidden" name="next" value="{{ next }}" />
+    {% else %}
+    <input type="hidden" name="next" value="{% url 'post_list' %}" />
+    {% endif %}
 
     <p class="buttons">
       <button type="submit">{% trans "Вход" %}</button>

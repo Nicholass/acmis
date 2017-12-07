@@ -17,11 +17,14 @@ def comment_list(context):
     return {
       'comments': comments,
       'post': post,
-      'user': context['user']
+      'user': context['user'],
+      'perms': context['perms']
     }
 
-@register.simple_tag(takes_context=True)
+@register.assignment_tag(takes_context=True)
 def comment_count(context):
+    print("test")
+    print(Comment.objects.filter(post=context['post']).count())
     return Comment.objects.filter(post=context['post']).count()
 
 @register.filter

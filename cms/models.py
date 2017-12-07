@@ -8,7 +8,7 @@ from django.utils.translation import ugettext as _
 from django.core.urlresolvers import reverse
 from django.template.defaultfilters import truncatechars
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 
@@ -57,6 +57,9 @@ class Post(PolymorphicModel):
   class Meta:
     verbose_name = _("Пост")
     verbose_name_plural = _("Посты")
+    permissions = (
+        ("moderate_post", _("Модерация постов")),
+    )
 
 class TextPost(Post):
   text = models.TextField(verbose_name=_("Текст"))
@@ -64,6 +67,9 @@ class TextPost(Post):
   class Meta:
     verbose_name = _("Текстовый пост")
     verbose_name_plural = _("Текстовые посты")
+    permissions = (
+        ("moderate_textpost", _("Модерация текстовых постов")),
+    )
 
   def get_absolute_url(self):
       return reverse('post_detail', kwargs={'pk': self.pk})
@@ -80,6 +86,9 @@ class BinaryPost(Post):
   class Meta:
     verbose_name = _("Изображение")
     verbose_name_plural = _("Изображения")
+    permissions = (
+        ("moderate_binarypost", _("Модерация изображений")),
+    )
 
   def get_absolute_url(self):
       return reverse('post_detail', kwargs={'pk': self.pk})
@@ -114,11 +123,19 @@ class Category(models.Model):
   )
   name = models.CharField(max_length=200, verbose_name=_("Название"))
   route = models.CharField(max_length=200, verbose_name=_("Название в URL"))
+  groups = models.ManyToManyField(Group, blank=True, verbose_name=_("Группы имеющие доступ"))
+  allow_anonymous = models.BooleanField(default=True, verbose_name=_("Разрешить просмотр не зарегистрированным"))
 
   def publish(self):
     self.kind = self.DATA_KINDS[self.name]
     #TODO: validate here
     self.save()
+
+  def check_group_perm(self, user):
+    if not user.is_authenticated() or user is None:
+      return self.allow_anonymous
+
+    return Category.objects.filter(pk=self.pk, groups__in=user.groups).exists()
 
   def __str__(self):
     return self.name
@@ -152,6 +169,9 @@ class Comment(MPTTModel):
   class Meta:
     verbose_name = _("Комментарий")
     verbose_name_plural = _("Комментарии")
+    permissions = (
+        ("moderate_comment", _("Модерация комментариев")),
+    )
 
   class MPTTMeta:
     order_insertion_by = ['created_date']
@@ -182,3 +202,10 @@ class Profile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         instance.profile.save()
+
+    class Meta:
+      verbose_name = _("Профиль")
+      verbose_name_plural = _("Профили")
+      permissions = (
+          ("moderate_profile", _("Модерация профилей")),
+      )
