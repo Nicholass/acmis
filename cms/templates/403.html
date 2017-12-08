@@ -1,0 +1,11 @@
+{% extends 'cms/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="error-page">
+        <h1>{% trans "Ошибка 403 - Доступ запрещен" %}</h1>
+        <p>
+            {% trans "У вас недостаточно прав для просмотра этой страницы." %}
+        </p>
+    </div>
+{% endblock %}

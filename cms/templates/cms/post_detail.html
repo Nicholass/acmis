@@ -36,11 +36,6 @@
                 <h1 class="header-simple">{{ post.title }}</h1>
                 <div class="content">
                     {{ post.text|linebreaksbr }}
-
-                    {% if post.file %}
-                    <br>
-                    File uploaded at: <a href="{{ post.file }}">{{ post.file }}</a>
-                    {% endif %}
                 </div>
                 {% if post.tags.all %}
                 <p class="tags">

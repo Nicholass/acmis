@@ -1,0 +1,11 @@
+{% extends 'cms/base.html' %}
+{% load i18n %}
+
+{% block content %}
+    <div class="error-page">
+        <h1>{% trans "Ошибка 500 - Ошибка на сервере" %}</h1>
+        <p>
+            {% trans "При обработке запроса произошла ошибка на сервере." %}
+        </p>
+    </div>
+{% endblock %}
