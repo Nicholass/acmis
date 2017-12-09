@@ -7,18 +7,23 @@
             {% auth_is_owner post as is_post_owner %}
             {% comment_count as comm_count %}
 
-            <div class="block article">
+            <div class="block article {% if post.file %}file{% else %}text{% endif %}">
                 <p class="actions">
                     {% if user.is_authenticated %}
 
                     {% if perms.cms.change_post and is_post_owner %}
-                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a> |
+                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a>
+                    <span class="sep">|</span>
                     {% endif %}
                     {% if perms.cms.delete_post and is_post_owner %}
-                    <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')">{% trans "Удалить" %}</a> |
+                    <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')">{% trans "Удалить" %}</a>
+                    <span class="sep">|</span>
                     {% endif %}
-                    <a href="#">{% trans "Опубликовать" %}</a> |
+                    {% if post.is_public %}
                     <a href="#">{% trans "Скрыть" %}</a>
+                    {% else %}
+                    <a href="#">{% trans "Опубликовать" %}</a>
+                    {% endif %}
                     {% endif %}
                 </p>
                 <div class="info">
@@ -31,15 +36,19 @@
                         <strong>{% trans "Категория: " %}</strong>
                         <a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a>
                     </p>
-                    <p><strong>{% trans "Статус: " %} </strong>Опубликовано</p>
                 </div>
                 <h1 class="header-simple">{{ post.title }}</h1>
                 <div class="content">
+                    {% if post.file %}
+                    <a href="{{ post.file }}"><img class="image" src="{{ post.file }}" alt="{{ post.title }}" /></a>
+                    <p class="description">{{ post.description }}</p>
+                    {% else %}
                     {{ post.text|linebreaksbr }}
+                    {% endif %}
                 </div>
                 {% if post.tags.all %}
                 <p class="tags">
-                    {% trans "Теги:" %}
+                    <i class="fa fa-tags"></i>
                     {% for tag in post.tags.all %}
                     {% if not forloop.first %}&nbsp;{% endif %}<a href="{% url 'category_tags_list' category=post.category.route tags=tag.name %}">#{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
                     {% endfor %}

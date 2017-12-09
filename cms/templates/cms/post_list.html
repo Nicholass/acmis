@@ -117,18 +117,18 @@
     <div class="post" id="{{ post.pk }}">
       <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
       <p class="info">
-        <span>{% trans "Автор: " %}<a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a></span> |&nbsp;
-        <span>{% trans "Дата: " %}{{ post.created_date }}</span> |
-        <span>{% trans "Категория: " %}<a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></span> |
-        <span>{% trans "Статус: " %}Опубликовано</span>
+        {{ post.created_date }}
+        <span class="sep">|</span>
+        <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
+        <span class="sep">|</span>
+        <span>{% trans "Категория: " %}</span><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a>
         {% if comm_count %}
-         | <span>
-            <a href="{% url 'post_detail' pk=post.pk %}#comments">{{ comm_count }}
-            {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
-            {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
-            {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
-            </a>
-          </span>
+        <span class="sep">|</span>
+        <a href="{% url 'post_detail' pk=post.pk %}#comments">{{ comm_count }}
+        {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
+        {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
+        {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
+        </a>
         {% endif %}
       </p>
       <p class="content">
@@ -136,7 +136,7 @@
       </p>
       {% if post.tags.all %}
       <p class="tags">
-        {% trans "Теги:" %}
+        <i class="fa fa-tags"></i>
         {% for tag in post.tags.all %}
         {% if not forloop.first %}&nbsp;{% endif %}<a href="{% url 'category_tags_list' category=post.category.route tags=tag.name %}">#{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
         {% endfor %}
@@ -146,13 +146,18 @@
         {% if user.is_authenticated %}
         {% auth_is_owner post as is_post_owner %}
         {% if perms.cms.change_post and is_post_owner %}
-        <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a> |
+        <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a>
+        <span class="sep">|</span>
         {% endif %}
         {% if perms.cms.delete_post and is_post_owner %}
-        <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')">{% trans "Удалить" %}</a> |
+        <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')">{% trans "Удалить" %}</a>
+        <span class="sep">|</span>
         {% endif %}
-        <a href="#">{% trans "Опубликовать" %}</a> |
+        {% if post.is_public %}
         <a href="#">{% trans "Скрыть" %}</a>
+        {% else %}
+        <a href="#">{% trans "Опубликовать" %}</a>
+        {% endif %}
         {% endif %}
       </p>
     </div>

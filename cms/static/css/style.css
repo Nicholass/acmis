@@ -11,10 +11,10 @@ body {
  */
 
 a {
-    text-decoration: underline;
-}
-a.tags {
     text-decoration: none;
+}
+a:hover, a:active {
+    text-decoration: underline;
 }
 
 input, textarea {
@@ -173,6 +173,10 @@ button[disabled] {
     color: #FFFFFF;
     text-decoration: none;
 }
+.menu ul li a:hover,
+.menu ul li a:active{
+    text-decoration: none;
+}
 .menu > ul {
     display: flex;
     flex-direction: row;
@@ -187,7 +191,6 @@ button[disabled] {
 }
 .menu > ul > li:first-child {
     margin-left: 20px;
-    width: 150px;
 }
 .menu .sub {
     position: absolute;
@@ -316,7 +319,7 @@ button[disabled] {
     margin: 0;
     padding: 0 10px;
     line-height: 1.95em;
-    font-size: 1.05em;
+    font-size: 1.2em;
     font-weight: bold;
     -webkit-box-shadow: 4px 4px 6px 0 rgba(0,0,0,0.75);
     -moz-box-shadow: 4px 4px 6px 0 rgba(0,0,0,0.75);
@@ -337,7 +340,7 @@ button[disabled] {
 .post > h2 {
     font-weight: bold;
     font-style: italic;
-    font-size: 1em;
+    font-size: 1.2em;
     margin: 0 0;
     line-height: 1.25em;
 }
@@ -350,12 +353,30 @@ button[disabled] {
 .post .info {
     font-style: italic;
     margin: 5px 0;
+    display: flex;
+    align-items: center;
+}
+.post .info span {
+    margin: 0 5px 0 0;
 }
 .post .content {
     margin: 10px 0;
 }
-.post .tags {
+.post .tags,
+.article .tags {
+    display: flex;
+    align-items: center;
     margin: 5px 0;
+}
+.post .actions,
+.article .actions {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+.info .sep,
+.actions .sep {
+    margin: 0 5px;
 }
 
 /* Форма добавления материала */
@@ -368,10 +389,14 @@ button[disabled] {
     margin-top: 15px;
 }
 .article .info p {
-    margin: 5px;
+    margin: 5px 0;
 }
 .article .header-simple {
     margin-top: 20px;
+}
+
+.file .content {
+    text-align: center;
 }
 
 /* Комментарии */
@@ -553,3 +578,20 @@ button[disabled] {
     margin: 30px 0 10px 0;
     text-align: center;
 }
+
+.fa {
+    display: inline-block;
+    background-size: 100% 100%;
+    background-position: center center;
+    height: 1em;
+    width: 1em;
+    margin: 0 5px 0 0;
+}
+.fa-user-o { background-image: url('../images/fa/user-o.svg') }
+.fa-calendar { background-image: url('../images/fa/calendar.svg') }
+.fa-sitemap { background-image: url('../images/fa/sitemap.svg') }
+.fa-comment-o { background-image: url('../images/fa/comment-o.svg') }
+.fa-tags { background-image: url('../images/fa/tags.svg') }
+.fa-pencil { background-image: url('../images/fa/pencil.svg') }
+.fa-trash-o { background-image: url('../images/fa/trash-o.svg') }
+.fa-eye { background-image: url('../images/fa/eye.svg') }

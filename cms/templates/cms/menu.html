@@ -2,12 +2,13 @@
 
 <script>
     var menu = {
-        '{% trans "Все материалы" %}': '{% url 'post_list' %}',
+        '{% trans "Новости" %}': '{% url 'post_list' %}',
         '{% trans "Категории" %}': {
-            '{% trans "Новости" %}': '{% url 'category_list' category='news' %}',
             '{% trans "Очеты" %}': '{% url 'category_list' category='report' %}',
             '{% trans "Фотографии" %}': '{% url 'category_list' category='photo' %}',
+            {% if user.is_authenticated %}
             '{% trans "Карты" %}': '{% url 'category_list' category='map' %}',
+            {% endif %}
             '{% trans "Графика" %}': '{% url 'category_list' category='drawing' %}',
             '{% trans "Писательство" %}': '{% url 'category_list' category='prose' %}'
         },
@@ -20,6 +21,9 @@
             '{% trans "Техн. раздел" %}': '#'
         },
         'Wiki/FAQ': '#',
+        {% if user.is_staff %}
+        'Управление': '/admin/',
+        {% endif %}
         {% if user.is_authenticated %}
         '{% trans "Выход" %}': '{% url 'auth_logout' %}?next={{request.path}}'
         {% else %}

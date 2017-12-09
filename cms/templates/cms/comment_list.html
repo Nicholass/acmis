@@ -13,7 +13,7 @@
                     <span> {{ node.created_date }}</span>
                 </p>
                 <p class="comment-content">
-                    {{ node.text }}
+                    {{ node.text|linebreaksbr }}
                     {% if node.modifed_date %}
                     <br />
                     <br />

@@ -18,7 +18,7 @@ from .forms import TextPostForm, BinaryPostForm, PostForm, CommentForm, Registra
 from hashlib import md5
 from django.contrib.auth.signals import user_logged_in
 def do_stuff(sender, user, request, **kwargs):
-  maps = Post.objects.filter(category__route = 'maps')
+  maps = Post.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
 
   request.session['map_urls'] = {md5(str(m.pk).encode()).hexdigest(): m.pk for m in maps}
 
@@ -53,8 +53,10 @@ def send_activation_code(user, request):
 def post_list(request, tags=None, category=None, author=None):
 
   t = c = None
-  if category:
-    c = get_permited_object_or_403(Category, request.user, route=category)
+  if not category:
+    category = getattr(settings, 'HOME_CATEGORY_ROUTE', 'news')
+
+  c = get_permited_object_or_403(Category, request.user, route=category)
 
   if tags:
     t = tags.split(",")

@@ -64,6 +64,10 @@ class Post(PolymorphicModel):
 class TextPost(Post):
   text = models.TextField(verbose_name=_("Текст"))
 
+  @property
+  def short_text(self):
+    return truncatechars(self.text, 400)
+
   class Meta:
     verbose_name = _("Текстовый пост")
     verbose_name_plural = _("Текстовые посты")
@@ -122,9 +126,17 @@ class Category(models.Model):
     verbose_name=_("Тип объектов")
   )
   name = models.CharField(max_length=200, verbose_name=_("Название"))
-  route = models.CharField(max_length=200, verbose_name=_("Название в URL"))
+  route = models.CharField(
+    max_length=200,
+    verbose_name=_("Название в URL"),
+    help_text=_('<font color="red">Внимание! Изменение этого поля у существующих категорий может повлиять на логику работы!</font>'),
+  )
   groups = models.ManyToManyField(Group, blank=True, verbose_name=_("Группы имеющие доступ"))
-  allow_anonymous = models.BooleanField(default=True, verbose_name=_("Разрешить просмотр не зарегистрированным"))
+  allow_anonymous = models.BooleanField(
+    default=True,
+    verbose_name=_("Полный доступ"),
+    help_text=_('Установка этой галочки отключает контроль доступа к категории по группам пользователя'),
+  )
 
   def publish(self):
     self.kind = self.DATA_KINDS[self.name]
