@@ -3,6 +3,33 @@
 {% load comments %}
 {% load auth %}
 
+{% block breadcrumbs %}
+
+{% if category %}
+{% if tags %}
+<li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
+<li class="sep">&#187;</li>
+{% else %}
+<li class="current">{{ category }}</li>
+{% endif %}
+{% endif %}
+
+{% if author %}
+
+{% if tags %}
+<li><a href="{% url 'author_list' author=author %}">{{ author }}</a></li>
+<li class="sep">&#187;</li>
+{% else %}
+<li class="current">{{ author }}</li>
+{% endif %}
+{% endif %}
+
+{% if tags %}
+<li class="current">{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
+{% endif %}
+
+{% endblock %}
+
 {% block content %}
 
 <div class="block">

@@ -8,31 +8,11 @@
     {% endif %}
     <li class="sep">&#187;</li>
 
-    {% if category %}
-        {% if tags or is_post_add or is_post_edit %}
-            <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
-            <li class="sep">&#187;</li>
-        {% else %}
-            <span class="current">{{ category }}</span>
-        {% endif %}
-    {% endif %}
+    {% block breadcrumbs %}
 
-    {% if author %}
-        <li>
-            {% if tags %}
-                <a href="{% url 'author_list' author=author %}">{{ author }}</a>
-                <li class="sep">&#187;</li>
-            {% else %}
-                <span class="current">{{ author }}</span>
-            {% endif %}
-        </li>
-    {% endif %}
+    {% endblock %}
 
-    {% if tags %}
-        <li>
-            <span class="current">{% for tag in taglist %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</span>
-        </li>
-    {% endif %}
+
 
     {% if post %}
         <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
