@@ -4,46 +4,47 @@
 
 <ul class="comments">
     {% recursetree comments %}
-        {% auth_is_owner node as is_comment_owner %}
         <li>
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
-                <p class="comment-heading">
-                    <span>{{ node.author }}</span> |
-                    <span> {{ node.created_date }}</span>
-                </p>
-                <p class="comment-content">
-                    {{ node.text|linebreaksbr }}
-                    {% if node.modifed_date %}
-                    <br />
-                    <br />
-                    <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
-                    {% endif %}
-                </p>
-                <p class="comment-footer">
-                    {% if user.is_authenticated %}
-                    {% if perms.cms.add_comment %}
-                    <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">Ответ</a> |
-                    {% endif %}
-                    {% if perms.cms.change_comment and is_comment_owner %}
-                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">Редактировать</a> |
-                    {% endif %}
-                    {% if perms.cms.delete_comment and is_comment_owner %}
-                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">Удалить</a> |
-                    {% endif %}
-                    {% endif %}
-                    <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">{% trans "Ссылка" %}</a></span>
-                </p>
+                    <p class="comment-heading">
+                        <span>{{ node.author }}</span> |
+                        <span> {{ node.created_date }}</span>
+                    </p>
+                    <p class="comment-content">
+                        {{ node.text|linebreaksbr }}
+                        {% if node.modifed_date %}
+                            <br />
+                            <br />
+                            <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
+                        {% endif %}
+                    </p>
+                    <p class="comment-footer">
+                        {% auth_is_owner node as is_comment_owner %}
+                        {% if user.is_authenticated %}
+                            {% if perms.cms.add_comment %}
+                                <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">Ответ</a> |
+                            {% endif %}
+                            {% if perms.cms.change_comment and is_comment_owner %}
+                                <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">Редактировать</a> |
+                            {% endif %}
+                            {% if perms.cms.delete_comment and is_comment_owner %}
+                                <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">Удалить</a> |
+                            {% endif %}
+                        {% endif %}
+                        <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">{% trans "Ссылка" %}</a></span>
+                    </p>
                 {% else %}
-                <p class="media-content">
-                    <i>Комментарий был удален</i>
-                </p>
+                    <p class="media-content">
+                        <i>Комментарий был удален</i>
+                    </p>
                 {% endif %}
             </div>
+
             {% if not node.is_leaf_node %}
-            <ul class="thread">
-                {{ children }}
-            </ul>
+                <ul class="thread">
+                    {{ children }}
+                </ul>
             {% endif %}
         </li>
     {% endrecursetree %}

@@ -1,9 +1,17 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "ACIS - Ошибка 500" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="current">{% trans "Ошибка 500" %}</li>
+{% endblock %}
+
 {% block content %}
     <div class="error-page">
-        <h1>{% trans "Ошибка 500 - Ошибка на сервере" %}</h1>
+        <h1>{% trans "Ошибка 500 - Внутренняя ошибка на сервере" %}</h1>
         <p>
             {% trans "При обработке запроса произошла ошибка на сервере." %}
         </p>

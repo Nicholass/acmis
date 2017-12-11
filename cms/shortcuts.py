@@ -11,6 +11,20 @@ Category.objects.filter(route='map', groups__in=user.groups.all())
 Comment.objects.filter(pk=19, post__category__groups__in=user.groups.all())
 '''
 
+def allow_view_category(user, category):
+  c = Category.objects.filter(route=category).first()
+  if c is None:
+    return False
+
+  if c.allow_anonymous:
+    return True
+
+  for cat_group in c.groups.all():
+    if cat_group in user.groups.all():
+      return True
+
+  return False
+
 def get_permited_object_or_404(model, user, **kwargs):
 
   if model is Category:

@@ -1,9 +1,13 @@
 {% load i18n %}
 {% blocktrans %}
-Вы зарегистрировались на сайте {{ site_name }} под никнеймом {{ user }}.
-Для активации аккаунта необходимо перейти по ссылке:
+    Вы зарегистрировались на сайте {{ site_name }} как {{ user }}.
+    Для активации учетной записи необходимо перейти по ссылке ниже.
 {% endblocktrans %}
 
 {{ protocol }}://{{ domain }}{% url 'registration_activate' activation_key %}
 
-{% blocktrans %}Ссылка будет активна {{ expiration_days }} дней.{% endblocktrans %}
+{% blocktrans %}
+    Ссылка будет активна {{ expiration_days }} дней.
+
+    Если вы не регистрировались на сайте - просто пригнорируйте это письмо.
+{% endblocktrans %}

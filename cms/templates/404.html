@@ -1,6 +1,14 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "ACIS - Ошибка 404" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="current">{% trans "Ошибка 404" %}</li>
+{% endblock %}
+
 {% block content %}
     <div class="error-page">
         <h1>{% trans "Ошибка 404 - Страница не найдена" %}</h1>

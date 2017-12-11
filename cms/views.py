@@ -53,10 +53,11 @@ def send_activation_code(user, request):
 def post_list(request, tags=None, category=None, author=None):
 
   t = c = None
-  if not category:
+  if not category and not tags and not author:
     category = getattr(settings, 'HOME_CATEGORY_ROUTE', 'news')
 
-  c = get_permited_object_or_403(Category, request.user, route=category)
+  if category:
+    c = get_permited_object_or_403(Category, request.user, route=category)
 
   if tags:
     t = tags.split(",")
@@ -77,8 +78,7 @@ def post_list(request, tags=None, category=None, author=None):
   return render(request, 'cms/post_list.html', {
     'posts': posts,
     'category': c,
-    'tags': tags,
-    'taglist': t,
+    'tags': t,
     'author': author
   })
 
@@ -113,7 +113,7 @@ def post_new(request,category):
   else:
     form = formClass()
 
-  return render(request, 'cms/post_edit.html', {'form': form, 'category':  categoryObj, 'is_post_add': True})
+  return render(request, 'cms/post_edit.html', {'form': form, 'category':  categoryObj})
 
 @login_required
 @permission_required('cms.change_post', raise_exception=True)
@@ -141,7 +141,7 @@ def post_edit(request, pk):
   else:
     form = formClass(instance=post)
 
-  return render(request, 'cms/post_edit.html', {'form': form, 'category': post.category, 'is_post_edit': True})
+  return render(request, 'cms/post_edit.html', {'form': form, 'post': post, 'category':  post.category})
 
 @login_required
 @permission_required('cms.delete_post', raise_exception=True)
@@ -192,7 +192,7 @@ def comment_edit(request, pk, cpk):
   else:
     form = CommentForm(instance=edited_comment)
 
-  return render(request, 'cms/comment_edit.html', {'form': form})
+  return render(request, 'cms/comment_edit.html', {'form': form, 'post': post, 'comment': edited_comment})
 
 @login_required
 @permission_required('cms.add_comment', raise_exception=True)
@@ -214,7 +214,7 @@ def comment_reply(request, pk, cpk):
   else:
     form = CommentForm()
 
-  return render(request, 'cms/comment_edit.html', {'form': form, 'parent': parent})
+  return render(request, 'cms/comment_edit.html', {'form': form, 'post': post, 'parent': parent})
 
 @login_required
 @permission_required('cms.delete_comment', raise_exception=True)

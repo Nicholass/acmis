@@ -1,12 +1,20 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
 
-{% block content %}
-<h1>{% trans "Активация" %}</h1>
+{% block title %}
+    {% trans "ACIS - Активация учетной записи" %}
+{% endblock %}
 
-{% url 'auth_login' as auth_url %}
-{% blocktrans %}
-<p>Учетная запись активирована. Теперь вы можете <a href="{{ auth_url }}">войти</a> на сайт.</p>
-{% endblocktrans %}
+{% block breadcrumbs %}
+    <li class="current">{% trans "Активация учетной записи" %}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Активация учетной записи" %}</h1>
+
+    {% url 'auth_login' as auth_url %}
+    {% blocktrans %}
+        <p>Учетная запись активирована. Теперь вы можете <a href="{{ auth_url }}">войти</a> на сайт.</p>
+    {% endblocktrans %}
 
 {% endblock %}

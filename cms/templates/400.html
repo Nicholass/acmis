@@ -1,6 +1,14 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "ACIS - Ошибка 400" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="current">{% trans "Ошибка 400" %}</li>
+{% endblock %}
+
 {% block content %}
     <div class="error-page">
         <h1>{% trans "Ошибка 400 - Неправильный запрос" %}</h1>

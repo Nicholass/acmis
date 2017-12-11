@@ -1,6 +1,14 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "ACIS - Выход" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="current">{% trans "Выход" %}</li>
+{% endblock %}
+
 {% block content %}
-<p>{% trans "Успешный выход с сайта." %}</p>
+    <p>{% trans "Успешный выход с сайта." %}</p>
 {% endblock %}

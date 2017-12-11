@@ -1,23 +1,43 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 
-{% block content %}
+{% block title %}
+    {% if not parent %}
+        {% trans "ACIS - Редактирование комментария" %}
+    {% else %}
+        {% trans "ACIS - Ответ на комментарий" %}
+    {% endif %}
+{% endblock %}
 
-<div class="block">
-    <h1 class="header-simple">
+{% block breadcrumbs %}
+    <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
+    <li class="sep">&#187;</li>
+
+    <li class="current">
         {% if not parent %}
-        {% trans "Редактировать комментарий " %}{{ cpk }}
+            {% trans "Редактирование комментария" %}
         {% else %}
-        {% trans "Ответ на комментарий " %} {{ parent.author }}: {{ parent.short_text }}
+            {% trans "Ответ на комментарий" %}
         {% endif %}
-    </h1>
+    </li>
+{% endblock %}
 
-    <div class="content">
-        <form method="POST" class="post-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">{% trans "Отправить" %}</button>
-        </form>
+{% block content %}
+    <div class="block">
+        <h1 class="header-simple">
+            {% if not parent %}
+                {% trans "Редактирование комментария" %}
+            {% else %}
+                {% trans "Ответ на комментарий " %} {{ parent.author }}: {{ parent.short_text }}
+            {% endif %}
+        </h1>
+
+        <div class="content">
+            <form method="POST" class="post-form">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">{% trans "Отправить" %}</button>
+            </form>
+        </div>
     </div>
-</div>
 {% endblock %}

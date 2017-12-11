@@ -1,6 +1,14 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "ACIS - Регистрация" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="current">{% trans "Регистрация" %}</li>
+{% endblock %}
+
 {% block content %}
-<p>{% trans "В настоящее время регистрация новых пользователей отключена." %}</p>
+    <p>{% trans "В настоящее время регистрация новых пользователей отключена." %}</p>
 {% endblock %}

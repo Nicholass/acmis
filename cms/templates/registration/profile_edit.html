@@ -1,66 +1,76 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
 
+{% block title %}
+    {% trans "ACIS - Редактирование профиля" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="current">{% trans "Редактирование профиля" %}</li>
+{% endblock %}
+
 {% block content %}
-<h1 class="form-header">{% trans "Редактирование профиля пользователя " %}{{ user }}</h1>
+    <h1 class="form-header">{% trans "Редактирование профиля пользователя " %}{{ user }}</h1>
 
-<form method="post" action="." class="grid-form profile-edit-form" enctype="multipart/form-data">
-    {% csrf_token %}
+    <form method="post" action="." class="grid-form profile-edit-form" enctype="multipart/form-data">
+        {% csrf_token %}
 
-    <h2>{% trans "Основная информация" %}</h2>
+        <h2>{% trans "Основная информация" %}</h2>
 
-    {% for field in user_form.visible_fields %}
-    {% if field.errors %}
-    {{ field.errors }}
-    {% endif %}
-    {{ field.label_tag }}
-    {{ field }}
-    {% if field.help_text %}
-    <div class="help">
-        {{ field.help_text|safe }}
-    </div>
-    {% endif %}
-    {% endfor %}
+        {% for field in user_form.visible_fields %}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% endif %}
 
-    {{ user_form.non_field_errors }}
+            {{ field.label_tag }}
+            {{ field }}
 
-    {% for hidden in user_form.hidden_fields %}
-    {{ hidden }}
-    {% endfor %}
+            {% if field.help_text %}
+                <div class="help">
+                    {{ field.help_text|safe }}
+                </div>
+            {% endif %}
+        {% endfor %}
 
-    <h2>{% trans "Профиль пользователя" %}</h2>
+        {{ user_form.non_field_errors }}
 
-    {% for field in profile_form.visible_fields %}
-    {% if field.errors %}
-    {{ field.errors }}
-    {% endif %}
-    {{ field.label_tag }}
-    {{ field }}
-    {% if field.help_text %}
-    <div class="help">
-        {{ field.help_text|safe }}
-    </div>
-    {% endif %}
+        {% for hidden in user_form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
 
-    {% if field.html_name == 'site' %}
-    <h3>{% trans "Контактная информация" %}</h3>
-    {% endif %}
+        <h2>{% trans "Профиль пользователя" %}</h2>
 
-    {% if field.html_name == 'skype' %}
-    <h3>{% trans "Социальные сети" %}</h3>
-    {% endif %}
+        {% for field in profile_form.visible_fields %}
+            {% if field.errors %}
+                {{ field.errors }}
+            {% endif %}
 
-    {% endfor %}
+            {{ field.label_tag }}
+            {{ field }}
 
+            {% if field.help_text %}
+                <div class="help">
+                    {{ field.help_text|safe }}
+                </div>
+            {% endif %}
 
-    {{ profile_form.non_field_errors }}
+            {% if field.html_name == 'site' %}
+                <h3>{% trans "Контактная информация" %}</h3>
+            {% endif %}
 
-    {% for hidden in profile_form.hidden_fields %}
-    {{ hidden }}
-    {% endfor %}
+            {% if field.html_name == 'skype' %}
+                <h3>{% trans "Социальные сети" %}</h3>
+            {% endif %}
+        {% endfor %}
 
-    <p class="buttons">
-        <button type="submit">{% trans "Сохранить" %}</button>
-    </p>
-</form>
+        {{ profile_form.non_field_errors }}
+
+        {% for hidden in profile_form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <p class="buttons">
+            <button type="submit">{% trans "Сохранить" %}</button>
+        </p>
+    </form>
 {% endblock %}

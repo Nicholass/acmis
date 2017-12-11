@@ -1,50 +1,93 @@
 {% extends 'cms/base.html' %}
 {% load i18n %}
 
-{% block content %}
-
-{% trans "Добавить " as t_add %}
-{% trans "Редактировать " as t_edit %}
-
-<div class="block">
-  {% if category == 'drawing' %}
-  <h1 class="header-simple">
-    {{ t_edit}}
-    {% trans "рисунок" %}
-  </h1>
-  {% elif category == 'map' %}
-  <h1 class="header-simple">
-    {{ t_edit}}
-    {% trans "карту" %}
-  </h1>
-  {% elif category == 'News' %}
-  <h1 class="header-simple">
-    {{ t_edit}}
-    {% trans "новость" %}
-  </h1>
-  {% elif category == 'photo' %}
-  <h1 class="header-simple">
-    {{ t_edit}}
-    {% trans "фотографию" %}
-  </h1>
-  {% elif category == 'prose' %}
-  <h1 class="header-simple">
-    {{ t_edit}}
-    {% trans "текст" %}
-  </h1>
-  {% elif category == 'report' %}
-  <h1 class="header-simple">
-    {{ t_edit}}
-    {% trans "отчет" %}
-  </h1>
+{% block title %}
+  {% if post %}
+    {% trans "ACIS - Редактировать " %}
+  {% else %}
+    {% trans "ACIS - Добавить " %}
   {% endif %}
 
-  <div class="content">
-    <form method="POST" class="post-form" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.as_p }}
-      <button type="submit" class="save btn btn-default">{% trans "Отправить" %}</button>
-    </form>
+  {# TODO: перевод названия категории на уровне модели #}
+
+  {% if category.route == 'drawing' %}
+    {% trans "рисунок" %}
+  {% elif category.route == 'map' %}
+    {% trans "карту" %}
+  {% elif category.route == 'news' %}
+    {% trans "новость" %}
+  {% elif category.route == 'photo' %}
+    {% trans "фотографию" %}
+  {% elif category.route == 'prose' %}
+    {% trans "рассказ" %}
+  {% elif category.route == 'report' %}
+    {% trans "отчет" %}
+  {% endif %}
+
+{% endblock %}
+
+{% block breadcrumbs %}
+  <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
+  <li class="sep">&#187;</li>
+  <li class="current">
+    {% if post %}
+      {% trans "Редактировать " %}
+    {% else %}
+      {% trans "Добавить " %}
+    {% endif %}
+
+    {# TODO: перевод названия категории на уровне модели #}
+
+    {% if category.route == 'drawing' %}
+      {% trans "рисунок" %}
+    {% elif category.route == 'map' %}
+      {% trans "карту" %}
+    {% elif category.route == 'news' %}
+      {% trans "новость" %}
+    {% elif category.route == 'photo' %}
+      {% trans "фотографию" %}
+    {% elif category.route == 'prose' %}
+      {% trans "рассказ" %}
+    {% elif category.route == 'report' %}
+      {% trans "отчет" %}
+    {% endif %}
+  </li>
+{% endblock %}
+
+{% block content %}
+  <div class="block">
+    <h1 class="header-simple">
+      {% if post %}
+        {% trans "Редактировать " %}
+      {% else %}
+        {% trans "Добавить " %}
+      {% endif %}
+
+      {# TODO: перевод названия категории на уровне модели #}
+
+      {% if category.route == 'drawing' %}
+        {% trans "рисунок" %}
+      {% elif category.route == 'map' %}
+        {% trans "карту" %}
+      {% elif category.route == 'news' %}
+        {% trans "новость" %}
+      {% elif category.route == 'photo' %}
+        {% trans "фотографию" %}
+      {% elif category.route == 'prose' %}
+        {% trans "рассказ" %}
+      {% elif category.route == 'report' %}
+        {% trans "отчет" %}
+      {% endif %}
+
+      {% if post %}: {{ post.short_title }}{% endif %}
+    </h1>
+
+    <div class="content">
+      <form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">{% trans "Отправить" %}</button>
+      </form>
+    </div>
   </div>
-</div>
 {% endblock %}

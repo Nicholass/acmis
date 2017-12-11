@@ -1,6 +1,14 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
 
+{% block title %}
+  {% trans "ACIS - Вход" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+  <li class="current">{% trans "Вход" %}</li>
+{% endblock %}
+
 {% block content %}
   <h1 class="form-header login-header">{% trans "Вход в систему" %}</h1>
 
@@ -15,13 +23,13 @@
     {{ form.non_field_errors }}
 
     {% for hidden in form.hidden_fields %}
-    {{ hidden }}
+      {{ hidden }}
     {% endfor %}
 
     {% if next %}
-    <input type="hidden" name="next" value="{{ next }}" />
+      <input type="hidden" name="next" value="{{ next }}" />
     {% else %}
-    <input type="hidden" name="next" value="{% url 'post_list' %}" />
+      <input type="hidden" name="next" value="{% url 'post_list' %}" />
     {% endif %}
 
     <p class="buttons">
