@@ -88,7 +88,7 @@
       </div>
     {% endif %}
 
-    <div class="content {{ category.route }}">
+    <div class="content">
       {% if not posts %}
         <p>
           {% url 'post_new' category=category.route as post_new_url %}
@@ -99,8 +99,14 @@
       {% endif %}
 
       {% for post in posts %}
-        <div class="post {{ category.route }}" id="{{ post.pk }}">
-          <h2><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a></h2>
+        <div class="post" id="{{ post.pk }}">
+          <h2>
+            {% if category.route == 'map' %}
+              <a href="{% url 'map_file' map_hash=post.hash %}">{{ post.title }}</a>
+            {% else %}
+              <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+            {% endif %}
+          </h2>
           <p class="info">
             {{ post.created_date }}
             <span class="sep">|</span>

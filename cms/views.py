@@ -26,7 +26,7 @@ from django.contrib.auth.signals import user_logged_in
 
 
 def do_stuff(sender, user, request, **kwargs):
-  maps = Post.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
+  maps = Post.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'map'))
   request.session['map_urls'] = {md5(str(m.pk).encode()).hexdigest(): m.pk for m in maps}
 
 
@@ -89,6 +89,12 @@ def post_list(request, tags=None, category=None, author=None):
     posts = paginator.page(1)
   except EmptyPage:
     posts = paginator.page(paginator.num_pages)
+
+  if category == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps') and request.user.is_authenticated():
+    for post in posts:
+      for map_hash, pk in request.session['map_urls'].items():
+        if post.pk == pk:
+          post.hash = map_hash
 
   return render(request, 'cms/post_list.html', {
     'posts': posts,
