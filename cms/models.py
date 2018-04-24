@@ -81,8 +81,6 @@ class TextPost(Post):
 
 class BinaryPost(Post):
   file = models.ImageField(
-    blank=True,
-    null=True,
     upload_to='uploads/%Y/%m/%d/',
     verbose_name=_("Файл")
   )

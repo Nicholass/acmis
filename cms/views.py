@@ -6,6 +6,7 @@ from django.utils import timezone
 from django.http import HttpResponse, Http404
 from django.db.models import Q
 from django.contrib.auth.decorators import login_required, permission_required
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect
@@ -14,20 +15,24 @@ from django.contrib.auth.models import User
 from .models import Post, Category, Comment
 from .forms import TextPostForm, BinaryPostForm, PostForm, CommentForm, RegistrationForm, ProfileForm
 
-#TODO move to user's part
-from hashlib import md5
-from django.contrib.auth.signals import user_logged_in
-def do_stuff(sender, user, request, **kwargs):
-  maps = Post.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
-
-  request.session['map_urls'] = {md5(str(m.pk).encode()).hexdigest(): m.pk for m in maps}
-
-user_logged_in.connect(do_stuff)
-
 from django.conf import settings
 from django.core import signing
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
+
+# TODO move to user's part
+from hashlib import md5
+from django.contrib.auth.signals import user_logged_in
+
+
+def do_stuff(sender, user, request, **kwargs):
+  maps = Post.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
+  request.session['map_urls'] = {md5(str(m.pk).encode()).hexdigest(): m.pk for m in maps}
+
+
+user_logged_in.connect(do_stuff)
+# TODO move to user's part
+
 
 def send_activation_code(user, request):
   current_site = get_current_site(request)
@@ -73,7 +78,17 @@ def post_list(request, tags=None, category=None, author=None):
   q_groups = { **q, 'category__groups__in': request.user.groups.all() }
   q_anoymous = { **q, 'category__allow_anonymous': True }
 
-  posts = Post.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-created_date', 'title')
+  posts_list = Post.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-created_date', 'title')
+
+  page = request.GET.get('page', 1)
+
+  paginator = Paginator(posts_list, 2)
+  try:
+    posts = paginator.page(page)
+  except PageNotAnInteger:
+    posts = paginator.page(1)
+  except EmptyPage:
+    posts = paginator.page(paginator.num_pages)
 
   return render(request, 'cms/post_list.html', {
     'posts': posts,
@@ -234,6 +249,7 @@ def get_comment_url(pk, cpk):
 
 def serve_map_file(request, map_hash):
   try:
+    print(request.session['map_urls'])
     map_pk = request.session['map_urls'][map_hash]
     m = get_permited_object_or_403(Post, request.user, pk=map_pk)
 

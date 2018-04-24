@@ -335,6 +335,7 @@ button[disabled] {
     margin: 10px 0 0 0;
     padding: 0 17px;
 }
+
 .post {
     margin-bottom: 20px;
 }
@@ -593,3 +594,16 @@ button[disabled] {
 .fa-pencil { background-image: url('../images/fa/pencil.svg') }
 .fa-trash-o { background-image: url('../images/fa/trash-o.svg') }
 .fa-eye { background-image: url('../images/fa/eye.svg') }
+
+.pagination {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    padding-left: 0;
+}
+.pagination li {
+    padding: 10px;
+}
+.pagination li.active {
+    font-weight: bold;
+}
