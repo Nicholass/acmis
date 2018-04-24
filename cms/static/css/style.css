@@ -123,6 +123,7 @@ button[disabled] {
  */
 
 .container-wrapper {
+    margin: 0 auto;
     min-width: 600px;
     max-width: 1600px;
 }

@@ -54,7 +54,7 @@
         <h1 class="header-simple">{{ post.title }}</h1>
         <div class="content">
             {% if post.file %}
-                <a href="{{ post.file }}"><img class="image" src="{{ post.file }}" alt="{{ post.title }}" /></a>
+                <a href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
                 <p class="description">{{ post.description }}</p>
             {% else %}
                 {{ post.text|linebreaksbr }}

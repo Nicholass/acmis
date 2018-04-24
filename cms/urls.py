@@ -1,5 +1,7 @@
 from django.conf.urls import url, include
 from django.urls import reverse_lazy
+from django.conf.urls.static import static
+from django.conf import settings
 
 from . import views
 from django.contrib.auth import views as auth_views
@@ -59,4 +61,4 @@ urlpatterns = [
             success_url=reverse_lazy('auth_password_reset_complete')
         ),
         name='auth_password_reset_confirm'),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

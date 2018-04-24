@@ -66,6 +66,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media'
             ],
         },
     },
@@ -113,9 +114,9 @@ AUTHENTICATION_BACKENDS = [
 LANGUAGE_CODE = 'uk'
 
 LANGUAGES = (
-	('ru', 'Russian'),
-	('en', 'English'),
-	('uk', 'Ukrainian'),
+    ('ru', 'Russian'),
+    ('en', 'English'),
+    ('uk', 'Ukrainian'),
 )
 
 TIME_ZONE = 'Europe/Kiev'
@@ -132,8 +133,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_URL = '/media/';
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media');
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 ACCOUNT_ACTIVATION_DAYS = 2
 REGISTRATION_OPEN = True

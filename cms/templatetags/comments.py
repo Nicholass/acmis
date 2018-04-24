@@ -23,8 +23,6 @@ def comment_list(context):
 
 @register.assignment_tag(takes_context=True)
 def comment_count(context):
-    print("test")
-    print(Comment.objects.filter(post=context['post']).count())
     return Comment.objects.filter(post=context['post']).count()
 
 @register.filter
