@@ -104,6 +104,10 @@ def post_list(request, tags=None, category=None, author=None):
 
 def post_detail(request, pk):
   post = get_permited_object_or_403(Post, request.user, pk=pk)
+
+  if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
+    raise Http404("No Post matches the given query.")
+
   return render(request, 'cms/post_detail.html', {'post': post})
 
 @login_required
@@ -129,7 +133,13 @@ def post_new(request,category):
 
       post.save()
       form.save_m2m()
-      return redirect('post_detail', pk=post.pk)
+
+      if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
+        request.session['map_urls'][md5(str(post.pk).encode()).hexdigest()] = post.pk
+        request.session.modified = True
+        return redirect('category_list', category=getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
+      else:
+        return redirect('post_detail', pk=post.pk)
   else:
     form = formClass()
 
@@ -157,7 +167,11 @@ def post_edit(request, pk):
 
       post.save()
       form.save_m2m()
-      return redirect('post_detail', pk=post.pk)
+
+      if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
+        return redirect('category_list', category=getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
+      else:
+        return redirect('post_detail', pk=post.pk)
   else:
     form = formClass(instance=post)
 
@@ -171,6 +185,12 @@ def post_delete(request, pk):
   is_owner_or_403(request.user, post)
 
   category = post.category.route
+
+  if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
+    map_hash = [key for key, value in request.session['map_urls'].items() if value == post.pk][0]
+    del request.session['map_urls'][map_hash]
+    request.session.modified = True
+
   post.delete()
   return redirect('category_list', category=category)
 
@@ -254,7 +274,6 @@ def get_comment_url(pk, cpk):
 
 def serve_map_file(request, map_hash):
   try:
-    print(request.session['map_urls'])
     map_pk = request.session['map_urls'][map_hash]
     m = get_permited_object_or_403(Post, request.user, pk=map_pk)
 
