@@ -607,3 +607,12 @@ button[disabled] {
 .pagination li.active {
     font-weight: bold;
 }
+
+.clearfix .content:before,
+.clearfix:after {
+   content: "";
+   display: table;
+}
+.clearfix:after {
+   clear: both;
+}

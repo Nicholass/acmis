@@ -12,6 +12,7 @@ from django.template.defaultfilters import truncatechars
 from django.contrib.auth.models import Group, User
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from ckeditor_uploader.fields import RichTextUploadingField
 
 from mptt.models import MPTTModel, TreeForeignKey
 
@@ -63,7 +64,7 @@ class Post(PolymorphicModel):
     )
 
 class TextPost(Post):
-  text = models.TextField(verbose_name=_("Текст"))
+  text = RichTextUploadingField(verbose_name=_("Текст"))
 
   @property
   def short_text(self):
@@ -82,7 +83,8 @@ class TextPost(Post):
 class BinaryPost(Post):
   file = models.ImageField(
     upload_to='uploads/%Y/%m/%d/',
-    verbose_name=_("Файл")
+    verbose_name=_("Файл"),
+    null=True
   )
   description = models.TextField(max_length=200, verbose_name=_("Описание"))
 

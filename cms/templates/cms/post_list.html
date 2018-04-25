@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load comments %}
 {% load auth %}
+{% load bleach_tags %}
 
 {% block title %}
   {% if author %}
@@ -107,7 +108,7 @@
               <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
             {% endif %}
           </h2>
-          <p class="info">
+          <div class="info">
             {{ post.created_date }}
             <span class="sep">|</span>
             <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
@@ -121,17 +122,17 @@
                 {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
               </a>
             {% endif %}
-          </p>
+          </div>
 
-            <p class="content">
+            <div class="content clearfix">
             {% if not post.file %}
-              {{ post.text|linebreaksbr|truncatechars:400 }}
+              {{ post.text|truncatechars:800|bleach }}
             {% else %}
               <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
             {% endif %}
-            </p>
+            </div>
 
-           <p class="tags">
+           <div class="tags">
           {% if post.tags.all %}
               <i class="fa fa-tags"></i>
               {% for tag in post.tags.all %}
@@ -144,9 +145,9 @@
                 {% if not forloop.last %}, {% endif %}
               {% endfor %}
           {% endif %}
-          </p>
+          </div>
 
-          <p class="actions">
+          <div class="actions">
             {% auth_is_owner post as is_post_owner %}
             {% if user.is_authenticated %}
               {% auth_is_owner post as is_post_owner %}
@@ -167,7 +168,7 @@
                 <a href="#">{% trans "Опубликовать" %}</a>
               {% endif %}
             {% endif %}
-          </p>
+          </div>
         </div>
       {% endfor %}
 

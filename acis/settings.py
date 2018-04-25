@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'mptt',
     'cms',
     'django.contrib.admin',
+    'ckeditor',
+    'ckeditor_uploader',
+    'django_bleach'
 ]
 
 MIDDLEWARE = [
@@ -135,6 +138,8 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+CKEDITOR_UPLOAD_PATH = 'uploads/'
+CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
 ACCOUNT_ACTIVATION_DAYS = 2
 REGISTRATION_OPEN = True
@@ -149,3 +154,44 @@ DEFAULT_FROM_EMAIL = 'info@acis'
 
 HOME_CATEGORY_ROUTE = 'news'
 MAPS_CATEGORY_ROUTE = 'map'
+
+BLEACH_ALLOWED_TAGS = [
+  'p',
+  'b',
+  'i',
+  'u',
+  'em',
+  'strong',
+  'a',
+  'table',
+  'tr',
+  'td',
+  'th',
+  'thead',
+  'tbody',
+  'caption',
+  'hr',
+  'span',
+  'img'
+]
+BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'cellpadding', 'cellspacing', 'border', 'target', 'alt', 'src']
+BLEACH_ALLOWED_STYLES = [
+  'font-family',
+  'font-weight',
+  'text-decoration',
+  'font-variant',
+  'background-color',
+  'border-color',
+  'border-style',
+  'border-width',
+  'float',
+  'text-align',
+  'vertical-align',
+  'width',
+  'height',
+  'width',
+  'color',
+  'margin'
+]
+BLEACH_STRIP_TAGS = True
+BLEACH_STRIP_COMMENTS = False

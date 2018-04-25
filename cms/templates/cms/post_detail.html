@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load comments %}
 {% load auth %}
+{% load bleach_tags %}
 
 {% block title %}
     {% trans "ACIS - " %}{{ post }}
@@ -18,7 +19,7 @@
     {% comment_count as comm_count %}
 
     <div class="block article {% if post.file %}file{% else %}text{% endif %}">
-        <p class="actions">
+        <div class="actions">
             {% if user.is_authenticated %}
 
                 {% if perms.cms.change_post and is_post_owner %}
@@ -38,7 +39,7 @@
                 {% endif %}
 
             {% endif %}
-        </p>
+        </div>
         <div class="info">
             <p>
                 <strong>{% trans "Автор: " %}</strong>
@@ -52,25 +53,25 @@
         </div>
 
         <h1 class="header-simple">{{ post.title }}</h1>
-        <div class="content">
+        <div class="content clearfix">
             {% if post.file %}
                 <a href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
 
                 <p class="description">{{ post.description }}</p>
             {% else %}
-                {{ post.text|linebreaksbr }}
+                {{ post.text|bleach }}
             {% endif %}
         </div>
 
         {% if post.tags.all %}
-            <p class="tags">
+            <div class="tags">
                 <i class="fa fa-tags"></i>
                 {% for tag in post.tags.all %}
                     {% if not forloop.first %}&nbsp;{% endif %}
                     <a href="{% url 'category_tags_list' category=post.category.route tags=tag.name %}">#{{ tag.name }}</a>
                     {% if not forloop.last %}, {% endif %}
                 {% endfor %}
-            </p>
+            </div>
         {% endif %}
     </div>
 
