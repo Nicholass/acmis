@@ -378,6 +378,68 @@ button[disabled] {
     margin: 0 5px;
 }
 
+.content.map .post {
+    display: grid;
+    grid-template-columns: 8fr 2fr;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #E1E1E1;
+}
+.content.map .post:nth-child(even) {
+    background: #E1E1E1;
+}
+.content.map .post:nth-child(odd) {
+    background: #F7F7F7;
+}
+.content.map .post h2 {
+    grid-row: 1;
+    grid-column: 1;
+}
+.content.map .post .tags {
+    grid-row: 2;
+    grid-column: 1;
+}
+.content.map .post .info {
+    grid-row: 1;
+    grid-column: 2;
+    justify-self: end;
+}
+.content.map .post .actions {
+    grid-row: 2;
+    grid-column: 2;
+    justify-self: end;
+}
+
+.content.photo {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+    grid-template-rows: auto;
+}
+.content.photo .post {
+    padding: 8px;
+    margin-bottom: 0;
+    width: 200px;
+    height: auto;
+    text-align: center;
+    justify-self: center;
+    align-self: start;
+}
+.content.photo .post h2 {
+    word-break: break-word;
+}
+.content.photo .post img {
+    max-height: 350px;
+    max-width: 200px;
+}
+.content.photo .post .info {
+    display: block;
+}
+.content.photo .post .comments-link {
+    display: inline-block;
+    margin-top: 5px;
+    mar
+}
+
 /* Форма добавления материала */
 .block label {
     display: block;

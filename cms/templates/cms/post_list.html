@@ -89,7 +89,7 @@
       </div>
     {% endif %}
 
-    <div class="content">
+    <div class="content {{ category.route }}">
       {% if not posts %}
         <p>
           {% url 'post_new' category=category.route as post_new_url %}
@@ -114,9 +114,15 @@
             <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
 
             {% comment_count as comm_count %}
-            {% if comm_count %}
-              <span class="sep">|</span>
-              <a href="{% url 'post_detail' pk=post.pk %}#comments">{{ comm_count }}
+            {% if comm_count and category.route != 'map' %}
+
+              {% if category.route == 'photo' or category.route == 'drawing' %}
+                <br />
+              {% else %}
+                  <span class="sep">|</span>
+              {% endif %}
+
+              <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">{{ comm_count }}
                 {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
                 {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
                 {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
@@ -124,6 +130,7 @@
             {% endif %}
           </div>
 
+          {% if category.route != 'map' %}
             <div class="content clearfix">
             {% if not post.file %}
               {{ post.text|truncatechars:800|bleach }}
@@ -131,9 +138,10 @@
               <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
             {% endif %}
             </div>
+          {% endif %}
 
-           <div class="tags">
           {% if post.tags.all %}
+            <div class="tags">
               <i class="fa fa-tags"></i>
               {% for tag in post.tags.all %}
                 {% if not forloop.first %}&nbsp;{% endif %}
@@ -144,8 +152,8 @@
                 {% endif %}
                 {% if not forloop.last %}, {% endif %}
               {% endfor %}
+            </div>
           {% endif %}
-          </div>
 
           <div class="actions">
             {% auth_is_owner post as is_post_owner %}
