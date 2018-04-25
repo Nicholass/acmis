@@ -31,7 +31,6 @@ def do_stuff(sender, user, request, **kwargs):
 
 
 user_logged_in.connect(do_stuff)
-# TODO move to user's part
 
 
 def send_activation_code(user, request):
@@ -53,7 +52,7 @@ def send_activation_code(user, request):
     'expiration_days': getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2)
   })
   user.email_user(subject, message)
-#end TODO
+# end TODO
 
 def post_list(request, tags=None, category=None, author=None):
 
@@ -278,7 +277,7 @@ def registration(request):
       user.is_active = False
       user.save()
 
-      send_activation(user)
+      send_activation_code(user, request)
 
       return render(request, 'registration/registration_complete.html')
 
