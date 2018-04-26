@@ -2,9 +2,11 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.core.files.images import get_image_dimensions
 
-from .. import validators
-
 from ..models import Profile
+
+
+class DateInput(forms.DateInput):
+  input_type = 'date'
 
 
 class ProfileForm(forms.ModelForm):
@@ -15,12 +17,13 @@ class ProfileForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super(ProfileForm, self).__init__(*args, **kwargs)
     self.fields['avatar'].help_text = _('<ul><li>Аватар не должен быть размером больше %s x %s пикселей.</li><li>Аватар должен быть изображением в формате JPEG, GIF или PNG</li><li>Аватар должен быть меньше %s Кб размером</li></ul>' % (self.AVATAR_MAX_WIDTH, self.AVATAR_MAX_HEIGHT, self.AVATAR_MAX_SIZE))
-    self.fields['username'].validators=[validators.ReservedNameValidator, validators.validate_confusables]
-    self.fields['email'].validators=[validators.validate_confusables_email]
 
   class Meta:
     model = Profile
     fields = ('avatar', 'birth_date', 'location', 'site',  'skype', 'telegram', 'jabber', 'facebook', 'vk', 'instagram', 'twitter', 'youtube')
+    widgets = {
+      'birth_date': DateInput()
+    }
 
   def clean_avatar(self):
     avatar = self.cleaned_data['avatar']
@@ -32,7 +35,6 @@ class ProfileForm(forms.ModelForm):
       w, h = get_image_dimensions(avatar)
 
       #validate dimensions
-      max_width = max_height = 100
       if w > self.AVATAR_MAX_WIDTH or h > self.AVATAR_MAX_HEIGHT:
         raise forms.ValidationError(
           _('Аватар больше %s x %s пикселей размером' % (self.AVATAR_MAX_WIDTH, self.AVATAR_MAX_HEIGHT))

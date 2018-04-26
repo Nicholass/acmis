@@ -12,6 +12,7 @@ class RegistrationForm(UserCreationForm):
     super(RegistrationForm, self).__init__(*args, **kwargs)
     self.fields['username'].validators=[validators.reserved_name, validators.validate_confusables]
     self.fields['email'].validators=[validators.validate_confusables_email, validators.free_email]
+    self.fields['email'].required = True
 
   class Meta:
     model = User
