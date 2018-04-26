@@ -2,53 +2,10 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.core.files.images import get_image_dimensions
 
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
-from .models import Post, TextPost, BinaryPost, Comment, Profile
+from .. import validators
 
-from . import validators
+from ..models import Profile
 
-class PostForm(forms.ModelForm):
-
-  class Meta:
-    model = Post
-    fields = ('title', 'tags', 'is_public')
-
-class TextPostForm(PostForm):
-
-  class Meta(PostForm.Meta):
-    model = TextPost
-    fields = ('title', 'text', 'tags', 'is_public')
-
-class BinaryPostForm(PostForm):
-
-  class Meta(PostForm.Meta):
-    model = BinaryPost
-    fields = ('title', 'file', 'description', 'tags', 'is_public')
-
-class CommentForm(forms.ModelForm):
-  text = forms.CharField(widget=forms.Textarea(attrs={'rows':6, 'cols':80}), label='')
-
-  class Meta:
-    fields = ('text',)
-    model = Comment
-
-class RegistrationForm(UserCreationForm):
-  def __init__(self, *args, **kwargs):
-    super(RegistrationForm, self).__init__(*args, **kwargs)
-    self.fields['username'].validators=[validators.reserved_name, validators.validate_confusables]
-    self.fields['email'].validators=[validators.validate_confusables_email, validators.free_email]
-
-  class Meta:
-    model = User
-    fields = ('username', 'email', 'password1', 'password2', )
-
-  def clean_email(self):
-    email = self.cleaned_data['email']
-    if User.objects.filter(email=email).exists():
-      self.add_error('email', forms.ValidationError(_('Пользователь с такими email уже существует')))
-
-    return email
 
 class ProfileForm(forms.ModelForm):
   AVATAR_MAX_WIDTH = 100
