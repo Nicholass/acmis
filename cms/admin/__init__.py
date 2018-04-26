@@ -4,7 +4,7 @@ from django.contrib.auth.admin import UserAdmin
 
 from ..views import send_activation_code
 
-from ..models import Post, TextPost, BinaryPost, Category, Comment
+from ..models import Post, TextPost, BinaryPost, Category, Comment, Profile
 from django.contrib.auth.models import User, Permission
 
 from .comment import CustomMPTTModelAdmin
@@ -38,15 +38,28 @@ def send_activation(modeladmin, request, queryset):
 send_activation.short_description = _('Отправить код активации')
 
 
-class UserAdminModel(UserAdmin):
+class ProfileInline(admin.StackedInline):
+    model = Profile
+    can_delete = False
+    verbose_name_plural = 'Профиль'
+    fk_name = 'user'
+
+
+class CustomUserAdmin(UserAdmin):
+    inlines = (ProfileInline, )
     model = User
     list_filter = ['is_active', 'is_staff', 'last_login']
     list_display = ('username', 'email', 'is_active', 'is_staff', 'last_login')
     actions = [send_activation,]
 
+    def get_inline_instances(self, request, obj=None):
+        if not obj:
+            return list()
+        return super(CustomUserAdmin, self).get_inline_instances(request, obj)
+
 
 admin.site.unregister(User)
-admin.site.register(User, UserAdminModel)
+admin.site.register(User, CustomUserAdmin)
 
 
 class PermissionModel(admin.ModelAdmin):

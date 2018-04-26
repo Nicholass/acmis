@@ -61,5 +61,9 @@ urlpatterns = [
             success_url=reverse_lazy('auth_password_reset_complete')
         ),
         name='auth_password_reset_confirm'),
+  url(r'^accounts/profile/$', views.profile, name='profile'),
+  url(r'^accounts/profile/edit/$', views.profile_edit, name='profile_edit'),
+  url(r'^accounts/profile/(?P<username>\w+)/$', views.profile, name='another_profile'),
+  url(r'^accounts/profile/(?P<username>\w+)/edit/$', views.profile_edit, name='another_profile_edit'),
   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
