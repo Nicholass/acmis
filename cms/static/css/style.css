@@ -692,9 +692,7 @@ label .required {
 }
 
 .fa-link {
-    display: flex;
-    align-self: center;
-    justify-self: center;
+    display: inline-block;
 }
 .fa {
     display: inline-block;
@@ -703,19 +701,19 @@ label .required {
     height: 1.3em;
     width: 1.3em;
     margin: 0 5px 0 0;
+    vertical-align: bottom;
 }
 .fa-margin {
     margin: 0 5px 0 15px;
 }
 .fa-user-o { background-image: url('../images/fa/user-o.svg') }
 .fa-calendar { background-image: url('../images/fa/calendar.svg') }
-.fa-sitemap { background-image: url('../images/fa/sitemap.svg') }
 .fa-comment-o { background-image: url('../images/fa/comment-o.svg') }
 .fa-tags { background-image: url('../images/fa/tags.svg') }
 .fa-pencil { background-image: url('../images/fa/pencil.svg') }
 .fa-trash-o { background-image: url('../images/fa/trash-o.svg') }
 .fa-eye { background-image: url('../images/fa/eye.svg') }
-.fa-address-card-o { background-image: url('../images/fa/address-card-o.svg') }
+.fa-eye-slash { background-image: url('../images/fa/eye-slash.svg') }
 
 .pagination {
     list-style: none;

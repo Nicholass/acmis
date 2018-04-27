@@ -8,18 +8,20 @@
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
                     <div class="comment-user">
-                        <p class="username"><a href="{% url 'another_profile' username=user.username %}">{{ node.author }}</a></p>
-                        <p class="avatar">
+                        <div class="username"><a href="{% url 'another_profile' username=user.username %}" class="fa-link"><i class="fa fa-user-o"></i>{{ node.author }}</a></div>
+                        <div class="avatar">
                             {% if node.author.profile.avatar %}
                                 <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar }}" />
                             {% else %}
                                 <p class="noavatar"></p>
                             {% endif %}
-                        </p>
+                        </div>
                     </div>
                     <div class="comment-body">
                         <p class="comment-heading">
-                            <span> {{ node.created_date }}</span>
+                            <span class="fa-link">
+                                <i class="fa fa-calendar"></i> {{ node.created_date }}
+                            </span>
                         </p>
                         <p class="comment-content">
                             {{ node.text|linebreaksbr }}
