@@ -17,20 +17,28 @@
         {% if user.is_authenticated %}
             {% if is_owner or is_moderator %}
                 <div class="actions">
-                    <a href="{% url 'another_profile_edit' username=user.username %}">{% trans "Редактировать" %}</a>
+                    {% if is_owner %}
+                        <a href="{% url 'profile_edit' %}">{% trans "Редактировать" %}</a>
+                    {% else %}
+                        <a href="{% url 'another_profile_edit' username=user.username %}">{% trans "Редактировать" %}</a>
+                    {% endif %}
                 </div>
             {% endif %}
         {% endif %}
 
         <div class="content">
-            {% if user.profile.avatar %}
-                <div class="avatar">
-                    <img alt="{% trans "Аватар" %}" src="{{ user.profile.avatar }}" />
-                    <a href="#">{% trans "Удалить" %}</a>
+                <div class="avatar section">
+                    <h2>{{ user }}</h2>
+                    {% if user.profile.avatar %}
+                        <img alt="{% trans "Аватар" %}" src="{{ user.profile.avatar }}" />
+                        <br />
+                        <a href="#">{% trans "Удалить" %}</a>
+                    {% else %}
+                        <p class="noavatar"><span>{% trans "Аватар не загружен" %}</span></p>
+                    {% endif %}
                 </div>
-            {% endif %}
 
-            <div class="basic">
+            <div class="section">
                 <h2>{% trans "Основная информация" %}</h2>
                 {% if user.first_name or user.last_name %}
                     <p>{% trans "Имя:" %}</p>
@@ -48,7 +56,7 @@
                 <p><a href="{% url 'author_list' author=user.username %}">Публикации пользователя</a></p>
             </div>
 
-            <div class="aditional">
+            <div class="section">
                 <h2>{% trans "Дополнительная информация" %}</h2>
                 {% if user.profile.birth_date or  user.profile.location or user.profile.site %}
                     {% if user.profile.birth_date %}
@@ -68,7 +76,7 @@
                 {% endif %}
             </div>
 
-            <div class="social">
+            <div class="section">
                 <h2>{% trans "Социальные сети" %}</h2>
                 {% if user.profile.facebook or user.profile.vk or user.profile.instagram or user.profile.twitter or user.profile.youtube %}
                     {% if user.profile.facebook %}
@@ -96,7 +104,7 @@
                 {% endif %}
             </div>
 
-            <div class="contact">
+            <div class="section">
                 <h2>{% trans "Контакты" %}</h2>
                 {% if user.profile.telegram or user.profile.skype or user.profile.jabber %}
                     {% if user.profile.telegram %}
