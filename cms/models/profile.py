@@ -2,8 +2,9 @@ from django.db import models
 from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
 from django.dispatch import receiver
+from django.conf import settings
 
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 
 class Profile(models.Model):
@@ -39,3 +40,9 @@ class Profile(models.Model):
       permissions = (
           ("moderate_profile", _("Модерация профилей")),
       )
+
+    @receiver(post_save, sender=User)
+    def add_to_default_group(sender, instance, created, **kwargs):
+        if created:
+            group = Group.objects.get(name=settings.DEFAULT_REGISTRATION_GROUP)
+            instance.groups.add(group)

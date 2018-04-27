@@ -9,7 +9,6 @@ from django.core import signing
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
 
-
 def send_activation_code(user, request):
   current_site = get_current_site(request)
   site_name = current_site.name
@@ -29,7 +28,6 @@ def send_activation_code(user, request):
     'expiration_days': getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2)
   })
   user.email_user(subject, message)
-# end TODO
 
 
 def registration(request):
