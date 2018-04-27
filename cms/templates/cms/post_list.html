@@ -109,8 +109,9 @@
             {% endif %}
           </h2>
           <div class="info">
+            <i class="fa fa-calendar"></i>
             {{ post.created_date }}
-            <span class="sep">|</span>
+            <a href="{% url 'another_profile' username=post.author %}" class="fa-link"><i class="fa fa-user-o fa-margin"></i></a>
             <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
 
             {% comment_count as comm_count %}

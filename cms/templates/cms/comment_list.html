@@ -7,33 +7,44 @@
         <li>
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
-                    <p class="comment-heading">
-                        <span>{{ node.author }}</span> |
-                        <span> {{ node.created_date }}</span>
-                    </p>
-                    <p class="comment-content">
-                        {{ node.text|linebreaksbr }}
-                        {% if node.modifed_date %}
-                            <br />
-                            <br />
-                            <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
-                        {% endif %}
-                    </p>
-                    <p class="comment-footer">
-                        {% auth_is_owner node as is_comment_owner %}
-                        {% if user.is_authenticated %}
-                            {% if perms.cms.add_comment %}
-                                <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">Ответ</a> |
+                    <div class="comment-user">
+                        <p class="username"><a href="{% url 'another_profile' username=user.username %}">{{ node.author }}</a></p>
+                        <p class="avatar">
+                            {% if node.author.profile.avatar %}
+                                <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar }}" />
+                            {% else %}
+                                <p class="noavatar"></p>
                             {% endif %}
-                            {% if perms.cms.change_comment and is_comment_owner %}
-                                <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">Редактировать</a> |
+                        </p>
+                    </div>
+                    <div class="comment-body">
+                        <p class="comment-heading">
+                            <span> {{ node.created_date }}</span>
+                        </p>
+                        <p class="comment-content">
+                            {{ node.text|linebreaksbr }}
+                            {% if node.modifed_date %}
+                                <br />
+                                <br />
+                                <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
                             {% endif %}
-                            {% if perms.cms.delete_comment and is_comment_owner %}
-                                <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">Удалить</a> |
+                        </p>
+                        <p class="comment-footer">
+                            {% auth_is_owner node as is_comment_owner %}
+                            {% if user.is_authenticated %}
+                                {% if perms.cms.add_comment %}
+                                    <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">Ответ</a> |
+                                {% endif %}
+                                {% if perms.cms.change_comment and is_comment_owner %}
+                                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">Редактировать</a> |
+                                {% endif %}
+                                {% if perms.cms.delete_comment and is_comment_owner %}
+                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">Удалить</a> |
+                                {% endif %}
                             {% endif %}
-                        {% endif %}
-                        <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">{% trans "Ссылка" %}</a></span>
-                    </p>
+                            <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">{% trans "Ссылка" %}</a></span>
+                        </p>
+                    </div>
                 {% else %}
                     <p class="media-content">
                         <i>Комментарий был удален</i>

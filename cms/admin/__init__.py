@@ -3,6 +3,7 @@ from django.utils.translation import ugettext as _
 from django.contrib.auth.admin import UserAdmin
 
 from ..views import send_activation_code
+from ..forms import ProfileForm
 
 from ..models import Post, TextPost, BinaryPost, Category, Comment, Profile
 from django.contrib.auth.models import User, Permission
@@ -41,22 +42,26 @@ send_activation.short_description = _('Отправить код активац�
 class ProfileInline(admin.StackedInline):
     model = Profile
     can_delete = False
+    form = ProfileForm
     verbose_name_plural = 'Профиль'
     fk_name = 'user'
 
 
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline, )
-    model = User
     list_filter = ['is_active', 'is_staff', 'last_login']
     list_display = ('username', 'email', 'is_active', 'is_staff', 'last_login')
     actions = [send_activation,]
+
+    def __init__(self, *args, **kwargs):
+      super(CustomUserAdmin, self).__init__(*args, **kwargs)
+
+      print(self.fields)
 
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
-
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)

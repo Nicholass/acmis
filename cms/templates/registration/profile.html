@@ -27,14 +27,14 @@
         {% endif %}
 
         <div class="content">
-                <div class="avatar section">
+                <div class="avatar">
                     <h2>{{ user }}</h2>
                     {% if user.profile.avatar %}
                         <img alt="{% trans "Аватар" %}" src="{{ user.profile.avatar }}" />
                         <br />
                         <a href="#">{% trans "Удалить" %}</a>
                     {% else %}
-                        <p class="noavatar"><span>{% trans "Аватар не загружен" %}</span></p>
+                        <p class="noavatar"></p>
                     {% endif %}
                 </div>
 

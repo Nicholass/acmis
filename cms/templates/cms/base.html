@@ -32,7 +32,7 @@
     </div>
     <div class="menu" id="acisMenu">
         {% if user.is_authenticated %}
-            <p class="greeting">{% trans "Вы вошли как: " %}<strong>{{ user.username }}</strong></p>
+            <p class="greeting">{% trans "Вы вошли как: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong></p>
         {% endif %}
     </div>
     <div class="navbar">
