@@ -8,7 +8,7 @@
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
                     <div class="comment-user">
-                        <div class="username"><a href="{% url 'another_profile' username=user.username %}" class="fa-link"><i class="fa fa-user-o"></i>{{ node.author }}</a></div>
+                        <div class="username"><a href="{% url 'another_profile' username=node.author.username %}" class="fa-link"><i class="fa fa-user-o"></i>{{ node.author }}</a></div>
                         <div class="avatar">
                             {% if node.author.profile.avatar %}
                                 <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar }}" />

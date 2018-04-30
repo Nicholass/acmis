@@ -19,27 +19,27 @@
     {% comment_count as comm_count %}
 
     <div class="block article {% if post.file %}file{% else %}text{% endif %}">
+
         <div class="actions">
             {% if user.is_authenticated %}
+              {% auth_is_owner post as is_post_owner %}
 
-                {% if perms.cms.change_post and is_post_owner %}
-                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans "Редактировать" %}</a>
-                    <span class="sep">|</span>
-                {% endif %}
+              {% if perms.cms.change_post and is_post_owner %}
+                  <a href="{% url 'post_edit' pk=post.pk %}" class="fa-link"><i class="fa fa-pencil"></i>{% trans "Редактировать" %}</a>
+              {% endif %}
 
-                {% if perms.cms.delete_post and is_post_owner %}
-                    <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')">{% trans "Удалить" %}</a>
-                    <span class="sep">|</span>
-                {% endif %}
+              {% if perms.cms.delete_post and is_post_owner %}
+                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o fa-margin"></i>{% trans "Удалить" %}</a>
+              {% endif %}
 
-                {% if post.is_public %}
-                    <a href="#">{% trans "Скрыть" %}</a>
-                {% else %}
-                    <a href="#">{% trans "Опубликовать" %}</a>
-                {% endif %}
-
+              {% if post.is_public %}
+                <a href="#" class="fa-link"><i class="fa fa-eye-slash fa-margin"></i>{% trans "Скрыть" %}</a>
+              {% else %}
+                <a href="#" class="fa-link"><i class="fa fa-eye fa-margin"></i>{% trans "Опубликовать" %}</a>
+              {% endif %}
             {% endif %}
-        </div>
+          </div>
+
         <div class="info">
             <p>
                 <strong>{% trans "Автор: " %}</strong>
