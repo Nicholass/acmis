@@ -730,6 +730,7 @@ label .required {
 .fa-trash-o { background-image: url('../images/fa/trash-o.svg') }
 .fa-eye { background-image: url('../images/fa/eye.svg') }
 .fa-eye-slash { background-image: url('../images/fa/eye-slash.svg') }
+.fa-link { background-image: url('../images/fa/link.svg') }
 
 .pagination {
     list-style: none;
