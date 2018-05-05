@@ -4,6 +4,8 @@ acis_venv/
 media/
 draft/
 static/
+bower_components/
+cms/static/assets/
 *.pyc
 *.mo
 db.sqlite3

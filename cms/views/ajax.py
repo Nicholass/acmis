@@ -4,7 +4,14 @@ from django.http import JsonResponse
 from taggit.models import Tag
 
 
-def get_simular_tags(request, part=None):
-    tags = Tag.objects.filter(name__icontains=part).values('name')
+def get_simular_tags(request):
+    query = request.GET.get('term')
+    print(query)
+    tags = Tag.objects.filter(name__icontains=query).values('name')
 
-    return JsonResponse(list(tags), safe=False)
+    result = []
+
+    for tag in tags:
+        result.append(tag['name'])
+
+    return JsonResponse(list(result), safe=False)

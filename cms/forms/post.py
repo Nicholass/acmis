@@ -9,6 +9,18 @@ class PostForm(forms.ModelForm):
     model = Post
     fields = ('title', 'tags', 'is_public')
 
+  class Media:
+    js = (
+      'assets/jquery.tagsinput/src/jquery.tagsinput.js',
+      'js/postForm.js'
+    )
+    css = {
+      'screen': (
+        'assets/jquery-ui/themes/base/jquery-ui.min.css',
+        'assets/jquery.tagsinput/src/jquery.tagsinput.css',
+      ),
+    }
+
 
 class TextPostForm(PostForm):
 

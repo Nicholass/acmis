@@ -56,8 +56,6 @@ class CustomUserAdmin(UserAdmin):
     def __init__(self, *args, **kwargs):
       super(CustomUserAdmin, self).__init__(*args, **kwargs)
 
-      print(self.fields)
-
     def get_inline_instances(self, request, obj=None):
         if not obj:
             return list()
