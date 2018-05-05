@@ -700,6 +700,11 @@ label .required {
     margin-bottom: 30px;
 }
 
+.rules ul {
+    list-style: none;
+    padding-left: 10px;
+}
+
 /* Футер */
 .footer {
     padding-left: 28px;

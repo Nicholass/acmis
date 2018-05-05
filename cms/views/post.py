@@ -40,7 +40,7 @@ def post_list(request, tags=None, category=None, author=None):
 
   page = request.GET.get('page', 1)
 
-  paginator = Paginator(posts_list, 25)
+  paginator = Paginator(posts_list, getattr(settings, 'PAGINATION_POSTS_COUNT', 'news'))
   try:
     posts = paginator.page(page)
   except PageNotAnInteger:

@@ -13,23 +13,19 @@
     <h1 class="form-header">{% trans "Регистрация учетной записи" %}</h1>
     <p>{% trans "Для регистрации необходимо ознакомиться и согласиться с правилами ниже." %}</p>
 
-    <h2>Правила сайта ACIS</h2>
+    <h2>{% trans "Правила сайта ACIS" %}</h2>
 
     {# TODO: Правила грузить в виде текста для возможности перевода на другие языки #}
-
-    <h3>1. Общие положения</h3>
-    <ul>
-        <li>1. У нас анархия</li>
-        <li>2. Разрешено все, что не запрещено действующим законодательством Украины.</li>
-        <li>3. Запрещен любой безответный безпредел. За свои слова и действия надо отвечать.</li>
-    </ul>
+    <div class="rules">
+        {% block rules %}{% endblock %}
+    </div>
 
     <form method="get" action="" class="registration-rules-form">
         <p>
             <input type="checkbox" name="accept" id="accept" />
-            <label for="accept">Я согласен с указанными выше правилами</label>
+            <label for="accept">{% trans "Я согласен с указанными выше правилами" %}</label>
         </p>
-        <input type="hidden" value="1" name="agerment" />
+        <input type="hidden" name="proceed" value="1" />
         <p class="buttons">
             <button type="submit" class="save btn btn-default">{% trans "Регистрация" %}</button>
         </p>

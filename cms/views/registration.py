@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from django.contrib.auth.models import User
 
@@ -29,7 +29,6 @@ def send_activation_code(user, request):
   })
   user.email_user(subject, message)
 
-
 def registration(request):
   if not getattr(settings, 'REGISTRATION_OPEN', True):
     return render(request, 'registration/registration_closed.html')
@@ -47,6 +46,11 @@ def registration(request):
       return render(request, 'registration/registration_complete.html')
 
   else:
+    if 'proceed' not in request.GET:
+      return render(request, 'registration/rules/{0}.html'.format(request.LANGUAGE_CODE))
+    elif 'accept' not in request.GET:
+      return redirect('post_list')
+
     form = RegistrationForm()
 
   return render(request, 'registration/registration_form.html', {'form': form})
