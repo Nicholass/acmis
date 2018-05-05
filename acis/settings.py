@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'ckeditor',
     'ckeditor_uploader',
-    'django_bleach'
+    'django_bleach',
+    'ban'
 ]
 
 MIDDLEWARE = [
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
+    'ban.middleware.BanManagement'
 ]
 
 ROOT_URLCONF = 'acis.urls'
