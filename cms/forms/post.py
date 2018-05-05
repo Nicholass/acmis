@@ -16,7 +16,6 @@ class PostForm(forms.ModelForm):
     )
     css = {
       'screen': (
-        'assets/jquery-ui/themes/base/jquery-ui.min.css',
         'assets/jquery.tagsinput/src/jquery.tagsinput.css',
       ),
     }

@@ -32,6 +32,20 @@ class PostFormAdmin(forms.ModelForm):
 
     self.fields['category'].queryset = Category.objects.filter(kind=kind)
 
+  class Media:
+    js = (
+      'assets/jquery/dist/jquery.min.js',
+      'assets/jquery-ui/jquery-ui.min.js',
+      'assets/jquery.tagsinput/src/jquery.tagsinput.js',
+      'js/postForm.js'
+    )
+    css = {
+      'screen': (
+        'assets/jquery-ui/themes/base/jquery-ui.min.css',
+        'assets/jquery.tagsinput/src/jquery.tagsinput.css',
+      ),
+    }
+
 
 class PostParentAdmin(PolymorphicParentModelAdmin):
   base_model = Post
