@@ -38,13 +38,13 @@
                                     <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}" class="fa-link"><i class="fa fa-comment-o"></i>{% trans "Ответ" %}</a>
                                 {% endif %}
                                 {% if perms.cms.change_comment and is_comment_owner %}
-                                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}" class="fa-link"><i class="fa fa-pencil fa-margin"></i>{% trans "Редактировать" %}</a>
+                                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}" class="fa-link"><i class="fa fa-pencil"></i>{% trans "Редактировать" %}</a>
                                 {% endif %}
                                 {% if perms.cms.delete_comment and is_comment_owner %}
-                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o fa-margin"></i>{% trans "Удалить" %}</a>
+                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
                                 {% endif %}
                             {% endif %}
-                            <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}" class="fa-link"><i class="fa fa-link fa-margin"></i>{% trans "Ссылка" %}</a></span>
+                            <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}" class="fa-link"><i class="fa fa-link"></i>{% trans "Ссылка" %}</a></span>
                         </p>
                     </div>
                 {% else %}

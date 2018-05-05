@@ -427,7 +427,6 @@ button[disabled] {
     margin-bottom: 0;
     width: 200px;
     height: auto;
-    text-align: center;
     justify-self: center;
     align-self: start;
 }
@@ -440,6 +439,9 @@ button[disabled] {
 }
 .content.photo .post .info {
     display: block;
+}
+.content.photo .post .info p{
+    margin-top: 5px;
 }
 .content.photo .post .comments-link {
     display: inline-block;
@@ -716,6 +718,10 @@ label .required {
     display: inline-flex;
     align-items: flex-end;
 }
+.fa-link:not(:first-child) i {
+    margin: 0 5px 0 15px;
+}
+
 .fa {
     display: inline-block;
     background-size: 100% 100%;
@@ -723,9 +729,6 @@ label .required {
     height: 1.3em;
     width: 1.3em;
     margin: 0 5px 0 0;
-}
-.fa-margin {
-    margin: 0 5px 0 15px;
 }
 .fa-user-o { background-image: url('../images/fa/user-o.svg') }
 .fa-calendar { background-image: url('../images/fa/calendar.svg') }

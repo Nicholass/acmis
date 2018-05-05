@@ -29,13 +29,13 @@
               {% endif %}
 
               {% if perms.cms.delete_post and is_post_owner %}
-                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o fa-margin"></i>{% trans "Удалить" %}</a>
+                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
               {% endif %}
 
               {% if post.is_public %}
-                <a href="#" class="fa-link"><i class="fa fa-eye-slash fa-margin"></i>{% trans "Скрыть" %}</a>
+                <a href="#" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
               {% else %}
-                <a href="#" class="fa-link"><i class="fa fa-eye fa-margin"></i>{% trans "Опубликовать" %}</a>
+                <a href="#" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
               {% endif %}
             {% endif %}
           </div>
@@ -55,7 +55,7 @@
         <h1 class="header-simple">{{ post.title }}</h1>
         <div class="content clearfix">
             {% if post.file %}
-                <a href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+                <a data-fancybox="images" href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
 
                 <p class="description">{{ post.description }}</p>
             {% else %}

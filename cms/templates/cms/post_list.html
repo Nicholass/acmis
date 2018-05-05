@@ -109,24 +109,32 @@
             {% endif %}
           </h2>
           <div class="info">
-            <span class="fa-link">
-                <i class="fa fa-calendar"></i>{{ post.created_date }}
-            </span>
-            <a href="{% url 'another_profile' username=post.author %}" class="fa-link" title="{% trans "Профиль пользователя" %}"><i class="fa fa-user-o fa-margin"></i></a>
-            <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
+            {% if category.route == 'photo' or category.route == 'drawing' %}
+                <p><span class="fa-link"><i class="fa fa-calendar"></i>{{ post.created_date }}</span></p>
+                <p><a href="{% url 'author_list' author=post.author %}" class="fa-link"><i class="fa fa-user-o"></i>{{ post.author }}</a></p>
+            {% else %}
+                <span class="fa-link"><i class="fa fa-calendar"></i>{{ post.created_date }}</span>
+                <a href="{% url 'another_profile' username=post.author %}" class="fa-link" title="{% trans "Профиль пользователя" %}"><i class="fa fa-user-o"></i></a>
+                <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
+            {% endif %}
 
             {% comment_count as comm_count %}
             {% if comm_count and category.route != 'map' %}
 
               {% if category.route == 'photo' or category.route == 'drawing' %}
-                <br />
+                <p>
               {% endif %}
 
-              <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link fa-link"><i class="fa fa-comment-o fa-margin"></i>{{ comm_count }}
+              <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link fa-link"><i class="fa fa-comment-o"></i>{{ comm_count }}
                 {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
                 {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
                 {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
               </a>
+
+              {% if category.route == 'photo' or category.route == 'drawing' %}
+                </p>
+              {% endif %}
+
             {% endif %}
           </div>
 
@@ -165,13 +173,13 @@
               {% endif %}
 
               {% if perms.cms.delete_post and is_post_owner %}
-                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o fa-margin"></i>{% trans "Удалить" %}</a>
+                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
               {% endif %}
 
               {% if post.is_public %}
-                <a href="#" class="fa-link"><i class="fa fa-eye-slash fa-margin"></i>{% trans "Скрыть" %}</a>
+                <a href="#" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
               {% else %}
-                <a href="#" class="fa-link"><i class="fa fa-eye fa-margin"></i>{% trans "Опубликовать" %}</a>
+                <a href="#" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
               {% endif %}
             {% endif %}
           </div>

@@ -17,4 +17,13 @@ $(document).ready(function(){
 
         return false;
     });
+
+    $("[data-fancybox]").fancybox({
+	    buttons: [
+            "zoom",
+            "share",
+            "download",
+            "close"
+        ],
+    });
 });
