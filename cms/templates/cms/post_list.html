@@ -100,7 +100,10 @@
       {% endif %}
 
       {% for post in posts %}
-        <div class="post" id="{{ post.pk }}">
+        {% auth_is_owner post as is_post_owner %}
+
+        {% if post.is_public or is_post_owner or perms.cms.moderate_post %}
+        <div class="post{% if not post.is_public %} hidden{% endif %}" id="{{ post.pk }}">
           <h2>
             {% if category.route == 'map' %}
               <a href="{% url 'map_file' map_hash=post.hash %}">{{ post.title }}</a>
@@ -143,7 +146,7 @@
             {% if not post.file %}
               {{ post.text|truncatechars:800|bleach }}
             {% else %}
-              <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+              <a href="{% url 'post_detail' pk=post.pk %}{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
             {% endif %}
             </div>
           {% endif %}
@@ -164,7 +167,6 @@
           {% endif %}
 
           <div class="actions">
-            {% auth_is_owner post as is_post_owner %}
             {% if user.is_authenticated %}
               {% auth_is_owner post as is_post_owner %}
 
@@ -176,14 +178,17 @@
                 <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
               {% endif %}
 
-              {% if post.is_public %}
-                <a href="#" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
-              {% else %}
-                <a href="#" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
+              {% if perms.cms.publish_post and is_post_owner %}
+                {% if post.is_public %}
+                  <a href="{% url 'post_unpublish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
+                {% else %}
+                  <a href="{% url 'post_publish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
+                {% endif %}
               {% endif %}
             {% endif %}
           </div>
         </div>
+        {% endif %}
       {% endfor %}
 
     </div>

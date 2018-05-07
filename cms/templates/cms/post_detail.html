@@ -33,10 +33,12 @@
                 <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
               {% endif %}
 
-              {% if post.is_public %}
-                <a href="#" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
-              {% else %}
-                <a href="#" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
+              {% if perms.cms.publish_post and is_post_owner %}
+                {% if post.is_public %}
+                  <a href="{% url 'post_unpublish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
+                {% else %}
+                  <a href="{% url 'post_publish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
+                {% endif %}
               {% endif %}
             {% endif %}
           </div>

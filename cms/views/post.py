@@ -26,7 +26,6 @@ def post_list(request, tags=None, category=None, author=None):
     t = tags.split(",")
 
   query = {
-    'is_public': True,
     'tags__name__in': t,
     'author__username': author,
     'category': c
@@ -158,3 +157,25 @@ def post_delete(request, pk):
 
   post.delete()
   return redirect('category_list', category=category)
+
+@login_required
+@permission_required('cms.publish_post', raise_exception=True)
+def post_publish(request, pk):
+  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  is_owner_or_403(request.user, post)
+
+  post.is_public = True
+  post.save()
+
+  return redirect('category_list', category=post.category.route)
+
+@login_required
+@permission_required('cms.publish_post', raise_exception=True)
+def post_unpublish(request, pk):
+  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  is_owner_or_403(request.user, post)
+
+  post.is_public = False
+  post.save()
+
+  return redirect('category_list', category=post.category.route)

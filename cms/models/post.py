@@ -56,6 +56,7 @@ class Post(PolymorphicModel):
     verbose_name_plural = _("Посты")
     permissions = (
         ("moderate_post", _("Модерация постов")),
+        ("publish_post", _("Публикация постов")),
     )
 
 

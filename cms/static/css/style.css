@@ -384,6 +384,9 @@ button[disabled] {
 .actions .sep {
     margin: 0 5px;
 }
+.post.hidden {
+    opacity: 0.5;
+}
 
 .content.map .post {
     display: grid;
