@@ -3,6 +3,7 @@
 {% load comments %}
 {% load auth %}
 {% load bleach_tags %}
+{% load next_previous %}
 
 {% block title %}
     {% trans "ACIS - " %}{{ post }}
@@ -73,11 +74,29 @@
                 {% endfor %}
             </div>
         {% endif %}
+
+        {% get_previous posts post as prev %}
+        {% get_next posts post as next %}
+
+        {% if prev or next %}
+            <div class="posts_nav">
+                {% if prev %}
+                    <a href="{% url 'post_detail' pk=prev.pk %}">{% trans "&lt; Предыдущий" %}</a>
+                {% else %}
+                    <span></span>
+                {% endif %}
+                {% if next %}
+                    <a href="{% url 'post_detail' pk=next.pk %}">{% trans "Следующий &gt;" %}</a>
+                {% endif %}
+            </div>
+        {% endif %}
     </div>
 
     {% if comm_count or perms.cms.add_comment %}
         <h3 id="comments">{% trans "Комментарии:" %}</h3>
     {% endif %}
+
+    {% if comm_count %}{% comment_list %}{% endif %}
 
     {% if perms.cms.add_comment %}
         <div class="comments-form">
@@ -86,6 +105,4 @@
             </div>
         </div>
     {% endif %}
-
-    {% if comm_count %}{% comment_list %}{% endif %}
 {% endblock %}

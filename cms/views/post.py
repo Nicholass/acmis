@@ -68,7 +68,9 @@ def post_detail(request, pk):
   if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
     raise Http404("No Post matches the given query.")
 
-  return render(request, 'cms/post_detail.html', {'post': post})
+  posts = Post.objects.filter(category=post.category).order_by('published_date')
+
+  return render(request, 'cms/post_detail.html', {'post': post, 'posts': posts})
 
 
 @login_required

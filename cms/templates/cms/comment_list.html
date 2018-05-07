@@ -44,7 +44,7 @@
                                     <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
                                 {% endif %}
                             {% endif %}
-                            <span><a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}" class="fa-link"><i class="fa fa-link"></i>{% trans "Ссылка" %}</a></span>
+                            <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}" class="fa-link"><i class="fa fa-link"></i>{% trans "Ссылка" %}</a>
                         </p>
                     </div>
                 {% else %}

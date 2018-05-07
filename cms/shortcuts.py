@@ -25,6 +25,7 @@ def allow_view_category(user, category):
 
   return False
 
+
 def get_permited_object_or_404(model, user, **kwargs):
 
   if model is Category:
@@ -41,6 +42,7 @@ def get_permited_object_or_404(model, user, **kwargs):
   q_anoymous['%sallow_anonymous' % q_category_prefix] = True
 
   return get_object_or_404(model, (Q(**q_anoymous) | Q(**q_groups)))
+
 
 def get_permited_object_or_403(model, user, **kwargs):
   object = get_object_or_404(model, **kwargs)
@@ -60,6 +62,7 @@ def get_permited_object_or_403(model, user, **kwargs):
       raise PermissionDenied()
 
   return object
+
 
 def is_owner_or_403(user_obj, obj):
   if not is_owner(user_obj, obj):

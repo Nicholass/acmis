@@ -753,6 +753,12 @@ label .required {
     font-weight: bold;
 }
 
+.posts_nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
 .clearfix .content:before,
 .clearfix:after {
    content: "";
