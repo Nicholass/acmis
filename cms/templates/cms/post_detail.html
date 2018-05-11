@@ -58,7 +58,7 @@
         <h1 class="header-simple">{{ post.title }}</h1>
         <div class="content clearfix">
             {% if post.file %}
-                <a data-fancybox="images" href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+                <a data-fancybox="images" href="{{ MEDIA_URL }}{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
 
                 <p class="description">{{ post.description }}</p>
             {% else %}
