@@ -342,6 +342,10 @@ button[disabled] {
     margin: 10px 0 0 0;
     padding: 0 17px;
 }
+.block .link_dissaproved {
+    padding-left: 10px;
+    display: inline-block;
+}
 
 .post {
     margin-bottom: 20px;
@@ -384,8 +388,11 @@ button[disabled] {
 .actions .sep {
     margin: 0 5px;
 }
-.post.hidden {
+.post.hidden, .post.disaproved {
     opacity: 0.5;
+}
+.post.disaproved h2 a {
+    color: red;
 }
 
 .content.map .post {
@@ -742,6 +749,7 @@ label .required {
 .fa-eye { background-image: url('../images/fa/eye.svg') }
 .fa-eye-slash { background-image: url('../images/fa/eye-slash.svg') }
 .fa-link { background-image: url('../images/fa/link.svg') }
+.fa-check-square-o { background-image: url('../images/fa/check-square-o.svg') }
 
 .pagination {
     list-style: none;

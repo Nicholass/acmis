@@ -16,6 +16,8 @@ urlpatterns = [
   url(r'^post/(?P<pk>[0-9]+)/delete/$', views.post_delete, name='post_delete'),
   url(r'^post/(?P<pk>[0-9]+)/publish/$', views.post_publish, name='post_publish'),
   url(r'^post/(?P<pk>[0-9]+)/unpublish/$', views.post_unpublish, name='post_unpublish'),
+  url(r'^post/(?P<pk>[0-9]+)/approve/$', views.post_approve, name='post_approve'),
+  url(r'^category/(?P<category>\w+)/disapproved/$', views.post_disapproved, name='category_disapproved'),
 
   url(r'^post/(?P<pk>[0-9]+)/comment/new/$', views.comment_new, name='comment_new'),
   url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/reply/$', views.comment_reply, name='comment_reply'),

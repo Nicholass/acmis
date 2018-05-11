@@ -68,6 +68,18 @@ def is_owner_or_403(user_obj, obj):
   if not is_owner(user_obj, obj):
     raise PermissionDenied()
 
+
+def is_moderator_or_403(user_obj, obj=None):
+  if obj:
+    model_name = obj.__class__.__name__.lower()
+    is_moderator = user_obj.has_perm('cms.moderate_%s' % model_name)
+  else:
+    is_moderator = user_obj.has_perm('cms.moderate_post')
+
+  if not is_moderator:
+    raise PermissionDenied()
+
+
 def is_owner(user_obj, obj):
   model_name = obj.__class__.__name__.lower()
 

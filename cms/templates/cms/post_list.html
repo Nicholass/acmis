@@ -29,7 +29,7 @@
 
     {{ author }}
   {% elif category %}
-    {% if tags %}
+    {% if tags or is_disapproved %}
       <li><a href="{% url 'category_list' category=category.route %}">
     {% else %}
       <li class="current">
@@ -38,12 +38,16 @@
     {{ category }}
   {% endif %}
 
-  {% if tags %}
+  {% if tags or is_disapproved  %}
     </a></li>
     <li class="sep">&#187;</li>
     <li class="current">{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
   {% else %}
     </li>
+  {% endif %}
+
+  {% if is_disapproved %}
+      <li class="current">{% trans "Перемодерация" %}</li>
   {% endif %}
 {% endblock %}
 
@@ -53,8 +57,11 @@
       {% if author %}
         {% trans "Материалы автора " %}{{ author }}
       {% elif category %}
+          {% if is_disapproved %}
+            {% trans "Перемодерация постов категории " %}
+          {% endif %}
 
-        {# TODO: перевод названия категории на уровне модели #}
+          {# TODO: перевод названия категории на уровне модели #}
           {{ category }}
       {% elif tags %}
         {% trans "Материалы" %}
@@ -65,37 +72,47 @@
       {% endif %}
     </h1>
 
-    {% if category and user.is_authenticated and perms.cms.add_post %}
-      <div class="category-menu">
-        <a href="{% url 'post_new' category=category.route %}">
-          {% trans "Добавить " %}
+      {% if category and user.is_authenticated %}
+        <div class="category-menu">
+          {% if perms.cms.add_post %}
+              <a href="{% url 'post_new' category=category.route %}">
+                {% trans "Добавить " %}
 
-          {# TODO: перевод названия категории на уровне модели #}
+                {# TODO: перевод названия категории на уровне модели #}
 
-          {% if category.route == 'drawing' %}
-            {% trans "рисунок" %}
-          {% elif category.route == 'map' %}
-            {% trans "карту" %}
-          {% elif category.route == 'news' %}
-            {% trans "новость" %}
-          {% elif category.route == 'photo' %}
-            {% trans "фотографию" %}
-          {% elif category.route == 'prose' %}
-            {% trans "рассказ" %}
-          {% elif category.route == 'report' %}
-            {% trans "отчет" %}
+                {% if category.route == 'drawing' %}
+                  {% trans "рисунок" %}
+                {% elif category.route == 'map' %}
+                  {% trans "карту" %}
+                {% elif category.route == 'news' %}
+                  {% trans "новость" %}
+                {% elif category.route == 'photo' %}
+                  {% trans "фотографию" %}
+                {% elif category.route == 'prose' %}
+                  {% trans "рассказ" %}
+                {% elif category.route == 'report' %}
+                  {% trans "отчет" %}
+                {% endif %}
+              </a>
           {% endif %}
-        </a>
-      </div>
-    {% endif %}
+
+          {% if perms.cms.moderate_post and posts_disapproved > 0 %}
+              <strong><a href="{% url 'category_disapproved' category=category.route %}" class="link_dissaproved">Ожидают модерации ({{ posts_disapproved }})</a></strong>
+          {% endif %}
+        </div>
+      {% endif %}
 
     <div class="content {{ category.route }}">
       {% if not posts %}
         <p>
-          {% url 'post_new' category=category.route as post_new_url %}
-          {% blocktrans with post_new_url=post_new_url %}
-          В категории пока нет материалов. Вы можете <a href="{{ post_new_url }}">добавить</a> первым.
-          {% endblocktrans %}
+          {% if not is_disapproved %}
+            {% url 'post_new' category=category.route as post_new_url %}
+            {% blocktrans with post_new_url=post_new_url %}
+            В категории пока нет материалов. Вы можете <a href="{{ post_new_url }}">добавить</a> первым.
+            {% endblocktrans %}
+          {% else %}
+              {% trans "В категории нет постов ожидающих перемодерации." %}
+          {% endif %}
         </p>
       {% endif %}
 
@@ -103,7 +120,7 @@
         {% auth_is_owner post as is_post_owner %}
 
         {% if post.is_public or is_post_owner or perms.cms.moderate_post %}
-        <div class="post{% if not post.is_public %} hidden{% endif %}" id="{{ post.pk }}">
+        <div class="post{% if not post.is_public %} hidden{% endif %}{% if not post.is_moderated %} disaproved{% endif %}" id="{{ post.pk }}">
           <h2>
             {% if category.route == 'map' %}
               <a href="{% url 'map_file' map_hash=post.hash %}">{{ post.title }}</a>
@@ -183,6 +200,11 @@
                   <a href="{% url 'post_unpublish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
                 {% else %}
                   <a href="{% url 'post_publish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
+                {% endif %}
+              {% endif %}
+              {% if perms.cms.moderate_post %}
+                {% if not post.is_moderated %}
+                  <a href="{% url 'post_approve' pk=post.pk %}" class="fa-link"><i class="fa fa-check-square-o"></i>{% trans "Одобрить" %}</a>
                 {% endif %}
               {% endif %}
             {% endif %}

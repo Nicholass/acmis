@@ -1,4 +1,4 @@
-from ..shortcuts import get_permited_object_or_403, is_owner_or_403
+from ..shortcuts import get_permited_object_or_403, is_owner_or_403, is_moderator_or_403
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.conf import settings
@@ -13,7 +13,7 @@ from ..forms import TextPostForm, BinaryPostForm, PostForm
 from ..models import Post, Category
 
 
-def post_list(request, tags=None, category=None, author=None):
+def post_list(request, tags=None, category=None, author=None, disapproved=None):
 
   t = c = None
   if not category and not tags and not author:
@@ -28,7 +28,8 @@ def post_list(request, tags=None, category=None, author=None):
   query = {
     'tags__name__in': t,
     'author__username': author,
-    'category': c
+    'category': c,
+    'is_moderated': True
   }
 
   q = {k: v for k, v in query.items() if v is not None}
@@ -53,13 +54,44 @@ def post_list(request, tags=None, category=None, author=None):
         if post.pk == pk:
           post.hash = map_hash
 
+  posts_disapproved = Post.objects.filter(category=c, is_moderated=False)
+
   return render(request, 'cms/post_list.html', {
     'posts': posts,
     'category': c,
     'tags': t,
-    'author': author
+    'author': author,
+    'posts_disapproved': len(posts_disapproved)
   })
 
+
+def post_disapproved(request, category):
+  c = get_permited_object_or_403(Category, request.user, route=category)
+  is_moderator_or_403(request.user)
+
+  posts_list = Post.objects.filter(category=c, is_moderated=False)
+
+  page = request.GET.get('page', 1)
+
+  paginator = Paginator(posts_list, getattr(settings, 'PAGINATION_POSTS_COUNT', 'news'))
+  try:
+    posts = paginator.page(page)
+  except PageNotAnInteger:
+    posts = paginator.page(1)
+  except EmptyPage:
+    posts = paginator.page(paginator.num_pages)
+
+  if category == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps') and request.user.is_authenticated():
+    for post in posts:
+      for map_hash, pk in request.session['map_urls'].items():
+        if post.pk == pk:
+          post.hash = map_hash
+
+  return render(request, 'cms/post_list.html', {
+    'posts': posts,
+    'category': c,
+    'is_disapproved': True
+  })
 
 def post_detail(request, pk):
   post = get_permited_object_or_403(Post, request.user, pk=pk)
@@ -176,6 +208,17 @@ def post_unpublish(request, pk):
   is_owner_or_403(request.user, post)
 
   post.is_public = False
+  post.save()
+
+  return redirect('category_list', category=post.category.route)
+
+@login_required
+@permission_required('cms.moderate_post', raise_exception=True)
+def post_approve(request, pk):
+  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  is_moderator_or_403(request.user, post)
+
+  post.is_moderated = True
   post.save()
 
   return redirect('category_list', category=post.category.route)
