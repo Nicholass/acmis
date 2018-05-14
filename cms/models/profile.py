@@ -43,6 +43,6 @@ class Profile(models.Model):
 
     @receiver(post_save, sender=User)
     def add_to_default_group(sender, instance, created, **kwargs):
-        if created:
+        if created and not instance.is_superuser:
             group = Group.objects.get(name=settings.DEFAULT_REGISTRATION_GROUP)
             instance.groups.add(group)
