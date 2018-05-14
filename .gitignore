@@ -5,8 +5,8 @@ media/
 draft/
 static/
 bower_components/
-cms/static/assets/
 *.pyc
 *.mo
 db.sqlite3
+db.sqlite3.old
 .DS_Store

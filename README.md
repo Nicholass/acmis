@@ -6,7 +6,7 @@
 virtualenv --python=python3 --prompt="ACIS" acis_venv
 . ./acis_venv/bin/activate
 pip install -r ./requirements.txt
-python manage.py migrate
+python manage.py deploy
 python manage.py runserver
 ```
 

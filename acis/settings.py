@@ -43,7 +43,8 @@ INSTALLED_APPS = [
     'ckeditor',
     'ckeditor_uploader',
     'django_bleach',
-    'ban'
+    'ban',
+    'djangobower'
 ]
 
 MIDDLEWARE = [
@@ -138,6 +139,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
+STATICFILES_FINDERS = (
+    'django.contrib.staticfiles.finders.FileSystemFinder',
+    'django.contrib.staticfiles.finders.AppDirectoriesFinder',
+    'djangobower.finders.BowerFinder',
+)
+
+BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, './')
+BOWER_INSTALLED_APPS = (
+    'jquery#3.3',
+    'jquery-ui#1.12',
+    'jquery.tagsinput#1.3.6',
+    'fancybox#3.3.5',
+)
+
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = 'uploads/'
@@ -204,3 +219,5 @@ AVATAR_MAX_HEIGHT = 60
 DEFAULT_REGISTRATION_GROUP = 'Пользователи'
 
 PAGINATION_POSTS_COUNT = 25
+
+MODERATION_CATEGORIES = ['map', 'news']
