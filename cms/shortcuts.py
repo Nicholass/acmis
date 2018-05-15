@@ -19,6 +19,9 @@ def allow_view_category(user, category):
   if c.allow_anonymous:
     return True
 
+  if user.is_superuser:
+    return True
+
   for cat_group in c.groups.all():
     if cat_group in user.groups.all():
       return True
@@ -58,7 +61,7 @@ def get_permited_object_or_403(model, user, **kwargs):
     category_groups = cat.groups.all()
     user_groups = user.groups.all()
 
-    if len(set(category_groups) & set(user_groups)) == 0:
+    if len(set(category_groups) & set(user_groups)) == 0 and user.is_superuser == False:
       raise PermissionDenied()
 
   return object
