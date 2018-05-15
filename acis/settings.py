@@ -220,4 +220,5 @@ DEFAULT_REGISTRATION_GROUP = 'Пользователи'
 
 PAGINATION_POSTS_COUNT = 25
 
-MODERATION_CATEGORIES = ['map', 'news']
+PREMODERATION_CATEGORIES = ['map', 'news']
+PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с доступом к разделу карт']

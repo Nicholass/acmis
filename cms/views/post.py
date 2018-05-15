@@ -125,12 +125,23 @@ def post_new(request,category):
       post.published_date = timezone.now()
       post.category = categoryObj
 
+      is_premod_cat = post.category.route in getattr(settings, 'PREMODERATION_CATEGORIES', [])
+      is_premod_group = request.user.groups.filter(name__in=getattr(settings, 'PREMODERATION_GROUPS', [])).exists()
+
+      if is_premod_cat and is_premod_group:
+        post.is_moderated = False
+
       post.save()
       form.save_m2m()
 
       if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
         request.session['map_urls'][md5(str(post.pk).encode()).hexdigest()] = post.pk
         request.session.modified = True
+
+      if is_premod_cat and is_premod_group:
+        return render(request, 'cms/post_moderation.html', {'category':  post.category})
+
+      if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
         return redirect('category_list', category=getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
       else:
         return redirect('post_detail', pk=post.pk)

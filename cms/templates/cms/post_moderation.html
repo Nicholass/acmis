@@ -1,0 +1,20 @@
+{% extends 'cms/base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "ACIS - Перемодерация" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li class="current">{% trans "Перемодерация" %}</li>
+{% endblock %}
+
+{% block content %}
+    <div class="error-page">
+        <h1>{% trans "Ваш пост отправлен на перемодерацию" %}</h1>
+        <p>
+            {% trans "Публикация постов в данной категории требуют проверки модератором. После проверки ваш пост будет опубликован." %}
+        </p>
+        <p><a href="{% url 'category_list' category=category.route %}">{% trans "Вернуться в категорию" %}</a></p>
+    </div>
+{% endblock %}
