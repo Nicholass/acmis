@@ -5,6 +5,7 @@ from django.conf import settings
 
 from . import views
 from django.contrib.auth import views as auth_views
+from cms.forms.registration import RememberAuthenticationForm
 
 urlpatterns = [
   url(r'^$', views.post_list, name='post_list'),
@@ -34,7 +35,7 @@ urlpatterns = [
 
   url(r'^map/(?P<map_hash>\w+)/$', views.serve_map_file, name='map_file'),
 
-  url(r'^accounts/login/$', auth_views.LoginView.as_view(template_name='registration/login.html'), name='auth_login'),
+  url(r'^accounts/login/$', views.remember_login, {'template_name': 'registration/login.html', 'authentication_form': RememberAuthenticationForm}, name='auth_login'),
   url(r'^accounts/logout/$', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='auth_logout'),
 
   url(r'^accounts/activate/(?P<activation_key>[-:\w]+)/$', views.activation, name='registration_activate'),

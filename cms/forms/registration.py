@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 
 from .. import validators
 
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
 
@@ -24,3 +24,7 @@ class RegistrationForm(UserCreationForm):
       self.add_error('email', forms.ValidationError(_('Пользователь с такими email уже существует')))
 
     return email
+
+
+class RememberAuthenticationForm(AuthenticationForm):
+  remember = forms.BooleanField(label=_('Запомнить меня'), required=False)

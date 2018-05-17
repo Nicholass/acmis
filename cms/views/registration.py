@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 
+from django.contrib.auth.views import login
 from django.contrib.auth.models import User
 
 from ..forms import RegistrationForm
@@ -82,3 +83,11 @@ def activation(request, activation_key):
     return render(request, 'registration/activation_complete.html')
 
   return render(request, 'registration/activation_failed.html')
+
+
+def remember_login(request, *args, **kwargs):
+  if request.method == 'POST':
+    if not request.POST.get('remember', None):
+      request.session.set_expiry(0)
+
+  return login(request, *args, **kwargs)
