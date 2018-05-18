@@ -19,6 +19,8 @@
                 <div class="actions">
                     {% if is_owner %}
                         <a href="{% url 'profile_edit' %}">{% trans "Редактировать" %}</a>
+                        <a href="{% url 'auth_password_change' %}">{% trans "Изменить пароль" %}</a>
+                        <a href="{% url 'auth_change_email' %}">{% trans "Изменить email" %}</a>
                     {% else %}
                         <a href="{% url 'another_profile_edit' username=user.username %}">{% trans "Редактировать" %}</a>
                     {% endif %}

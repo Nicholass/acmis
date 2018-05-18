@@ -70,6 +70,7 @@ urlpatterns = [
   url(r'^accounts/profile/edit/$', views.profile_edit, name='profile_edit'),
   url(r'^accounts/profile/(?P<username>\w+)/$', views.profile, name='another_profile'),
   url(r'^accounts/profile/(?P<username>\w+)/edit/$', views.profile_edit, name='another_profile_edit'),
+  url(r'^accounts/email/change/$', views.edit_email, name='auth_change_email'),
   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

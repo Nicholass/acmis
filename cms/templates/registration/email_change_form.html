@@ -1,0 +1,45 @@
+{% extends "cms/base.html" %}
+{% load i18n %}
+
+{% block title %}
+  {% trans "ACIS - Изменение email" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+  <li class="current">{% trans "Изменение email" %}</li>
+{% endblock %}
+
+{% block content %}
+  <h1 class="form-header">{% trans "Изменение email" %}</h1>
+
+  <form method="post" action="." class="grid-form password-change-form">
+    {% csrf_token %}
+
+    {% for field in form.visible_fields %}
+      {% if field.errors %}
+        {{ field.errors }}
+      {% endif %}
+
+      {{ field.label_tag }}
+      {{ field }}
+
+      {% if field.help_text %}
+        <div class="help">
+          {{ field.help_text|safe }}
+        </div>
+      {% endif %}
+    {% endfor %}
+
+    {{ form.non_field_errors }}
+
+    {% for hidden in form.hidden_fields %}
+      {{ hidden }}
+    {% endfor %}
+
+    <input type="hidden" name="next" value="{{ next }}" />
+
+    <p class="buttons">
+      <button type="submit">{% trans "Изменить email" %}</button>
+    </p>
+  </form>
+{% endblock %}

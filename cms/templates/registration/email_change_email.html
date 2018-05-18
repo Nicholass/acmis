@@ -1,0 +1,12 @@
+{% load i18n %}
+
+{% blocktrans %}
+    Вы запросили изменение email на сайте {{ site_name }} на данный адрес.
+    Для завершения процедуры перейдите по ссылке.
+
+    Если вы не запрашивали изменение email - просто пригнорируйте это письмо.
+{% endblocktrans %}:
+
+{% block reset_link %}
+    {{ protocol }}://{{ domain }}{% url 'auth_email_change_confirm' uid token %}
+{% endblock %}
