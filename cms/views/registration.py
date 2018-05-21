@@ -119,6 +119,8 @@ def edit_email(request):
       new_email.user = request.user
       new_email.save()
 
+      send_email_confirmation_code(request.user, new_email.auth_key, request)
+
       return render(request, 'registration/email_change_done.html')
   else:
     form = EmailChangeForm()
