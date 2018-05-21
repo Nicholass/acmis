@@ -11,10 +11,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        subprocess.call(['python', './manage.py', 'bower', 'install'])
-        subprocess.call(['python', './manage.py', 'collectstatic'])
-        subprocess.call(['python', './manage.py', 'migrate'])
-
         self.create_superuser()
         self.create_categories()
         self.create_groups()

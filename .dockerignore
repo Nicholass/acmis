@@ -1,0 +1,5 @@
+bower_components/
+acis_venv/
+static/
+*.sqlite3
+*.sqlite3.*
