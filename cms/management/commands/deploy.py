@@ -11,6 +11,10 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        subprocess.call(['python', './manage.py', 'makemigrations'])
+        subprocess.call(['python', './manage.py', 'migrate'])
+        subprocess.call(['python', './manage.py', 'migrate', '--run-syncdb'])
+
         self.create_superuser()
         self.create_categories()
         self.create_groups()

@@ -228,3 +228,7 @@ PREMODERATION_CATEGORIES = ['map', 'news']
 PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с доступом к разделу карт']
 
 SESSION_SAVE_EVERY_REQUEST = True
+
+ALLOWED_HOSTS = [
+    'web',
+]
