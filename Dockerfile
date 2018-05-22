@@ -14,7 +14,6 @@ RUN apt-get install -y -qq npm
 RUN ln -s /usr/bin/nodejs /usr/bin/node
 
 RUN npm install --global bower
-RUN bower install --allow-root
 
 RUN pip install virtualenv
 RUN virtualenv --python=python3 --prompt="ACIS" acis_venv
@@ -23,7 +22,5 @@ RUN . ./acis_venv/bin/activate
 RUN pip install -r ./requirements.txt
 
 COPY . .
-
-RUN ./manage.py collectstatic --noinput
 
 EXPOSE 8000

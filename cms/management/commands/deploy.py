@@ -11,6 +11,8 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
+        subprocess.call(['python', './manage.py', 'bower', 'install', '--', '--allow-root'])
+        subprocess.call(['python', './manage.py', 'collectstatic'])
         subprocess.call(['python', './manage.py', 'makemigrations'])
         subprocess.call(['python', './manage.py', 'migrate'])
         subprocess.call(['python', './manage.py', 'migrate', '--run-syncdb'])
