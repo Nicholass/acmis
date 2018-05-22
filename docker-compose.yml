@@ -11,6 +11,8 @@ services:
   web:
     build: .
     image: websource
+    command: >
+      bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py deploy && python manage.py runserver 0.0.0.0:8000"
     volumes:
       - ./:/usr/src/app
     ports:
