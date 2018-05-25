@@ -483,6 +483,13 @@ button[disabled] {
     margin-top: 20px;
     margin-left: 20px;
 }
+.profile .actions a {
+    display: inline-block;
+    vertical-align: middle;
+}
+.profile .actions a:not(:first-child) {
+    margin-left: 10px;
+}
 .profile .content {
     display: grid;
     grid-template-columns: 1fr 1fr;

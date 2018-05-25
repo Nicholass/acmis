@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 from ..views import send_activation_code
 from ..forms import ProfileForm
 
-from ..models import Post, TextPost, BinaryPost, Category, Comment, Profile
+from ..models import Post, TextPost, BinaryPost, Category, Comment, Profile, EmailChange
 from django.contrib.auth.models import User, Permission
 
 from .comment import CustomMPTTModelAdmin
@@ -74,3 +74,13 @@ class PermissionModel(admin.ModelAdmin):
 
 
 admin.site.register(Permission, PermissionModel)
+
+
+class EmailChangeModel(admin.ModelAdmin):
+    model = EmailChange
+    list_display = ('new_email', 'user')
+    search_fields = ['user']
+    ordering = ('user',)
+
+
+admin.site.register(EmailChange, EmailChangeModel)

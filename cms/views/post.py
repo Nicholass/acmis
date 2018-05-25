@@ -13,7 +13,7 @@ from ..forms import TextPostForm, BinaryPostForm, PostForm
 from ..models import Post, Category
 
 
-def post_list(request, tags=None, category=None, author=None, disapproved=None):
+def post_list(request, tags=None, category=None, author=None):
 
   t = c = None
   if not category and not tags and not author:

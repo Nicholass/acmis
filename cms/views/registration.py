@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.views import login
 from django.contrib.auth.models import User
 
-from ..forms import RegistrationForm
+from ..forms import RegistrationForm, EmailChangeForm
 
 from django.conf import settings
 from django.core import signing
@@ -91,3 +91,40 @@ def remember_login(request, *args, **kwargs):
       request.session.set_expiry(0)
 
   return login(request, *args, **kwargs)
+
+
+def send_email_confirmation_code(user, token, request):
+  current_site = get_current_site(request)
+  site_name = current_site.name
+  domain = current_site.domain
+
+  subject = render_to_string('registration/email_change_subject.txt')
+  message = render_to_string('registration/email_change_email.html', {
+    'domain': domain,
+    'site_name': site_name,
+    'protocol': 'https' if request.is_secure() else 'http',
+    'uid': user.pk,
+    'token': token
+  })
+  user.email_user(subject, message)
+
+
+def edit_email(request):
+  if request.method == 'POST':
+    form = EmailChangeForm(request.POST)
+
+    if form.is_valid():
+      new_email = form.save(commit=False)
+      new_email.auth_key = '1234'
+      new_email.user = request.user
+      new_email.save()
+
+      send_email_confirmation_code(request.user, new_email.auth_key, request)
+
+      return render(request, 'registration/email_change_done.html')
+  else:
+    form = EmailChangeForm()
+
+  return render(request, 'registration/email_change_form.html', {
+    'form': form
+  })
