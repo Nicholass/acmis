@@ -10,8 +10,8 @@ COPY bower.json ./
 RUN apt-get update -qq
 RUN apt-get install -y -qq git curl wget
 
-RUN apt-get install -y -qq npm
-RUN ln -s /usr/bin/nodejs /usr/bin/node
+RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
+RUN apt-get install -y nodejs
 
 RUN npm install --global bower
 
