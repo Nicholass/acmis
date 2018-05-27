@@ -15,6 +15,9 @@ from ..models import Post, Category
 
 def post_list(request, tags=None, category=None, author=None):
 
+  if getattr(settings, 'DEBUG') and request.user.is_authenticated == False:
+    return render(request, 'unconstruction.html')
+
   t = c = None
   if not category and not tags and not author:
     category = getattr(settings, 'HOME_CATEGORY_ROUTE', 'news')
