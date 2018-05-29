@@ -15,20 +15,33 @@ services:
     image: postgres:latest
     environment:
       POSTGRES_PASSWORD: postgres
+      SITE_NAME: Acis urban exploration site
+      SITE_DOMAIN: diggers.kiev.ua
     volumes:
       - postgres_data:/var/lib/postgresql/data/
 
   web:
     build: .
     image: websource
-    command: >
-      bash -c "gunicorn acis.wsgi -b 0.0.0.0:8000"
+    command: gunicorn acis.wsgi -b 0.0.0.0:8000
     volumes:
       - ./:/usr/src/app
     expose:
       - "8000"
     depends_on:
       - postgres
+
+  postfix:
+    build: .
+    restart: always
+    container_name: postfix
+    command: /usr/bin/supervisord -c /supervisord.conf
+    environment:
+      - DOMAINS=diggers.kiev.ua localhost
+    ports:
+      - "25:25"
+    depends_on:
+      - web
 
 volumes:
   postgres_data:

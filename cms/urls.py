@@ -72,7 +72,7 @@ urlpatterns = [
   url(r'^accounts/profile/(?P<username>\w+)/edit/$', views.profile_edit, name='another_profile_edit'),
   url(r'^accounts/email/change/$', views.edit_email, name='auth_email_change'),
   url(r'^accounts/email/change/done/(?P<uidb64>[0-9A-Za-z_\-]+)/'
-      r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.edit_email, name='auth_email_change_done'),
+      r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.edit_email_done, name='auth_email_change_done'),
   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags")
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

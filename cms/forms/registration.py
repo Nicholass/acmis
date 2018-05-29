@@ -5,6 +5,8 @@ from .. import validators
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
+from ..models import EmailChange
+
 
 
 class RegistrationForm(UserCreationForm):
@@ -28,3 +30,10 @@ class RegistrationForm(UserCreationForm):
 
 class RememberAuthenticationForm(AuthenticationForm):
   remember = forms.BooleanField(label=_('Запомнить меня'), required=False)
+
+
+class EmailChangeForm(forms.ModelForm):
+
+  class Meta:
+    model = EmailChange
+    fields = ('new_email',)
