@@ -3,6 +3,7 @@ from django.core.management.base import BaseCommand, CommandError
 
 from cms.models import Category
 from django.contrib.auth.models import User, Group, Permission
+from django.contrib.sites.models import Site
 
 
 class Command(BaseCommand):
@@ -18,6 +19,7 @@ class Command(BaseCommand):
         subprocess.call(['python', './manage.py', 'migrate', '--run-syncdb'])
 
         self.create_superuser()
+        self.set_sites()
         self.create_categories()
         self.create_groups()
         self.set_permissions()
@@ -210,5 +212,14 @@ class Command(BaseCommand):
                 self.stdout.write('Successfully added group "%s" for map category' % group.name)
             else:
                 raise CommandError('Group "%s" not exists' % arg)
+
+
+    def set_sites(self):
+        site = Site.objects.get(id=1)
+        site.name = 'diggers.kiev.ua'
+        site.domain = 'diggers.kiev.ua'
+        site.save()
+
+        self.stdout.write('Successfully setup site "%s" with domain "%s"' % (site.name, site.domain,))
 
 
