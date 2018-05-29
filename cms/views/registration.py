@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth.views import login
 from django.contrib.auth.models import User
+from ..models import EmailChange
 
 from ..forms import RegistrationForm, EmailChangeForm
 
@@ -9,6 +10,9 @@ from django.conf import settings
 from django.core import signing
 from django.template.loader import render_to_string
 from django.contrib.sites.shortcuts import get_current_site
+from django.contrib.auth.tokens import default_token_generator
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 
 def send_activation_code(user, request):
   current_site = get_current_site(request)
@@ -103,7 +107,7 @@ def send_email_confirmation_code(user, token, request):
     'domain': domain,
     'site_name': site_name,
     'protocol': 'https' if request.is_secure() else 'http',
-    'uid': user.pk,
+    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
     'token': token
   })
   user.email_user(subject, message)
@@ -115,8 +119,8 @@ def edit_email(request):
 
     if form.is_valid():
       new_email = form.save(commit=False)
-      new_email.auth_key = '1234'
       new_email.user = request.user
+      new_email.auth_key = default_token_generator.make_token(request.user)
       new_email.save()
 
       send_email_confirmation_code(request.user, new_email.auth_key, request)
@@ -127,4 +131,28 @@ def edit_email(request):
 
   return render(request, 'registration/email_change_form.html', {
     'form': form
+  })
+
+
+def edit_email_done(request, uidb64, token):
+  try:
+    # urlsafe_base64_decode() decodes to bytestring on Python 3
+    uid = force_text(urlsafe_base64_decode(uidb64))
+    user = User.objects.get(pk=uid)
+    new_email = EmailChange.objects.get(user=user, auth_key=token)
+  except (TypeError, ValueError, OverflowError, User.DoesNotExist, EmailChange.DoesNotExist):
+    return render(request, 'registration/email_change_confirm.html', {
+      'validlink': False
+    })
+
+  if not default_token_generator.check_token(user, token):
+    return render(request, 'registration/email_change_confirm.html', {
+      'validlink': False
+    })
+
+  User.email = new_email.new_email
+  User.save()
+
+  return render(request, 'registration/email_change_confirm.html', {
+    'validlink': True
   })
