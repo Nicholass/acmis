@@ -188,23 +188,23 @@
               {% auth_is_owner post as is_post_owner %}
 
               {% if perms.cms.change_post and is_post_owner %}
-                  <a href="{% url 'post_edit' pk=post.pk %}" class="fa-link"><i class="fa fa-pencil"></i>{% trans "Редактировать" %}</a>
+                  <a href="{% url 'post_edit' pk=post.pk %}" class="fa-link" title="{% trans "Редактировать" %}"><i class="fa fa-pencil"></i></a>
               {% endif %}
 
               {% if perms.cms.delete_post and is_post_owner %}
-                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
+                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link" title="{% trans "Удалить" %}"><i class="fa fa-trash-o"></i></a>
               {% endif %}
 
               {% if perms.cms.publish_post and is_post_owner %}
                 {% if post.is_public %}
-                  <a href="{% url 'post_unpublish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
+                  <a href="{% url 'post_unpublish' pk=post.pk %}" class="fa-link" title="{% trans "Скрыть" %}"><i class="fa fa-eye-slash"></i></a>
                 {% else %}
-                  <a href="{% url 'post_publish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
+                  <a href="{% url 'post_publish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye" title="{% trans "Опубликовать" %}"></i></a>
                 {% endif %}
               {% endif %}
               {% if perms.cms.moderate_post %}
                 {% if not post.is_moderated %}
-                  <a href="{% url 'post_approve' pk=post.pk %}" class="fa-link"><i class="fa fa-check-square-o"></i>{% trans "Одобрить" %}</a>
+                  <a href="{% url 'post_approve' pk=post.pk %}" class="fa-link" title="{% trans "Одобрить" %}"><i class="fa fa-check-square-o"></i></a>
                 {% endif %}
               {% endif %}
             {% endif %}

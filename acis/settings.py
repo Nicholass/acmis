@@ -160,6 +160,7 @@ BOWER_INSTALLED_APPS = (
     'fancybox#3.3.5',
 )
 
+FILE_UPLOAD_PERMISSIONS = 0o755
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = 'uploads/'

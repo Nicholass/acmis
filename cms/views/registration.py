@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from ..models import EmailChange
 
 from ..forms import RegistrationForm, EmailChangeForm
+from django.contrib.auth.decorators import login_required, permission_required
 
 from django.conf import settings
 from django.core import signing
@@ -13,6 +14,7 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
+from django.core.mail import send_mail
 
 def send_activation_code(user, request):
   current_site = get_current_site(request)
@@ -97,7 +99,7 @@ def remember_login(request, *args, **kwargs):
   return login(request, *args, **kwargs)
 
 
-def send_email_confirmation_code(user, token, request):
+def send_email_confirmation_code(user, token, email, request):
   current_site = get_current_site(request)
   site_name = current_site.name
   domain = current_site.domain
@@ -110,9 +112,10 @@ def send_email_confirmation_code(user, token, request):
     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
     'token': token
   })
-  user.email_user(subject, message)
+  send_mail(subject, message, getattr(settings, 'DEFAULT_FROM_EMAIL'), [email])
 
-
+@login_required
+@permission_required('cms.add_emailchange', raise_exception=True)
 def edit_email(request):
   if request.method == 'POST':
     form = EmailChangeForm(request.POST)
@@ -123,7 +126,7 @@ def edit_email(request):
       new_email.auth_key = default_token_generator.make_token(request.user)
       new_email.save()
 
-      send_email_confirmation_code(request.user, new_email.auth_key, request)
+      send_email_confirmation_code(request.user, new_email.auth_key, new_email.new_email, request)
 
       return render(request, 'registration/email_change_done.html')
   else:
@@ -152,6 +155,8 @@ def edit_email_done(request, uidb64, token):
 
   User.email = new_email.new_email
   User.save()
+
+  new_email.delete()
 
   return render(request, 'registration/email_change_confirm.html', {
     'validlink': True

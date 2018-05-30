@@ -34,15 +34,15 @@ class PostFormAdmin(forms.ModelForm):
 
   class Media:
     js = (
-      'assets/jquery/dist/jquery.min.js',
-      'assets/jquery-ui/jquery-ui.min.js',
-      'assets/jquery.tagsinput/src/jquery.tagsinput.js',
-      'js/postForm.js'
+      'jquery/dist/jquery.min.js',
+      'jquery-ui/jquery-ui.min.js',
+      'jquery.tagsinput/src/jquery.tagsinput.js',
+      'js/PostsForm.js'
     )
     css = {
       'screen': (
-        'assets/jquery-ui/themes/base/jquery-ui.min.css',
-        'assets/jquery.tagsinput/src/jquery.tagsinput.css',
+        'jquery-ui/themes/base/jquery-ui.min.css',
+        'jquery.tagsinput/src/jquery.tagsinput.css',
       ),
     }
 

@@ -11,12 +11,12 @@ class PostForm(forms.ModelForm):
 
   class Media:
     js = (
-      'assets/jquery.tagsinput/src/jquery.tagsinput.js',
-      'js/postForm.js'
+      'jquery.tagsinput/src/jquery.tagsinput.js',
+      'js/PostsForm.js'
     )
     css = {
       'screen': (
-        'assets/jquery.tagsinput/src/jquery.tagsinput.css',
+        'jquery.tagsinput/src/jquery.tagsinput.css',
       ),
     }
 

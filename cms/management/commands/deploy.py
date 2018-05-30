@@ -112,7 +112,10 @@ class Command(BaseCommand):
                 'moderate_binarypost',
                 'add_usersban',
                 'change_usersban',
-                'delete_usersban'
+                'delete_usersban',
+                'add_emailchange',
+                'change_emailchange',
+                'delete_emailchange'
             ],
             "Модераторы": [
                 'change_user',
@@ -143,7 +146,10 @@ class Command(BaseCommand):
                 'moderate_binarypost',
                 'add_usersban',
                 'change_usersban',
-                'delete_usersban'
+                'delete_usersban',
+                'add_emailchange',
+                'change_emailchange',
+                'delete_emailchange'
             ],
             "Пользователи с доступом к разделу карт": [
                 'add_comment',
@@ -158,7 +164,8 @@ class Command(BaseCommand):
                 'delete_textpost',
                 'add_binarypost',
                 'change_binarypost',
-                'delete_binarypost'
+                'delete_binarypost',
+                'add_emailchange'
             ],
             "Пользователи": [
                 'add_comment',
@@ -173,7 +180,8 @@ class Command(BaseCommand):
                 'delete_textpost',
                 'add_binarypost',
                 'change_binarypost',
-                'delete_binarypost'
+                'delete_binarypost',
+                'add_emailchange'
             ]
         }
 
