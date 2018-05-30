@@ -3,6 +3,7 @@ version: '2'
 services:
   nginx:
     image: nginx:latest
+    restart: always
     ports:
       - "80:80"
     volumes:
@@ -13,6 +14,7 @@ services:
 
   postgres:
     image: postgres:latest
+    restart: always
     environment:
       POSTGRES_PASSWORD: postgres
       SITE_NAME: Acis urban exploration site
@@ -22,6 +24,7 @@ services:
 
   web:
     build: .
+    restart: always
     image: websource
     command: gunicorn acis.wsgi -b 0.0.0.0:8000
     volumes:
@@ -32,7 +35,7 @@ services:
       - postgres
 
   postfix:
-    build: .
+    build: ./config/postfix/
     restart: always
     container_name: postfix
     command: /usr/bin/supervisord -c /supervisord.conf
