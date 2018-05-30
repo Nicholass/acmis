@@ -29,7 +29,7 @@ urlpatterns = [
   url(r'^author/(?P<author>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', views.post_list, name='author_tags_list'),
 
   url(r'^category/(?P<category>\w+)?/$', views.post_list, name='category_list'),
-  url(r'^category/(?P<category>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', views.post_list, name='category_tags_list'),
+  url(r'^category/(?P<category>\w+)/tags/(?P<tags>[#\w\s\d\-_,]+)?/$', views.post_list, name='category_tags_list'),
 
   url(r'^tags/(?P<tags>[\w\s\d\-_,]+)/$', views.post_list, name='tag_list'),
 
