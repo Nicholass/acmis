@@ -141,20 +141,20 @@ def edit_email_done(request, uidb64, token):
   try:
     # urlsafe_base64_decode() decodes to bytestring on Python 3
     uid = force_text(urlsafe_base64_decode(uidb64))
-    user = User.objects.get(pk=uid)
-    new_email = EmailChange.objects.get(user=user, auth_key=token)
+    current_user = User.objects.get(pk=uid)
+    new_email = EmailChange.objects.get(user=current_user, auth_key=token)
   except (TypeError, ValueError, OverflowError, User.DoesNotExist, EmailChange.DoesNotExist):
     return render(request, 'registration/email_change_confirm.html', {
       'validlink': False
     })
 
-  if not default_token_generator.check_token(user, token):
+  if not default_token_generator.check_token(current_user, token):
     return render(request, 'registration/email_change_confirm.html', {
       'validlink': False
     })
 
-  User.email = new_email.new_email
-  User.save()
+  current_user.email = new_email.new_email
+  current_user.save()
 
   new_email.delete()
 
