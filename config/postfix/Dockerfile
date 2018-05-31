@@ -15,4 +15,4 @@ ADD ./opendkim.conf /etc/opendkim.conf
 ADD ./opendkim /etc/opendkim
 
 RUN echo 'SOCKET="inet:12301@localhost"' >> /etc/default/opendkim
-RUN cd /etc/opendkim/keys/diggers.kiev.ua && opendkim-genkey -s mail -d diggers.kiev.ua
+RUN mkdir /etc/opendkim/keys && mkdir /etc/opendkim/keys/diggers.kiev.ua && cd /etc/opendkim/keys/diggers.kiev.ua && opendkim-genkey -s mail -d diggers.kiev.ua
