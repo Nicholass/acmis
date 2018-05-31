@@ -1,3 +1,4 @@
+import re
 from django import forms
 
 from ..models import Post, TextPost, BinaryPost
@@ -20,6 +21,13 @@ class PostForm(forms.ModelForm):
       ),
     }
 
+  def clean_tags(self):
+    tags = self.cleaned_data.get('tags')
+
+    for i, tag in enumerate(tags):
+      tags[i] = re.sub(r'[^\w\s\d\-_,]', '', tag)
+
+    return tags
 
 class TextPostForm(PostForm):
 

@@ -26,10 +26,10 @@ urlpatterns = [
   url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/delete/$', views.comment_delete, name='comment_delete'),
 
   url(r'^author/(?P<author>\w+)?/$', views.post_list, name='author_list'),
-  url(r'^author/(?P<author>\w+)/tags/(?P<tags>[#\w\s\d\-_,]+)?/$', views.post_list, name='author_tags_list'),
+  url(r'^author/(?P<author>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', views.post_list, name='author_tags_list'),
 
   url(r'^category/(?P<category>\w+)?/$', views.post_list, name='category_list'),
-  url(r'^category/(?P<category>\w+)/tags/(?P<tags>[#\w\s\d\-_,]+)?/$', views.post_list, name='category_tags_list'),
+  url(r'^category/(?P<category>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', views.post_list, name='category_tags_list'),
 
   url(r'^tags/(?P<tags>[\w\s\d\-_,]+)/$', views.post_list, name='tag_list'),
 
