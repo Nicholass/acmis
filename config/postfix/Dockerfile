@@ -1,7 +1,7 @@
 FROM ubuntu:trusty
 
 ENV DEBIAN_FRONTEND noninteractive
-RUN apt-get update && apt-get install -y postfix supervisor syslog-ng-core && apt-get clean && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && apt-get install -y postfix supervisor syslog-ng-core opendkim opendkim-tools && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 EXPOSE 25
 
@@ -10,3 +10,9 @@ RUN	sed -i -E 's/^(\s*)system\(\);/\1unix-stream("\/dev\/log");/' /etc/syslog-ng
 ADD ./postfix.sh /opt/postfix.sh
 ADD ./virtual /etc/postfix/virtual
 ADD ./supervisord.conf /supervisord.conf
+
+ADD ./opendkim.conf /etc/opendkim.conf
+ADD ./opendkim /etc/opendkim
+
+RUN echo 'SOCKET="inet:12301@localhost"' >> /etc/default/opendkim
+RUN cd /etc/opendkim/keys/diggers.kiev.ua && opendkim-genkey -s mail -d diggers.kiev.ua

@@ -45,6 +45,9 @@ services:
       - "25:25"
     depends_on:
       - web
+    volumes:
+      - opendkim_keys:/etc/opendkim/keys
 
 volumes:
   postgres_data:
+  opendkim_keys:
