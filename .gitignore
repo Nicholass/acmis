@@ -3,7 +3,7 @@ __pycache__/
 acis_venv/
 media/
 draft/
-static/
+/static/
 bower_components/
 *.pyc
 *.mo
