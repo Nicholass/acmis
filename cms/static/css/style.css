@@ -397,7 +397,7 @@ button[disabled] {
 
 .content.map .post {
     display: grid;
-    grid-template-columns: 8fr 2fr;
+    grid-template-columns: 8fr 4fr;
     padding: 8px;
     margin-bottom: 10px;
     border: 1px solid #E1E1E1;
