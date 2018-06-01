@@ -11,16 +11,35 @@ services:
       - ./config/nginx:/etc/nginx/conf.d
     depends_on:
       - web
+    networks:
+      - local
 
   postgres:
-    image: postgres:latest
+    image: postgres
     restart: always
     environment:
+      POSTGRES_USER: postgres
       POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
       SITE_NAME: Acis urban exploration site
       SITE_DOMAIN: diggers.kiev.ua
     volumes:
       - postgres_data:/var/lib/postgresql/data/
+    networks:
+      - local
+
+  pgadmin:
+    build: ./config/pgadmin/
+    links:
+      - postgres:postgres
+    container_name: pgadmin
+    volumes:
+       - /data/pgadmin:/root/.pgadmin
+    ports:
+      - "5050:5050"
+    networks:
+      - local
+    restart: always
 
   web:
     build: .
@@ -33,6 +52,8 @@ services:
       - "8000"
     depends_on:
       - postgres
+    networks:
+      - local
 
   postfix:
     build: ./config/postfix/
@@ -47,7 +68,13 @@ services:
       - web
     volumes:
       - opendkim_keys:/etc/opendkim/keys
+    networks:
+      - local
 
 volumes:
   postgres_data:
   opendkim_keys:
+
+networks:
+  local:
+    driver: bridge
