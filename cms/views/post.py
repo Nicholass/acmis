@@ -51,12 +51,17 @@ def post_list(request, tags=None, category=None, author=None):
   except EmptyPage:
     posts = paginator.page(paginator.num_pages)
 
+  need_relogin = False
+
   if request.user.is_authenticated():
     for post in posts:
       if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
-        for map_hash, pk in request.session['map_urls'].items():
-          if post.pk == pk:
-            post.hash = map_hash
+        if request.session['map_urls']:
+          for map_hash, pk in request.session['map_urls'].items():
+            if post.pk == pk:
+              post.hash = map_hash
+        else:
+          need_relogin = True
 
   posts_disapproved = Post.objects.filter(category=c, is_moderated=False)
 
@@ -65,7 +70,8 @@ def post_list(request, tags=None, category=None, author=None):
     'category': c,
     'tags': t,
     'author': author,
-    'posts_disapproved': len(posts_disapproved)
+    'posts_disapproved': len(posts_disapproved),
+    'need_relogin': need_relogin
   })
 
 

@@ -123,7 +123,11 @@
         <div class="post{% if not post.is_public %} hidden{% endif %}{% if not post.is_moderated %} disaproved{% endif %}" id="{{ post.pk }}">
           <h2>
             {% if post.category.route == 'map' %}
-              <a href="{% url 'map_file' map_hash=post.hash %}">{{ post.title }}</a>
+                {% if not need_relogin %}
+                    <a href="{% url 'map_file' map_hash=post.hash %}">{{ post.title }}</a>
+                {% else %}
+                    {{ post.title }}
+                {% endif %}
             {% else %}
               <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
             {% endif %}
@@ -201,6 +205,10 @@
               <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
             {% endif %}
             </div>
+          {% else %}
+            {% if need_relogin %}
+              <div class="content clearfix">{% trans "Для открытия доступа к картам пожалуста выйдите и зайдите на сайт снова" %}</div>
+            {% endif %}
           {% endif %}
 
           {% if post.tags.all %}
