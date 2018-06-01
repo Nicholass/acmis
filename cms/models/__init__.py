@@ -1,5 +1,5 @@
-from .category import Category
+from .cmscategory import CmsCategory
 from .comment import Comment
-from .post import Post, TextPost, BinaryPost
-from .profile import Profile
+from .cmspost import CmsPost, TextPost, BinaryPost
+from .cmsprofile import CmsProfile
 from .email import EmailChange

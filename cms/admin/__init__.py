@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin
 from ..views import send_activation_code
 from ..forms import ProfileForm
 
-from ..models import Post, TextPost, BinaryPost, Category, Comment, Profile, EmailChange
+from ..models import CmsPost, TextPost, BinaryPost, CmsCategory, Comment, CmsProfile, EmailChange
 from django.contrib.auth.models import User, Permission
 
 from .comment import CustomMPTTModelAdmin
@@ -13,20 +13,20 @@ from .post import PostParentAdmin, PostChildAdmin
 
 admin.site.register(Comment, CustomMPTTModelAdmin)
 
-admin.site.register(Post, PostParentAdmin)
+admin.site.register(CmsPost, PostParentAdmin)
 admin.site.register(TextPost, PostChildAdmin)
 admin.site.register(BinaryPost, PostChildAdmin)
 
 
-class CategoryAdmin(admin.ModelAdmin):
-    base_model = Category
+class CmsCategoryAdmin(admin.ModelAdmin):
+    base_model = CmsCategory
     list_filter = ['kind']
     filter_horizontal = ('groups', )
     list_display = ('name', 'route', 'kind', 'allow_anonymous')
     ordering = ('name',)
 
 
-admin.site.register(Category, CategoryAdmin)
+admin.site.register(CmsCategory, CmsCategoryAdmin)
 
 
 def send_activation(modeladmin, request, queryset):
@@ -40,7 +40,7 @@ send_activation.short_description = _('Отправить код активац�
 
 
 class ProfileInline(admin.StackedInline):
-    model = Profile
+    model = CmsProfile
     can_delete = False
     form = ProfileForm
     verbose_name_plural = 'Профиль'

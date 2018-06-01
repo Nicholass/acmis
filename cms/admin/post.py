@@ -3,7 +3,7 @@ from django.contrib.contenttypes.models import ContentType
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from django.utils.translation import ugettext as _
 
-from ..models import Post, TextPost, BinaryPost, Category
+from ..models import CmsPost, TextPost, BinaryPost, CmsCategory
 
 
 class PostFormAdmin(forms.ModelForm):
@@ -30,7 +30,7 @@ class PostFormAdmin(forms.ModelForm):
       else:
         kind = '3'
 
-    self.fields['category'].queryset = Category.objects.filter(kind=kind)
+    self.fields['category'].queryset = CmsCategory.objects.filter(kind=kind)
 
   class Media:
     js = (
@@ -48,7 +48,7 @@ class PostFormAdmin(forms.ModelForm):
 
 
 class PostParentAdmin(PolymorphicParentModelAdmin):
-  base_model = Post
+  base_model = CmsPost
   child_models = (TextPost, BinaryPost)
   list_filter = (PolymorphicChildModelFilter, 'created_date', 'is_moderated', 'tags')
   list_display = ('get_short_title', 'category', 'created_date', 'author', 'is_public', 'is_moderated', 'pk')
@@ -63,5 +63,5 @@ class PostParentAdmin(PolymorphicParentModelAdmin):
 
 
 class PostChildAdmin(PolymorphicChildModelAdmin):
-  base_model = Post
+  base_model = CmsPost
   base_form = PostFormAdmin

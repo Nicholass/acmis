@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 
 from django.contrib.auth.models import Group
 
-class Category(models.Model):
+class CmsCategory(models.Model):
   FILE = '0'
   POST = '1'
   UNKNOWN = '3'
@@ -53,7 +53,7 @@ class Category(models.Model):
     if not user.is_authenticated() or user is None:
       return self.allow_anonymous
 
-    return Category.objects.filter(pk=self.pk, groups__in=user.groups).exists()
+    return CmsCategory.objects.filter(pk=self.pk, groups__in=user.groups).exists()
 
   def __str__(self):
     return self.name

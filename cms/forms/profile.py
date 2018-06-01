@@ -3,7 +3,7 @@ from django.utils.translation import ugettext as _
 from django.core.files.images import get_image_dimensions
 from django.conf import settings
 
-from ..models import Profile
+from ..models import CmsProfile
 from django.contrib.auth.models import User
 
 
@@ -21,7 +21,7 @@ class ProfileForm(forms.ModelForm):
     self.fields['avatar'].help_text = _('<ul><li>Аватар не должен быть размером больше %s x %s пикселей.</li><li>Аватар должен быть изображением в формате JPEG, GIF или PNG</li><li>Аватар должен быть меньше %s Кб размером</li></ul>' % (self.AVATAR_MAX_WIDTH, self.AVATAR_MAX_HEIGHT, self.AVATAR_MAX_SIZE))
 
   class Meta:
-    model = Profile
+    model = CmsProfile
     fields = ('avatar', 'birth_date', 'location', 'site',  'skype', 'telegram', 'jabber', 'facebook', 'vk', 'instagram', 'twitter', 'youtube')
     widgets = {
       'birth_date': DateInput()

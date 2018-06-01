@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'django_bleach',
     'ban',
-    'djangobower'
+    'djangobower',
+    'pybb'
 ]
 
 MIDDLEWARE = [
@@ -57,7 +58,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'ban.middleware.BanManagement'
+    'ban.middleware.BanManagement',
+    'pybb.middleware.PybbMiddleware'
 ]
 
 ROOT_URLCONF = 'acis.urls'
@@ -73,7 +75,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'pybb.context_processors.processor'
             ],
         },
     },
@@ -236,3 +239,5 @@ SESSION_SAVE_EVERY_REQUEST = True
 ALLOWED_HOSTS = [
     'web',
 ]
+
+PYBB_PROFILE_RELATED_NAME = 'profile'

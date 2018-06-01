@@ -1,13 +1,13 @@
 import re
 from django import forms
 
-from ..models import Post, TextPost, BinaryPost
+from ..models import CmsPost, TextPost, BinaryPost
 
 
 class PostForm(forms.ModelForm):
 
   class Meta:
-    model = Post
+    model = CmsPost
     fields = ('title', 'tags', 'is_public')
 
   class Media:

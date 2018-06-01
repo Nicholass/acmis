@@ -4,7 +4,7 @@ from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 
-from ..models import Comment, Post
+from ..models import Comment, CmsPost
 
 
 class ShortParentChoiseField(forms.ModelChoiceField):
@@ -27,7 +27,7 @@ class CustomMPTTAdminForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super(CustomMPTTAdminForm, self).__init__(*args, **kwargs)
     self.fields['parent'] = ShortParentChoiseField(queryset=Comment.objects.all(), label='Ответ на')
-    self.fields['post'] = ShortPostChoiseField(queryset=Post.objects.all(), label='Пост')
+    self.fields['post'] = ShortPostChoiseField(queryset=CmsPost.objects.all(), label='Пост')
     add_related_field_wrapper(self, 'parent')
     add_related_field_wrapper(self, 'post')
 
