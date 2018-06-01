@@ -122,7 +122,7 @@
         {% if post.is_public or is_post_owner or perms.cms.moderate_post %}
         <div class="post{% if not post.is_public %} hidden{% endif %}{% if not post.is_moderated %} disaproved{% endif %}" id="{{ post.pk }}">
           <h2>
-            {% if category.route == 'map' %}
+            {% if post.category.route == 'map' %}
               <a href="{% url 'map_file' map_hash=post.hash %}">{{ post.title }}</a>
             {% else %}
               <a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
@@ -130,12 +130,47 @@
           </h2>
           <div class="info">
             {% if category.route == 'photo' or category.route == 'drawing' %}
+                <p><a class="fa-link" href="{% url 'category_list' category=post.category.route %}">
+                    <i class="fa fa-list-ul"></i>
+                    {# TODO: перевод названия категории на уровне модели #}
+
+                    {% if post.category.route == 'drawing' %}
+                      {% trans "Графика" %}
+                    {% elif post.category.route == 'map' %}
+                      {% trans "Карты" %}
+                    {% elif post.category.route == 'news' %}
+                      {% trans "Новости" %}
+                    {% elif post.category.route == 'photo' %}
+                      {% trans "Фотографии" %}
+                    {% elif post.category.route == 'prose' %}
+                      {% trans "Писательство" %}
+                    {% elif post.category.route == 'report' %}
+                      {% trans "Отчеты" %}
+                    {% endif %}
+                </a></p>
                 <p><span class="fa-link"><i class="fa fa-calendar"></i>{{ post.created_date }}</span></p>
                 <p><a href="{% url 'author_list' author=post.author %}" class="fa-link"><i class="fa fa-user-o"></i>{{ post.author }}</a></p>
             {% else %}
+                <a class="fa-link" href="{% url 'category_list' category=post.category.route %}">
+                    <i class="fa fa-list-ul"></i>
+                    {# TODO: перевод названия категории на уровне модели #}
+
+                    {% if post.category.route == 'drawing' %}
+                      {% trans "Графика" %}
+                    {% elif post.category.route == 'map' %}
+                      {% trans "Карты" %}
+                    {% elif post.category.route == 'news' %}
+                      {% trans "Новости" %}
+                    {% elif post.category.route == 'photo' %}
+                      {% trans "Фотографии" %}
+                    {% elif post.category.route == 'prose' %}
+                      {% trans "Писательство" %}
+                    {% elif post.category.route == 'report' %}
+                      {% trans "Отчеты" %}
+                    {% endif %}
+                </a>
                 <span class="fa-link"><i class="fa fa-calendar"></i>{{ post.created_date }}</span>
-                <a href="{% url 'another_profile' username=post.author %}" class="fa-link" title="{% trans "Профиль пользователя" %}"><i class="fa fa-user-o"></i></a>
-                <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
+                <a href="{% url 'author_list' author=post.author %}" class="fa-link"><i class="fa fa-user-o"></i>{{ post.author }}</a>
             {% endif %}
 
             {% comment_count as comm_count %}
@@ -158,7 +193,7 @@
             {% endif %}
           </div>
 
-          {% if category.route != 'map' %}
+          {% if post.category.route != 'map' %}
             <div class="content clearfix">
             {% if not post.file %}
               {{ post.text|truncatechars:800|bleach }}

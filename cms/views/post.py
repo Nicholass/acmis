@@ -51,11 +51,12 @@ def post_list(request, tags=None, category=None, author=None):
   except EmptyPage:
     posts = paginator.page(paginator.num_pages)
 
-  if category == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps') and request.user.is_authenticated():
+  if request.user.is_authenticated():
     for post in posts:
-      for map_hash, pk in request.session['map_urls'].items():
-        if post.pk == pk:
-          post.hash = map_hash
+      if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
+        for map_hash, pk in request.session['map_urls'].items():
+          if post.pk == pk:
+            post.hash = map_hash
 
   posts_disapproved = Post.objects.filter(category=c, is_moderated=False)
 
