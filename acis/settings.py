@@ -240,4 +240,6 @@ ALLOWED_HOSTS = [
     'web',
 ]
 
-PYBB_PROFILE_RELATED_NAME = 'profile'
+#PYBB_PROFILE_RELATED_NAME = 'profile'
+
+PYBB_TEMPLATE='cms/base.html'

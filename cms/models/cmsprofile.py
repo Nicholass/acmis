@@ -24,7 +24,7 @@ class CmsProfile(models.Model):
     signature_html = models.TextField(_('HTML подпись'), blank=True, max_length=1054)
     time_zone = models.FloatField(_('Часовой пояс'), choices=TZ_CHOICES, default=float(2))
     language = models.CharField(_('Язык'), max_length=10, blank=True, choices=settings.LANGUAGES,
-                                default=get_supported_language_variant(settings.LANGUAGE_CODE, strict=True))
+                                default=settings.LANGUAGE_CODE)
     show_signatures = models.BooleanField(_('Показывать подпись'), default=True)
     post_count = models.IntegerField(_('Колличество постов'), blank=True, default=0)
     autosubscribe = models.BooleanField(_('Автоматическая подписка'),
@@ -66,7 +66,7 @@ class CmsProfile(models.Model):
       verbose_name = _("Профиль")
       verbose_name_plural = _("Профили")
       permissions = (
-          ("moderate_profile", _("Модерация профилей")),
+          ("moderate_cmsprofile", _("Модерация профилей")),
       )
 
     @receiver(post_save, sender=User)

@@ -92,16 +92,16 @@ class Command(BaseCommand):
                 'change_comment',
                 'delete_comment',
                 'moderate_comment',
-                'add_post',
-                'change_post',
-                'delete_post',
-                'moderate_post',
-                'publish_post',
-                'add_category',
-                'change_category',
-                'delete_category',
-                'change_profile',
-                'moderate_profile',
+                'add_cmspost',
+                'change_cmspost',
+                'delete_cmspost',
+                'moderate_cmspost',
+                'publish_cmspost',
+                'add_cmscategory',
+                'change_cmscategory',
+                'delete_cmscategory',
+                'change_cmsprofile',
+                'moderate_cmsprofile',
                 'add_textpost',
                 'change_textpost',
                 'delete_textpost',
@@ -129,13 +129,13 @@ class Command(BaseCommand):
                 'change_comment',
                 'delete_comment',
                 'moderate_comment',
-                'add_post',
-                'change_post',
-                'delete_post',
-                'moderate_post',
-                'publish_post',
-                'change_profile',
-                'moderate_profile',
+                'add_cmspost',
+                'change_cmspost',
+                'delete_cmspost',
+                'moderate_cmspost',
+                'publish_cmspost',
+                'change_cmsprofile',
+                'moderate_cmsprofile',
                 'add_textpost',
                 'change_textpost',
                 'delete_textpost',
@@ -155,10 +155,10 @@ class Command(BaseCommand):
                 'add_comment',
                 'change_comment',
                 'delete_comment',
-                'add_post',
-                'change_post',
-                'delete_post',
-                'publish_post',
+                'add_cmspost',
+                'change_cmspost',
+                'delete_cmspost',
+                'publish_cmspost',
                 'add_textpost',
                 'change_textpost',
                 'delete_textpost',
@@ -171,10 +171,10 @@ class Command(BaseCommand):
                 'add_comment',
                 'change_comment',
                 'delete_comment',
-                'add_post',
-                'change_post',
-                'delete_post',
-                'publish_post',
+                'add_cmspost',
+                'change_cmspost',
+                'delete_cmspost',
+                'publish_cmspost',
                 'add_textpost',
                 'change_textpost',
                 'delete_textpost',
@@ -204,19 +204,19 @@ class Command(BaseCommand):
             "Пользователи с доступом к разделу карт"
         ]
 
-        map_category = CmsCategory.objects.get(route='map')
+        map_cmscategory = CmsCategory.objects.get(route='map')
 
-        if not map_category:
+        if not map_cmscategory:
             raise CommandError('Map category not exists!')
 
-        map_category.allow_anonymous = False
-        map_category.save()
+        map_cmscategory.allow_anonymous = False
+        map_cmscategory.save()
 
         for arg in groups:
             group = Group.objects.get(name=arg)
 
             if group:
-                map_category.groups.add(group)
+                map_cmscategory.groups.add(group)
                 self.stdout.write('Successfully added group "%s" for map category' % group.name)
             else:
                 raise CommandError('Group "%s" not exists' % arg)

@@ -55,8 +55,8 @@ class CmsPost(PolymorphicModel):
     verbose_name = _("Пост")
     verbose_name_plural = _("Посты")
     permissions = (
-        ("moderate_post", _("Модерация постов")),
-        ("publish_post", _("Публикация постов")),
+        ("moderate_cmspost", _("Модерация постов")),
+        ("publish_cmspost", _("Публикация постов")),
     )
 
 
