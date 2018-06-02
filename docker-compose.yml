@@ -71,7 +71,19 @@ services:
     networks:
       - local
 
+  php:
+    build: ./forum/
+    restart: always
+    image: php
+    volumes:
+     - data:/_data
+     - ./forum:/usr/src/app/forum
+    networks:
+      - local
+    command: sh -c 'chown www-data /_data && exec php-fpm'
+
 volumes:
+  data:
   postgres_data:
   opendkim_keys:
 

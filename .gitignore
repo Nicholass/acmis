@@ -4,6 +4,8 @@ acis_venv/
 media/
 draft/
 /static/
+forum/cache/
+forum/img/avatars/
 bower_components/
 *.pyc
 *.mo
