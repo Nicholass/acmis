@@ -6,6 +6,7 @@ draft/
 /static/
 forum/cache/
 forum/img/avatars/
+data/
 bower_components/
 *.pyc
 *.mo

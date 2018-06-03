@@ -1,12 +1,10 @@
 <?php
 
 $db_type = 'pgsql';
-$db_host = 'postgres'; 
+$db_host = 'postgres';
 $db_name = 'postgres';
 $db_username = 'postgres';
 $db_password = 'postgres';
-//$db_username = 'acis-admin';
-//$db_password = '[ls|+AU7HuM0r}';
 $db_prefix = '';
 $p_connect = false;
 
@@ -19,4 +17,5 @@ $cookie_secure = 0;
 $cookie_seed = 'Ka51I36mmpO5RDou64FS';
 
 define('FORUM', 1);
-//define('FORUM_DEBUG', 1);
+define('FORUM_DEBUG', 1);
+
