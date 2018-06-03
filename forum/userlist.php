@@ -2,7 +2,7 @@
 /**
  * Provides a list of forum users that can be sorted based on various criteria.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -24,15 +24,11 @@ require FORUM_ROOT.'lang/'.$forum_user['language'].'/userlist.php';
 
 // Miscellaneous setup
 $forum_page['show_post_count'] = ($forum_config['o_show_post_count'] == '1' || $forum_user['is_admmod']) ? true : false;
-
-$forum_page['username'] = '';
-if (isset($_GET['username']) && is_string($_GET['username'])) {
-	if ($_GET['username'] != '-' && $forum_user['g_search_users'] == '1') {
-		$forum_page['username'] = $_GET['username'];
-	}
-}
-
+$forum_page['username'] = (isset($_GET['username']) && $_GET['username'] != '-' && $forum_user['g_search_users'] == '1') ? $_GET['username'] : '';
 $forum_page['show_group'] = (!isset($_GET['show_group']) || intval($_GET['show_group']) < -1 && intval($_GET['show_group']) > 2) ? -1 : intval($_GET['show_group']);
+
+if (!$forum_user['is_admmod']) $forum_page['show_group'] = -1;
+
 $forum_page['sort_by'] = (!isset($_GET['sort_by']) || $_GET['sort_by'] != 'username' && $_GET['sort_by'] != 'registered' && ($_GET['sort_by'] != 'num_posts' || !$forum_page['show_post_count'])) ? 'username' : $_GET['sort_by'];
 $forum_page['sort_dir'] = (!isset($_GET['sort_dir']) || strtoupper($_GET['sort_dir']) != 'ASC' && strtoupper($_GET['sort_dir']) != 'DESC') ? 'ASC' : strtoupper($_GET['sort_dir']);
 
@@ -70,7 +66,7 @@ $forum_page['finish_at'] = min(($forum_page['start_from'] + 50), ($forum_page['n
 $forum_page['users_searched'] = (($forum_user['g_search_users'] == '1' && $forum_page['username'] != '') || $forum_page['show_group'] > -1);
 
 if ($forum_page['num_users'] > 0)
-	$forum_page['items_info'] = generate_items_info((($forum_page['users_searched']) ? $lang_ul['Users found'] : $lang_ul['Users']), ($forum_page['start_from'] + 1), $forum_page['num_users']);
+	$forum_page['items_info'] = generate_items_info( (($forum_page['users_searched']) ? $lang_ul['Users found'] : $lang_ul['Users']), ($forum_page['start_from'] + 1), $forum_page['num_users']);
 else
 	$forum_page['items_info'] = $lang_ul['Users'];
 
@@ -104,7 +100,7 @@ $forum_page['form_action'] = $base_url.'/userlist.php';
 // Setup breadcrumbs
 $forum_page['crumbs'] = array(
 	array($forum_config['o_board_title'], forum_link($forum_url['index'])),
-	$lang_common['User list']
+	array($lang_common['User list'], forum_link($forum_url['users']))
 );
 
 // Setup main heading
@@ -148,6 +144,8 @@ ob_start();
 					</div>
 				</div>
 <?php endif; ?>
+<?php 
+	if ($forum_user['is_admmod']): ?>
 <?php ($hook = get_hook('ul_pre_group_select')) ? eval($hook) : null; ?>
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box select">
@@ -181,6 +179,7 @@ while ($cur_group = $forum_db->fetch_assoc($result))
 						</select></span>
 					</div>
 				</div>
+<?php endif; ?>
 <?php ($hook = get_hook('ul_pre_sort_by')) ? eval($hook) : null; ?>
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box select">
@@ -214,7 +213,7 @@ while ($cur_group = $forum_db->fetch_assoc($result))
 			</fieldset>
 <?php ($hook = get_hook('ul_search_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="search" value="<?php echo $lang_ul['Submit user search'] ?>" /></span>
+				<span class="submit"><input type="submit" name="search" value="<?php echo $lang_ul['Submit user search'] ?>" /></span>
 			</div>
 		</div>
 		</form>
@@ -240,16 +239,9 @@ if (!empty($where_sql))
 
 ($hook = get_hook('ul_qr_get_users')) ? eval($hook) : null;
 $result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-$founded_user_datas = array();
-while ($user_data = $forum_db->fetch_assoc($result))
-{
-	$founded_user_datas[] = $user_data;
-}
-
 $forum_page['item_count'] = 0;
 
-if (!empty($founded_user_datas))
+if ($forum_db->num_rows($result))
 {
 	($hook = get_hook('ul_results_pre_header')) ? eval($hook) : null;
 
@@ -266,8 +258,7 @@ if (!empty($founded_user_datas))
 
 ?>
 		<div class="ct-group">
-			<table>
-				<caption><?php echo $lang_ul['Table summary'] ?></caption>
+			<table cellspacing="0" summary="<?php echo $lang_ul['Table summary'] ?>">
 				<thead>
 					<tr>
 						<?php echo implode("\n\t\t\t\t\t\t", $forum_page['table_header'])."\n" ?>
@@ -276,7 +267,7 @@ if (!empty($founded_user_datas))
 				<tbody>
 <?php
 
-	foreach ($founded_user_datas as $user_data)
+	while ($user_data = $forum_db->fetch_assoc($result))
 	{
 		($hook = get_hook('ul_results_row_pre_data')) ? eval($hook) : null;
 
@@ -294,7 +285,7 @@ if (!empty($founded_user_datas))
 		($hook = get_hook('ul_results_row_pre_data_output')) ? eval($hook) : null;
 
 ?>
-				<tr class="<?php echo ($forum_page['item_count'] % 2 != 0) ? 'odd' : 'even' ?><?php if ($forum_page['item_count'] == 1) echo ' row1'; ?>">
+				<tr class="<?php echo ($forum_page['item_count'] % 2 != 0) ? 'odd' : 'even' ?><?php echo ($forum_page['item_count'] == 1) ? ' row1' : '' ?>">
 					<?php echo implode("\n\t\t\t\t\t\t", $forum_page['table_row'])."\n" ?>
 				</tr>
 <?php

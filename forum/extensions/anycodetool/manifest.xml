@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE extension SYSTEM "ext-1.0.dtd">
+
+<!--
+/**
+ * AnyCode Developer Tool extension manifest for PunBB 
+ *
+ * @copyright Copyright (C) 2008 hcs, partially based on code copyright (C) 2008 punbb.informer.com
+ * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
+ * @package AnyCode
+ */
+-->
+
+<extension engine="1.0">
+	<id>anycodetool</id>
+	<title>PunBB AnyCode Hook Manager</title>
+	<version>1.0.0 Beta 2</version>
+	<description>Hook Manager Developer Tool</description>
+	<author>hcs</author>
+
+	<minversion>1.3</minversion>
+	<maxtestedon>1.3.1</maxtestedon>
+
+	<install><![CDATA[
+// Setup main table
+if (!$forum_db->table_exists('anycode_solutions'))
+{
+	$schema = array(
+		'FIELDS'			=> array(
+			'id'				=> array(
+				'datatype'		=> 'SERIAL',
+				'allow_null'	=> false
+			),
+			'owner_id'			=> array(
+				'datatype'		=> 'INT(10) UNSIGNED',
+				'allow_null'	=> false,
+				'default'		=> '0'
+			),
+			'name'			=> array(
+				'datatype'		=> 'VARCHAR(255)',
+				'allow_null'	=> false,
+				'default'		=> '\'\''
+			),
+			'enable'	=> array(
+				'datatype'		=> 'TINYINT(1)',
+				'allow_null'	=> false,
+				'default'		=> '0'
+			)			
+		),
+		'PRIMARY KEY'	=> array('id'),
+		'INDEXES'		=> array(
+			'owner_id_idx'		=> array('owner_id'),
+		)
+	);
+
+	$forum_db->create_table('anycode_solutions', $schema);
+}
+
+
+if (!$forum_db->table_exists('anycode_hooks'))
+{
+	$schema = array(
+		'FIELDS'			=> array(
+			'id'				=> array(
+				'datatype'		=> 'SERIAL',
+				'allow_null'	=> false
+			),
+			'owner_id'			=> array(
+				'datatype'		=> 'INT(10) UNSIGNED',
+				'allow_null'	=> false,
+				'default'		=> '0'
+			),
+			'solution_id'		=> array(
+				'datatype'		=> 'INT(10) UNSIGNED',
+				'allow_null'	=> true
+			),
+			'lastedited_at'		=> array(
+				'datatype'		=> 'INT(10) UNSIGNED',
+				'allow_null'	=> false,
+				'default'		=> '0'
+			),
+			'hook_id'			=> array(
+				'datatype'		=> 'varchar(150)',
+				'allow_null'	=> false,
+				'default'		=> '\'\''
+			),
+			'code'				=> array(
+				'datatype'		=> 'TEXT',
+				'allow_null'	=> false
+			),
+			'enable'	=> array(
+				'datatype'		=> 'TINYINT(1)',
+				'allow_null'	=> false,
+				'default'		=> '0'
+			)
+		),
+		'PRIMARY KEY'	=> array('id'),
+		'INDEXES'		=> array(
+			'hook_id_idx'		=> array('hook_id'),
+			'solution_id_idx'	=> array('solution_id')
+		)
+	);
+
+	$forum_db->create_table('anycode_hooks', $schema);
+}
+
+	]]></install>
+	<uninstall><![CDATA[
+$query = array(
+	'DELETE'	=> 'extension_hooks',
+	'WHERE'		=> 'extension_id LIKE \'%anycode\_%\''
+);
+$forum_db->query_build($query) or error(__FILE__, __LINE__);
+
+$query = array(
+	'DELETE'	=> 'extensions',
+	'WHERE'		=> 'id LIKE \'%anycode\_%\''
+);
+$forum_db->query_build($query) or error(__FILE__, __LINE__);
+
+$forum_db->drop_table('anycode_hooks');
+$forum_db->drop_table('anycode_solutions');
+	]]></uninstall>
+	<hooks>
+		<hook id="ca_new_function"><![CDATA[
+if (file_exists(FORUM_ROOT.'/extensions/anycodetool/lang/'.$forum_user['language'].'/lang.php'))
+	$anycode_lang_file = FORUM_ROOT.'/extensions/anycodetool/lang/'.$forum_user['language'].'/lang.php';
+else
+	$anycode_lang_file = FORUM_ROOT.'/extensions/anycodetool/lang/English/lang.php';
+require $anycode_lang_file;
+		]]></hook>	
+		<hook id="ca_fn_generate_admin_menu_new_link"><![CDATA[
+		if ($forum_user['g_id'] == FORUM_ADMIN) {
+			$forum_page['admin_menu']['anycodetool'] = '<li class="'.((FORUM_PAGE_SECTION == 'anycodetool') ? 'active' : 'normal').((empty($forum_page['admin_menu'])) ? ' first-item' : '').'"><a href="'.$GLOBALS['base_url'].'/extensions/anycodetool/solutions.php"><span>'.$GLOBALS['lang_anycode']['AnyCode'].'</span></a></li>';
+		}
+		]]></hook>
+		<hook id="ca_fn_generate_admin_menu_new_sublink"><![CDATA[
+if (FORUM_PAGE_SECTION == 'anycodetool')
+			{
+				$forum_page['admin_submenu']['anycode_solutions'] = '<li class="'.((FORUM_PAGE == 'admin-anycode-solutions') ? 'active' : 'normal').((empty($forum_page['admin_submenu'])) ? ' first-item' : '').'"><a href="'.$GLOBALS['base_url'].'/extensions/anycodetool/solutions.php">'.$GLOBALS['lang_anycode']['Solutions'].'</a></li>';
+				$forum_page['admin_submenu']['anycode_hooks'] = '<li class="'.((FORUM_PAGE == 'admin-anycode-hooks') ? 'active' : 'normal').((empty($forum_page['admin_submenu'])) ? ' first-item' : '').'"><a href="'.$GLOBALS['base_url'].'/extensions/anycodetool/hooks.php">'.$GLOBALS['lang_anycode']['Hooks'].'</a></li>';
+			}		
+		]]></hook>
+		<hook id="aex_qr_get_all_extensions"><![CDATA[
+$query['WHERE'] = 'e.id NOT LIKE \'%anycode\_%\'';
+		]]></hook>		
+	</hooks>
+</extension>

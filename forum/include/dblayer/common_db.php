@@ -2,7 +2,7 @@
 /**
  * Loads the proper database layer class.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -13,6 +13,19 @@ if (!defined('FORUM'))
 	exit;
 
 
+//
+// Return current timestamp (with microseconds) as a float (used in dblayer)
+//
+if (defined('FORUM_SHOW_QUERIES'))
+{
+	function get_microtime()
+	{
+		list($usec, $sec) = explode(' ', microtime());
+		return ((float)$usec + (float)$sec);
+	}
+}
+
+
 // Load the appropriate DB layer class
 switch ($db_type)
 {
@@ -20,16 +33,8 @@ switch ($db_type)
 		require FORUM_ROOT.'include/dblayer/mysql.php';
 		break;
 
-	case 'mysql_innodb':
-		require FORUM_ROOT.'include/dblayer/mysql_innodb.php';
-		break;
-
 	case 'mysqli':
 		require FORUM_ROOT.'include/dblayer/mysqli.php';
-		break;
-
-	case 'mysqli_innodb':
-		require FORUM_ROOT.'include/dblayer/mysqli_innodb.php';
 		break;
 
 	case 'pgsql':
@@ -38,10 +43,6 @@ switch ($db_type)
 
 	case 'sqlite':
 		require FORUM_ROOT.'include/dblayer/sqlite.php';
-		break;
-
-	case 'sqlite3':
-		require FORUM_ROOT.'include/dblayer/sqlite3.php';
 		break;
 
 	default:

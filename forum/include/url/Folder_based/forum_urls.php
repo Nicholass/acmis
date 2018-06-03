@@ -2,7 +2,7 @@
 /**
  * SEF URLs that use a folder-like layout.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -26,8 +26,6 @@ $forum_url = array(
 	'forum'							=>	'forum/$1/',
 	'forum_rss'						=>	'feed/rss/forum/$1/',
 	'forum_atom'					=>	'feed/atom/forum/$1/',
-	'forum_subscribe'				=>	'subscribe/forum/$1/$2/',
-	'forum_unsubscribe'				=>	'unsubscribe/forum/$1/$2/',
 	'help'							=>	'help/$1/',
 	'index'							=>	'',
 	'index_rss'						=>	'feed/rss/',
@@ -38,7 +36,6 @@ $forum_url = array(
 	'mark_forum_read'				=>	'mark/forum/$1/read/$2/',
 	'new_topic'						=>	'new/topic/$1/',
 	'new_reply'						=>	'new/reply/$1/',
-	'opensearch'					=>	'misc.php?action=opensearch',
 	'post'							=>	'post/$1/#p$1',
 	'profile_about'					=>	'user/$1/about/',
 	'profile_identity'				=>	'user/$1/identity/',
@@ -52,7 +49,6 @@ $forum_url = array(
 	'request_password'				=>	'request/password/',
 	'rules'							=>	'rules/',
 	'search'						=>	'search/',
-	'search_advanced'				=>	'search/advanced/',
 	'search_resultft'				=>	'search/k$1/$2/a$3/$4/$5/$6/$7/',
 	'search_results'				=>	'search/$1/',
 	'search_new'					=>	'search/new/',
@@ -61,7 +57,6 @@ $forum_url = array(
 	'search_recent_results'			=>	'search/recent/$1/',
 	'search_unanswered'				=>	'search/unanswered/',
 	'search_subscriptions'			=>	'search/subscriptions/$1/',
-	'search_forum_subscriptions'	=>	'search/subscriptions/forum/$1/',
 	'search_user_posts'				=>	'search/posts/user/$1/',
 	'search_user_topics'			=>	'search/topics/user/$1/',
 	'subscribe'						=>	'subscribe/$1/$2/',
@@ -90,7 +85,6 @@ $forum_url = array(
 	'admin_extensions_manage'		=>	'admin/extensions.php?section=manage',
 	'admin_extensions_hotfixes'		=>	'admin/extensions.php?section=hotfixes',
 	'admin_forums'					=>	'admin/forums.php',
-	'admin_forums_forum'			=>	'admin/forums.php#forum$1',
 	'admin_groups'					=>	'admin/groups.php',
 	'admin_loader'					=>	'admin/loader.php',
 	'admin_reindex'					=>	'admin/reindex.php',

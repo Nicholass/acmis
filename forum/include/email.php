@@ -2,7 +2,7 @@
 /**
  * Loads functions used in dealing with email addresses and email sending.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -117,11 +117,11 @@ function server_parse($socket, $expected_response)
 	while (substr($server_response, 3, 1) != ' ')
 	{
 		if (!($server_response = fgets($socket, 256)))
-			error('Couldn\'t get mail server response codes.<br />Please contact the forum administrator.', __FILE__, __LINE__);
+			error('Couldn\'t get mail server response codes. Please contact the forum administrator.', __FILE__, __LINE__);
 	}
 
 	if (!(substr($server_response, 0, 3) == $expected_response))
-		error('Unable to send e-mail.<br />Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
+		error('Unable to send e-mail. Please contact the forum administrator with the following error message reported by the SMTP server: "'.$server_response.'"', __FILE__, __LINE__);
 }
 
 

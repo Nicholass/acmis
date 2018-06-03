@@ -14,7 +14,7 @@ $lang_admin_users = array(
 'Signature label'				=>	'Signature',
 'Admin note label'				=>	'Admin note',
 'Searches contact legend'		=>	'Contact details',
-'E-mail address label'			=>	'Email address',
+'E-mail address label'			=>	'E-mail address',
 'Website label'					=>	'Website',
 'Searches activity legend'		=>	'User activity',
 'More posts label'				=>	'More posts than',
@@ -41,7 +41,7 @@ $lang_admin_users = array(
 'User information'				=>	'User information',
 'IP address'					=>	'IP address',
 'Username'						=>	'Username',
-'E-mail'						=>	'Email',
+'E-mail'						=>	'E-mail',
 'Admin note'					=>	'Admin note',
 
 'Invalid IP address'			=>	'The IP address you entered is not correctly formatted.',
@@ -76,7 +76,7 @@ $lang_admin_users = array(
 'Ban admin message'				=>	'One of the selected users is an administrator and can\'t be banned. If you want to ban an administrator, you must first move him/her to any other user group.',
 'Users banned'					=>	'Users banned.',
 'Mass ban info'					=>	'You may set a message to be displayed to the banned users and set the date their bans are to expire.',
-'Ban settings legend'			=>	'Ban users',
+'Ban settings legend'			=> 	'Ban users',
 'Change group head'				=>	'Move the selected users to a new group',
 'User groups updated'			=>	'User groups updated.',
 'Move users legend'				=>	'Move users',
@@ -84,8 +84,8 @@ $lang_admin_users = array(
 'Move users to label'			=>	'Move users to group',
 
 // admin_users tables
-'Username column'				=>	'Username — Email — Admin notes',
-'Title column'					=>	'Title — Status',
+'Username column'				=>	'Username - E-mail - Admin notes',
+'Title column'					=>	'Title - Status',
 'Posts'							=>	'Posts',
 'Actions'						=>	'Action(s)',
 'View IP stats'					=>	'View IP stats',

@@ -4,7 +4,7 @@
  *
  * Allows administrators to control the extensions and hotfixes installed in the site.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -59,22 +59,8 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 	$ext_data = xml_to_array($manifest);
 	$errors = validate_manifest($ext_data, $id);
 
-	/*
-	 * TODO
-	 * Errors must be fully specified instead "bad request" message only
-	 */
 	if (!empty($errors))
 		message(isset($_GET['install']) ? $lang_common['Bad request'] : $lang_admin_ext['Hotfix download failed']);
-
-	// Get core amd major versions
-	if (!defined('FORUM_DISABLE_EXTENSIONS_VERSION_CHECK'))
-	{
-		list($forum_version_core, $forum_version_major) = explode('.', clean_version($forum_config['o_cur_version']));
-		list($extension_maxtestedon_version_core, $extension_maxtestedon_version_major) = explode('.', clean_version($ext_data['extension']['maxtestedon']));
-
-		if (version_compare($forum_version_core.'.'.$forum_version_major, $extension_maxtestedon_version_core.'.'.$extension_maxtestedon_version_major, '>'))
-			message($lang_admin_ext['Maxtestedon error']);
-	}
 
 	// Make sure we have an array of dependencies
 	if (!isset($ext_data['extension']['dependencies']['dependency']))
@@ -85,7 +71,7 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 		$ext_data['extension']['dependencies'] = $ext_data['extension']['dependencies']['dependency'];
 
 	$query = array(
-		'SELECT'	=> 'e.id, e.version',
+		'SELECT'	=> 'e.id',
 		'FROM'		=> 'extensions AS e',
 		'WHERE'		=> 'e.disabled=0'
 	);
@@ -95,21 +81,12 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 
 	$installed_ext = array();
 	while ($row = $forum_db->fetch_assoc($result))
-		$installed_ext[$row['id']] = $row;
+		$installed_ext[] = $row['id'];
 
 	foreach ($ext_data['extension']['dependencies'] as $dependency)
 	{
-
-		$ext_dependancy_id = is_array($dependency) ? $dependency['content'] : $dependency;
-		
-	    if (!array_key_exists($ext_dependancy_id, $installed_ext))
-	    {
-		   $errors[] = sprintf($lang_admin_ext['Missing dependency'], $ext_dependancy_id);
-	    }
-	    else if (is_array($dependency) AND isset($dependency['attributes']['minversion']) AND version_compare($dependency['attributes']['minversion'], $installed_ext[$ext_dependancy_id]['version']) > 0)
-	    {
-	    	$errors[] = sprintf($lang_admin_ext['Version dependency error'], $dependency['content'], $dependency['attributes']['minversion']);
-	    }
+		if (!in_array($dependency, $installed_ext))
+			message(sprintf($lang_admin_ext['Missing dependency'], $dependency));
 	}
 
 	// Setup breadcrumbs
@@ -121,7 +98,7 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 		(strpos($id, 'hotfix_') === 0) ? $lang_admin_ext['Install hotfix'] : $lang_admin_ext['Install extension']
 	);
 
-	if (isset($_POST['install_comply']) AND empty($errors))
+	if (isset($_POST['install_comply']))
 	{
 		($hook = get_hook('aex_install_comply_form_submitted')) ? eval($hook) : null;
 
@@ -164,12 +141,10 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 
 		($hook = get_hook('aex_install_comply_qr_get_current_ext_version')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$ext_version = $forum_db->result($result);
-
-		if (!is_null($ext_version) && $ext_version !== false)
+		if ($forum_db->num_rows($result))
 		{
 			// EXT_CUR_VERSION will be available to the extension install routine (to facilitate extension upgrades)
-			define('EXT_CUR_VERSION', $ext_version);
+			define('EXT_CUR_VERSION', $forum_db->result($result));
 
 			// Run the author supplied install code
 			if (isset($ext_data['extension']['install']) && forum_trim($ext_data['extension']['install']) != '')
@@ -215,7 +190,7 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 		if (isset($ext_data['extension']['hooks']['hook']))
 		{
 			foreach ($ext_data['extension']['hooks']['hook'] as $ext_hook)
-			{
+  			{
 				$cur_hooks = explode(',', $ext_hook['attributes']['id']);
 				foreach ($cur_hooks as $cur_hook)
 				{
@@ -228,8 +203,8 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 					($hook = get_hook('aex_install_comply_qr_add_hook')) ? eval($hook) : null;
 					$forum_db->query_build($query) or error(__FILE__, __LINE__);
 				}
-			}
-		}
+  			}
+  		}
 
 		// Empty the PHP cache
 		forum_clear_cache();
@@ -288,18 +263,12 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 		}
 		else
 		{
-			// Add flash message
-			if (strpos($id, 'hotfix_') === 0)
-				$forum_flash->add_info($lang_admin_ext['Hotfix installed']);
-			else
-				$forum_flash->add_info($lang_admin_ext['Extension installed']);
-
 			($hook = get_hook('aex_install_comply_pre_redirect')) ? eval($hook) : null;
 
 			if (strpos($id, 'hotfix_') === 0)
-				redirect(forum_link($forum_url['admin_extensions_hotfixes']), $lang_admin_ext['Hotfix installed']);
+				redirect(forum_link($forum_url['admin_extensions_hotfixes']), $lang_admin_ext['Hotfix installed'].' '.$lang_admin_common['Redirect']);
 			else
-				redirect(forum_link($forum_url['admin_extensions_manage']), $lang_admin_ext['Extension installed']);
+				redirect(forum_link($forum_url['admin_extensions_manage']), $lang_admin_ext['Extension installed'].' '.$lang_admin_common['Redirect']);
 		}
 	}
 
@@ -323,27 +292,6 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 		<h2 class="hn"><span><?php echo end($forum_page['crumbs']) ?> "<?php echo forum_htmlencode($ext_data['extension']['title']) ?>"</span></h2>
 	</div>
 	<div class="main-content main-frm">
-<?php
-
-    // If there were any errors, show them
-    if (!empty($errors))
-    {
-        $forum_page['errors'] = array();
-        foreach ($errors as $cur_error)
-            $forum_page['errors'][] = '<li class="warn"><span>'.$cur_error.'</span></li>';
-
-            ($hook = get_hook('aex_install_ext_pre_errors')) ? eval($hook) : null;
-
-?>
-		<div class="ct-box error-box">
-			<h2 class="warn hn"><?php echo $lang_admin_ext['Install ext errors'] ?></h2>
-			<ul class="error-list">
-				<?php echo implode("\n\t\t\t\t", $forum_page['errors'])."\n" ?>
-			</ul>
-		</div>
-<?php
-    }
-?>	
 		<form class="frm-form" method="post" accept-charset="utf-8" action="<?php echo $base_url.'/admin/extensions.php'.(isset($_GET['install']) ? '?install=' : '?install_hotfix=').$id ?>">
 			<div class="hidden">
 				<input type="hidden" name="csrf_token" value="<?php echo generate_form_token($base_url.'/admin/extensions.php'.(isset($_GET['install']) ? '?install=' : '?install_hotfix=').$id) ?>" />
@@ -352,8 +300,8 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 				<div class="ct-set data-set set1">
 					<div class="ct-box data-box">
 						<h3 class="ct-legend hn"><span><?php echo forum_htmlencode($ext_data['extension']['title']) ?></span></h3>
-						<p><?php echo ((strpos($id, 'hotfix_') !== 0) ? sprintf($lang_admin_ext['Version'], $ext_data['extension']['version']) : $lang_admin_ext['Hotfix']) ?></p>
 						<p><?php printf($lang_admin_ext['Extension by'], forum_htmlencode($ext_data['extension']['author'])) ?></p>
+						<p><?php  echo ((strpos($id, 'hotfix_') !== 0) ? sprintf($lang_admin_ext['Version'], $ext_data['extension']['version']) : $lang_admin_ext['Hotfix']) ?></p>
 						<p><?php echo forum_htmlencode($ext_data['extension']['description']) ?></p>
 					</div>
 				</div>
@@ -391,7 +339,7 @@ if (isset($_GET['install']) || isset($_GET['install_hotfix']))
 	}
 
 ?>			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="install_comply" value="<?php echo ((strpos($id, 'hotfix_') !== 0) ? $lang_admin_ext['Install extension'] : $lang_admin_ext['Install hotfix']) ?>" /></span>
+				<span class="submit"><input type="submit" name="install_comply" value="<?php echo ((strpos($id, 'hotfix_') !== 0) ? $lang_admin_ext['Install extension'] : $lang_admin_ext['Install hotfix']) ?>" /></span>
 				<span class="cancel"><input type="submit" name="install_cancel" value="<?php echo $lang_admin_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
@@ -429,12 +377,10 @@ else if (isset($_GET['uninstall']))
 
 	($hook = get_hook('aex_uninstall_qr_get_extension')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-	$ext_data = $forum_db->fetch_assoc($result);
-
-	if (!$ext_data)
-	{
+	if (!$forum_db->num_rows($result))
 		message($lang_common['Bad request']);
-	}
+
+	$ext_data = $forum_db->fetch_assoc($result);
 
 	// Check dependancies
 	$query = array(
@@ -445,10 +391,10 @@ else if (isset($_GET['uninstall']))
 
 	($hook = get_hook('aex_uninstall_qr_check_dependencies')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-	$dependency = $forum_db->fetch_assoc($result);
 
-	if (!is_null($dependency) && $dependency !== false)
+	if ($forum_db->num_rows($result) != 0)
 	{
+		$dependency = $forum_db->fetch_assoc($result);
 		message(sprintf($lang_admin_ext['Uninstall dependency'], $dependency['id']));
 	}
 
@@ -548,18 +494,12 @@ else if (isset($_GET['uninstall']))
 		}
 		else
 		{
-			// Add flash message
-			if (strpos($id, 'hotfix_') === 0)
-				$forum_flash->add_info($lang_admin_ext['Hotfix uninstalled']);
-			else
-				$forum_flash->add_info($lang_admin_ext['Extension uninstalled']);
-
 			($hook = get_hook('aex_uninstall_comply_pre_redirect')) ? eval($hook) : null;
 
 			if (strpos($id, 'hotfix_') === 0)
-				redirect(forum_link($forum_url['admin_extensions_hotfixes']), $lang_admin_ext['Hotfix uninstalled']);
+				redirect(forum_link($forum_url['admin_extensions_hotfixes']), $lang_admin_ext['Hotfix uninstalled'].' '.$lang_admin_common['Redirect']);
 			else
-				redirect(forum_link($forum_url['admin_extensions_manage']), $lang_admin_ext['Extension uninstalled']);
+				redirect(forum_link($forum_url['admin_extensions_manage']), $lang_admin_ext['Extension uninstalled'].' '.$lang_admin_common['Redirect']);
 		}
 	}
 	else	// If the user hasn't confirmed the uninstall
@@ -591,8 +531,8 @@ else if (isset($_GET['uninstall']))
 				<div class="ct-set data-set set1">
 					<div class="ct-box data-box">
 						<h3 class="ct-legend hn"><span><?php echo forum_htmlencode($ext_data['title']) ?></span></h3>
-						<p><?php echo ((strpos($id, 'hotfix_') !== 0) ? sprintf($lang_admin_ext['Version'], $ext_data['version']) : $lang_admin_ext['Hotfix']) ?></p>
 						<p><?php printf($lang_admin_ext['Extension by'], forum_htmlencode($ext_data['author'])) ?></p>
+						<p><?php echo ((strpos($id, 'hotfix_') !== 0) ? sprintf($lang_admin_ext['Version'], $ext_data['version']) : $lang_admin_ext['Hotfix']) ?></p>
 						<p><?php echo forum_htmlencode($ext_data['description']) ?></p>
 					</div>
 				</div>
@@ -606,7 +546,7 @@ else if (isset($_GET['uninstall']))
 				<p class="warn"><?php echo $lang_admin_ext['Installed extensions warn'] ?></p>
 			</div>
 <?php endif; ?>				<div class="frm-buttons">
-				<span class="submit primary caution"><input type="submit" name="uninstall_comply" value="<?php echo $lang_admin_ext['Uninstall'] ?>" /></span>
+				<span class="submit"><input type="submit" name="uninstall_comply" value="<?php echo $lang_admin_ext['Uninstall'] ?>" /></span>
 				<span class="cancel"><input type="submit" name="uninstall_cancel" value="<?php echo $lang_admin_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
@@ -646,16 +586,11 @@ else if (isset($_GET['flip']))
 
 	($hook = get_hook('aex_flip_qr_get_disabled_status')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-	$ext_status = $forum_db->result($result);
-
-	// No rows
-	if (is_null($ext_status) || $ext_status === false)
-	{
+	if (!$forum_db->num_rows($result))
 		message($lang_common['Bad request']);
-	}
 
 	// Are we disabling or enabling?
-	$disable = $ext_status == '0';
+	$disable = $forum_db->result($result) == '0';
 
 	// Check dependancies
 	if ($disable)
@@ -668,10 +603,10 @@ else if (isset($_GET['flip']))
 
 		($hook = get_hook('aex_flip_qr_get_disable_dependencies')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$dependency = $forum_db->fetch_assoc($result);
 
-		if (!is_null($dependency) && $dependency !== false)
+		if ($forum_db->num_rows($result) != 0)
 		{
+			$dependency = $forum_db->fetch_assoc($result);
 			message(sprintf($lang_admin_ext['Disable dependency'], $dependency['id']));
 		}
 	}
@@ -724,18 +659,12 @@ else if (isset($_GET['flip']))
 
 	generate_hooks_cache();
 
-	// Add flash message
-	if ($section == 'hotfixes')
-		$forum_flash->add_info(($disable ? $lang_admin_ext['Hotfix disabled'] : $lang_admin_ext['Hotfix enabled']));
-	else
-		$forum_flash->add_info(($disable ? $lang_admin_ext['Extension disabled'] : $lang_admin_ext['Extension enabled']));
-
 	($hook = get_hook('aex_flip_pre_redirect')) ? eval($hook) : null;
 
 	if ($section == 'hotfixes')
-		redirect(forum_link($forum_url['admin_extensions_hotfixes']), ($disable ? $lang_admin_ext['Hotfix disabled'] : $lang_admin_ext['Hotfix enabled']));
+		redirect(forum_link($forum_url['admin_extensions_hotfixes']), ($disable ? $lang_admin_ext['Hotfix disabled'] : $lang_admin_ext['Hotfix enabled']).' '.$lang_admin_common['Redirect']);
 	else
-		redirect(forum_link($forum_url['admin_extensions_manage']), ($disable ? $lang_admin_ext['Extension disabled'] : $lang_admin_ext['Extension enabled']));
+		redirect(forum_link($forum_url['admin_extensions_manage']), ($disable ? $lang_admin_ext['Extension disabled'] : $lang_admin_ext['Extension enabled']).' '.$lang_admin_common['Redirect']);
 }
 
 ($hook = get_hook('aex_new_action')) ? eval($hook) : null;
@@ -801,7 +730,7 @@ if ($section == 'hotfixes')
 		{
 			if (!array_key_exists($hotfix['attributes']['id'], $inst_exts))
 			{
-				$forum_page['ext_item'][] = '<div class="ct-box info-box hotfix available">'."\n\t\t\t".'<h3 class="ct-legend hn">'.forum_htmlencode($hotfix['content']).'</h3>'."\n\t\t\t".'<ul>'."\n\t\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], 'PunBB').'</span></li>'."\n\t\t\t\t".'<li><span>'.$lang_admin_ext['Hotfix description'].'</span></li>'."\n\t\t\t".'</ul>'."\n\t\t\t\t".'<p class="options"><span class="first-item"><a href="'.$base_url.'/admin/extensions.php?install_hotfix='.urlencode($hotfix['attributes']['id']).'">'.$lang_admin_ext['Install hotfix'].'</a></span></p>'."\n\t\t".'</div>';
+				$forum_page['ext_item'][] = '<div class="ct-box info-box hotfix available">'."\n\t\t\t".'<h3 class="ct-legend hn"><span>'.forum_htmlencode($hotfix['content']).'</span></h3>'."\n\t\t\t".'<ul>'."\n\t\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], 'PunBB').'</span></li>'."\n\t\t\t\t".'<li><span>'.$lang_admin_ext['Hotfix description'].'</span></li>'."\n\t\t\t".'</ul>'."\n\t\t\t\t".'<p class="options"><span class="first-item"><a href="'.$base_url.'/admin/extensions.php?install_hotfix='.urlencode($hotfix['attributes']['id']).'">'.$lang_admin_ext['Install hotfix'].'</a></span></p>'."\n\t\t".'</div>';
 				++$num_exts;
 			}
 		}
@@ -852,12 +781,10 @@ if ($section == 'hotfixes')
 		<div class="ct-box info-box hotfix <?php echo $ext['disabled'] == '1' ? 'disabled' : 'enabled' ?>">
 			<h3 class="ct-legend hn"><span><?php echo forum_htmlencode($ext['title']) ?><?php if ($ext['disabled'] == '1') echo ' ( <span>'.$lang_admin_ext['Extension disabled'].'</span> )' ?></span></h3>
 			<ul class="data-list">
-				<li><span><?php echo ((strpos($id, 'hotfix_') !== 0) ? sprintf($lang_admin_ext['Version'], $ext['version']) : $lang_admin_ext['Hotfix']) ?></span></li>
 				<li><span><?php printf($lang_admin_ext['Extension by'], forum_htmlencode($ext['author'])) ?></span></li>
-				<?php if ($ext['description'] != ''): ?>
-					<li><span><?php echo forum_htmlencode($ext['description']) ?></span></li>
-				<?php endif; ?>
-			</ul>
+				<li><span><?php echo ((strpos($id, 'hotfix_') !== 0) ? sprintf($lang_admin_ext['Version'], $ext['version']) : $lang_admin_ext['Hotfix']) ?></span></li>
+<?php if ($ext['description'] != ''): ?>				<li><span><?php echo forum_htmlencode($ext['description']) ?></span></li>
+<?php endif; ?>			</ul>
 			<p class="options"><?php echo implode(' ', $forum_page['ext_actions']) ?></p>
 		</div>
 <?php
@@ -894,7 +821,8 @@ else
 	if ($forum_config['o_check_for_versions'] == 1)
 	{
 		// Check for the new versions of the extensions istalled
-		$repository_urls = array(FORUM_PUN_EXTENSION_REPOSITORY_URL);
+
+		$repository_urls = array('http://punbb.informer.com/extensions');
 		($hook = get_hook('aex_add_extensions_repository')) ? eval($hook) : null;
 
 		$repository_url_by_extension = array();
@@ -904,18 +832,18 @@ else
 		if (is_readable(FORUM_CACHE_DIR.'cache_ext_version_notifications.php'))
 			include FORUM_CACHE_DIR.'cache_ext_version_notifications.php';
 
-		// Get latest timestamp in cache
+		//Get latest timestamp in cache
 		if (isset($forum_ext_repos))
 		{
 			$min_timestamp = 10000000000;
-			foreach ($forum_ext_repos as $rep)
+			foreach ( $forum_ext_repos as $rep)
 				$min_timestamp = min($min_timestamp, $rep['timestamp']);
 		}
 
 		$update_hour = (isset($forum_ext_versions_update_cache) && (time() - $forum_ext_versions_update_cache > 60 * 60));
 
 		// Update last versions if there is no cahe or some extension was added/removed or one day has gone since last update
-		$update_new_versions_cache = !defined('FORUM_EXT_VERSIONS_LOADED') || (isset($forum_ext_last_versions) && array_diff(array_keys($inst_exts), array_keys($forum_ext_last_versions)) != array()) || $update_hour || ($update_hour && isset($min_timestamp) && (time() - $min_timestamp > 60*60*24));
+		$update_new_versions_cache = !defined('FORUM_EXT_VERSIONS_LOADED') || (isset($forum_ext_last_versions) && array_diff($inst_exts, $forum_ext_last_versions) != array()) || $update_hour  || ( $update_hour && isset($min_timestamp) && (time() - $min_timestamp > 60*60*24));
 
 		($hook = get_hook('aex_before_update_checking')) ? eval($hook) : null;
 
@@ -999,7 +927,7 @@ else
 			{
 				if (!array_key_exists($entry, $inst_exts) || version_compare($inst_exts[$entry]['version'], $ext_data['extension']['version'], '!='))
 				{
-					$forum_page['ext_item'][] = '<div class="ct-box info-box extension available">'."\n\t\t\t".'<h3 class="ct-legend hn">'.forum_htmlencode($ext_data['extension']['title']).' <em>'.$ext_data['extension']['version'].'</em></h3>'."\n\t\t\t".'<ul class="data-list">'."\n\t\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], forum_htmlencode($ext_data['extension']['author'])).'</span></li>'.(($ext_data['extension']['description'] != '') ? "\n\t\t\t\t".'<li><span>'.forum_htmlencode($ext_data['extension']['description']).'</span></li>' : '')."\n\t\t\t".'</ul>'."\n\t\t\t".'<p class="options"><span class="first-item"><a href="'.$base_url.'/admin/extensions.php?install='.urlencode($entry).'">'.(isset($inst_exts[$entry]['version']) ? $lang_admin_ext['Upgrade extension'] : $lang_admin_ext['Install extension']).'</a></span></p>'."\n\t\t".'</div>';
+					$forum_page['ext_item'][] = '<div class="ct-box info-box extension available">'."\n\t\t\t".'<h3 class="ct-legend hn"><span>'.forum_htmlencode($ext_data['extension']['title']).'</span></h3>'."\n\t\t\t".'<ul class="data-list">'."\n\t\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], forum_htmlencode($ext_data['extension']['author'])).'</span></li>'."\n\t\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Version'], $ext_data['extension']['version']).'</span></li>'.(($ext_data['extension']['description'] != '') ? "\n\t\t\t\t".'<li><span>'.forum_htmlencode($ext_data['extension']['description']).'</span></li>' : '')."\n\t\t\t".'</ul>'."\n\t\t\t".'<p class="options"><span class="first-item"><a href="'.$base_url.'/admin/extensions.php?install='.urlencode($entry).'">'.(isset($inst_exts[$entry]['version']) ? $lang_admin_ext['Upgrade extension'] : $lang_admin_ext['Install extension']).'</a></span></p>'."\n\t\t".'</div>';
 					++$num_exts;
 				}
 			}
@@ -1066,15 +994,22 @@ else
 		($hook = get_hook('aex_section_manage_pre_ext_actions')) ? eval($hook) : null;
 
 		if ($ext['disabled'] == '1')
-			$forum_page['ext_item'][] = '<div class="ct-box info-box extension disabled">'."\n\t\t".'<h3 class="ct-legend hn">'.forum_htmlencode($ext['title']).' <em>'.$ext['version'].'</em> ('.$lang_admin_ext['Extension disabled'].')</h3>'."\n\t\t".'<ul class="data-list">'."\n\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], forum_htmlencode($ext['author'])).'</span></li>'."\n\t\t\t".(($ext['description'] != '') ? '<li><span>'.forum_htmlencode($ext['description']).'</span></li>' : '')."\n\t\t\t".'</ul>'."\n\t\t".'<p class="options">'.implode(' ', $forum_page['ext_actions']).'</p>'."\n\t".'</div>';
+			$forum_page['ext_item'][] = '<div class="ct-box info-box extension disabled">'."\n\t\t".'<h3 class="ct-legend hn"><span>'.forum_htmlencode($ext['title']).' ( <span>'.$lang_admin_ext['Extension disabled'].'</span> )</span></h3>'."\n\t\t".'<ul class="data-list">'."\n\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], forum_htmlencode($ext['author'])).'</span></li>'."\n\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Version'], $ext['version']).'</span></li>'."\n\t\t\t".(($ext['description'] != '') ? '<li><span>'.forum_htmlencode($ext['description']).'</span></li>' : '')."\n\t\t\t".'</ul>'."\n\t\t".'<p class="options">'.implode(' ', $forum_page['ext_actions']).'</p>'."\n\t".'</div>';
 		else
-			$forum_page['ext_item'][] = '<div class="ct-box info-box extension enabled">'."\n\t\t".'<h3 class="ct-legend hn">'.forum_htmlencode($ext['title']).' <em>'.$ext['version'].'</em></h3>'."\n\t\t".'<ul class="data-list">'."\n\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], forum_htmlencode($ext['author'])).'</span></li>'."\n\t\t\t".(($ext['description'] != '') ? '<li><span>'.forum_htmlencode($ext['description']).'</span></li>' : '')."\n\t\t".'</ul>'."\n\t\t".'<p class="options">'.implode(' ', $forum_page['ext_actions']).'</p>'."\n\t".'</div>';
+			$forum_page['ext_item'][] = '<div class="ct-box info-box extension enabled">'."\n\t\t".'<h3 class="ct-legend hn"><span>'.forum_htmlencode($ext['title']).'</span></h3>'."\n\t\t".'<ul class="data-list">'."\n\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Extension by'], forum_htmlencode($ext['author'])).'</span></li>'."\n\t\t\t".'<li><span>'.sprintf($lang_admin_ext['Version'], $ext['version']).'</span></li>'."\n\t\t\t".(($ext['description'] != '') ? '<li><span>'.forum_htmlencode($ext['description']).'</span></li>' : '')."\n\t\t".'</ul>'."\n\t\t".'<p class="options">'.implode(' ', $forum_page['ext_actions']).'</p>'."\n\t".'</div>';
 
 		$installed_count++;
 	}
 
 	if ($installed_count > 0)
 	{
+
+?>
+		<div class="ct-box warn-box">
+			<p class="warn"><?php echo $lang_admin_ext['Installed extensions warn'] ?></p>
+		</div>
+<?php
+
 		echo "\t".implode("\n\t", $forum_page['ext_item'])."\n";
 	}
 	else

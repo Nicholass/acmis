@@ -1,0 +1,92 @@
+div.jGrowl { padding: 1.5px; z-index: 9999; }
+
+/** Normal Style Positions **/
+body > div.jGrowl { position: fixed; }
+
+body > div.jGrowl.top-left {
+	left: 				0px;
+	top: 				0px;
+}
+
+body > div.jGrowl.top-right {
+	right: 				0px;
+	top: 				0px;
+}
+
+body > div.jGrowl.bottom-left {
+	left: 				0px;
+	bottom:				0px;
+}
+
+body > div.jGrowl.bottom-right {
+	right: 				.3em;
+	bottom: 			.3em;
+}
+
+body > div.jGrowl.center {
+	top: 				0px;
+	width: 				50%;
+	left: 				25%;
+}
+
+/** Cross Browser Styling **/
+div.center div.jGrowl-notification, div.center div.jGrowl-closer {
+	margin-left: 		auto;
+	margin-right: 		auto;
+}
+
+div.jGrowl div.jGrowl-notification, div.jGrowl div.jGrowl-closer {
+	background-color: 		#C3D7F6;
+	color: 					#000;
+	border:					solid 2px #1C74CC;
+	opacity: 				.9;
+	zoom: 					1;
+	width: 					235px;
+	padding: 				10px;
+	margin-top: 			5px;
+	margin-bottom: 			5px;
+	text-align: 			left;
+	display: 				none;
+	-moz-border-radius: 	5px;
+	-webkit-border-radius:	5px;
+}
+
+div.jGrowl div.jGrowl-notification {
+	min-height: 			3em;
+}
+
+div.jGrowl div.jGrowl-notification div.header {
+	font-weight: 			bold;
+	font-size:				1em;
+}
+
+div.jGrowl div.jGrowl-notification div.close {
+	float: 					right;
+	font-weight: 			bold;
+	font-size: 				1.2em;
+	cursor:					pointer;
+	padding: 0 .2em .2em;
+	opacity: .8;
+}
+
+div.jGrowl div.jGrowl-closer {
+	height: 				15px;
+	cursor: 				pointer;
+	font-size:				1.2em;
+	font-weight: 			bold;
+	text-align: 			center;
+}
+div.jGrowl div.jGrowl-notification div.close:hover {
+	opacity: 1;
+}
+
+
+div.jGrowl a { color: #00488F; text-decoration: none; }
+div.jGrowl a:hover { color: #00488F; text-decoration: underline; }
+
+/** Hide jGrowl when printing **/
+@media print {
+	div.jGrowl {
+		display: 			none;
+	}
+}

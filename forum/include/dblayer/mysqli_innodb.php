@@ -1,8 +1,8 @@
 <?php
 /**
- * A database layer class that relies on the MySQLi PHP extension.
+ * A database layer class supporting transactions that relies on the MySQLi PHP extension.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -18,10 +18,10 @@ class DBLayer
 	var $prefix;
 	var $link_id;
 	var $query_result;
-	var $in_transaction = 0;
 
 	var $saved_queries = array();
 	var $num_queries = 0;
+	var $in_transaction = 0;
 
 	var $datatype_transformations = array(
 		'/^SERIAL$/'	=>	'INT(10) UNSIGNED AUTO_INCREMENT'
@@ -56,7 +56,8 @@ class DBLayer
 	{
 		++$this->in_transaction;
 
-		return mysqli_query($this->link_id, 'START TRANSACTION');
+		mysqli_query($this->link_id, 'START TRANSACTION');
+		return;
 	}
 
 
@@ -64,30 +65,25 @@ class DBLayer
 	{
 		--$this->in_transaction;
 
-		if (mysqli_query($this->link_id, 'COMMIT'))
-			return true;
-		else
-		{
-			mysqli_query($this->link_id, 'ROLLBACK');
-			return false;
-		}
+		mysqli_query($this->link_id, 'COMMIT');
+		return;
 	}
 
 
 	function query($sql, $unbuffered = false)
 	{
-		if (strlen($sql) > FORUM_DATABASE_QUERY_MAXIMUM_LENGTH)
+		if (strlen($sql) > 140000)
 			exit('Insane query. Aborting.');
 
-		if (defined('FORUM_SHOW_QUERIES') || defined('FORUM_DEBUG'))
-			$q_start = forum_microtime();
+		if (defined('FORUM_SHOW_QUERIES'))
+			$q_start = get_microtime();
 
-		$this->query_result = mysqli_query($this->link_id, $sql);
+		$this->query_result = @mysqli_query($this->link_id, $sql);
 
 		if ($this->query_result)
 		{
-			if (defined('FORUM_SHOW_QUERIES') || defined('FORUM_DEBUG'))
-				$this->saved_queries[] = array($sql, sprintf('%.5f', forum_microtime() - $q_start));
+			if (defined('FORUM_SHOW_QUERIES'))
+				$this->saved_queries[] = array($sql, sprintf('%.5f', get_microtime() - $q_start));
 
 			++$this->num_queries;
 
@@ -95,9 +91,10 @@ class DBLayer
 		}
 		else
 		{
-			if (defined('FORUM_SHOW_QUERIES') || defined('FORUM_DEBUG'))
+			if (defined('FORUM_SHOW_QUERIES'))
 				$this->saved_queries[] = array($sql, 0);
 
+			// Rollback transaction
 			if ($this->in_transaction)
 				mysqli_query($this->link_id, 'ROLLBACK');
 
@@ -105,73 +102,6 @@ class DBLayer
 
 			return false;
 		}
-	}
-
-
-	function query_build($query, $return_query_string = false, $unbuffered = false)
-	{
-		$sql = '';
-
-		if (isset($query['SELECT']))
-		{
-			$sql = 'SELECT '.$query['SELECT'].' FROM '.(isset($query['PARAMS']['NO_PREFIX']) ? '' : $this->prefix).$query['FROM'];
-
-			if (isset($query['JOINS']))
-			{
-				foreach ($query['JOINS'] as $cur_join)
-					$sql .= ' '.key($cur_join).' '.(isset($query['PARAMS']['NO_PREFIX']) ? '' : $this->prefix).current($cur_join).' ON '.$cur_join['ON'];
-			}
-
-			if (!empty($query['WHERE']))
-				$sql .= ' WHERE '.$query['WHERE'];
-			if (!empty($query['GROUP BY']))
-				$sql .= ' GROUP BY '.$query['GROUP BY'];
-			if (!empty($query['HAVING']))
-				$sql .= ' HAVING '.$query['HAVING'];
-			if (!empty($query['ORDER BY']))
-				$sql .= ' ORDER BY '.$query['ORDER BY'];
-			if (!empty($query['LIMIT']))
-				$sql .= ' LIMIT '.$query['LIMIT'];
-		}
-		else if (isset($query['INSERT']))
-		{
-			$sql = 'INSERT INTO '.(isset($query['PARAMS']['NO_PREFIX']) ? '' : $this->prefix).$query['INTO'];
-
-			if (!empty($query['INSERT']))
-				$sql .= ' ('.$query['INSERT'].')';
-
-			if (is_array($query['VALUES']))
-				$sql .= ' VALUES('.implode('),(', $query['VALUES']).')';
-			else
-				$sql .= ' VALUES('.$query['VALUES'].')';
-		}
-		else if (isset($query['UPDATE']))
-		{
-			$query['UPDATE'] = (isset($query['PARAMS']['NO_PREFIX']) ? '' : $this->prefix).$query['UPDATE'];
-
-			$sql = 'UPDATE '.$query['UPDATE'].' SET '.$query['SET'];
-
-			if (!empty($query['WHERE']))
-				$sql .= ' WHERE '.$query['WHERE'];
-		}
-		else if (isset($query['DELETE']))
-		{
-			$sql = 'DELETE FROM '.(isset($query['PARAMS']['NO_PREFIX']) ? '' : $this->prefix).$query['DELETE'];
-
-			if (!empty($query['WHERE']))
-				$sql .= ' WHERE '.$query['WHERE'];
-		}
-		else if (isset($query['REPLACE']))
-		{
-			$sql = 'REPLACE INTO '.(isset($query['PARAMS']['NO_PREFIX']) ? '' : $this->prefix).$query['INTO'];
-
-			if (!empty($query['REPLACE']))
-				$sql .= ' ('.$query['REPLACE'].')';
-
-			$sql .= ' VALUES('.$query['VALUES'].')';
-		}
-
-		return ($return_query_string) ? $sql : $this->query($sql, $unbuffered);
 	}
 
 

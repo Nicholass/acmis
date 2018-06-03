@@ -4,7 +4,7 @@
  *
  * Allows administrators to delete older topics from the site.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -46,10 +46,14 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 
 			($hook = get_hook('apr_prune_comply_qr_get_all_forums')) ? eval($hook) : null;
 			$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
+			$num_forums = $forum_db->num_rows($result);
 
-			while ($cur_forum = $forum_db->fetch_assoc($result)) {
-				prune($cur_forum['id'], $_POST['prune_sticky'], $prune_date);
-				sync_forum($cur_forum['id']);
+			for ($i = 0; $i < $num_forums; ++$i)
+			{
+				$fid = $forum_db->result($result, $i);
+
+				prune($fid, $_POST['prune_sticky'], $prune_date);
+				sync_forum($fid);
 			}
 		}
 		else
@@ -61,11 +65,9 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 
 		delete_orphans();
 
-		$forum_flash->add_info($lang_admin_prune['Prune done']);
-
 		($hook = get_hook('apr_prune_pre_redirect')) ? eval($hook) : null;
 
-		redirect(forum_link($forum_url['admin_prune']), $lang_admin_prune['Prune done']);
+		redirect(forum_link($forum_url['admin_prune']), $lang_admin_prune['Prune done'].' '.$lang_admin_common['Redirect']);
 	}
 
 
@@ -152,7 +154,7 @@ if (isset($_GET['action']) || isset($_POST['prune']) || isset($_POST['prune_comp
 			</div>
 <?php ($hook = get_hook('apr_prune_comply_pre_buttons')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="prune_comply" value="<?php echo $lang_admin_prune['Prune topics'] ?>" /></span>
+				<span class="submit"><input type="submit" name="prune_comply" value="<?php echo $lang_admin_prune['Prune topics'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -205,7 +207,7 @@ else
 			<p class="important"><?php echo $lang_admin_prune['Prune caution'] ?></p>
 		</div>
 		<div id="req-msg" class="req-warn ct-box error-box">
-			<p class="important"><?php echo $lang_admin_common['Required warn'] ?></p>
+			<p class="important"><?php printf($lang_admin_common['Required warn'], '<em>'.$lang_admin_common['Required'].'</em>') ?></p>
 		</div>
 		<form class="frm-form" method="post" accept-charset="utf-8" action="<?php echo forum_link($forum_url['admin_prune']) ?>?action=foo">
 			<div class="hidden">
@@ -242,8 +244,6 @@ else
 	$cur_category = 0;
 	while ($forum = $forum_db->fetch_assoc($result))
 	{
-		($hook = get_hook('apr_pre_prune_forum_loop_start')) ? eval($hook) : null;
-		
 		if ($forum['cid'] != $cur_category)	// Are we still in the same category?
 		{
 			if ($cur_category)
@@ -254,8 +254,6 @@ else
 		}
 
 		echo "\t\t\t\t\t\t\t\t\t".'<option value="'.$forum['fid'].'">'.forum_htmlencode($forum['forum_name']).'</option>'."\n";
-		
-		($hook = get_hook('apr_pre_prune_forum_loop_end')) ? eval($hook) : null;
 	}
 
 ?>
@@ -266,22 +264,22 @@ else
 <?php ($hook = get_hook('apr_pre_prune_days')) ? eval($hook) : null; ?>
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box text required">
-						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_admin_prune['Days old'] ?></span></label><br />
-						<span class="fld-input"><input type="number" id="fld<?php echo $forum_page['fld_count'] ?>" name="req_prune_days" size="4" maxlength="4" required /></span>
+						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_admin_prune['Days old'] ?> <em><?php echo $lang_admin_common['Required'] ?></em></span></label><br />
+						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="req_prune_days" size="4" maxlength="4" /></span>
 					</div>
 				</div>
 <?php ($hook = get_hook('apr_pre_prune_sticky')) ? eval($hook) : null; ?>
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box checkbox">
 						<span class="fld-input"><input type="checkbox" id="fld<?php echo ++$forum_page['fld_count'] ?>" name="prune_sticky" value="1" checked="checked" /></span>
-						<label for="fld<?php echo $forum_page['fld_count'] ?>"><?php echo $lang_admin_prune['Prune sticky enable'] ?></label>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>"><span><?php echo $lang_admin_prune['Prune sticky'] ?></span> <?php echo $lang_admin_prune['Prune sticky enable'] ?></label>
 					</div>
 				</div>
 <?php ($hook = get_hook('apr_pre_prune_fieldset_end')) ? eval($hook) : null; ?>
 			</fieldset>
 <?php ($hook = get_hook('apr_prune_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="prune" value="<?php echo $lang_admin_prune['Prune topics'] ?>" /></span>
+				<span class="submit"><input type="submit" name="prune" value="<?php echo $lang_admin_prune['Prune topics'] ?>" /></span>
 			</div>
 		</form>
 	</div>

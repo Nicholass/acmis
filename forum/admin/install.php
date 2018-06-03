@@ -4,18 +4,23 @@
  *
  * Used to actually install PunBB.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2011 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
 
 
-define('MIN_PHP_VERSION', '5.0.0');
+define('FORUM_VERSION', '1.3.6');
+define('FORUM_DB_REVISION', 4);
+define('MIN_PHP_VERSION', '4.3.0');
 define('MIN_MYSQL_VERSION', '4.1.2');
 
 define('FORUM_ROOT', '../');
 define('FORUM', 1);
 define('FORUM_DEBUG', 1);
+
+define('FORUM_SEARCH_MIN_WORD', 3);
+define('FORUM_SEARCH_MAX_WORD', 20);
 
 if (file_exists(FORUM_ROOT.'config.php'))
 	exit('The file \'config.php\' already exists which would mean that PunBB is already installed. You should go <a href="'.FORUM_ROOT.'index.php">here</a> instead.');
@@ -31,7 +36,6 @@ error_reporting(E_ALL);
 // Turn off PHP time limit
 @set_time_limit(0);
 
-require FORUM_ROOT.'include/constants.php';
 // We need some stuff from functions.php
 require FORUM_ROOT.'include/functions.php';
 
@@ -50,19 +54,7 @@ function generate_config_file()
 {
 	global $db_type, $db_host, $db_name, $db_username, $db_password, $db_prefix, $base_url, $cookie_name;
 
-	$config_body = '<?php'."\n\n".'$db_type = \''.$db_type."';\n".'$db_host = \''.$db_host."';\n".'$db_name = \''.addslashes($db_name)."';\n".'$db_username = \''.addslashes($db_username)."';\n".'$db_password = \''.addslashes($db_password)."';\n".'$db_prefix = \''.addslashes($db_prefix)."';\n".'$p_connect = false;'."\n\n".'$base_url = \''.$base_url.'\';'."\n\n".'$cookie_name = '."'".$cookie_name."';\n".'$cookie_domain = '."'';\n".'$cookie_path = '."'/';\n".'$cookie_secure = 0;'."\n\ndefine('FORUM', 1);";
-
-	// Add forum options
-	$config_body .= "\n\n// Enable DEBUG mode by removing // from the following line\n//define('FORUM_DEBUG', 1);";
-	$config_body .= "\n\n// Enable show DB Queries mode by removing // from the following line\n//define('FORUM_SHOW_QUERIES', 1);";
-	$config_body .= "\n\n// Enable forum IDNA support by removing // from the following line\n//define('FORUM_ENABLE_IDNA', 1);";
-	$config_body .= "\n\n// Disable forum CSRF checking by removing // from the following line\n//define('FORUM_DISABLE_CSRF_CONFIRM', 1);";
-	$config_body .= "\n\n// Disable forum hooks (extensions) by removing // from the following line\n//define('FORUM_DISABLE_HOOKS', 1);";
-	$config_body .= "\n\n// Disable forum output buffering by removing // from the following line\n//define('FORUM_DISABLE_BUFFERING', 1);";
-	$config_body .= "\n\n// Disable forum async JS loader by removing // from the following line\n//define('FORUM_DISABLE_ASYNC_JS_LOADER', 1);";
-	$config_body .= "\n\n// Disable forum extensions version check by removing // from the following line\n//define('FORUM_DISABLE_EXTENSIONS_VERSION_CHECK', 1);";
-
-	return $config_body;
+	return '<?php'."\n\n".'$db_type = \''.$db_type."';\n".'$db_host = \''.$db_host."';\n".'$db_name = \''.addslashes($db_name)."';\n".'$db_username = \''.addslashes($db_username)."';\n".'$db_password = \''.addslashes($db_password)."';\n".'$db_prefix = \''.addslashes($db_prefix)."';\n".'$p_connect = false;'."\n\n".'$base_url = \''.$base_url.'\';'."\n\n".'$cookie_name = '."'".$cookie_name."';\n".'$cookie_domain = '."'';\n".'$cookie_path = '."'/';\n".'$cookie_secure = 0;'."\n\ndefine('FORUM', 1);";
 }
 
 $language = isset($_GET['lang']) ? $_GET['lang'] : (isset($_POST['req_language']) ? forum_trim($_POST['req_language']) : 'English');
@@ -93,31 +85,26 @@ if (isset($_POST['generate_config']))
 }
 
 header('Content-Type: text/html; charset=utf-8');
-header('Cache-Control: cache-control: no-store', false);
 
 if (!isset($_POST['form_sent']))
 {
 	// Determine available database extensions
+	$dual_mysql = false;
 	$db_extensions = array();
-
 	if (function_exists('mysqli_connect'))
 	{
 		$db_extensions[] = array('mysqli', 'MySQL Improved');
-		$db_extensions[] = array('mysqli_innodb', 'MySQL Improved (InnoDB)');
 	}
 
 	if (function_exists('mysql_connect'))
 	{
 		$db_extensions[] = array('mysql', 'MySQL Standard');
-		$db_extensions[] = array('mysql_innodb', 'MySQL Standard (InnoDB)');
-	}
 
+		if (count($db_extensions) > 1)
+			$dual_mysql = true;
+	}
 	if (function_exists('sqlite_open'))
 		$db_extensions[] = array('sqlite', 'SQLite');
-
-	if (class_exists('SQLite3'))
-		$db_extensions[] = array('sqlite3', 'SQLite3');
-
 	if (function_exists('pg_connect'))
 		$db_extensions[] = array('pgsql', 'PostgreSQL');
 
@@ -133,17 +120,19 @@ if (!isset($_POST['form_sent']))
 	$languages = get_language_packs();
 
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html class="oldie ie6" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 7 ]>    <html class="oldie ie7" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 8 ]>    <html class="oldie ie8" lang="en" dir="ltr"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" dir="ltr"> <!--<![endif]-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
-	<meta charset="utf-8" />
-	<title>PunBB Installation</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen.min.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PunBB Installation</title>
+<link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen_cs.css" />
+<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen_ie6.css" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen_ie7.css" /><![endif]-->
 </head>
 <body>
+
 <div id="brd-install" class="brd-page">
 <div id="brd-wrap" class="brd">
 
@@ -184,7 +173,7 @@ if (!isset($_POST['form_sent']))
 			</div>
 		</fieldset>
 		<div class="frm-buttons">
-			<span class="submit primary"><input type="submit" name="changelang" value="<?php echo $lang_install['Choose language'] ?>" /></span>
+			<span class="submit"><input type="submit" name="changelang" value="<?php echo $lang_install['Choose language'] ?>" /></span>
 		</div>
 	</div>
 	</form>
@@ -192,7 +181,7 @@ if (!isset($_POST['form_sent']))
 
 	}
 
-?>	<form class="frm-form frm-suggest-username" method="post" accept-charset="utf-8" action="install.php">
+?>	<form class="frm-form" method="post" accept-charset="utf-8" action="install.php">
 	<div class="hidden">
 		<input type="hidden" name="form_sent" value="1" />
 	</div>
@@ -202,8 +191,8 @@ if (!isset($_POST['form_sent']))
 	<div class="main-content main-frm">
 		<div class="ct-box info-box">
 			<p><?php echo $lang_install['Part1 intro'] ?></p>
-			<ul class="spaced list-clean">
-				<li><span><strong><?php echo $lang_install['Database type'] ?></strong> <?php echo $lang_install['Database type info']; if (count($db_extensions) > 1) echo ' '.$lang_install['Mysql type info'] ?></span></li>
+			<ul class="spaced">
+				<li><span><strong><?php echo $lang_install['Database type'] ?></strong> <?php echo $lang_install['Database type info']; if ($dual_mysql) echo ' '.$lang_install['Mysql type info'] ?></span></li>
 				<li><span><strong><?php echo $lang_install['Database server'] ?></strong> <?php echo $lang_install['Database server info'] ?></span></li>
 				<li><span><strong><?php echo $lang_install['Database name'] ?></strong> <?php echo $lang_install['Database name info'] ?></span></li>
 				<li><span><strong><?php echo $lang_install['Database user pass'] ?></strong> <?php echo $lang_install['Database username info'] ?></span></li>
@@ -211,14 +200,14 @@ if (!isset($_POST['form_sent']))
 			</ul>
 		</div>
 		<div id="req-msg" class="req-warn ct-box error-box">
-			<p class="important"><?php echo $lang_install['Required warn'] ?></p>
+			<p class="important"><?php printf($lang_install['Required warn'], '<em>'.$lang_install['Required'].'</em>') ?></p>
 		</div>
 		<fieldset class="frm-group group1">
 			<legend class="group-legend"><strong><?php echo $lang_install['Part1 legend'] ?></strong></legend>
 			<div class="sf-set set1">
 				<div class="sf-box select required">
-					<label for="req_db_type"><span><?php echo $lang_install['Database type'] ?></span> <small><?php echo $lang_install['Database type help'] ?></small></label><br />
-					<span class="fld-input"><select id="req_db_type" name="req_db_type">
+					<label for="fld1"><span><?php echo $lang_install['Database type'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['Database type help'] ?></small></label><br />
+					<span class="fld-input"><select id="fld1" name="req_db_type">
 <?php
 
 	foreach ($db_extensions as $db_type)
@@ -227,34 +216,34 @@ if (!isset($_POST['form_sent']))
 ?>					</select></span>
 				</div>
 			</div>
-			<div class="sf-set set1" id="db_host_block">
+			<div class="sf-set set1">
 				<div class="sf-box text required">
-					<label for="db_host"><span><?php echo $lang_install['Database server'] ?></span> <small><?php echo $lang_install['Database server help'] ?></small></label><br />
-					<span class="fld-input"><input id="db_host" type="text" name="req_db_host" value="localhost" size="35" maxlength="100" required /></span>
+					<label for="fld2"><span><?php echo $lang_install['Database server'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['Database server help'] ?></small></label><br />
+					<span class="fld-input"><input id="fld2" type="text" name="req_db_host" value="localhost" size="35" maxlength="100" /></span>
 				</div>
 			</div>
 			<div class="sf-set set2">
 				<div class="sf-box text required">
-					<label for="fld3"><span><?php echo $lang_install['Database name'] ?></span> <small><?php echo $lang_install['Database name help'] ?></small></label><br />
-					<span class="fld-input"><input id="fld3" type="text" name="req_db_name" size="35" maxlength="50" required /></span>
+					<label for="fld3"><span><?php echo $lang_install['Database name'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['Database name help'] ?></small></label><br />
+					<span class="fld-input"><input id="fld3" type="text" name="req_db_name" size="35" maxlength="50" /></span>
 				</div>
 			</div>
-			<div class="sf-set set3" id="db_username_block">
+			<div class="sf-set set3">
 				<div class="sf-box text">
 					<label for="fld4"><span><?php echo $lang_install['Database username'] ?></span> <small><?php echo $lang_install['Database username help'] ?></small></label><br />
 					<span class="fld-input"><input id="fld4" type="text" name="db_username" size="35" maxlength="50" /></span>
 				</div>
 			</div>
-			<div class="sf-set set4" id="db_password_block">
+			<div class="sf-set set4">
 				<div class="sf-box text">
 					<label for="fld5"><span><?php echo $lang_install['Database password'] ?></span> <small><?php echo $lang_install['Database password help'] ?></small></label><br />
-					<span class="fld-input"><input id="fld5" type="text" name="db_password" size="35" autocomplete="off" /></span>
+					<span class="fld-input"><input id="fld5" type="password" name="db_password" size="35" /></span>
 				</div>
 			</div>
 			<div class="sf-set set5">
 				<div class="sf-box text">
 					<label for="fld6"><span><?php echo $lang_install['Table prefix'] ?></span> <small><?php echo $lang_install['Table prefix help'] ?></small></label><br />
-					<span class="fld-input"><input id="fld6" type="text" name="db_prefix" size="35" maxlength="30" /></span>
+					<span class="fld-input"><input id="fld6" type="text" name="db_prefix" size="20" maxlength="30" /></span>
 				</div>
 			</div>
 		</fieldset>
@@ -269,22 +258,28 @@ if (!isset($_POST['form_sent']))
 		</div>
 		<fieldset class="frm-group group1">
 			<legend class="group-legend"><strong><?php echo $lang_install['Part2 legend'] ?></strong></legend>
-			<div class="sf-set set4">
+			<div class="sf-set set1">
 				<div class="sf-box text required">
-					<label for="admin_email"><span><?php echo $lang_install['Admin e-mail'] ?></span> <small><?php echo $lang_install['E-mail address help'] ?></small></label><br />
-					<span class="fld-input"><input id="admin_email" type="email" data-suggest-role="email" name="req_email" size="35" maxlength="80" required /></span>
-				</div>
-			</div>
-			<div class="sf-set set1 prepend-top">
-				<div class="sf-box text required">
-					<label for="admin_username"><span><?php echo $lang_install['Admin username'] ?></span> <small><?php echo $lang_install['Username help'] ?></small></label><br />
-					<span class="fld-input"><input id="admin_username" type="text" data-suggest-role="username" name="req_username" size="35" maxlength="25" required /></span>
+					<label for="fld7"><span><?php echo $lang_install['Admin username'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['Username help'] ?></small></label><br />
+					<span class="fld-input"><input id="fld7" type="text" name="req_username" size="35" maxlength="25" /></span>
 				</div>
 			</div>
 			<div class="sf-set set2">
 				<div class="sf-box text required">
-					<label for="fld8"><span><?php echo $lang_install['Admin password'] ?></span> <small><?php echo $lang_install['Password help'] ?></small></label><br />
-					<span class="fld-input"><input id="fld8" type="text" name="req_password1" size="35" required autocomplete="off" /></span>
+					<label for="fld8"><span><?php echo $lang_install['Admin password'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['Password help'] ?></small></label><br />
+					<span class="fld-input"><input id="fld8" type="password" name="req_password1" size="35" /></span>
+				</div>
+			</div>
+			<div class="sf-set set3">
+				<div class="sf-box text required">
+					<label for="fld9"><span><?php echo $lang_install['Admin confirm password'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['Confirm password help'] ?></small></label><br />
+					<span class="fld-input"><input id="fld9" type="password" name="req_password2" size="35" /></span>
+				</div>
+			</div>
+			<div class="sf-set set4">
+				<div class="sf-box text required">
+					<label for="fld10"><span><?php echo $lang_install['Admin e-mail'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['E-mail address help'] ?></small></label><br />
+					<span class="fld-input"><input id="fld10" type="text" name="req_email" size="35" maxlength="80" /></span>
 				</div>
 			</div>
 		</fieldset>
@@ -295,16 +290,29 @@ if (!isset($_POST['form_sent']))
 	<div class="main-content main-frm">
 		<div class="ct-box info-box">
 			<p><?php echo $lang_install['Part3 intro'] ?></p>
-			<ul class="spaced list-clean">
+			<ul class="spaced">
+				<li><span><strong><?php echo $lang_install['Board title and desc'] ?></strong> <?php echo $lang_install['Board title info'] ?></span></li>
 				<li><span><strong><?php echo $lang_install['Base URL'] ?></strong> <?php echo $lang_install['Base URL info'] ?></span></li>
 			</ul>
 		</div>
 		<fieldset class="frm-group group1">
 			<legend class="group-legend"><strong><?php echo $lang_install['Part3 legend'] ?></strong></legend>
+			<div class="sf-set set1">
+				<div class="sf-box text">
+					<label for="fld11"><span><?php echo $lang_install['Board title'] ?></span></label><br />
+					<span class="fld-input"><input id="fld11" type="text" name="board_title" size="35" maxlength="255" /></span>
+				</div>
+			</div>
+			<div class="sf-set set2">
+				<div class="sf-box text">
+					<label for="fld12"><span><?php echo $lang_install['Board description'] ?></span></label><br />
+					<span class="fld-input"><input id="fld12" type="text" name="board_descrip" size="35" maxlength="255" /></span>
+				</div>
+			</div>
 			<div class="sf-set set3">
 				<div class="sf-box text required">
-					<label for="fld10"><span><?php echo $lang_install['Base URL'] ?></span> <small><?php echo $lang_install['Base URL help'] ?></small></label><br />
-					<span class="fld-input"><input id="fld10" type="url" name="req_base_url" value="<?php echo $base_url_guess ?>" size="35" maxlength="100" required /></span>
+					<label for="fld13"><span><?php echo $lang_install['Base URL'] ?> <em><?php echo $lang_install['Required'] ?></em></span> <small><?php echo $lang_install['Base URL help'] ?></small></label><br />
+					<span class="fld-input"><input id="fld13" type="text" name="req_base_url" value="<?php echo $base_url_guess ?>" size="35" maxlength="100" /></span>
 				</div>
 			</div>
 <?php
@@ -314,8 +322,8 @@ if (!isset($_POST['form_sent']))
 
 ?>			<div class="sf-set set4">
 				<div class="sf-box text">
-					<label for="fld11"><span><?php echo $lang_install['Default language'] ?></span> <small><?php echo $lang_install['Default language help'] ?></small></label><br />
-					<span class="fld-input"><select id="fld11" name="req_language">
+					<label for="fld14"><span><?php echo $lang_install['Default language'] ?></span> <small><?php echo $lang_install['Default language help'] ?></small></label><br />
+					<span class="fld-input"><select id="fld14" name="req_language">
 <?php
 
 		foreach ($languages as $lang)
@@ -331,7 +339,7 @@ if (!isset($_POST['form_sent']))
 	{
 
 ?>			<div class="hidden">
-				<input type="hidden" name="req_language" value="<?php echo $languages[0] ?>" />
+				<input type="hidden" name="req_language" value="<?php echo $languages[0]; ?>" />
 			</div>
 <?php
 	}
@@ -341,8 +349,8 @@ if (!isset($_POST['form_sent']))
 
 ?>			<div class="sf-set set5">
 				<div class="sf-box checkbox">
-					<span class="fld-input"><input id="fld12" type="checkbox" name="install_pun_repository" value="1" checked="checked" /></span>
-					<label for="fld12"><span><?php echo $lang_install['Pun repository'] ?></span> <?php echo $lang_install['Pun repository help'] ?></label><br />
+					<span class="fld-input"><input id="fld15" type="checkbox" name="install_pun_repository" value="1" checked="checked" /></span>
+					<label for="fld15"><span><?php echo $lang_install['Pun repository'] ?></span> <?php echo $lang_install['Pun repository help'] ?></label><br />
 				</div>
 			</div>
 <?php
@@ -352,7 +360,7 @@ if (!isset($_POST['form_sent']))
 ?>
 		</fieldset>
 		<div class="frm-buttons">
-			<span class="submit primary"><input type="submit" name="start" value="<?php echo $lang_install['Start install'] ?>" /></span>
+			<span class="submit"><input type="submit" name="start" value="<?php echo $lang_install['Start install'] ?>" /></span>
 		</div>
 	</div>
 	</form>
@@ -360,8 +368,6 @@ if (!isset($_POST['form_sent']))
 
 </div>
 </div>
-	<script src="<?php echo FORUM_ROOT ?>include/js/min/punbb.common.min.js"></script>
-	<script src="<?php echo FORUM_ROOT ?>include/js/min/punbb.install.min.js"></script>
 </body>
 </html>
 <?php
@@ -387,6 +393,9 @@ else
 	$username = unescape(forum_trim($_POST['req_username']));
 	$email = unescape(strtolower(forum_trim($_POST['req_email'])));
 	$password1 = unescape(forum_trim($_POST['req_password1']));
+	$password2 = unescape(forum_trim($_POST['req_password2']));
+	$board_title = unescape(forum_trim($_POST['board_title']));
+	$board_descrip = unescape(forum_trim($_POST['board_descrip']));
 	$default_lang = preg_replace('#[\.\\\/]#', '', unescape(forum_trim($_POST['req_language'])));
 	$install_pun_repository = !empty($_POST['install_pun_repository']);
 
@@ -405,6 +414,8 @@ else
 		error($lang_install['Username too long']);
 	if (utf8_strlen($password1) < 4)
 		error($lang_install['Pass too short']);
+	if ($password1 != $password2)
+		error($lang_install['Pass not match']);
 	if (strtolower($username) == 'guest')
 		error($lang_install['Username guest']);
 	if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/', $username) || preg_match('/((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))/', $username))
@@ -422,8 +433,10 @@ else
 		error($lang_install['Invalid email']);
 
 	// Make sure board title and description aren't left blank
-	$board_title = 'My PunBB forum';
-	$board_descrip = 'Unfortunately no one can be told what PunBB is — you have to see it for yourself';
+	if ($board_title == '')
+		$board_title = 'My PunBB forum';
+	if ($board_descrip == '')
+		$board_descrip = 'Unfortunately no one can be told what PunBB is - you have to see it for yourself.';
 
 	if (utf8_strlen($base_url) == 0)
 		error($lang_install['Missing base url']);
@@ -438,16 +451,8 @@ else
 			require FORUM_ROOT.'include/dblayer/mysql.php';
 			break;
 
-		case 'mysql_innodb':
-			require FORUM_ROOT.'include/dblayer/mysql_innodb.php';
-			break;
-
 		case 'mysqli':
 			require FORUM_ROOT.'include/dblayer/mysqli.php';
-			break;
-
-		case 'mysqli_innodb':
-			require FORUM_ROOT.'include/dblayer/mysqli_innodb.php';
 			break;
 
 		case 'pgsql':
@@ -456,10 +461,6 @@ else
 
 		case 'sqlite':
 			require FORUM_ROOT.'include/dblayer/sqlite.php';
-			break;
-
-		case 'sqlite3':
-			require FORUM_ROOT.'include/dblayer/sqlite3.php';
 			break;
 
 		default:
@@ -471,23 +472,11 @@ else
 
 
 	// If MySQL, make sure it's at least 4.1.2
-	if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+	if ($db_type == 'mysql' || $db_type == 'mysqli')
 	{
 		$mysql_info = $forum_db->get_version();
 		if (version_compare($mysql_info['version'], MIN_MYSQL_VERSION, '<'))
 			error(sprintf($lang_install['Invalid MySQL version'], forum_htmlencode($mysql_info['version']), MIN_MYSQL_VERSION));
-
-		// Check InnoDB support in DB
-		if (in_array($db_type, array('mysql_innodb', 'mysqli_innodb')))
-		{
-			$result = $forum_db->query('SHOW VARIABLES LIKE \'have_innodb\'');
-			$row = $forum_db->fetch_assoc($result);
-
-			if (!$row || !isset($row['Value']) || strtolower($row['Value']) != 'yes')
-			{
-				error($lang_install['MySQL InnoDB Not Supported']);
-			}
-		}
 	}
 
 	// Validate prefix
@@ -495,23 +484,21 @@ else
 		error(sprintf($lang_install['Invalid table prefix'], $db_prefix));
 
 	// Check SQLite prefix collision
-	if (in_array($db_type, array('sqlite', 'sqlite3')) && strtolower($db_prefix) == 'sqlite_')
+	if ($db_type == 'sqlite' && strtolower($db_prefix) == 'sqlite_')
 		error($lang_install['SQLite prefix collision']);
 
 
 	// Make sure PunBB isn't already installed
-	if ($forum_db->table_exists('users'))
-	{
-		$query = array(
-			'SELECT'	=> 'COUNT(id)',
-			'FROM'		=> 'users',
-			'WHERE'		=> 'id=1'
-		);
+	$query = array(
+		'SELECT'	=> '1',
+		'FROM'		=> 'users',
+		'WHERE'		=> 'id = 1'
+	);
 
-		$result = $forum_db->query_build($query);
-		if ($forum_db->result($result) > 0)
-			error(sprintf($lang_install['PunBB already installed'], $db_prefix, $db_name));
-	}
+	$result = $forum_db->query_build($query);
+	if ($forum_db->num_rows($result))
+		error(sprintf($lang_install['PunBB already installed'], $db_prefix, $db_name));
+
 
 	// Start a transaction
 	$forum_db->start_transaction();
@@ -972,7 +959,7 @@ else
 		'ENGINE'		=> 'HEAP'
 	);
 
-	if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+	if ($db_type == 'mysql' || $db_type == 'mysqli')
 	{
 		$schema['UNIQUE KEYS']['user_id_ident_idx'] = array('user_id', 'ident(25)');
 		$schema['INDEXES']['ident_idx'] = array('ident(25)');
@@ -1143,7 +1130,7 @@ else
 		)
 	);
 
-	if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+	if ($db_type == 'mysql' || $db_type == 'mysqli')
 		$schema['INDEXES']['ident_idx'] = array('ident(8)');
 
 	$forum_db->create_table('search_cache', $schema);
@@ -1195,7 +1182,7 @@ else
 		)
 	);
 
-	if ($db_type == 'sqlite' || $db_type == 'sqlite3')
+	if ($db_type == 'sqlite')
 	{
 		$schema['PRIMARY KEY'] = array('id');
 		$schema['UNIQUE KEYS'] = array('word_idx'	=> array('word'));
@@ -1221,25 +1208,6 @@ else
 	);
 
 	$forum_db->create_table('subscriptions', $schema);
-
-
-	$schema = array(
-		'FIELDS'		=> array(
-			'user_id'		=> array(
-				'datatype'		=> 'INT(10) UNSIGNED',
-				'allow_null'	=> false,
-				'default'		=> '0'
-			),
-			'forum_id'		=> array(
-				'datatype'		=> 'INT(10) UNSIGNED',
-				'allow_null'	=> false,
-				'default'		=> '0'
-			)
-		),
-		'PRIMARY KEY'	=> array('user_id', 'forum_id')
-	);
-
-	$forum_db->create_table('forum_subscriptions', $schema);
 
 
 	$schema = array(
@@ -1363,22 +1331,6 @@ else
 				'allow_null'	=> true
 			),
 			'url'				=> array(
-				'datatype'		=> 'VARCHAR(100)',
-				'allow_null'	=> true
-			),
-			'facebook'			=> array(
-				'datatype'		=> 'VARCHAR(100)',
-				'allow_null'	=> true
-			),
-			'twitter'			=> array(
-				'datatype'		=> 'VARCHAR(100)',
-				'allow_null'	=> true
-			),
-			'linkedin'			=> array(
-				'datatype'		=> 'VARCHAR(100)',
-				'allow_null'	=> true
-			),
-			'skype'			=> array(
 				'datatype'		=> 'VARCHAR(100)',
 				'allow_null'	=> true
 			),
@@ -1537,21 +1489,6 @@ else
 				'datatype'		=> 'VARCHAR(8)',
 				'allow_null'	=> true
 			),
-			'avatar'			=> array(
-				'datatype'		=> 'TINYINT(3) UNSIGNED',
-				'allow_null'	=> false,
-				'default'		=> 0,
-			),
-			'avatar_width'		=> array(
-				'datatype'		=> 'TINYINT(3) UNSIGNED',
-				'allow_null'	=> false,
-				'default'		=> 0,
-			),
-			'avatar_height'		=> array(
-				'datatype'		=> 'TINYINT(3) UNSIGNED',
-				'allow_null'	=> false,
-				'default'		=> 0,
-			),
 		),
 		'PRIMARY KEY'	=> array('id'),
 		'INDEXES'		=> array(
@@ -1560,7 +1497,7 @@ else
 		)
 	);
 
-	if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+	if ($db_type == 'mysql' || $db_type == 'mysqli')
 		$schema['INDEXES']['username_idx'] = array('username(8)');
 
 	$forum_db->create_table('users', $schema);
@@ -1671,7 +1608,7 @@ else
 		'o_check_for_versions'		=> "'$check_for_updates'",
 		'o_timeout_visit'			=> "'5400'",
 		'o_timeout_online'			=> "'300'",
-		'o_redirect_delay'			=> "'0'",
+		'o_redirect_delay'			=> "'1'",
 		'o_show_version'			=> "'0'",
 		'o_show_user_info'			=> "'1'",
 		'o_show_post_count'			=> "'1'",
@@ -1704,7 +1641,7 @@ else
 		'o_avatars_dir'				=> "'img/avatars'",
 		'o_avatars_width'			=> "'60'",
 		'o_avatars_height'			=> "'60'",
-		'o_avatars_size'			=> "'15360'",
+		'o_avatars_size'			=> "'10240'",
 		'o_search_all_forums'		=> "'1'",
 		'o_sef'						=> "'Default'",
 		'o_admin_email'				=> "'".$forum_db->escape($email)."'",
@@ -1735,9 +1672,7 @@ else
 		'p_sig_lines'				=> "'4'",
 		'p_allow_banned_email'		=> "'1'",
 		'p_allow_dupe_email'		=> "'0'",
-		'p_force_guest_email'		=> "'1'",
-		'o_show_moderators'			=> "'0'",
-		'o_mask_passwords'			=> "'1'"
+		'p_force_guest_email'		=> "'1'"
 	);
 
 	foreach ($config as $conf_name => $conf_value)
@@ -1816,24 +1751,9 @@ else
 
 	$alerts = array();
 
-	// Check if the cache directory is writable and clear cache dir
-	if (is_writable(FORUM_ROOT.'cache/'))
-	{
-		$cache_dir = dir(FORUM_ROOT.'cache/');
-		if ($cache_dir)
-		{
-			while (($entry = $cache_dir->read()) !== false)
-			{
-				if (substr($entry, strlen($entry)-4) == '.php')
-					@unlink(FORUM_ROOT.'cache/'.$entry);
-			}
-			$cache_dir->close();
-		}
-	}
-	else
-	{
+	// Check if the cache directory is writable
+	if (!is_writable(FORUM_ROOT.'cache/'))
 		$alerts[] = '<li><span>'.$lang_install['No cache write'].'</span></li>';
-	}
 
 	// Check if default avatar directory is writable
 	if (!is_writable(FORUM_ROOT.'img/avatars/'))
@@ -1902,76 +1822,94 @@ else
 
 
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html class="oldie ie6" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 7 ]>    <html class="oldie ie7" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 8 ]>    <html class="oldie ie8" lang="en" dir="ltr"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" dir="ltr"> <!--<![endif]-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
-	<meta charset="utf-8" />
-	<title>PunBB Installation</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen.min.css" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PunBB Installation</title>
+<link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen_cs.css" />
+<!--[if lte IE 6]><link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen_ie6.css" /><![endif]-->
+<!--[if IE 7]><link rel="stylesheet" type="text/css" href="<?php echo FORUM_ROOT ?>style/Oxygen/Oxygen_ie7.css" /><![endif]-->
 </head>
+
 <body>
+
 <div id="brd-install" class="brd-page">
-	<div id="brd-wrap" class="brd">
-		<div id="brd-head" class="gen-content">
-			<p id="brd-title"><strong><?php printf($lang_install['Install PunBB'], FORUM_VERSION) ?></strong></p>
-			<p id="brd-desc"><?php printf($lang_install['Success description'], FORUM_VERSION) ?></p>
-		</div>
-		<div id="brd-main" class="main basic">
-			<div class="main-head">
-				<h1 class="hn"><span><?php echo $lang_install['Final instructions'] ?></span></h1>
-			</div>
-			<div class="main-content main-frm">
+<div id="brd-wrap" class="brd">
+
+<div id="brd-head" class="gen-content">
+	<p id="brd-title"><strong><?php printf($lang_install['Install PunBB'], FORUM_VERSION) ?></strong></p>
+	<p id="brd-desc"><?php printf($lang_install['Success description'], FORUM_VERSION) ?></p>
+</div>
+
+<div id="brd-visit" class="gen-content">
+	<p><?php echo $lang_install['Success welcome'] ?></p>
+</div>
+
+<div id="brd-main" class="main basic">
+
+	<div class="main-head">
+		<h1 class="hn"><span><?php echo $lang_install['Final instructions'] ?></span></h1>
+	</div>
+
+	<div class="main-content main-frm">
 <?php if (!empty($alerts)): ?>
-				<div class="ct-box error-box">
-					<p class="warn"><strong><?php echo $lang_install['Warning'] ?></strong></p>
-					<ul>
-						<?php echo implode("\n\t\t\t\t", $alerts)."\n" ?>
-					</ul>
-				</div>
+		<div class="ct-box error-box">
+			<p class="warn"><strong><?php echo $lang_install['Warning'] ?></strong></p>
+			<ul>
+				<?php echo implode("\n\t\t\t\t", $alerts)."\n" ?>
+			</ul>
+		</div>
 <?php endif;
 
 if (!$written)
 {
+
 ?>
-				<div class="ct-box info-box">
-					<p class="warn"><?php echo $lang_install['No write info 1'] ?></p>
-					<p class="warn"><?php printf($lang_install['No write info 2'], '<a href="'.FORUM_ROOT.'index.php">'.$lang_install['Go to index'].'</a>') ?></p>
-				</div>
-				<form class="frm-form" method="post" accept-charset="utf-8" action="install.php">
-					<div class="hidden">
-					<input type="hidden" name="generate_config" value="1" />
-					<input type="hidden" name="db_type" value="<?php echo $db_type ?>" />
-					<input type="hidden" name="db_host" value="<?php echo $db_host ?>" />
-					<input type="hidden" name="db_name" value="<?php echo forum_htmlencode($db_name) ?>" />
-					<input type="hidden" name="db_username" value="<?php echo forum_htmlencode($db_username) ?>" />
-					<input type="hidden" name="db_password" value="<?php echo forum_htmlencode($db_password) ?>" />
-					<input type="hidden" name="db_prefix" value="<?php echo forum_htmlencode($db_prefix) ?>" />
-					<input type="hidden" name="base_url" value="<?php echo forum_htmlencode($base_url) ?>" />
-					<input type="hidden" name="cookie_name" value="<?php echo forum_htmlencode($cookie_name) ?>" />
-					</div>
-					<div class="frm-buttons">
-						<span class="submit"><input type="submit" value="<?php echo $lang_install['Download config'] ?>" /></span>
-					</div>
-				</form>
+		<div class="ct-box info-box">
+			<p class="warn"><?php echo $lang_install['No write info 1'] ?></p>
+			<p class="warn"><?php printf($lang_install['No write info 2'], '<a href="'.FORUM_ROOT.'index.php">'.$lang_install['Go to index'].'</a>') ?></p>
+		</div>
+		<form class="frm-form" method="post" accept-charset="utf-8" action="install.php">
+			<div class="hidden">
+			<input type="hidden" name="generate_config" value="1" />
+			<input type="hidden" name="db_type" value="<?php echo $db_type; ?>" />
+			<input type="hidden" name="db_host" value="<?php echo $db_host; ?>" />
+			<input type="hidden" name="db_name" value="<?php echo forum_htmlencode($db_name); ?>" />
+			<input type="hidden" name="db_username" value="<?php echo forum_htmlencode($db_username); ?>" />
+			<input type="hidden" name="db_password" value="<?php echo forum_htmlencode($db_password); ?>" />
+			<input type="hidden" name="db_prefix" value="<?php echo forum_htmlencode($db_prefix); ?>" />
+			<input type="hidden" name="base_url" value="<?php echo forum_htmlencode($base_url); ?>" />
+			<input type="hidden" name="cookie_name" value="<?php echo forum_htmlencode($cookie_name); ?>" />
+			</div>
+			<div class="frm-buttons">
+				<span class="submit"><input type="submit" value="<?php echo $lang_install['Download config'] ?>" /></span>
+			</div>
+		</form>
 <?php
+
 }
 else
 {
+
 ?>
-				<div class="ct-box info-box">
-					<p class="warn"><?php printf($lang_install['Write info'], '<a href="'.FORUM_ROOT.'index.php">'.$lang_install['Go to index'].'</a>') ?></p>
-				</div>
+		<div class="ct-box info-box">
+			<p class="warn"><?php printf($lang_install['Write info'], '<a href="'.FORUM_ROOT.'index.php">'.$lang_install['Go to index'].'</a>') ?></p>
+		</div>
 <?php
 }
+
 ?>
-			</div>
-		</div>
 	</div>
+
+</div>
+</div>
 </div>
 </body>
 </html>
+
 <?php
+
 }

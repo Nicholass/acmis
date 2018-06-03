@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE extension SYSTEM "ext-1.0.dtd">
+
+<!--
+***********************************************************************
+
+	Copyright (C) 2008  PunBB
+
+	PunBB is free software; you can redistribute it and/or modify it
+	under the terms of the GNU General Public License as published
+	by the Free Software Foundation; either version 2 of the License,
+	or (at your option) any later version.
+
+	PunBB is distributed in the hope that it will be useful, but
+	WITHOUT ANY WARRANTY; without even the implied warranty of
+	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+	GNU General Public License for more details.
+
+	You should have received a copy of the GNU General Public License
+	along with this program; if not, write to the Free Software
+	Foundation, Inc., 59 Temple Place, Suite 330, Boston,
+	MA  02111-1307  USA
+
+***********************************************************************
+-->
+
+<extension engine="1.0">
+	<id>pun_warning</id>
+	<title>Pun Warning System</title>
+	<version>1.0b</version>
+	<description>Adds warning system to punBB.</description>
+	<author>The HungryCoder - http://hungrycoder.xenexbd.com</author>
+	<minversion>1.3 Beta</minversion>
+	<maxtestedon>1.3 RC2</maxtestedon>
+
+	 <install><![CDATA[
+$forum_db->query("CREATE TABLE ".$forum_db->prefix."warning (
+  `id` int(11) NOT NULL auto_increment,
+  `user_id` int(11) NOT NULL default '0',
+  `warned_by` int(11) NOT NULL default '0',
+  `post_id` int(11) NOT NULL default '0',
+  `description` mediumtext NOT NULL,
+  `created` int(11) NOT NULL default '0',
+  `modified` int(11) NOT NULL default '0',
+  `affect_ban_counter` set('0','1') NOT NULL default '1',
+	`expires` int(11) NOT NULL default '0',
+  PRIMARY KEY  (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+
+$forum_db->query("CREATE TABLE ".$forum_db->prefix."warning_config (
+  `conf_name` varchar(255) NOT NULL default '',
+  `conf_value` varchar(255) NOT NULL default '',
+  `conf_description` varchar(255) NOT NULL default '',
+  UNIQUE KEY `conf_name` (`conf_name`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;");
+
+$forum_db->query("INSERT INTO ".$forum_db->prefix."warning_config VALUES ('temp_ban', '3', 'number of warnings before getting temporary ban');");
+$forum_db->query("INSERT INTO ".$forum_db->prefix."warning_config VALUES ('temp_ban_len', '1', 'Length (Number of days) of temporary ban');");
+$forum_db->query("INSERT INTO ".$forum_db->prefix."warning_config VALUES ('email_user', '1', 'Enable/Disable to send email to user when gets a warning');");
+$forum_db->query("INSERT INTO ".$forum_db->prefix."warning_config VALUES ('perm_ban', '6', 'number of warnings before getting permanent ban');");
+$forum_db->query("INSERT INTO ".$forum_db->prefix."warning_config VALUES ('clear_warns', '1', 'Clear (or not) all warnings when a user is unbanned.');");                
+		]]></install>
+
+	<uninstall><![CDATA[
+$forum_db->query('DROP TABLE '.$forum_db->prefix.'warning');
+$forum_db->query('DROP TABLE '.$forum_db->prefix.'warning_config');
+	]]></uninstall>
+
+	<hooks>
+		<hook id="ca_new_function"><![CDATA[
+if (file_exists(FORUM_ROOT.'/extensions/pun_warning/lang/'.$forum_user['language'].'/lang.php'))
+	$pun_warning_file = FORUM_ROOT.'/extensions/pun_warning/lang/'.$forum_user['language'].'/lang.php';
+else
+	$pun_warning_file = FORUM_ROOT.'/extensions/pun_warning/lang/English/lang.php';
+require $pun_warning_file;
+		]]></hook>	
+		<hook id="ca_fn_generate_admin_menu_new_link">
+			<![CDATA[	
+				$forum_page['admin_menu']['warnings'] = '<li class="'.((FORUM_PAGE_SECTION == 'pun_warning') ? 'active' : 'normal').((empty($forum_page['admin_menu'])) ? ' first-item' : '').'"><a href="'.$GLOBALS['base_url'].'/extensions/pun_warning/settings.php"><span>'.$GLOBALS['lang_pun_warning']['name'].'</span></a></li>';
+			]]>
+		</hook>
+		<hook id="ca_fn_generate_admin_menu_new_sublink"><![CDATA[
+			if (FORUM_PAGE_SECTION == 'pun_warning')
+			{
+			
+			if ($forum_user['g_id'] != FORUM_ADMIN) {
+				$forum_page['admin_submenu'] = array();
+			} else {
+				$forum_page['admin_submenu']['warn_config'] = '<li class="normal first-item"><a href="'.forum_link($forum_url['admin_extensions_pun_warning']).'?action=config">'.$GLOBALS['lang_pun_warning']['menu_config'].'</a></li>';
+			}
+				$forum_page['admin_submenu']['warn_list'] = '<li class="normal first-item"><a href="'.forum_link($forum_url['admin_extensions_pun_warning']).'?action=list_warn">'.$GLOBALS['lang_pun_warning']['menu_list'].'</a></li>';
+				$forum_page['admin_submenu']['warn_list_all'] = '<li class="normal first-item"><a href="'.forum_link($forum_url['admin_extensions_pun_warning']).'?action=list_warn&uid=all">'.$GLOBALS['lang_pun_warning']['menu_list_all'].'</a></li>';
+			}		
+		]]></hook>
+		
+		<hook id="co_common"><![CDATA[
+			$forum_url['admin_extensions_pun_warning'] = 'extensions/pun_warning/settings.php';
+			
+		]]></hook>
+		<hook id="vt_row_pre_display"><![CDATA[
+			include_once(FORUM_ROOT.'/extensions/pun_warning/functions.php');
+			pun_warn_topic_link();
+			]]></hook>
+		<hook id="vt_row_pre_post_ident_merge"><![CDATA[
+			include_once(FORUM_ROOT.'/extensions/pun_warning/functions.php');
+			if ($forum_user['is_admmod'] AND $forum_user['id']!=$cur_post['poster_id'] AND $cur_post['g_id'] != FORUM_GUEST) {
+					$forum_page['post_actions']['warn']='<a href="'.forum_link($forum_url['admin_extensions_pun_warning']).'?action=add_warn&uid='.$cur_post['poster_id'].'&postid='.$cur_post['id'].'&username='.urlencode($cur_post['username']).'&topic='.urlencode($cur_topic['subject']).'">'.$lang_pun_warning['add_warn_short'].'</a>';
+					
+				}
+			
+			]]></hook>
+		<hook id="aba_del_ban_form_submitted"><![CDATA[
+			//we will remove all warnings before unbanning a user
+			include_once(FORUM_ROOT.'/extensions/pun_warning/functions.php');
+			pun_warn_clear_warns($ban_id);
+		]]></hook>
+		
+		<hook id="fn_check_bans_qr_delete_expired_ban"><![CDATA[
+			//we will remove all warnings before unbanning a user
+			include_once(FORUM_ROOT.'/extensions/pun_warning/functions.php');
+			pun_warn_clear_warns($cur_ban['id']);
+		]]></hook>
+		
+		<hook id="pf_change_details_new_section"><![CDATA[
+
+			if ($section == 'warnings')
+			{
+			
+			if (file_exists($ext_info['path'].'/lang/'.$forum_user['language'].'/lang.php'))	
+			require_once $ext_info['path'].'/lang/'.$forum_user['language'].'/lang.php';
+			else
+				require_once $ext_info['path'].'/lang/English/lang.php';			
+
+				$forum_page['warn_info'][] = '<li>'.$lang_pun_warning['warnings'].':</li>';
+
+				// Setup breadcrumbs
+				$forum_page['crumbs'] = array(
+					array($forum_config['o_board_title'], forum_link($forum_url['index'])),
+					array(sprintf($lang_profile['Users profile'], $user['username']), forum_link($forum_url['user'], $id)),
+					array($lang_pun_warning['list_warnings'],forum_link('profile.php?section=warnings&id=$1', $id))
+				);
+
+				define('FORUM_PAGE', 'profile-signature');
+				require FORUM_ROOT.'header.php';
+
+				// START SUBST - <!-- forum_main -->
+				ob_start();
+				
+				include_once(FORUM_ROOT.'/extensions/pun_warning/functions.php');
+				pun_warn_list($id);
+
+				$tpl_temp = forum_trim(ob_get_contents());
+				$tpl_main = str_replace('<!-- forum_main -->', $tpl_temp, $tpl_main);
+				ob_end_clean();
+				// END SUBST - <!-- forum_main -->
+
+				require FORUM_ROOT.'footer.php';
+			}
+		]]></hook>
+		
+		<hook id="pf_change_details_modify_main_menu"><![CDATA[
+			if (file_exists($ext_info['path'].'/lang/'.$forum_user['language'].'/lang.php'))	
+			require_once $ext_info['path'].'/lang/'.$forum_user['language'].'/lang.php';
+			else
+				require_once $ext_info['path'].'/lang/English/lang.php';			
+				
+			$forum_page['main_menu']['warnings'] = '<li'.(($section == 'warnings') ? ' class="active"' : '').'><a href="'.forum_link('profile.php?section=warnings&id=$1', $id).'"><span>'.$lang_pun_warning['warnings'].'</span></a></li>';
+		]]></hook>
+		
+		
+	</hooks>
+</extension>

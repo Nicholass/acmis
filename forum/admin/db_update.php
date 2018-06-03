@@ -4,14 +4,14 @@
  *
  * Updates the database to the latest version.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2011 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
 
 
-define('UPDATE_TO', '1.4.4');
-define('UPDATE_TO_DB_REVISION', 5);
+define('UPDATE_TO', '1.3.6');
+define('UPDATE_TO_DB_REVISION', 4);
 
 // The number of items to process per pageview (lower this if the update script times out during UTF-8 conversion)
 define('PER_PAGE', 300);
@@ -19,14 +19,12 @@ define('PER_PAGE', 300);
 define('MIN_MYSQL_VERSION', '4.1.2');
 
 
-// Make sure we are running at least PHP 5.0.0
-if (!function_exists('version_compare') || version_compare(PHP_VERSION, '5.0.0', '<'))
-	exit('You are running PHP version '.PHP_VERSION.'. '.UPDATE_TO.' requires at least PHP 5.0.0 to run properly. You must upgrade your PHP installation before you can continue.');
+// Make sure we are running at least PHP 4.3.0
+if (!function_exists('version_compare') || version_compare(PHP_VERSION, '4.3.0', '<'))
+	exit('You are running PHP version '.PHP_VERSION.'. '.UPDATE_TO.' requires at least PHP 4.3.0 to run properly. You must upgrade your PHP installation before you can continue.');
 
 
 define('FORUM_ROOT', '../');
-
-require FORUM_ROOT.'include/constants.php';
 
 // Attempt to load the configuration file config.php
 if (file_exists(FORUM_ROOT.'config.php'))
@@ -83,9 +81,6 @@ define('FORUM_NO_SET_NAMES', 1);
 // Load DB abstraction layer and try to connect
 require FORUM_ROOT.'include/dblayer/common_db.php';
 
-// Start a transaction
-$forum_db->start_transaction();
-
 // Check current version
 $query = array(
 	'SELECT'	=> 'conf_value',
@@ -100,10 +95,10 @@ if (version_compare($cur_version, '1.2', '<'))
 	error('Version mismatch. The database \''.$db_name.'\' doesn\'t seem to be running a PunBB database schema supported by this update script.', __FILE__, __LINE__);
 
 // If we've already done charset conversion in a previous update, we have to do SET NAMES
-$forum_db->set_names(version_compare($cur_version, '1.3', '>=') ? 'utf8' : 'latin1');
+$forum_db->set_names(strpos($cur_version, '1.3') === 0 ? 'utf8' : 'latin1');
 
 // If MySQL, make sure it's at least 4.1.2
-if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+if ($db_type == 'mysql' || $db_type == 'mysqli')
 {
 	$mysql_info = $forum_db->get_version();
 	if (version_compare($mysql_info['version'], MIN_MYSQL_VERSION, '<'))
@@ -346,7 +341,7 @@ function convert_table_utf8($table)
 	global $forum_db;
 
 	$types = array(
-		'char'			=> 'binary',
+		'char' 			=> 'binary',
 		'varchar'		=> 'varbinary',
 		'tinytext'		=> 'tinyblob',
 		'mediumtext'	=> 'mediumblob',
@@ -373,79 +368,6 @@ function convert_table_utf8($table)
 }
 
 
-// Move avatars to DB
-function convert_avatars()
-{
-	global $forum_config, $forum_db;
-
-	$avatar_dir = FORUM_ROOT.'img/avatars/';
-	if (!is_dir($avatar_dir))
-	{
-		return false;
-	}
-
-	if ($handle = opendir($avatar_dir))
-	{
-		while (false !== ($avatar = readdir($handle)))
-		{
-			$avatar_file = $avatar_dir.$avatar;
-			if (!is_file($avatar_file))
-			{
-				continue;
-			}
-
-			//echo $avatar_file;
-
-			$avatar = basename($avatar_file);
-			if (preg_match('/^(\d+)\.(png|gif|jpg)/', $avatar, $matches))
-			{
-
-				$user_id = intval($matches[1], 10);
-				$avatar_ext = $matches[2];
-
-				$avatar_type = FORUM_AVATAR_NONE;
-				if ($avatar_ext == 'png')
-				{
-					$avatar_type = FORUM_AVATAR_PNG;
-				}
-				else if ($avatar_ext == 'gif')
-				{
-					$avatar_type = FORUM_AVATAR_GIF;
-				}
-				else if ($avatar_ext == 'jpg')
-				{
-					$avatar_type = FORUM_AVATAR_JPG;
-				}
-
-				// Check user and avatar type
-				if ($user_id < 2 || $avatar_type == FORUM_AVATAR_NONE)
-				{
-					continue;
-				}
-
-				// Now check the width/height
-				list($width, $height, $type,) = @/**/getimagesize($avatar_file);
-				if (empty($width) || empty($height) || $width > $forum_config['o_avatars_width'] || $height > $forum_config['o_avatars_height'])
-				{
-					@/**/unlink($avatar_file);
-				}
-				else
-				{
-					// Save to DB
-					$query = array(
-						'UPDATE'	=> 'users',
-						'SET'		=> 'avatar=\''.$avatar_type.'\', avatar_height=\''.$height.'\', avatar_width=\''.$width.'\'',
-						'WHERE'		=> 'id='.$user_id
-					);
-					$forum_db->query_build($query) or error(__FILE__, __LINE__);
-				}
-			}
-		}
-		closedir($handle);
-	}
-}
-
-
 header('Content-type: text/html; charset=utf-8');
 
 // Empty all output buffers and stop buffering
@@ -464,18 +386,22 @@ switch ($stage)
 		$db_seems_utf8 = db_seems_utf8();
 
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html class="oldie ie6" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 7 ]>    <html class="oldie ie7" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 8 ]>    <html class="oldie ie8" lang="en" dir="ltr"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" dir="ltr"> <!--<![endif]-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
-	<meta charset="utf-8" />
-	<title>PunBB Database Update</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $base_url ?>/style/Oxygen/Oxygen.min.css" />
-	<script type="text/javascript" src="<?php echo $base_url ?>/include/js/min/punbb.common.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PunBB Database Update</title>
+<?php
+
+// Include the stylesheets
+require FORUM_ROOT.'style/'.$forum_user['style'].'/'.$forum_user['style'].'.php';
+
+?>
+<script type="text/javascript" src="<?php echo $base_url ?>/include/js/common.js"></script>
 </head>
 <body>
+
 <div id="brd-update" class="brd-page">
 <div id="brd-wrap" class="brd">
 
@@ -562,7 +488,7 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 
 ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="start" value="Start update" /></span>
+				<span class="submit"><input type="submit" name="start" value="Start update" /></span>
 			</div>
 		</form>
 	</div>
@@ -581,7 +507,7 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 	// Start by updating the database structure
 	case 'start':
 		// Put back dropped search tables
-		if (!$forum_db->table_exists('search_cache') && in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+		if (!$forum_db->table_exists('search_cache') && ($db_type == 'mysql' || $db_type == 'mysqli'))
 		{
 			$schema = array(
 				'FIELDS'		=> array(
@@ -713,7 +639,7 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		}
 
 		// Make sure the collation on "word" in the search_words table is utf8_bin
-		if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+		if ($db_type == 'mysql' || $db_type == 'mysqli')
 		{
 			$result = $forum_db->query('SHOW FULL COLUMNS FROM '.$forum_db->prefix.'search_words') or error(__FILE__, __LINE__);
 			while ($cur_column = $forum_db->fetch_assoc($result))
@@ -782,29 +708,6 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		// Extend id field in extension_hooks to 150
 		$forum_db->alter_field('extension_hooks', 'id', 'VARCHAR(150)', false, '');
 
-		// Add the subscriptions forum table if it doesn't already exist
-		if (!$forum_db->table_exists('forum_subscriptions'))
-		{
-			$schema = array(
-				'FIELDS'		=> array(
-					'user_id'		=> array(
-						'datatype'		=> 'INT(10) UNSIGNED',
-						'allow_null'	=> false,
-						'default'		=> '0'
-					),
-					'forum_id'		=> array(
-						'datatype'		=> 'INT(10) UNSIGNED',
-						'allow_null'	=> false,
-						'default'		=> '0'
-					)
-				),
-				'PRIMARY KEY'	=> array('user_id', 'forum_id')
-			);
-
-			$forum_db->create_table('forum_subscriptions', $schema);
-		}
-
-
 		// Make all e-mail fields VARCHAR(80)
 		$forum_db->alter_field('bans', 'email', 'VARCHAR(80)', true);
 		$forum_db->alter_field('posts', 'poster_email', 'VARCHAR(80)', true);
@@ -813,27 +716,13 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		$forum_db->alter_field('users', 'msn', 'VARCHAR(80)', true);
 		$forum_db->alter_field('users', 'activate_string', 'VARCHAR(80)', true);
 
-		// Add avatars field
-		$forum_db->add_field('users', 'avatar', 'TINYINT(3) UNSIGNED', false, 0);
-		$forum_db->add_field('users', 'avatar_width', 'TINYINT(3) UNSIGNED', false, 0, 'avatar');
-		$forum_db->add_field('users', 'avatar_height', 'TINYINT(3) UNSIGNED', false, 0, 'avatar_width');
-
-		// Add new profile fileds
-		$forum_db->add_field('users', 'facebook', 'VARCHAR(100)', true, null, 'url');
-		$forum_db->add_field('users', 'twitter', 'VARCHAR(100)', true, null, 'facebook');
-		$forum_db->add_field('users', 'linkedin', 'VARCHAR(100)', true, null, 'twitter');
-		$forum_db->add_field('users', 'skype', 'VARCHAR(100)', true, null, 'linkedin');
-
-		// Add avatars to DB
-		convert_avatars();
-
 		// Remove NOT NULL from TEXT fields for consistency. See http://dev.punbb.org/changeset/596
 		$forum_db->alter_field('posts', 'message', 'TEXT', true);
 		$forum_db->alter_field('reports', 'message', 'TEXT', true);
 
 
-		// Drop fulltext indexes (should only apply to SVN installs)
-		if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+		// Drop fulltext indexes  (should only apply to SVN installs)
+		if ($db_type == 'mysql' || $db_type == 'mysqli')
 		{
 			$forum_db->drop_index('topics', 'subject_idx');
 			$forum_db->drop_index('posts', 'message_idx');
@@ -929,15 +818,6 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		if (!array_key_exists('o_default_dst', $forum_config))
 			$new_config[] = '\'o_default_dst\', \'0\'';
 
-		// Insert new config option o_show_moderators
-		if (!array_key_exists('o_show_moderators', $forum_config))
-			$new_config[] = '\'o_show_moderators\', \'0\'';
-
-		// Insert new config option o_show_moderators
-		if (!array_key_exists('o_mask_passwords', $forum_config))
-			$new_config[] = '\'o_mask_passwords\', \'1\'';
-
-
 		if (!empty($new_config))
 		{
 			$query = array(
@@ -969,18 +849,6 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 				'UPDATE'	=> 'config',
 				'SET'		=> 'conf_value = \'1800\'',
 				'WHERE'		=> 'conf_name = \'o_timeout_visit\''
-			);
-
-			$forum_db->query_build($query) or error(__FILE__, __LINE__);
-		}
-
-		// Update redirect timeout
-		if (version_compare($cur_version, '1.4', '<') && $forum_config['o_redirect_delay'] == '1')
-		{
-			$query = array(
-				'UPDATE'	=> 'config',
-				'SET'		=> 'conf_value = \'0\'',
-				'WHERE'		=> 'conf_name = \'o_redirect_delay\''
 			);
 
 			$forum_db->query_build($query) or error(__FILE__, __LINE__);
@@ -1203,9 +1071,7 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 			switch ($db_type)
 			{
 				case 'mysql':
-				case 'mysql_innodb':
 				case 'mysqli':
-				case 'mysqli_innodb':
 					$forum_db->add_index('online', 'user_id_ident_idx', array('user_id', 'ident(25)'), true);
 					break;
 
@@ -1222,9 +1088,7 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		switch ($db_type)
 		{
 			case 'mysql':
-			case 'mysql_innodb':
 			case 'mysqli':
-			case 'mysqli_innodb':
 				$forum_db->add_index('online', 'ident_idx', array('ident(25)'));
 				break;
 
@@ -1347,38 +1211,8 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 			$forum_db->query_build($query) or error(__FILE__, __LINE__);
 		}
 
-		// Fix linkedIn possible XSS founded in 1.4.0
-		if (version_compare($cur_version, '1.3', '>') && version_compare($cur_version, '1.4.1', '<'))
-		{
-			if ($forum_db->field_exists('users', 'linkedin'))
-			{
-				$query = array(
-					'SELECT'	=> 'id, linkedin',
-					'FROM'		=> 'users',
-					'WHERE'		=> 'linkedin IS NOT NULL'
-				);
-				$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-				while ($cur_user = $forum_db->fetch_assoc($result))
-				{
-					if ($cur_user['linkedin'] != '' &&
-						strpos(strtolower($cur_user['linkedin']), 'http://') !== 0 &&
-						strpos(strtolower($cur_user['linkedin']), 'https://') !== 0)
-					{
-						$query = array(
-							'UPDATE'	=> 'users',
-							'SET'		=> 'linkedin=\''.$forum_db->escape('http://'.$cur_user['linkedin']).'\'',
-							'WHERE'		=> 'id = \''.$cur_user['id'].'\''
-						);
-						$forum_db->query_build($query) or error(__FILE__, __LINE__);
-					}
-				}
-			}
-		}
-
-
 		// Should we do charset conversion or not?
-		if (version_compare($cur_version, '1.3', '>='))
+		if (strpos($cur_version, '1.3') === 0)
 			$query_str = '?stage=finish';
 		elseif (strpos($cur_version, '1.2') === 0 && isset($_GET['convert_charset']))
 			$query_str = '?stage=conv_misc&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
@@ -1569,10 +1403,8 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 			);
 
 			$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-			$start_at = $forum_db->result($result);
-
-			if (is_null($start_at) || $start_at === false)
-				$start_at = 0;
+			if ($forum_db->num_rows($result))
+				$start_at = $forum_db->result($result);
 		}
 		$end_at = $start_at + PER_PAGE;
 
@@ -1610,14 +1442,10 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		);
 
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$start_id = $forum_db->result($result);
-
-		if (is_null($start_id) || $start_id === false)
-			$query_str = '?stage=conv_search_words&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
+		if ($forum_db->num_rows($result))
+			$query_str = '?stage=conv_reports&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$forum_db->result($result);
 		else
-			$query_str = '?stage=conv_reports&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$start_id;
-
-		unset($start_id);
+			$query_str = '?stage=conv_search_words&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
 		break;
 
 
@@ -1644,10 +1472,8 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 			);
 
 			$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-			$start_at = $forum_db->result($result);
-
-			if (is_null($start_at) || $start_at === false)
-				$start_at = 0;
+			if ($forum_db->num_rows($result))
+				$start_at = $forum_db->result($result);
 		}
 		$end_at = $start_at + PER_PAGE;
 
@@ -1685,14 +1511,10 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		);
 
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$start_id = $forum_db->result($result);
-
-		if (is_null($start_id) || $start_id === false)
-			$query_str = '?stage=conv_users&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
+		if ($forum_db->num_rows($result))
+			$query_str = '?stage=conv_search_words&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$forum_db->result($result);
 		else
-			$query_str = '?stage=conv_search_words&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$start_id;
-
-		unset($start_id);
+			$query_str = '?stage=conv_users&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
 		break;
 
 
@@ -1753,14 +1575,10 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		);
 
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$start_id = $forum_db->result($result);
-
-		if (is_null($start_id) || $start_id === false)
-			$query_str = '?stage=conv_topics&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
+		if ($forum_db->num_rows($result))
+			$query_str = '?stage=conv_users&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$forum_db->result($result);
 		else
-			$query_str = '?stage=conv_users&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$start_id;
-
-		unset($start_id);
+			$query_str = '?stage=conv_topics&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
 		break;
 
 
@@ -1787,10 +1605,8 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 			);
 
 			$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-			$start_at = $forum_db->result($result);
-
-			if (is_null($start_at) || $start_at === false)
-				$start_at = 0;
+			if ($forum_db->num_rows($result))
+				$start_at = $forum_db->result($result);
 		}
 		$end_at = $start_at + PER_PAGE;
 
@@ -1828,14 +1644,10 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		);
 
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$start_id = $forum_db->result($result);
-
-		if (is_null($start_id) || $start_id === false)
-			$query_str = '?stage=conv_posts&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
+		if ($forum_db->num_rows($result))
+			$query_str = '?stage=conv_topics&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$forum_db->result($result);
 		else
-			$query_str = '?stage=conv_topics&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$start_id;
-
-		unset($start_id);
+			$query_str = '?stage=conv_posts&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE;
 		break;
 
 
@@ -1862,10 +1674,8 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 			);
 
 			$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-			$start_at = $forum_db->result($result);
-
-			if (is_null($start_at) || $start_at === false)
-				$start_at = 0;
+			if ($forum_db->num_rows($result))
+				$start_at = $forum_db->result($result);
 		}
 		$end_at = $start_at + PER_PAGE;
 
@@ -1905,21 +1715,17 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		);
 
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$start_id = $forum_db->result($result);
-
-		if (is_null($start_id) || $start_id === false)
-			$query_str = '?stage=conv_tables';
+		if ($forum_db->num_rows($result))
+			$query_str = '?stage=conv_posts&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$forum_db->result($result);
 		else
-			$query_str = '?stage=conv_posts&req_old_charset='.$old_charset.'&req_per_page='.PER_PAGE.'&start_at='.$start_id;
-
-		unset($start_id);
+			$query_str = '?stage=conv_tables';
 		break;
 
 
 	// Convert table columns to utf8 (MySQL only)
 	case 'conv_tables':
 		// Do the cumbersome charset conversion of MySQL tables/columns
-		if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+		if ($db_type == 'mysql' || $db_type == 'mysqli')
 		{
 			echo 'Converting table '.$forum_db->prefix.'bans…<br />'."\n"; flush();
 			convert_table_utf8($forum_db->prefix.'bans');
@@ -1983,10 +1789,8 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 			);
 
 			$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-			$start_at = $forum_db->result($result);
-
-			if (is_null($start_at) || $start_at === false)
-				$start_at = 0;
+			if ($forum_db->num_rows($result))
+				$start_at = $forum_db->result($result);
 		}
 		$end_at = $start_at + PER_PAGE;
 
@@ -2023,14 +1827,10 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		);
 
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$start_id = $forum_db->result($result);
-
-		if (is_null($start_id) || $start_id === false)
-			$query_str = '?stage=preparse_sigs';
+		if ($forum_db->num_rows($result))
+			$query_str = '?stage=preparse_posts&req_per_page='.PER_PAGE.'&start_at='.$forum_db->result($result);
 		else
-			$query_str = '?stage=preparse_posts&req_per_page='.PER_PAGE.'&start_at='.$start_id;
-
-		unset($start_id);
+			$query_str = '?stage=preparse_sigs';
 		break;
 
 	case 'preparse_sigs':
@@ -2080,14 +1880,10 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		);
 
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$start_id = $forum_db->result($result);
-
-		if (is_null($start_id) || $start_id === false)
-			$query_str = '?stage=finish';
+		if ($forum_db->num_rows($result))
+			$query_str = '?stage=preparse_sigs&req_per_page='.PER_PAGE.'&start_at='.$forum_db->result($result);
 		else
-			$query_str = '?stage=preparse_sigs&req_per_page='.PER_PAGE.'&start_at='.$start_id;
-
-		unset($start_id);
+			$query_str = '?stage=finish';
 		break;
 
 	// Show results page
@@ -2173,18 +1969,22 @@ if (strpos($cur_version, '1.2') === 0 && $db_seems_utf8 && !isset($_GET['force']
 		}
 
 ?>
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html class="oldie ie6" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 7 ]>    <html class="oldie ie7" lang="en" dir="ltr"> <![endif]-->
-<!--[if IE 8 ]>    <html class="oldie ie8" lang="en" dir="ltr"> <![endif]-->
-<!--[if gt IE 8]><!--> <html lang="en" dir="ltr"> <!--<![endif]-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en" dir="ltr">
 <head>
-	<meta charset="utf-8" />
-	<title>PunBB Database Update</title>
-	<link rel="stylesheet" type="text/css" href="<?php echo $base_url ?>/style/Oxygen/Oxygen.min.css" />
-	<script type="text/javascript" src="<?php echo $base_url ?>/include/js/min/punbb.common.min.js"></script>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>PunBB Database Update</title>
+<?php
+
+// Include the stylesheets
+require FORUM_ROOT.'style/'.$forum_user['style'].'/'.$forum_user['style'].'.php';
+
+?>
+<script type="text/javascript" src="<?php echo $base_url ?>/include/js/common.js"></script>
 </head>
 <body>
+
 <div id="brd-update" class="brd-page">
 <div id="brd-wrap" class="brd">
 

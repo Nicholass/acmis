@@ -4,7 +4,7 @@
  *
  * Gives an overview of some statistics to administrators and moderators.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -55,12 +55,11 @@ if ($forum_user['g_id'] == FORUM_ADMIN)
 
 		($hook = get_hook('ain_update_check_qr_get_hotfixes')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
+		$num_hotfixes = $forum_db->num_rows($result);
 
 		$hotfixes = array();
-		while ($row = $forum_db->fetch_assoc($result))
-		{
-			$hotfixes[] = urlencode($row['id']);
-		}
+		for ($i = 0; $i < $num_hotfixes; ++$i)
+			$hotfixes[] = urlencode($forum_db->result($result, $i));
 
 		$punbb_updates = '<a href="http://punbb.informer.com/update/?version='.urlencode($forum_config['o_cur_version']).'&amp;hotfixes='.implode(',', $hotfixes).'">'.$lang_admin_index['Check for updates manual'].'</a>';
 	}
@@ -68,23 +67,25 @@ if ($forum_user['g_id'] == FORUM_ADMIN)
 
 
 // Get the server load averages (if possible)
-if (function_exists('sys_getloadavg') && is_array($load_averages = sys_getloadavg()))
+if (function_exists('sys_getloadavg') && is_array(sys_getloadavg()))
 {
-	array_walk($load_averages, create_function('&$v', '$v = forum_number_format(round($v, 2), 2);'));
+	$load_averages = sys_getloadavg();
+	array_walk($load_averages, create_function('&$v', '$v = round($v, 3);'));
 	$server_load = $load_averages[0].' '.$load_averages[1].' '.$load_averages[2];
 }
-else if (@/**/is_readable('/proc/loadavg'))
+else if (@is_readable('/proc/loadavg'))
 {
 	// We use @ just in case
-	$fh = @/**/fopen('/proc/loadavg', 'r');
+	$fh = @fopen('/proc/loadavg', 'r');
 	$load_averages = @fread($fh, 64);
-	@/**/fclose($fh);
+	@fclose($fh);
 
 	$load_averages = empty($load_averages) ? array() : explode(' ', $load_averages);
-	$server_load = isset($load_averages[2]) ? forum_number_format(round($load_averages[0], 2), 2).' '.forum_number_format(round($load_averages[1], 2), 2).' '.forum_number_format(round($load_averages[2], 2), 2) : 'Not available';
+
+	$server_load = isset($load_averages[2]) ? $load_averages[0].' '.$load_averages[1].' '.$load_averages[2] : 'Not available';
 }
 else if (!in_array(PHP_OS, array('WINNT', 'WIN32')) && preg_match('/averages?: ([0-9\.]+),[\s]+([0-9\.]+),[\s]+([0-9\.]+)/i', @exec('uptime'), $load_averages))
-	$server_load = forum_number_format(round($load_averages[1], 2), 2).' '.forum_number_format(round($load_averages[2], 2), 2).' '.forum_number_format(round($load_averages[3], 2), 2);
+	$server_load = $load_averages[1].' '.$load_averages[2].' '.$load_averages[3];
 else
 	$server_load = $lang_admin_index['Not available'];
 
@@ -100,9 +101,14 @@ $query = array(
 $result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 $num_online = $forum_db->result($result);
 
+// Get the database system version
+$db_version = $forum_db->get_version();
+
 // Collect some additional info about MySQL
-if (in_array($db_type, array('mysql', 'mysqli', 'mysql_innodb', 'mysqli_innodb')))
+if ($db_type == 'mysql' || $db_type == 'mysqli')
 {
+	$db_version = 'MySQL '.$db_version;
+
 	// Calculate total db size/row count
 	$result = $forum_db->query('SHOW TABLE STATUS FROM `'.$db_name.'` LIKE \''.$db_prefix.'%\'') or error(__FILE__, __LINE__);
 
@@ -184,17 +190,6 @@ ob_start();
 <?php if (isset($punbb_updates)): ?>
 						<li><span><?php echo $punbb_updates ?></span></li>
 <?php endif; ?>
-					</ul>
-				</div>
-			</div>
-<?php ($hook = get_hook('ain_pre_community')) ? eval($hook) : null; ?>
-			<div class="ct-set group-item<?php echo ++$forum_page['item_count'] ?>">
-				<div class="ct-box">
-					<h3 class="ct-legend hn"><span><?php echo $lang_admin_index['PunBB community'] ?></span></h3>
-					<ul class="data-list">
-						<li><span><?php echo $lang_admin_index['Forums'] ?>: <a href="http://punbb.informer.com/forums/">Forums</a></span></li>
-						<li><span><?php echo $lang_admin_index['Twitter'] ?>: <a href="https://twitter.com/punbb_forum">@punbb_forum</a></span></li>
-						<li><span><?php echo $lang_admin_index['Development'] ?>: <a href="https://github.com/punbb/punbb">https://github.com/punbb</a></span></li>
 					</ul>
 				</div>
 			</div>

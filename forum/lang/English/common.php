@@ -36,12 +36,12 @@ $lang_common = array(
 'Forum message'				=>	'Forum message',
 'Maintenance warning'		=>	'<strong>WARNING! %s Enabled.</strong> DO NOT LOGOUT as you will be unable to login again.',
 'Maintenance mode'			=>	'Maintenance Mode',
-'Redirecting'				=>	' Redirecting…', // With space!
+'Redirecting'				=>	'Redirecting',
 'Forwarding info'			=>	'You should automatically be forwarded to a new page in %s %s.',
 'second'					=>	'second',	// singular
 'seconds'					=>	'seconds',	// plural
 'Click redirect'			=>	'Click here if you do not want to wait any longer (or if your browser does not automatically forward you)',
-'Invalid e-mail'			=>	'The email address you entered is invalid.',
+'Invalid e-mail'			=>	'The e-mail address you entered is invalid.',
 'New posts'					=>	'New posts',	// the link that leads to the first new post
 'New posts title'			=>	'Find topics containing posts made since your last visit.',	// the popup text for new posts links
 'Active topics'				=>	'Active topics',
@@ -67,27 +67,28 @@ $lang_common = array(
 'Write message legend'		=>	'Compose your post',
 'Required information'		=>	'Required information',
 'Reqmark'					=>	'*',
-'Required warn'				=>	'All fields with bold label must be completed before the form is submitted.',
-'Crumb separator'			=>	' &rarr;&#160;', // The character or text that separates links in breadcrumbs
-'Title separator'			=>	' — ',
+'Required'					=>	'(Required)',
+'Required warn'				=>	'All fields labelled %s must be completed before the form is submitted.',
+'Crumb separator'			=>	' »&#160;', // The character or text that separates links in breadcrumbs
+'Title separator'			=>	' - ',
 'Page separator'			=>	'&#160;', //The character or text that separates page numbers
 'Spacer'					=>	'…', // Ellipsis for paginate
 'Paging separator'			=>	' ', //The character or text that separates page numbers for page navigation generally
 'Previous'					=>	'Previous',
 'Next'						=>	'Next',
-'Cancel redirect'			=>	'Operation cancelled.',
-'No confirm redirect'		=>	'No confirmation provided. Operation cancelled.',
+'Cancel redirect'			=>	'Operation cancelled. Redirecting…',
+'No confirm redirect'		=>	'No confirmation provided. Operation cancelled. Redirecting…',
 'Please confirm'			=>	'Please confirm:',
 'Help page'					=>	'Help with: %s',
 'Re'						=>	'Re:',
 'Page info'					=>	'(Page %1$s of %2$s)',
-'Item info single'			=>	'%s: %s',
-'Item info plural'			=>	'%s: %s to %s of %s', // e.g. Topics [ 10 to 20 of 30 ]
+'Item info single'			=>	'%s [ %s ]',
+'Item info plural'			=>	'%s [ %s to %s of %s ]', // e.g. Topics [ 10 to 20 of 30 ]
 'Info separator'			=>	' ', // e.g. 1 Page | 10 Topics
-'Powered by'				=>	'Powered by %s, supported by %s.',
+'Powered by'				=>	'Powered by <strong>%s</strong>, supported by <strong>%s</strong>.',
 'Maintenance'				=>	'Maintenance',
-'Installed extension'		=>	'The %s official extension is installed. Copyright &copy; 2003&ndash;2012 <a href="http://punbb.informer.com/">PunBB</a>.',
-'Installed extensions'		=>	'Currently installed <span id="extensions-used" title="%s">%s official extensions</span>. Copyright &copy; 2003&ndash;2012 <a href="http://punbb.informer.com/">PunBB</a>.',
+'Installed extension'		=>	'The %s official extension is installed. Copyright &copy; 2003&ndash;2011 <a href="http://punbb.informer.com/">PunBB</a>.',
+'Installed extensions'		=>	'Currently installed <span id="extensions-used" title="%s">%s official extensions</span>. Copyright &copy; 2003&ndash;2011 <a href="http://punbb.informer.com/">PunBB</a>.',
 
 // CSRF confirmation form
 'Confirm'					=>	'Confirm',	// Button
@@ -115,13 +116,13 @@ $lang_common = array(
 // Stuff for the navigator (top of every page)
 'Index'						=>	'Index',
 'User list'					=>	'User list',
-'Rules'						=>	'Rules',
-'Search'					=>	'Search',
-'Register'					=>	'Register',
+'Rules'						=>  'Rules',
+'Search'					=>  'Search',
+'Register'					=>  'Register',
 'register'					=>	'register',
-'Login'						=>	'Login',
+'Login'						=>  'Login',
 'login'						=>	'login',
-'Not logged in'				=>	'You are not logged in.',
+'Not logged in'				=>  'You are not logged in.',
 'Profile'					=>	'Profile',
 'Logout'					=>	'Logout',
 'Logged in as'				=>	'Logged in as %s.',
@@ -133,7 +134,7 @@ $lang_common = array(
 
 // Alerts
 'New alerts'				=>	'New Alerts',
-'Maintenance alert'			=>	'<strong>Maintenance mode enabled.</strong> <em>DO NOT</em> logout, if you do you will not be able to login again.',
+'Maintenance alert'			=>	'<strong>WARNING! Maintenance mode enabled.</strong> This board is currently in maintenance mode. <em>DO NOT</em> logout, if you do you will not be able to login again.',
 'Updates'					=>	'PunBB updates:',
 'Updates failed'			=>	'The latest attempt at checking for updates against the punbb.informer.com updates service failed. This probably just means that the service is temporarily overloaded or out of order. However, if this alert does not disappear within a day or two, you should disable the automatic check for updates and check for updates manually in the future.',
 'Updates version n hf'		=>	'A newer version of PunBB, version %s, is available for download at <a href="http://punbb.informer.com/">punbb.informer.com</a>. Furthermore, one or more hotfixes are available for install on the <a href="%s">Manage hotfixes</a> tab of the admin interface.',
@@ -155,22 +156,11 @@ $lang_common = array(
 'Skip to content'			=>	'Skip to forum content',
 
 // Debug information
-'Querytime'					=>	'Generated in %1$s seconds (%2$s%% PHP - %3$s%% DB) with %4$s queries',
+'Querytime'					=>	'Generated in %1$s seconds, %2$s queries executed',
 'Debug table'				=>	'Debug information',
 'Debug summary'				=>	'Database query performance information',
 'Query times'				=>	'Time (s)',
 'Query'						=>	'Query',
 'Total query time'			=>	'Total query time',
-
-// Error message
-'Forum error header'		=> 'Sorry! The page could not be loaded.',
-'Forum error description'	=> 'This is probably a temporary error. Just refresh the page and retry. If problem continues, please check back in 5-10 minutes.',
-'Forum error location'		=> 'The error occurred on line %1$s in %2$s',
-'Forum error db reported'	=> 'Database reported:',
-'Forum error db query'		=> 'Failed query:',
-
-// Menu
-'Menu admin'		=> 'Admin Menu',
-'Menu profile'		=> 'Profile Menu',
 
 );

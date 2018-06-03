@@ -2,7 +2,7 @@
 /**
  * Outputs the header used by most forum pages.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -24,21 +24,21 @@ header('Content-type: text/html; charset=utf-8');
 // Load the main template
 if (substr(FORUM_PAGE, 0, 5) == 'admin')
 {
-	if ($forum_user['style'] != 'Oxygen' && file_exists(FORUM_ROOT.'style/'.$forum_user['style'].'/admin.tpl'))
+	if (file_exists(FORUM_ROOT.'style/'.$forum_user['style'].'/admin.tpl'))
 		$tpl_path = FORUM_ROOT.'style/'.$forum_user['style'].'/admin.tpl';
 	else
 		$tpl_path = FORUM_ROOT.'include/template/admin.tpl';
 }
 else if (FORUM_PAGE == 'help')
 {
-	if ($forum_user['style'] != 'Oxygen' && file_exists(FORUM_ROOT.'style/'.$forum_user['style'].'/help.tpl'))
+	if (file_exists(FORUM_ROOT.'style/'.$forum_user['style'].'/help.tpl'))
 		$tpl_path = FORUM_ROOT.'style/'.$forum_user['style'].'/help.tpl';
 	else
 		$tpl_path = FORUM_ROOT.'include/template/help.tpl';
 }
 else
 {
-	if ($forum_user['style'] != 'Oxygen' && file_exists(FORUM_ROOT.'style/'.$forum_user['style'].'/main.tpl'))
+	if (file_exists(FORUM_ROOT.'style/'.$forum_user['style'].'/main.tpl'))
 		$tpl_path = FORUM_ROOT.'style/'.$forum_user['style'].'/main.tpl';
 	else
 		$tpl_path = FORUM_ROOT.'include/template/main.tpl';
@@ -54,7 +54,7 @@ $tpl_main = file_get_contents($tpl_path);
 while (preg_match('#<!-- ?forum_include "([^/\\\\]*?)" ?-->#', $tpl_main, $cur_include))
 {
 	if (!file_exists(FORUM_ROOT.'include/user/'.$cur_include[1]))
-		error('Unable to process user include &lt;!-- forum_include "'.forum_htmlencode($cur_include[1]).'" --&gt; from template main.tpl.<br />There is no such file in folder /include/user/', __FILE__, __LINE__);
+		error('Unable to process user include &lt;!-- forum_include "'.forum_htmlencode($cur_include[1]).'" --&gt; from template main.tpl. There is no such file in folder /include/user/', __FILE__, __LINE__);
 
 	ob_start();
 	include FORUM_ROOT.'include/user/'.$cur_include[1];
@@ -66,7 +66,7 @@ while (preg_match('#<!-- ?forum_include "([^/\\\\]*?)" ?-->#', $tpl_main, $cur_i
 
 
 // START SUBST - <!-- forum_local -->
-$tpl_main = str_replace('<!-- forum_local -->', 'lang="'.$lang_common['lang_identifier'].'" dir="'.$lang_common['lang_direction'].'"', $tpl_main);
+$tpl_main = str_replace('<!-- forum_local -->', 'xml:lang="'.$lang_common['lang_identifier'].'" lang="'.$lang_common['lang_identifier'].'" dir="'.$lang_common['lang_direction'].'"', $tpl_main);
 // END SUBST - <!-- forum_local -->
 
 
@@ -98,20 +98,22 @@ else if (FORUM_PAGE == 'viewforum')
 else if (FORUM_PAGE == 'viewtopic')
 {
 	$forum_head['rss'] = '<link rel="alternate" type="application/rss+xml" href="'.forum_link($forum_url['topic_rss'], $id).'" title="RSS" />';
-	$forum_head['atom'] = '<link rel="alternate" type="application/atom+xml" href="'.forum_link($forum_url['topic_atom'], $id).'" title="ATOM" />';
+	$forum_head['atom'] =  '<link rel="alternate" type="application/atom+xml" href="'.forum_link($forum_url['topic_atom'], $id).'" title="ATOM" />';
 }
+
+
+$forum_head['top'] = '<link rel="top" href="'.$base_url.'" title="'.$lang_common['Forum index'].'" />';
+
+// If there are more than two breadcrumbs, add the "up" link (second last)
+if (count($forum_page['crumbs']) > 2)
+	$forum_head['up'] = '<link rel="up" href="'.$forum_page['crumbs'][count($forum_page['crumbs']) - 2][1].'" title="'.forum_htmlencode($forum_page['crumbs'][count($forum_page['crumbs']) - 2][0]).'" />';
 
 // If there are other page navigation links (first, next, prev and last)
 if (!empty($forum_page['nav']))
 	$forum_head['nav'] = implode("\n", $forum_page['nav']);
 
-if ($forum_user['g_read_board'] == '1' && $forum_user['g_search'] == '1')
-{
-	$forum_head['search'] = '<link rel="search" type="text/html" href="'.forum_link($forum_url['search']).'" title="'.$lang_common['Search'].'" />';
-	$forum_head['opensearch'] = '<link rel="search" type="application/opensearchdescription+xml" href="'.forum_link($forum_url['opensearch']).'" title="'.forum_htmlencode($forum_config['o_board_title']).'" />';
-}
-
-$forum_head['author'] = '<link rel="author" type="text/html" href="'.forum_link($forum_url['users']).'" title="'.$lang_common['User list'].'" />';
+$forum_head['search'] = '<link rel="search" href="'.forum_link($forum_url['search']).'" title="'.$lang_common['Search'].'" />';
+$forum_head['author'] = '<link rel="author" href="'.forum_link($forum_url['users']).'" title="'.$lang_common['User list'].'" />';
 
 ob_start();
 
@@ -126,13 +128,12 @@ foreach (explode("\n", $head_temp) as $style_temp)
 
 ob_end_clean();
 
+$forum_head['commonjs'] = '<script type="text/javascript" src="'.$base_url.'/include/js/common.js"></script>';
+
 ($hook = get_hook('hd_head')) ? eval($hook) : null;
 
-// Render CSS from forum_loader
-$tmp_head = implode("\n", $forum_head).$forum_loader->render_css();
-
-$tpl_main = str_replace('<!-- forum_head -->', $tmp_head, $tpl_main);
-unset($forum_head, $tmp_head);
+$tpl_main = str_replace('<!-- forum_head -->', implode("\n", $forum_head), $tpl_main);
+unset($forum_head);
 
 // END SUBST - <!-- forum_head -->
 
@@ -172,11 +173,8 @@ $gen_elements['<!-- forum_desc -->'] = ($forum_config['o_board_desc'] != '') ? '
 $gen_elements['<!-- forum_navlinks -->'] = '<ul>'."\n\t\t".generate_navlinks()."\n\t".'</ul>';
 
 // Announcement
-$gen_elements['<!-- forum_announcement -->'] = ($forum_config['o_announcement'] == '1' && $forum_user['g_read_board'] == '1') ? '<div id="brd-announcement" class="gen-content">'.($forum_config['o_announcement_heading'] != '' ? "\n\t".'<h1 class="hn"><span>'.$forum_config['o_announcement_heading'].'</span></h1>' : '')."\n\t".'<div class="content">'.$forum_config['o_announcement_message'].'</div>'."\n".'</div>'."\n" : '';
-
-// Flash messages
-$gen_elements['<!-- forum_messages -->'] = '<div id="brd-messages" class="brd">'.$forum_flash->show(true).'</div>'."\n";
-
+$hide_announcement = (isset($_COOKIE['announcement']) && $_COOKIE['announcement'] == $forum_config['o_announcement_id']);
+$gen_elements['<!-- forum_announcement -->'] = ($forum_config['o_announcement'] == '1' && $forum_user['g_read_board'] == '1') ? '<div id="brd-announcement" class="gen-content"><strong><a id="toggle-announcement" href="javascript:void(0);" onClick="toggleAnnouncement(\''.$forum_config['o_announcement_id'].'\')">['.($hide_announcement ? '+' : '-').']</a></strong>'.($forum_config['o_announcement_heading'] != '' ? "\n\t".'<h1 id="announcement-header" class="hn'.($hide_announcement ? ' inactive' : '').'"><span>'.$forum_config['o_announcement_heading'].'</span></h1>' : '')."\n\t".'<div id="announcement-content" class="content" style="'.($hide_announcement ? 'display:none' : '').'">'.$forum_config['o_announcement_message'].'</div>'."\n".'</div>'."\n" : '';
 
 // Maintenance Warning
 $gen_elements['<!-- forum_maint -->'] = ($forum_user['g_id'] == FORUM_ADMIN && $forum_config['o_maintenance'] == '1') ? '<p id="maint-alert" class="warn">'.sprintf($lang_common['Maintenance warning'], '<a href="'.forum_link($forum_url['admin_settings_maintenance']).'">'.$lang_common['Maintenance mode'].'</a>').'</p>' : '';
@@ -195,7 +193,7 @@ $visit_elements = array();
 if ($forum_user['is_guest'])
 	$visit_elements['<!-- forum_welcome -->'] = '<p id="welcome"><span>'.$lang_common['Not logged in'].'</span> <span>'.$lang_common['Login nag'].'</span></p>';
 else
-	$visit_elements['<!-- forum_welcome -->'] = '<p id="welcome"><span>'.sprintf($lang_common['Logged in as'], '<strong>'.forum_htmlencode($forum_user['username']).'</strong>').'</span></p>';
+	$visit_elements['<!-- forum_welcome -->'] = '<p id="welcome"><span>'.sprintf($lang_common['Logged in as'], '<strong>'.forum_htmlencode($forum_user['username']).'</strong>').'</span> <span>'.sprintf($lang_common['Last visit'], format_time($forum_user['last_visit'])).'</span></p>';
 
 if ($forum_user['g_read_board'] == '1' && $forum_user['g_search'] == '1')
 {
@@ -208,9 +206,9 @@ if ($forum_user['g_read_board'] == '1' && $forum_user['g_search'] == '1')
 	$visit_links['unanswered'] = '<span id="visit-unanswered"'.(empty($visit_links) ? ' class="first-item"' : '').'><a href="'.forum_link($forum_url['search_unanswered']).'" title="'.$lang_common['Unanswered topics title'].'">'.$lang_common['Unanswered topics'].'</a></span>';
 }
 
-($hook = get_hook('hd_visit_elements')) ? eval($hook) : null;
-
 $visit_elements['<!-- forum_visit -->'] = (!empty($visit_links)) ? '<p id="visit-links" class="options">'.implode(' ', $visit_links).'</p>' : '';
+
+($hook = get_hook('hd_visit_elements')) ? eval($hook) : null;
 
 $tpl_main = str_replace(array_keys($visit_elements), array_values($visit_elements), $tpl_main);
 unset($visit_elements);
@@ -234,7 +232,7 @@ if ($forum_user['is_admmod'] && $forum_config['o_report_method'] != 1)
 	$result_header = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
 	if ($forum_db->result($result_header))
-		$admod_links['reports'] = '<li id="reports"><a href="'.forum_link($forum_url['admin_reports']).'">'.$lang_common['New reports'].'</a></li>';
+		$admod_links['reports'] = '<span id="reports"><a href="'.forum_link($forum_url['admin_reports']).'">'.$lang_common['New reports'].'</a></span>';
 }
 
 if ($forum_user['g_id'] == FORUM_ADMIN)
@@ -263,12 +261,12 @@ if ($forum_user['g_id'] == FORUM_ADMIN)
 		$alert_items['newer_database'] = '<p><strong>'.$lang_common['Database mismatch'].'</strong> '.$lang_common['Database mismatch alert'].'</p>';
 
 	if (!empty($alert_items))
-		$admod_links['alert'] = '<li id="alert"><a href="'.forum_link($forum_url['admin_index']).'">'.$lang_common['New alerts'].'</a></li>';
+		$admod_links['alert'] = '<span id="alert"><a href="'.forum_link($forum_url['admin_index']).'"><strong>'.$lang_common['New alerts'].'</strong></a></span>';
 
 	($hook = get_hook('hd_alert')) ? eval($hook) : null;
 }
 
-$tpl_main = str_replace('<!-- forum_admod -->', (!empty($admod_links)) ? '<ul id="brd-admod">'.implode(' ', $admod_links).'</ul>' : '', $tpl_main);
+$tpl_main = str_replace('<!-- forum_admod -->', (!empty($admod_links)) ? '<p id="brd-admod">'.implode(' ', $admod_links).'</p>' : '', $tpl_main);
 
 // END SUBST - <!-- forum_admod -->
 
@@ -277,12 +275,12 @@ $tpl_main = str_replace('<!-- forum_admod -->', (!empty($admod_links)) ? '<ul id
 $main_elements = array();
 
 // Top breadcrumbs
-$main_elements['<!-- forum_crumbs_top -->'] = (FORUM_PAGE != 'index') ? '<div id="brd-crumbs-top" class="crumbs">'."\n\t".'<p>'.generate_crumbs(false).'</p>'."\n".'</div>' : '';
+$main_elements['<!-- forum_crumbs_top -->'] = (FORUM_PAGE != 'index') ? '<div id="brd-crumbs-top" class="crumbs gen-content">'."\n\t".'<p>'.generate_crumbs(false).'</p>'."\n".'</div>' : '';
 
 // Bottom breadcrumbs
-$main_elements['<!-- forum_crumbs_end -->'] = (FORUM_PAGE != 'index') ? '<div id="brd-crumbs-end" class="crumbs">'."\n\t".'<p>'.generate_crumbs(false).'</p>'."\n".'</div>' : '';
+$main_elements['<!-- forum_crumbs_end -->'] = (FORUM_PAGE != 'index') ? '<div id="brd-crumbs-end" class="crumbs gen-content">'."\n\t".'<p>'.generate_crumbs(false).'</p>'."\n".'</div>' : '';
 // Main section heading
-$main_elements['<!-- forum_main_title -->'] = '<h1 class="main-title">'.((isset($forum_page['main_title'])) ? $forum_page['main_title'] : forum_htmlencode(is_array($last_crumb = end($forum_page['crumbs'])) ? reset($last_crumb) : $last_crumb)).(isset($forum_page['main_head_pages']) ? ' <small>'.$forum_page['main_head_pages'].'</small>' : '').'</h1>'."\n";
+$main_elements['<!-- forum_main_title -->'] =  '<h1 class="main-title">'.((isset($forum_page['main_title'])) ? $forum_page['main_title'] : forum_htmlencode(is_array($last_crumb = end($forum_page['crumbs'])) ? reset($last_crumb) : $last_crumb)).(isset($forum_page['main_head_pages']) ? ' <small>'.$forum_page['main_head_pages'].'</small>' : '').'</h1>'."\n";
 
 // Top pagination and post links
 $main_elements['<!-- forum_main_pagepost_top -->'] = (!empty($forum_page['page_post'])) ? '<div id="brd-pagepost-top" class="main-pagepost gen-content">'."\n\t".implode("\n\t", $forum_page['page_post'])."\n".'</div>' : '';
@@ -304,7 +302,7 @@ if (substr(FORUM_PAGE, 0, 5) == 'admin' && FORUM_PAGE_TYPE != 'paged')
 
 ($hook = get_hook('hd_main_elements')) ? eval($hook) : null;
 
-$tpl_main = str_replace(array_keys($main_elements), array_values($main_elements), $tpl_main);
+$tpl_main = str_replace(array_keys($main_elements),  array_values($main_elements), $tpl_main);
 unset($main_elements);
 
 // END MAIN SECTION INTERFACE ELEMENT SUBSTITUTION

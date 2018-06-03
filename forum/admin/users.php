@@ -4,7 +4,7 @@
  *
  * Allows administrators or moderators to search the existing users based on various criteria.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -45,14 +45,7 @@ if (isset($_GET['ip_stats']))
 
 	($hook = get_hook('aus_ip_stats_qr_get_user_ips')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	$founded_ips = array();
-	while ($cur_ip = $forum_db->fetch_assoc($result))
-	{
-		$founded_ips[] = $cur_ip;
-	}
-
-	$forum_page['num_users'] = count($founded_ips);
+	$forum_page['num_users'] = $forum_db->num_rows($result);
 
 	// Setup breadcrumbs
 	$forum_page['crumbs'] = array(
@@ -93,7 +86,7 @@ if (isset($_GET['ip_stats']))
 		<h2 class="hn"><span><?php printf($lang_admin_users['IP addresses found'], $forum_page['num_users']) ?></span></h2>
 	</div>
 	<div class="main-content main-forum">
-		<table>
+		<table cellspacing="0">
 			<thead>
 				<tr>
 					<?php echo implode("\n\t\t\t\t", $forum_page['table_header'])."\n" ?>
@@ -106,7 +99,7 @@ if (isset($_GET['ip_stats']))
 	{
 		$forum_page['item_count'] = 0;
 
-		foreach ($founded_ips as $cur_ip)
+		while ($cur_ip = $forum_db->fetch_assoc($result))
 		{
 			++$forum_page['item_count'];
 
@@ -201,14 +194,7 @@ else if (isset($_GET['show_users']))
 
 	($hook = get_hook('aus_show_users_qr_get_users_matching_ip')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	$users = array();
-	while ($cur_user = $forum_db->fetch_assoc($result))
-	{
-		$users[] = $cur_user;
-	}
-
-	$forum_page['num_users'] = count($users);
+	$forum_page['num_users'] = $forum_db->num_rows($result);
 
 	// Setup breadcrumbs
 	$forum_page['crumbs'] = array(
@@ -238,7 +224,7 @@ else if (isset($_GET['show_users']))
 	$forum_page['table_header']['select'] = '<th class="tc'.count($forum_page['table_header']).'" scope="col">'.$lang_misc['Select'] .'</th>';
 
 	if ($forum_page['num_users'] > 0)
-		$forum_page['main_head_options']['select'] = $forum_page['main_foot_options']['select'] = '<span class="select-all js_link" data-check-form="aus-show-users-results-form">'.$lang_admin_common['Select all'].'</span>';
+		$forum_page['main_head_options']['select'] = $forum_page['main_foot_options']['select'] = '<a href="#" onclick="return Forum.toggleCheckboxes(document.getElementById(\'aus-show-users-results-form\'))">'.$lang_admin_common['Select all'].'</a>';
 
 	($hook = get_hook('aus_show_users_output_start')) ? eval($hook) : null;
 
@@ -257,7 +243,7 @@ else if (isset($_GET['show_users']))
 		<div class="hidden">
 			<input type="hidden" name="csrf_token" value="<?php echo generate_form_token(forum_link($forum_url['admin_users']).'?action=modify_users') ?>" />
 		</div>
-		<table>
+		<table cellspacing="0">
 			<thead>
 				<tr>
 					<?php echo implode("\n\t\t\t\t", $forum_page['table_header'])."\n" ?>
@@ -271,8 +257,10 @@ else if (isset($_GET['show_users']))
 		$forum_page['item_count'] = 0;
 
 		// Loop through users and print out some info
-		foreach ($users as $user)
+		for ($i = 0; $i < $forum_page['num_users']; ++$i)
 		{
+			list($poster_id, $poster) = $forum_db->fetch_row($result);
+
 			$query = array(
 				'SELECT'	=> 'u.id, u.username, u.email, u.title, u.num_posts, u.admin_note, g.g_id, g.g_user_title',
 				'FROM'		=> 'users AS u',
@@ -282,7 +270,7 @@ else if (isset($_GET['show_users']))
 						'ON'			=> 'g.g_id=u.group_id'
 					)
 				),
-				'WHERE'		=> 'u.id>1 AND u.id='.$user['poster_id']
+				'WHERE'		=> 'u.id>1 AND u.id='.$poster_id
 			);
 
 			($hook = get_hook('aus_show_users_qr_get_user_details')) ? eval($hook) : null;
@@ -299,7 +287,7 @@ else if (isset($_GET['show_users']))
 			if ($user_data = $forum_db->fetch_assoc($result2))
 			{
 				$forum_page['table_row'] = array();
-				$forum_page['table_row']['username'] = '<td class="tc'.count($forum_page['table_row']).'"><span><a href="'.forum_link($forum_url['user'], $user_data['id']).'">'.forum_htmlencode($user_data['username']).'</a></span><span class="usermail"><a href="mailto:'.forum_htmlencode($user_data['email']).'">'.forum_htmlencode($user_data['email']).'</a></span>'.(($user_data['admin_note'] != '') ? '<span class="usernote">'.$lang_admin_users['Admin note'].' '.forum_htmlencode($user_data['admin_note']).'</span>' : '').'</td>';
+				$forum_page['table_row']['username'] = '<td class="tc'.count($forum_page['table_row']).'"><span>'.$lang_admin_users['Username'].' <a href="'.forum_link($forum_url['user'], $user_data['id']).'">'.forum_htmlencode($user_data['username']).'</a></span> <span class="usermail">'.$lang_admin_users['E-mail'].' <a href="mailto:'.forum_htmlencode($user_data['email']).'">'.forum_htmlencode($user_data['email']).'</a></span>'.(($user_data['admin_note'] != '') ? '<span class="usernote">'.$lang_admin_users['Admin note'].' '.forum_htmlencode($user_data['admin_note']).'</span>' : '').'</td>';
 				$forum_page['table_row']['title'] = '<td class="tc'.count($forum_page['table_row']).'">'.get_title($user_data).'</td>';
 				$forum_page['table_row']['posts'] = '<td class="tc'.count($forum_page['table_row']).'">'.forum_number_format($user_data['num_posts']).'</td>';
 				$forum_page['table_row']['actions'] = '<td class="tc'.count($forum_page['table_row']).'"><span><a href="'.forum_link($forum_url['admin_users']).'?ip_stats='.$user_data['id'].'">'.$lang_admin_users['View IP stats'].'</a></span> <span><a href="'.forum_link($forum_url['search_user_posts'], $user_data['id']).'">'.$lang_admin_users['Show posts'].'</a></span></td>';
@@ -308,7 +296,7 @@ else if (isset($_GET['show_users']))
 			else
 			{
 				$forum_page['table_row'] = array();
-				$forum_page['table_row']['username'] = '<td class="tc'.count($forum_page['table_row']).'">'.forum_htmlencode($user['poster']).'</td>';
+				$forum_page['table_row']['username'] = '<td class="tc'.count($forum_page['table_row']).'">'.forum_htmlencode($poster).'</td>';
 				$forum_page['table_row']['title'] = '<td class="tc'.count($forum_page['table_row']).'">'.$lang_admin_users['Guest'].'</td>';
 				$forum_page['table_row']['posts'] = '<td class="tc'.count($forum_page['table_row']).'"> - </td>';
 				$forum_page['table_row']['actions'] = '<td class="tc'.count($forum_page['table_row']).'"> - </td>';
@@ -392,9 +380,6 @@ else if (isset($_GET['show_users']))
 	</div>
 <?php
 
-	// Init JS helper for select-all
-	$forum_loader->add_js('PUNBB.common.addDOMReadyEvent(PUNBB.common.initToggleCheckboxes);', array('type' => 'inline'));
-
 	($hook = get_hook('aus_show_users_end')) ? eval($hook) : null;
 
 	$tpl_temp = forum_trim(ob_get_contents());
@@ -429,15 +414,14 @@ else if (isset($_POST['delete_users']) || isset($_POST['delete_users_comply']) |
 
 	// We check to make sure there are no administrators in this list
 	$query = array(
-		'SELECT'	=> 'COUNT(u.id)',
+		'SELECT'	=> '1',
 		'FROM'		=> 'users AS u',
 		'WHERE'		=> 'u.id IN ('.implode(',', $users).') AND u.group_id='.FORUM_ADMIN
 	);
 
 	($hook = get_hook('aus_delete_users_qr_check_for_admins')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	if ($forum_db->result($result) > 0)
+	if ($forum_db->num_rows($result) > 0)
 		message($lang_admin_users['Delete admin message']);
 
 	if (isset($_POST['delete_users_comply']))
@@ -451,17 +435,9 @@ else if (isset($_POST['delete_users']) || isset($_POST['delete_users_comply']) |
 				delete_user($id, isset($_POST['delete_posts']));
 		}
 
-		// Remove cache file with forum stats
-		if (!defined('FORUM_CACHE_FUNCTIONS_LOADED'))
-		{
-			require FORUM_ROOT.'include/cache.php';
-		}
-
-		clean_stats_cache();
-
 		($hook = get_hook('aus_delete_users_pre_redirect')) ? eval($hook) : null;
 
-		redirect(forum_link($forum_url['admin_users']), $lang_admin_users['Users deleted']);
+		redirect(forum_link($forum_url['admin_users']), $lang_admin_users['Users deleted'].' '.$lang_admin_common['Redirect']);
 	}
 
 	// Setup form
@@ -510,7 +486,7 @@ else if (isset($_POST['delete_users']) || isset($_POST['delete_users_comply']) |
 				</div>
 			</fieldset>
 			<div class="frm-buttons">
-				<span class="submit primary caution"><input type="submit" name="delete_users_comply" value="<?php echo $lang_admin_users['Delete users'] ?>" /></span>
+				<span class="submit"><input type="submit" name="delete_users_comply" value="<?php echo $lang_admin_users['Delete users'] ?>" /></span>
 				<span class="cancel"><input type="submit" name="delete_users_cancel" value="<?php echo $lang_admin_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
@@ -547,15 +523,14 @@ else if (isset($_POST['ban_users']) || isset($_POST['ban_users_comply']))
 
 	// We check to make sure there are no administrators in this list
 	$query = array(
-		'SELECT'	=> 'COUNT(u.id)',
+		'SELECT'	=> '1',
 		'FROM'		=> 'users AS u',
 		'WHERE'		=> 'u.id IN ('.implode(',', $users).') AND u.group_id='.FORUM_ADMIN
 	);
 
 	($hook = get_hook('aus_ban_users_qr_check_for_admins')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	if ($forum_db->result($result) > 0)
+	if ($forum_db->num_rows($result) > 0)
 		message($lang_admin_users['Ban admin message']);
 
 	if (isset($_POST['ban_users_comply']))
@@ -621,12 +596,9 @@ else if (isset($_POST['ban_users']) || isset($_POST['ban_users_comply']))
 
 		generate_bans_cache();
 
-		// Add flash message
-		$forum_flash->add_info($lang_admin_users['Users banned']);
-
 		($hook = get_hook('aus_ban_users_pre_redirect')) ? eval($hook) : null;
 
-		redirect(forum_link($forum_url['admin_users']), $lang_admin_users['Users banned']);
+		redirect(forum_link($forum_url['admin_users']), $lang_admin_users['Users banned'].' '.$lang_admin_common['Redirect']);
 	}
 
 	// Setup form
@@ -682,7 +654,7 @@ else if (isset($_POST['ban_users']) || isset($_POST['ban_users_comply']))
 				</div>
 			</fieldset>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="ban_users_comply" value="<?php echo $lang_admin_users['Ban'] ?>" /></span>
+				<span class="submit"><input type="submit" name="ban_users_comply" value="<?php echo $lang_admin_users['Ban'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -735,10 +707,10 @@ else if (isset($_POST['change_group']) || isset($_POST['change_group_comply']) |
 
 		($hook = get_hook('aus_change_group_qr_get_group_moderator_status')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$group_is_mod = $forum_db->result($result);
-
-		if ($move_to_group == FORUM_GUEST || (is_null($group_is_mod) || $group_is_mod === false))
+		if ($move_to_group == FORUM_GUEST || !$forum_db->num_rows($result))
 			message($lang_common['Bad request']);
+
+		$group_is_mod = $forum_db->result($result);
 
 		// Move users
 		$query = array(
@@ -750,12 +722,12 @@ else if (isset($_POST['change_group']) || isset($_POST['change_group_comply']) |
 		($hook = get_hook('aus_change_group_qr_change_user_group')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
-		if ($move_to_group != FORUM_ADMIN && ($group_is_mod !== false && $group_is_mod == '0'))
+		if ($move_to_group != FORUM_ADMIN && $group_is_mod == '0')
 			clean_forum_moderators();
 
 		($hook = get_hook('aus_change_group_pre_redirect')) ? eval($hook) : null;
 
-		redirect(forum_link($forum_url['admin_users']), $lang_admin_users['User groups updated']);
+		redirect(forum_link($forum_url['admin_users']), $lang_admin_users['User groups updated'].' '.$lang_admin_common['Redirect']);
 	}
 
 	// Setup form
@@ -822,7 +794,7 @@ else if (isset($_POST['change_group']) || isset($_POST['change_group_comply']) |
 				</div>
 			</fieldset>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="change_group_comply" value="<?php echo $lang_admin_users['Change group'] ?>" /></span>
+				<span class="submit"><input type="submit" name="change_group_comply" value="<?php echo $lang_admin_users['Change group'] ?>" /></span>
 				<span class="cancel"><input type="submit" name="change_group_cancel" value="<?php echo $lang_admin_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
@@ -1000,7 +972,7 @@ else if (isset($_GET['find_user']))
 	$forum_page['table_header']['select'] = '<th class="tc'.count($forum_page['table_header']).'" scope="col">'.$lang_misc['Select'] .'</th>';
 
 	if ($forum_page['num_users'] > 0)
-		$forum_page['main_head_options']['select'] = $forum_page['main_foot_options']['select'] = '<span class="select-all js_link" data-check-form="aus-find-user-results-form">'.$lang_admin_common['Select all'].'</span>';
+		$forum_page['main_head_options']['select'] = $forum_page['main_foot_options']['select'] = '<a href="#" onclick="return Forum.toggleCheckboxes(document.getElementById(\'aus-find-user-results-form\'))">'.$lang_admin_common['Select all'].'</a>';
 
 	($hook = get_hook('aus_find_user_output_start')) ? eval($hook) : null;
 
@@ -1019,7 +991,7 @@ else if (isset($_GET['find_user']))
 		<div class="hidden">
 			<input type="hidden" name="csrf_token" value="<?php echo generate_form_token(forum_link($forum_url['admin_users']).'?action=modify_users') ?>" />
 		</div>
-		<table>
+		<table cellspacing="0">
 			<thead>
 				<tr>
 					<?php echo implode("\n\t\t\t\t", $forum_page['table_header'])."\n" ?>
@@ -1068,7 +1040,7 @@ else if (isset($_GET['find_user']))
 			($hook = get_hook('aus_find_user_pre_row_generation')) ? eval($hook) : null;
 
 			$forum_page['table_row'] = array();
-			$forum_page['table_row']['username'] = '<td class="tc'.count($forum_page['table_row']).'"><span><a href="'.forum_link($forum_url['user'], $user_data['id']).'">'.forum_htmlencode($user_data['username']).'</a></span><span class="usermail"><a href="mailto:'.forum_htmlencode($user_data['email']).'">'.forum_htmlencode($user_data['email']).'</a></span>'.(($user_data['admin_note'] != '') ? '<span class="usernote">'.$lang_admin_users['Admin note'].' '.forum_htmlencode($user_data['admin_note']).'</span>' : '').'</td>';
+			$forum_page['table_row']['username'] = '<td class="tc'.count($forum_page['table_row']).'"><span>'.$lang_admin_users['Username'].' <a href="'.forum_link($forum_url['user'], $user_data['id']).'">'.forum_htmlencode($user_data['username']).'</a></span> <span class="usermail">'.$lang_admin_users['E-mail'].' <a href="mailto:'.forum_htmlencode($user_data['email']).'">'.forum_htmlencode($user_data['email']).'</a></span>'.(($user_data['admin_note'] != '') ? '<span class="usernote">'.$lang_admin_users['Admin note'].' '.forum_htmlencode($user_data['admin_note']).'</span>' : '').'</td>';
 			$forum_page['table_row']['title'] = '<td class="tc'.count($forum_page['table_row']).'">'.$user_title.'</td>';
 			$forum_page['table_row']['posts'] = '<td class="tc'.count($forum_page['table_row']).'">'.forum_number_format($user_data['num_posts']).'</td>';
 			$forum_page['table_row']['actions'] = '<td class="tc'.count($forum_page['table_row']).'"><span><a href="'.forum_link($forum_url['admin_users']).'?ip_stats='.$user_data['id'].'">'.$lang_admin_users['View IP stats'].'</a></span> <span><a href="'.forum_link($forum_url['search_user_posts'], $user_data['id']).'">'.$lang_admin_users['Show posts'].'</a></span></td>';
@@ -1150,9 +1122,6 @@ else if (isset($_GET['find_user']))
 		<h2 class="hn"><span><?php printf($lang_admin_users['Users found'], $forum_page['num_users']) ?></span></h2>
 	</div>
 <?php
-
-	// Init JS helper for select-all
-	$forum_loader->add_js('PUNBB.common.addDOMReadyEvent(PUNBB.common.initToggleCheckboxes);', array('type' => 'inline'));
 
 	($hook = get_hook('aus_find_user_end')) ? eval($hook) : null;
 
@@ -1309,14 +1278,14 @@ ob_start();
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box frm-short text">
 						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_admin_users['More posts label'] ?></span> <small><?php echo $lang_admin_users['Number of posts help'] ?></small></label><br />
-						<span class="fld-input"><input type="number" id="fld<?php echo $forum_page['fld_count'] ?>" name="posts_greater" size="5" maxlength="8" /></span>
+						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="posts_greater" size="5" maxlength="8" /></span>
 					</div>
 				</div>
 <?php ($hook = get_hook('aus_search_form_pre_max_posts')) ? eval($hook) : null; ?>
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box frm-short text">
 						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_admin_users['Less posts label'] ?></span> <small><?php echo $lang_admin_users['Number of posts help'] ?></small></label><br />
-						<span class="fld-input"><input type="number" id="fld<?php echo $forum_page['fld_count'] ?>" name="posts_less" size="5" maxlength="8" /></span>
+						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="posts_less" size="5" maxlength="8" /></span>
 					</div>
 				</div>
 <?php ($hook = get_hook('aus_search_form_pre_last_post_after')) ? eval($hook) : null; ?>
@@ -1418,7 +1387,7 @@ while ($cur_group = $forum_db->fetch_assoc($result))
 			</fieldset>
 <?php ($hook = get_hook('aus_search_form_results_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="find_user" value="<?php echo $lang_admin_users['Submit search'] ?>" /></span>
+				<span class="submit"><input type="submit" name="find_user" value="<?php echo $lang_admin_users['Submit search'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -1441,14 +1410,14 @@ $forum_page['group_count'] = $forum_page['item_count'] = 0;
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box text">
 						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_admin_users['IP address label'] ?></span></label><br />
-						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="show_users" size="18" maxlength="15" required /></span>
+						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="show_users" size="18" maxlength="15" /></span>
 					</div>
 				</div>
 <?php ($hook = get_hook('aus_search_form_pre_ip_search_fieldset_end')) ? eval($hook) : null; ?>
 			</fieldset>
 <?php ($hook = get_hook('aus_search_form_ip_search_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" value=" <?php echo $lang_admin_users['Submit search'] ?> " /></span>
+				<span class="submit"><input type="submit" value=" <?php echo $lang_admin_users['Submit search'] ?> " /></span>
 			</div>
 		</form>
 	</div>

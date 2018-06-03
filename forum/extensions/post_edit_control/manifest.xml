@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE extension SYSTEM "ext-1.0.dtd">
+
+<!--
+/**
+ * PunBB Post Edit Control
+ *
+ * @copyright Copyright (C) 2009  The Hungrycoder
+ * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
+ * @package post_edit_control
+ */
+-->
+
+<extension engine="1.0">
+	<id>post_edit_control</id>
+	<title>Post Edit Control</title>
+	<version>0.5 Beta</version>
+	<description>You can control some editing features of posts using this. 
+	
+	1. You can mention number of minutes a post can be edited after its creation. After that time, normal users will be unable to edit while moderators or admins will be able.
+	2. You can control whether users can edit his/her post after someone replies.
+	3. You can control whether user can make reply even the last post of topic is created by him/her. By doing this, you can prevent consecutive posts by same user and force them to edit previous post.
+	
+	Special thanks to: 8k84
+	</description>
+	<author>The HungryCoder</author>
+
+	<minversion>1.3.2</minversion>
+	<maxtestedon>1.3.2</maxtestedon>
+
+	
+	<install>
+	<![CDATA[		
+	$query = array(
+		'INSERT'	=> 'conf_name, conf_value',
+		'INTO'		=> 'config',
+		'VALUES'	=> array("'o_post_edit_control_duration','60'","'o_post_edit_control_lastedit','0'","'o_post_edit_control_lastreply','1'","'o_post_delete_control_duration','60'","'o_post_delete_control_lastedit','1'")
+	);
+		//die($forum_db->query_build($query,true));
+		$forum_db->query_build($query) or error(__FILE__, __LINE__);
+	]]></install>
+
+	<uninstall>
+	<![CDATA[
+		// Delete extension options from config
+		$query = array(
+			'DELETE'	=> 'config',
+			'WHERE'		=> "conf_name in ('o_post_edit_control_duration','o_post_edit_control_lastreply', 'o_post_edit_control_lastedit','o_post_delete_control_duration','o_post_delete_control_lastedit')");
+		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
+
+	]]>
+	</uninstall>
+	
+	<hooks>
+		<hook id="aop_features_validation"><![CDATA[
+			
+			$form['post_edit_control_duration'] = !empty($form['edit_control_duration']) ? intval($form['edit_control_duration']) : '60';
+			$form['post_edit_control_lastedit'] = isset($form['edit_control_lastedit']) ? 1 : 0;
+			$form['post_edit_control_lastreply'] = isset($form['edit_control_lastreply']) ? 1 : 0;
+			$form['post_delete_control_duration'] = !empty($form['delete_control_duration']) ? intval($form['delete_control_duration']) : '60';
+			$form['post_delete_control_lastedit'] = isset($form['delete_control_lastedit']) ? 1 : 0;
+			
+		]]></hook>
+		
+		<hook id="aop_features_avatars_fieldset_end"><![CDATA[
+			if (file_exists($ext_info['path'].'/lang/'.$forum_user['language'].'.php'))
+				include $ext_info['path'].'/lang/'.$forum_user['language'].'.php';
+			else
+				include $ext_info['path'].'/lang/English.php';
+				?>
+			<div class="content-head">
+				<h2 class="hn">
+					<span><?php echo $lang_post_edit_control['Edit period']; ?></span>
+				</h2>
+			</div>
+			<fieldset class="frm-group group1">
+				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
+					<div class="sf-box text">
+						<span class="fld-input">
+							<input id="fld<?php echo ++$forum_page['fld_count'] ?>" type="text" value="<?php echo $forum_config['o_post_edit_control_duration']; ?>" maxlength="6" size="6" name="form[edit_control_duration]"/><br />
+						</span>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>">
+							<span><?php echo $lang_post_edit_control['Duration']; ?></span>
+							<small><?php echo $lang_post_edit_control['Duration note']; ?></small>
+						</label>
+					</div>
+					<div class="sf-box checkbox">
+						<span class="fld-input">
+							<?php $checked = (1==$forum_config['o_post_edit_control_lastedit']) ? 'checked="checked"' : '' ?>
+							<input id="fld<?php echo ++$forum_page['fld_count'] ?>" type="checkbox" name="form[edit_control_lastedit]" value="1" <?php echo $checked ?> /><br />
+						</span>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>">
+							<span><?php echo $lang_post_edit_control['Block edit']; ?></span>
+							<small><?php echo $lang_post_edit_control['Block edit desc']; ?></small>
+						</label>
+					</div>
+					<div class="sf-box checkbox">
+						<span class="fld-input">
+							<?php $checked = (1==$forum_config['o_post_edit_control_lastreply']) ? 'checked="checked"' : '' ?>
+							<input id="fld<?php echo ++$forum_page['fld_count'] ?>" type="checkbox" name="form[edit_control_lastreply]" value="1" <?php echo $checked ?> /> <br />
+						</span>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>">
+							<span><?php echo $lang_post_edit_control['Last reply edit']; ?></span>
+							<small><?php echo $lang_post_edit_control['Last reply edit desc']; ?></small>
+						</label>
+					</div>
+				</div>
+			</fieldset>
+			<div class="content-head">
+				<h2 class="hn">
+					<span><?php echo $lang_post_edit_control['Delete period']; ?></span>
+				</h2>
+			</div>
+			<fieldset class="frm-group group1">
+				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
+					<div class="sf-box text">
+						<span class="fld-input">
+							<input id="fld<?php echo ++$forum_page['fld_count'] ?>" type="text" value="<?php echo $forum_config['o_post_delete_control_duration']; ?>" maxlength="6" size="6" name="form[delete_control_duration]"/><br />
+						</span>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>">
+							<span><?php echo $lang_post_edit_control['Duration']; ?></span>
+							<small><?php echo $lang_post_edit_control['Delete duration note']; ?></small>
+						</label>
+					</div>
+					<div class="sf-box checkbox">
+						<span class="fld-input">
+							<?php $checked = (1==$forum_config['o_post_delete_control_lastedit']) ? 'checked="checked"' : '' ?>
+							<input id="fld<?php echo ++$forum_page['fld_count'] ?>" type="checkbox" name="form[delete_control_lastedit]" value="1" <?php echo $checked ?> /><br />
+						</span>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>">
+							<span><?php echo $lang_post_edit_control['Block delete']; ?></span>
+							<small><?php echo $lang_post_edit_control['Block delete desc']; ?></small>
+						</label>
+					</div>
+				</div>
+			</fieldset>
+<?php		
+		]]></hook>
+
+
+		<hook id="ed_qr_get_post_info"><![CDATA[
+$query['SELECT'] .= ', p.posted AS pposted, t.last_post_id';
+		]]></hook>
+
+		<hook id="ed_post_selected"><![CDATA[
+			if(!$forum_page['is_admmod']){
+				if (file_exists($ext_info['path'].'/lang/'.$forum_user['language'].'.php'))
+					include $ext_info['path'].'/lang/'.$forum_user['language'].'.php';
+				else
+					include $ext_info['path'].'/lang/English.php';
+
+				$pepconf=$forum_config['o_post_edit_control_duration'] * 60; //number of minutes then converted seconds
+				$difference = time() - $cur_post['pposted'];
+
+				if( ($difference > $pepconf) || ($forum_config['o_post_edit_control_lastedit'] == 1 AND $cur_post['last_post_id'] != $id) )
+					message($lang_post_edit_control['No edit']);
+			}
+		]]></hook>
+
+		<hook id="vt_qr_get_topic_info"><![CDATA[
+$query['SELECT'] .= ', t.last_post_id, t.last_poster, t.last_post';
+		]]></hook>
+
+		<hook id="vt_row_pre_post_actions_merge"><![CDATA[
+		if(!$forum_page['is_admmod']){
+			$pepconf=$forum_config['o_post_edit_control_duration'] * 60; //number of minutes then converted seconds
+			$pedconf=$forum_config['o_post_delete_control_duration'] * 60; //number of minutes then converted seconds
+			$difference = time() - $cur_post['posted'];
+			
+
+			if( ($difference > $pepconf) || ($forum_config['o_post_edit_control_lastedit'] == 1 AND $cur_topic['last_post_id'] != $cur_post['id']))
+				unset($forum_page['post_actions']['edit']);
+			if( ($difference > $pedconf) || ($forum_config['o_post_delete_control_lastedit'] == 1 AND $cur_topic['last_post_id'] != $cur_post['id']))
+				unset($forum_page['post_actions']['delete']);
+		}
+		]]></hook>
+		<hook id="vt_qpost_output_start"><![CDATA[
+
+		if(!$forum_page['is_admmod']){				
+				$pepconf=$forum_config['o_post_edit_control_duration'] * 60; //number of minutes then converted seconds
+				$difference = time() - $cur_topic['last_post'];
+			if($forum_config['o_post_edit_control_lastreply']){
+				if($cur_topic['last_poster']==$forum_user['username'] AND $difference < $pepconf){
+					$tpl_temp = forum_trim(ob_get_contents());
+					$tpl_main = str_replace('<!-- forum_qpost -->', $tpl_temp, $tpl_main);
+					ob_end_clean();
+				}
+			}
+		}	
+		]]></hook>
+		<hook id="po_qr_get_topic_forum_info"><![CDATA[
+			$query['SELECT'] .= ', t.last_post_id, t.last_poster, t.last_post';	
+		]]></hook>
+		<hook id="po_posting_location_selected"><![CDATA[
+		if(!$forum_page['is_admmod'] AND $tid){
+				if (file_exists($ext_info['path'].'/lang/'.$forum_user['language'].'.php'))
+					include $ext_info['path'].'/lang/'.$forum_user['language'].'.php';
+				else
+					include $ext_info['path'].'/lang/English.php';
+								
+			$pepconf=$forum_config['o_post_edit_control_duration'] * 60; //number of minutes then converted seconds
+			$difference = time() - $cur_posting['last_post'];
+
+			if($forum_config['o_post_edit_control_lastreply']){
+				if(($cur_posting['last_poster']==$forum_user['username']) AND ($difference < $pepconf))
+					message($lang_post_edit_control['Last reply alert']);			
+			}
+		}
+			]]></hook>
+			
+		<hook id="dl_qr_get_post_info"><![CDATA[
+			$query['SELECT'] .= ', t.last_poster, t.last_post';	
+		]]></hook>
+		<hook id="dl_post_selected"><![CDATA[
+		if(!$forum_page['is_admmod'] AND $cur_post['tid']){
+				if (file_exists($ext_info['path'].'/lang/'.$forum_user['language'].'.php'))
+					include $ext_info['path'].'/lang/'.$forum_user['language'].'.php';
+				else
+					include $ext_info['path'].'/lang/English.php';
+								
+			$pedconf=$forum_config['o_post_delete_control_duration'] * 60; //number of minutes then converted seconds
+			$difference = time() - $cur_post['last_post'];
+
+			if($forum_config['o_post_delete_control_lastedit']){
+				if(($cur_post['last_poster']==$forum_user['username']) AND ($difference > $pedconf))
+					message($lang_post_edit_control['Last reply delete alert']);			
+			}
+		}
+			]]></hook>
+
+
+	</hooks>
+
+</extension>

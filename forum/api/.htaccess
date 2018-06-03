@@ -1,0 +1,5 @@
+AuthType Basic
+AuthName "ACIS Protected Area"
+AuthUserFile /virt/homes/acis.org.ua/.forum_api_passwd
+Require valid-user
+

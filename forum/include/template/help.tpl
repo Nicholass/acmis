@@ -1,21 +1,20 @@
-<!DOCTYPE html>
-<!--[if lt IE 7 ]> <html class="oldie ie6" <!-- forum_local -->> <![endif]-->
-<!--[if IE 7 ]>    <html class="oldie ie7" <!-- forum_local -->> <![endif]-->
-<!--[if IE 8 ]>    <html class="oldie ie8" <!-- forum_local -->> <![endif]-->
-<!--[if gt IE 8]><!--> <html <!-- forum_local -->> <!--<![endif]-->
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" <!-- forum_local -->>
 <head>
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <!-- forum_head -->
 </head>
 <body>
-<!-- forum_messages -->
+
 <div <!-- forum_page --> class="brd-page">
 <div id="brd-wrap" class="brd">
+
+
 <!-- forum_main -->
+
 </div>
 </div>
-<!-- forum_javascript -->
+
 </body>
 </html>

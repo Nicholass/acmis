@@ -2,7 +2,7 @@
 /**
  * A database layer class that relies on the MySQLi PHP extension.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -41,7 +41,7 @@ class DBLayer
 			$this->link_id = @mysqli_connect($db_host, $db_username, $db_password, $db_name);
 
 		if (!$this->link_id)
-			error('Unable to connect to MySQL and select database.<br />MySQL reported: '.mysqli_connect_error(), __FILE__, __LINE__);
+			error('Unable to connect to MySQL and select database. MySQL reported: '.mysqli_connect_error(), __FILE__, __LINE__);
 
 		// Setup the client-server character set (UTF-8)
 		if (!defined('FORUM_NO_SET_NAMES'))
@@ -65,18 +65,18 @@ class DBLayer
 
 	function query($sql, $unbuffered = false)
 	{
-		if (strlen($sql) > FORUM_DATABASE_QUERY_MAXIMUM_LENGTH)
+		if (strlen($sql) > 140000)
 			exit('Insane query. Aborting.');
 
-		if (defined('FORUM_SHOW_QUERIES') || defined('FORUM_DEBUG'))
-			$q_start = forum_microtime();
+		if (defined('FORUM_SHOW_QUERIES'))
+			$q_start = get_microtime();
 
 		$this->query_result = @mysqli_query($this->link_id, $sql);
 
 		if ($this->query_result)
 		{
-			if (defined('FORUM_SHOW_QUERIES') || defined('FORUM_DEBUG'))
-				$this->saved_queries[] = array($sql, sprintf('%.5f', forum_microtime() - $q_start));
+			if (defined('FORUM_SHOW_QUERIES'))
+				$this->saved_queries[] = array($sql, sprintf('%.5f', get_microtime() - $q_start));
 
 			++$this->num_queries;
 
@@ -84,7 +84,7 @@ class DBLayer
 		}
 		else
 		{
-			if (defined('FORUM_SHOW_QUERIES') || defined('FORUM_DEBUG'))
+			if (defined('FORUM_SHOW_QUERIES'))
 				$this->saved_queries[] = array($sql, 0);
 
 			return false;

@@ -5,54 +5,53 @@
  * Allows forum content to be syndicated outside of the site in various formats
  * (ie: RSS, Atom, XML, HTML).
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
 
 /***********************************************************************
 
-	INSTRUCTIONS
+  INSTRUCTIONS
 
-	This script is used to include information about your board from
-	pages outside the forums and to syndicate news about recent
-	discussions via RSS/Atom/XML. The script can display a list of
-	recent discussions, a list of active users or a collection of
-	general board statistics. The script can be called directly via
-	an URL, from a PHP include command or through the use of Server
-	Side Includes (SSI).
+  This script is used to include information about your board from
+  pages outside the forums and to syndicate news about recent
+  discussions via RSS/Atom/XML. The script can display a list of
+  recent discussions, a list of active users or a collection of
+  general board statistics. The script can be called directly via
+  an URL, from a PHP include command or through the use of Server
+  Side Includes (SSI).
 
-	The scripts behaviour is controlled via variables supplied in the
-	URL to the script. The different variables are: action (what to
-	do), show (how many items to display), fid (the ID or ID's of
-	the forum(s) to poll for topics), nfid (the ID or ID's of forums
-	that should be excluded), tid (the ID of the topic from which to
-	display posts) and type (output as HTML or RSS). The only
-	mandatory variable is action. Possible/default values are:
+  The scripts behaviour is controlled via variables supplied in the
+  URL to the script. The different variables are: action (what to
+  do), show (how many items to display), fid (the ID or ID's of
+  the forum(s) to poll for topics), nfid (the ID or ID's of forums
+  that should be excluded), tid (the ID of the topic from which to
+  display posts) and type (output as HTML or RSS). The only
+  mandatory variable is action. Possible/default values are:
 
-		action: feed - show most recent topics/posts (HTML or RSS)
-				online - show users online (HTML)
-				online_full - as above, but includes a full list (HTML)
-				stats - show board statistics (HTML)
+    action: feed - show most recent topics/posts (HTML or RSS)
+            online - show users online (HTML)
+            online_full - as above, but includes a full list (HTML)
+            stats - show board statistics (HTML)
 
-		type:   rss - output as RSS 2.0
-				atom - output as Atom 1.0
-				xml - output as XML
-				html - output as HTML (<li>'s)
+    type:   rss - output as RSS 2.0
+            atom - output as Atom 1.0
+            xml - output as XML
+            html - output as HTML (<li>'s)
 
-		fid:    One or more forum ID's (comma-separated). If ignored,
-				topics from all readable forums will be pulled.
+    fid:    One or more forum ID's (comma-separated). If ignored,
+            topics from all readable forums will be pulled.
 
-		nfid:   One or more forum ID's (comma-separated) that are to be
-				excluded. E.g. the ID of a a test forum.
+    nfid:   One or more forum ID's (comma-separated) that are to be
+            excluded. E.g. the ID of a a test forum.
 
-		tid:    A topic ID from which to show posts. If a tid is supplied,
-				fid and nfid are ignored.
+    tid:    A topic ID from which to show posts. If a tid is supplied,
+            fid and nfid are ignored.
 
-		show:   Any integer value between 1 and 50. The default is 15.
+    show:   Any integer value between 1 and 50. The default is 15.
 
-		sort:	posted - sort topics by posted time (default)
-				last_post - sort topics by last post
+
 
 /***********************************************************************/
 
@@ -66,7 +65,7 @@ require FORUM_ROOT.'include/common.php';
 
 // The length at which topic subjects will be truncated (for HTML output)
 if (!defined('FORUM_EXTERN_MAX_SUBJECT_LENGTH'))
-	define('FORUM_EXTERN_MAX_SUBJECT_LENGTH', 30);
+    define('FORUM_EXTERN_MAX_SUBJECT_LENGTH', 30);
 
 // If we're a guest and we've sent a username/pass, we can try to authenticate using those details
 if ($forum_user['is_guest'] && isset($_SERVER['PHP_AUTH_USER']))
@@ -79,7 +78,6 @@ if ($forum_user['g_read_board'] == '0')
 }
 
 $action = isset($_GET['action']) ? $_GET['action'] : 'feed';
-$sort_by = isset($_GET['sort']) ? $_GET['sort'] : 'posted';
 
 //
 // Sends the proper headers for Basic HTTP Authentication
@@ -110,11 +108,10 @@ function output_rss($feed)
 	header('Pragma: public');
 
 	echo '<?xml version="1.0" encoding="utf-8"?>'."\n";
-	echo '<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">'."\n";
+	echo '<rss version="2.0">'."\n";
 	echo "\t".'<channel>'."\n";
 	echo "\t\t".'<title><![CDATA['.escape_cdata($feed['title']).']]></title>'."\n";
 	echo "\t\t".'<link>'.$feed['link'].'</link>'."\n";
-	echo "\t\t".'<atom:link href="'.forum_htmlencode(get_current_url()).'" rel="self" type="application/rss+xml" />'."\n";
 	echo "\t\t".'<description><![CDATA['.escape_cdata($feed['description']).']]></description>'."\n";
 	echo "\t\t".'<lastBuildDate>'.gmdate('r', count($feed['items']) ? $feed['items'][0]['pubdate'] : time()).'</lastBuildDate>'."\n";
 
@@ -162,7 +159,7 @@ function output_atom($feed)
 	echo '<feed xmlns="http://www.w3.org/2005/Atom">'."\n";
 
 	echo "\t".'<title type="html"><![CDATA['.escape_cdata($feed['title']).']]></title>'."\n";
-	echo "\t".'<link rel="self" href="'.forum_htmlencode(get_current_url()).'" />'."\n";
+	echo "\t".'<link rel="self" href="'.forum_htmlencode(get_current_url()).'"/>'."\n";
 	echo "\t".'<updated>'.gmdate('Y-m-d\TH:i:s\Z', count($feed['items']) ? $feed['items'][0]['pubdate'] : time()).'</updated>'."\n";
 
 	if ($forum_config['o_show_version'] == '1')
@@ -180,7 +177,7 @@ function output_atom($feed)
 	{
 		echo "\t\t".'<entry>'."\n";
 		echo "\t\t\t".'<title type="html"><![CDATA['.escape_cdata($item['title']).']]></title>'."\n";
-		echo "\t\t\t".'<link rel="alternate" href="'.$item['link'].'" />'."\n";
+		echo "\t\t\t".'<link rel="alternate" href="'.$item['link'].'"/>'."\n";
 		echo "\t\t\t".'<'.$content_tag.' type="html"><![CDATA['.escape_cdata($item['description']).']]></'.$content_tag.'>'."\n";
 		echo "\t\t\t".'<author>'."\n";
 		echo "\t\t\t\t".'<name><![CDATA['.escape_cdata($item['author']['name']).']]></name>'."\n";
@@ -308,13 +305,13 @@ if ($action == 'feed')
 
 		($hook = get_hook('ex_qr_get_topic_data')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-		$cur_topic = $forum_db->fetch_assoc($result);
-		if (!$cur_topic)
+		if (!$forum_db->num_rows($result))
 		{
 			http_authenticate_user();
 			exit($lang_common['Bad request']);
 		}
+
+		$cur_topic = $forum_db->fetch_assoc($result);
 
 		if (!defined('FORUM_PARSER_LOADED'))
 			require FORUM_ROOT.'include/parser.php';
@@ -324,7 +321,7 @@ if ($action == 'feed')
 
 		// Setup the feed
 		$feed = array(
-			'title'		=>	$forum_config['o_board_title'].$lang_common['Title separator'].$cur_topic['subject'],
+			'title' 		=>	$forum_config['o_board_title'].$lang_common['Title separator'].$cur_topic['subject'],
 			'link'			=>	forum_link($forum_url['topic'], array($tid, sef_friendly($cur_topic['subject']))),
 			'description'	=>	sprintf($lang_common['RSS description topic'], $cur_topic['subject']),
 			'items'			=>	array(),
@@ -418,9 +415,8 @@ if ($action == 'feed')
 				);
 
 				$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-				$forum_name_in_db = $forum_db->result($result);
-				if (!is_null($forum_name_in_db) && $forum_name_in_db !== false)
-					$forum_name = $lang_common['Title separator'].$forum_name_in_db;
+				if ($forum_db->num_rows($result))
+					$forum_name = $lang_common['Title separator'].$forum_db->result($result);
 			}
 		}
 
@@ -436,7 +432,7 @@ if ($action == 'feed')
 
 		// Setup the feed
 		$feed = array(
-			'title'			=>	$forum_config['o_board_title'].$forum_name,
+			'title' 		=>	$forum_config['o_board_title'].$forum_name,
 			'link'			=>	forum_link($forum_url['index']),
 			'description'	=>	sprintf($lang_common['RSS description'], $forum_config['o_board_title']),
 			'items'			=>	array(),
@@ -462,7 +458,7 @@ if ($action == 'feed')
 				)
 			),
 			'WHERE'		=> '(fp.read_forum IS NULL OR fp.read_forum = 1) AND t.moved_to IS NULL',
-			'ORDER BY'	=> (($sort_by == 'last_post') ? 't.last_post' : 't.posted').' DESC',
+			'ORDER BY'	=> 't.posted DESC',
 			'LIMIT'		=> $show
 		);
 

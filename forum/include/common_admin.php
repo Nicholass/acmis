@@ -2,7 +2,7 @@
 /**
  * Loads common functions used in the administration panel.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -184,64 +184,5 @@ function prune($forum_id, $prune_sticky, $prune_date)
 		strip_search_index($post_ids);
 	}
 }
-
-
-// Add config value to forum config table
-// Warning!
-// This function dont refresh config cache - use "forum_clear_cache()" if
-// call this function outside install/uninstall extension manifest section
-function forum_config_add($name, $value)
-{
-	global $forum_db, $forum_config;
-
-	if (!empty($name) && !isset($forum_config[$name]))
-	{
-		$query = array(
-			'INSERT'	=> 'conf_name, conf_value',
-			'INTO'		=> 'config',
-			'VALUES'	=> '\''.$name.'\', \''.$value.'\''
-		);
-		$forum_db->query_build($query) or error(__FILE__, __LINE__);
-	}
-}
-
-
-// Remove config value from forum config table
-// Warning!
-// This function dont refresh config cache - use "forum_clear_cache()" if
-// call this function outside install/uninstall extension manifest section
-function forum_config_remove($name)
-{
-	global $forum_db;
-
-	if (is_array($name) && count($name) > 0)
-	{
-		if (!function_exists('clean_conf_names'))
-		{
-			function clean_conf_names($n)
-			{
-				global $forum_db;
-				return '\''.$forum_db->escape($n).'\'';
-			}
-		}
-
-		$name = array_map('clean_conf_names', $name);
-
-		$query = array(
-			'DELETE'	=> 'config',
-			'WHERE'		=> 'conf_name in ('.implode(',', $name).')',
-		);
-		$forum_db->query_build($query) or error(__FILE__, __LINE__);
-	}
-	else if (!empty($name))
-	{
-		$query = array(
-			'DELETE'	=> 'config',
-			'WHERE'		=> 'conf_name=\''.$forum_db->escape($name).'\''
-		);
-		$forum_db->query_build($query) or error(__FILE__, __LINE__);
-	}
-}
-
 
 ($hook = get_hook('ca_new_function')) ? eval($hook) : null;

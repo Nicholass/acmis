@@ -2,7 +2,7 @@
 /**
  * Load various functions used in indexing posts and topics for searching.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -133,8 +133,8 @@ function update_search_index($mode, $post_id, $message, $subject = null)
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
 		$existing_words = array();
-		while ($row = $forum_db->fetch_assoc($result))
-			$existing_words[] = $row['word'];
+		while ($row = $forum_db->fetch_row($result))
+			$existing_words[] = $row[1];
 
 		$forum_db->free_result($result);
 
@@ -218,14 +218,12 @@ function strip_search_index($post_ids)
 	($hook = get_hook('si_fn_strip_search_index_qr_get_post_words')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
-	$word_ids = array();
-	while ($row = $forum_db->fetch_assoc($result))
+	if ($forum_db->num_rows($result))
 	{
-		$word_ids[] = $row['word_id'];
-	}
+		$word_ids = array();
+		while ($row = $forum_db->fetch_row($result))
+			$word_ids[] = $row[0];
 
-	if (!empty($word_ids))
-	{
 		$query = array(
 			'SELECT'	=> 'word_id',
 			'FROM'		=> 'search_matches',
@@ -237,14 +235,12 @@ function strip_search_index($post_ids)
 		($hook = get_hook('si_fn_strip_search_index_qr_get_removable_words')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
-		$word_ids = array();
-		while ($row = $forum_db->fetch_assoc($result))
+		if ($forum_db->num_rows($result))
 		{
-			$word_ids[] = $row['word_id'];
-		}
+			$word_ids = array();
+			while ($row = $forum_db->fetch_row($result))
+				$word_ids[] = $row[0];
 
-		if (!empty($word_ids))
-		{
 			$query = array(
 				'DELETE'	=> 'search_words',
 				'WHERE'		=> 'id IN('.implode(',', $word_ids).')'

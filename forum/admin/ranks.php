@@ -4,7 +4,7 @@
  *
  * Allows administrators to control the tags given to posters based on their post count.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -41,15 +41,14 @@ if (isset($_POST['add_rank']))
 
 	// Make sure there isn't already a rank with the same min_posts value
 	$query = array(
-		'SELECT'	=> 'COUNT(r.id)',
+		'SELECT'	=> '1',
 		'FROM'		=> 'ranks AS r',
 		'WHERE'		=> 'min_posts='.$min_posts
 	);
 
 	($hook = get_hook('ark_add_rank_qr_check_rank_collision')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	if ($forum_db->result($result) > 0)
+	if ($forum_db->num_rows($result))
 		message(sprintf($lang_admin_ranks['Min posts occupied message'], $min_posts));
 
 	$query = array(
@@ -67,12 +66,9 @@ if (isset($_POST['add_rank']))
 
 	generate_ranks_cache();
 
-	// Add flash message
-	$forum_flash->add_info($lang_admin_ranks['Rank added']);
-
 	($hook = get_hook('ark_add_rank_pre_redirect')) ? eval($hook) : null;
 
-	redirect(forum_link($forum_url['admin_ranks']), $lang_admin_ranks['Rank added']);
+	redirect(forum_link($forum_url['admin_ranks']), $lang_admin_ranks['Rank added'].' '.$lang_admin_common['Redirect']);
 }
 
 
@@ -94,15 +90,14 @@ else if (isset($_POST['update']))
 
 	// Make sure there isn't already a rank with the same min_posts value
 	$query = array(
-		'SELECT'	=> 'COUNT(r.id)',
+		'SELECT'	=> '1',
 		'FROM'		=> 'ranks AS r',
 		'WHERE'		=> 'id!='.$id.' AND min_posts='.$min_posts
 	);
 
 	($hook = get_hook('ark_update_qr_check_rank_collision')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	if ($forum_db->result($result) > 0)
+	if ($forum_db->num_rows($result))
 		message(sprintf($lang_admin_ranks['Min posts occupied message'], $min_posts));
 
 	$query = array(
@@ -120,12 +115,9 @@ else if (isset($_POST['update']))
 
 	generate_ranks_cache();
 
-	// Add flash message
-	$forum_flash->add_info($lang_admin_ranks['Rank updated']);
-
 	($hook = get_hook('ark_update_pre_redirect')) ? eval($hook) : null;
 
-	redirect(forum_link($forum_url['admin_ranks']), $lang_admin_ranks['Rank updated']);
+	redirect(forum_link($forum_url['admin_ranks']), $lang_admin_ranks['Rank updated'].' '.$lang_admin_common['Redirect']);
 }
 
 
@@ -150,12 +142,9 @@ else if (isset($_POST['remove']))
 
 	generate_ranks_cache();
 
-	// Add flash message
-	$forum_flash->add_info($lang_admin_ranks['Rank removed']);
-
 	($hook = get_hook('ark_remove_pre_redirect')) ? eval($hook) : null;
 
-	redirect(forum_link($forum_url['admin_ranks']), $lang_admin_ranks['Rank removed']);
+	redirect(forum_link($forum_url['admin_ranks']), $lang_admin_ranks['Rank removed'].' '.$lang_admin_common['Redirect']);
 }
 
 
@@ -205,7 +194,7 @@ ob_start();
 				<input type="hidden" name="csrf_token" value="<?php echo generate_form_token(forum_link($forum_url['admin_ranks']).'?action=foo') ?>" />
 			</div>
 			<div class="ct-box" id="info-ranks-intro">
-				<p><?php printf($lang_admin_ranks['Add rank intro'], '<a class="nowrap" href="'.forum_link($forum_url['admin_settings_features']).'">'.$lang_admin_common['Settings'].' &rarr; '.$lang_admin_common['Features'].'</a>') ?></p>
+				<p><?php printf($lang_admin_ranks['Add rank intro'], '<strong><a href="'.forum_link($forum_url['admin_settings_features']).'">'.$lang_admin_common['Settings'].' - '.$lang_admin_common['Features'].'</a></strong>') ?></p>
 			</div>
 			<fieldset class="frm-group frm-hdgroup group<?php echo ++$forum_page['group_count'] ?>">
 				<legend class="group-legend"><strong><?php echo $lang_admin_ranks['Add rank legend'] ?></strong></legend>
@@ -216,12 +205,12 @@ ob_start();
 <?php ($hook = get_hook('ark_pre_add_rank_title')) ? eval($hook) : null; ?>
 						<div class="mf-field mf-field1 text">
 							<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span class="fld-label"><?php echo $lang_admin_ranks['Rank title label'] ?></span></label><br />
-							<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="new_rank" size="24" maxlength="50" required /></span>
+							<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="new_rank" size="24" maxlength="50" /></span>
 						</div>
 <?php ($hook = get_hook('ark_pre_add_rank_min_posts')) ? eval($hook) : null; ?>
 						<div class="mf-field text">
 							<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span class="fld-label"><?php echo $lang_admin_ranks['Min posts label'] ?></span></label><br />
-							<span class="fld-input"><input type="number" id="fld<?php echo $forum_page['fld_count'] ?>" name="new_min_posts" size="7" maxlength="7" required /></span>
+							<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="new_min_posts" size="7" maxlength="7" /></span>
 						</div>
 <?php ($hook = get_hook('ark_pre_add_rank_submit')) ? eval($hook) : null; ?>
 						<div class="mf-field text">
@@ -260,12 +249,12 @@ if (!empty($forum_ranks))
 <?php ($hook = get_hook('ark_pre_edit_cur_rank_title')) ? eval($hook) : null; ?>
 						<div class="mf-field text mf-field1">
 							<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_admin_ranks['Rank title label'] ?></span></label><br />
-							<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="rank[<?php echo $cur_rank['id'] ?>]" value="<?php echo forum_htmlencode($cur_rank['rank']) ?>" size="24" maxlength="50" required /></span>
+							<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="rank[<?php echo $cur_rank['id'] ?>]" value="<?php echo forum_htmlencode($cur_rank['rank']) ?>" size="24" maxlength="50" /></span>
 						</div>
 <?php ($hook = get_hook('ark_pre_edit_cur_rank_min_posts')) ? eval($hook) : null; ?>
 						<div class="mf-field text">
 							<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span class="fld-label"><?php echo $lang_admin_ranks['Min posts label'] ?></span></label><br />
-							<span class="fld-input"><input type="number" id="fld<?php echo $forum_page['fld_count'] ?>" name="min_posts[<?php echo $cur_rank['id'] ?>]" value="<?php echo $cur_rank['min_posts'] ?>" size="7" maxlength="7" required /></span>
+							<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="min_posts[<?php echo $cur_rank['id'] ?>]" value="<?php echo $cur_rank['min_posts'] ?>" size="7" maxlength="7" /></span>
 						</div>
 <?php ($hook = get_hook('ark_pre_edit_cur_rank_submit')) ? eval($hook) : null; ?>
 						<div class="mf-field text">

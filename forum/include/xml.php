@@ -2,7 +2,7 @@
 /**
  * Loads various functions used in parsing XML (mostly for extensions).
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -153,12 +153,10 @@ function validate_manifest($xml_array, $folder_name)
 			$errors[] = $lang_admin_ext['extension/engine error'];
 		else if ($ext['attributes']['engine'] != '1.0')
 			$errors[] = $lang_admin_ext['extension/engine error2'];
-
 		if (!isset($ext['id']) || $ext['id'] == '')
 			$errors[] = $lang_admin_ext['extension/id error'];
-		else if ($ext['id'] != $folder_name)
+		if ($ext['id'] != $folder_name)
 			$errors[] = $lang_admin_ext['extension/id error2'];
-
 		if (!isset($ext['title']) || $ext['title'] == '')
 			$errors[] = $lang_admin_ext['extension/title error'];
 		if (!isset($ext['version']) || $ext['version'] == '' || preg_match('/[^a-z0-9\- \.]+/i', $ext['version']))
@@ -173,7 +171,6 @@ function validate_manifest($xml_array, $folder_name)
 			$errors[] = sprintf($lang_admin_ext['extension/minversion error2'], $ext['minversion']);
 		if (!isset($ext['maxtestedon']) || $ext['maxtestedon'] == '')
 			$errors[] = $lang_admin_ext['extension/maxtestedon error'];
-
 		if (isset($ext['note']))
 		{
 			foreach ($ext['note'] as $note)
@@ -184,7 +181,6 @@ function validate_manifest($xml_array, $folder_name)
 					$errors[] = $lang_admin_ext['extension/note error2'];
 			}
 		}
-
 		if (isset($ext['hooks']) && is_array($ext['hooks']))
 		{
 			if (!isset($ext['hooks']['hook']) || !is_array($ext['hooks']['hook']))

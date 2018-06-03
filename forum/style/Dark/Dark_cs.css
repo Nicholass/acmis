@@ -1,0 +1,410 @@
+/* General colour scheme
+----------------------------------------------------------------*/
+
+body {
+	background: #161616;
+	color: #dddddd;
+	}
+
+.brd a:link, .brd a:visited {
+	color: #60C860;
+	}
+
+.pun_bbcode_bar {
+       background: #dddddd;
+}
+
+.brd p.feed a:link, .brd p.feed a:visited {
+	color: #60C860;
+	}
+
+.brd a:hover, .brd a:active, .brd a:focus,
+.brd p.feed a:hover, .brd p.feed a:active, .brd p.feed a:focus {
+	color: #80EE80;
+	text-decoration: none;
+	}
+
+.brd .main-pagepost a:link, .brd .crumbs a:link,
+.brd .main-pagepost a:visited, .brd .crumbs a:visited {
+	text-decoration: none;
+	}
+
+.brd .main-pagepost a:hover, .brd .crumbs a:hover,
+.brd .main-pagepost a:active, .brd .crumbs a:active,
+.brd .main-pagepost a:focus, .brd .crumbs a:focus {
+	text-decoration: underline;
+	}
+
+.brd .gen-content, .brd .main-content {
+	background: #323232;
+	border-color: #555555;
+	border-bottom-color: #444444;
+	}
+
+.brd .main-pagepost {
+	background: #323232;
+	border-color: #555555;
+	}
+
+.brd .crumbs {
+	background: #323232;
+	border-color: #555555;
+	}
+
+
+.brd .main-item, .brd .main-item li, .brd .main-item div, .brd td {
+	border-color: #555555;
+	}
+
+.brd .main-item li.info-posts,
+.brd .main-item li.info-replies,
+.brd .main-item li.info-views,
+.brd .main-item li.info-topics {
+	}
+
+.brd .main-content .main-item .item-nav {
+	color: #60C860;
+	}
+
+.brd .main-content .sticky {
+	background: #404040;
+	}
+
+.brd .main-content .main-item .hn .item-status em.sticky ,
+.brd .main-content .main-item .hn .item-status em.closed{
+	color: #60C860;
+	font-weight: bold;
+	}
+
+.brd .main-content .main-item .hn .item-status em.moved {
+	color: #ff9500;
+	}
+
+.brd .main-content .closed a:visited, .brd .main-content .closed a:link {
+	color: #888;
+}
+	
+.brd .main-content .closed a:hover {
+	color: #AAA;
+}
+
+.brd .post * {
+	border-color: #555555
+	}
+
+.brd .post {
+	border-color: #555555;
+	border-top-color: #666666;
+	border-bottom-color: #444444;
+	}
+
+#topic-review .firstpost, .brd .singlepost {
+	border-top-color: #555555;
+	border-bottom-color: #444444;
+	}
+
+.brd .post {
+	background: #424242;
+	}
+	
+.brd .posthead, .brd .postbody, .brd .post-options {
+	background: #323232;
+	}
+
+.brd .posthead .hn {
+	background: #323232;
+	}
+
+.brd .posthead .post-title small {
+	color: #60C860;
+	}
+
+.brd .online .userstatus span {
+	border-color: #555555;
+	}
+
+.brd .ct-box, .brd .ct-set, .brd .ct-group, .brd .frm-group {
+	border-color: #555555;
+	}
+
+.brd .admin-page .ct-box {
+	background: #323232;
+	}
+
+.brd .admin-page .ct-set .ct-box, .brd .report {
+	background: #323232;
+	}
+
+.brd .admin-page .warn-set .warn-box {
+	background: #323232;
+	}
+
+.brd .main-frm .ct-group, .brd #brd-announcement {
+	background: #222222;
+	}
+
+.brd .main-content .info-box {
+	background: #323232;
+	}
+
+.brd .main-extensions .extension, .brd .main-hotfixes .hotfix {
+	background: #323232;
+	}
+
+.brd .main-extensions .disabled, .brd .main-hotfixes .disabled {
+	background: #161616;
+	}
+
+.brd .warn-group, .brd .warn-set, .brd .warn-box, .brd .error-box, .brd #admin-alerts {
+	background: #646464;
+	border-color: #555555;
+	}
+
+.brd .warn-group, .brd .warn-set, .brd .warn-box, .brd .error-box {
+	border-color: #555555;
+	}
+
+.brd ul.info-list li,
+.brd ul.error-list li {
+	color: #60C860;
+	}
+
+.brd ul.info-list li span,
+.brd ul.error-list li span {
+	color: #60C860;
+	}
+
+.brd ul li strong {
+	color: #60C860;
+	}
+
+.brd .user-box {
+	background: #323232;
+	}
+.brd .ct-box .hn, .brd .ct-box .sig-demo {
+	border-color: #555555;
+	color: #60C860;
+	}
+
+.brd .error-box .hn {
+	color: #666666;
+	}
+
+.brd .help-box {
+	background: #323232;
+	}
+
+.brd .frm-buttons, .brd .extension .options, .brd .hotfix .options {
+	border-color: #555555;
+	}
+
+.brd .checklist {
+	background: #161616;
+	border-color: #555555;
+	}
+
+.brd label, .brd .aslabel, .brd .mf-set legend, .brd .ct-legend * {
+	color: #60C860;
+	}
+
+.brd .paging * {
+	border-color: #5555559;
+	}
+
+
+.brd .required label em, .brd #req-msg em, .brd .warn strong, .brd .important strong {
+	color: #60C860;
+	}
+
+.brd .entry-content .quotebox, .brd .entry-content .codebox {
+	background: #323232;
+	border-color: #777;
+	}
+
+#brd-announcement .userbox {
+	background: #323232 none repeat scroll 0 0;
+	}
+
+.brd .main-content .main-item .hn .posted-mark {
+	color: #60C860;
+	}
+
+/* Menus
+----------------------------------------------------------------*/
+
+brd-navlinks {
+/* 	background: #222222;
+	border-color: #555555; */
+	color: #60C860;
+	}
+
+#brd-navlinks a:link, #brd-navlinks a:visited {
+	color: #60C860;
+	}
+
+#brd-navlinks a:hover, #brd-navlinks a:active, #brd-navlinks a:focus {
+	color: #60C860;
+	text-decoration: underline;
+	}
+
+.brd .main-options, .brd .main-options span {
+	background: #323232;
+	}
+
+.brd .main-menu, .brd .admin-menu {
+	background: #222222;
+	}
+
+.brd .admin-submenu {
+	background: #323232;
+	border-color: #555555;
+	}
+
+.brd .main-menu a:link,
+.brd .main-menu a:visited,
+.brd .admin-menu a:link,
+.brd .admin-menu a:visited {
+	color: #60C860;
+	text-decoration: none;
+	}
+
+.brd .main-menu a:hover,
+.brd .main-menu a:active,
+.brd .main-menu a:focus,
+.brd .admin-menu a:hover,
+.brd .admin-menu a:active,
+.brd .admin-menu a:focus {
+	text-decoration: underline;
+	color: #60C860;
+	}
+
+.brd .main-menu li.active a:hover,
+.brd .main-menu li.active a:active,
+.brd .main-menu li.active a:focus,
+.brd .main-menu li.active a:visited,
+.brd .admin-menu li.active a:hover,
+.brd .admin-menu li.active a:active,
+.brd .admin-menu li.active a:focus,
+.brd .admin-menu li.active a:visited {
+	text-decoration: none;
+	}
+
+.brd .admin-submenu li.active a {
+	text-decoration: none;
+	}
+
+.brd .main-menu li.active a {
+	color: #60C860;
+	}
+
+.brd .admin-menu li.active a {
+	color: #60C860;
+	}
+
+#brd-admod #alert a {
+	color: yellow;
+	}
+
+/* Logo and Headings
+----------------------------------------------------------------*/
+
+brd-head {
+	background: #646464;
+	color: #ddd;
+	border-color: #555555;
+	}
+
+brd-head a, brd-head a:link, brd-head a:visited {
+	color: #60C860;
+	}
+
+.brd .main-head, .brd .main-foot {
+	background: #565656;
+	color: #DDDDDD;
+	border-color: #555555;
+        border-bottom:0px;
+	}
+
+.brd #brd-announcement h1 {
+	border-color: #555555;
+	}
+
+.brd .main-subhead {
+	border-color: #555555;
+	background: #484848;
+	}
+
+.brd .column-title {
+	border-color: #555555;
+	background: #323232;
+	}
+
+.brd .group-head {
+	background: #323232;
+	border-color: #555555;
+	}
+
+.brd .content-head .hn {
+	border-color: #555555;
+	color: #DDDDDD;
+	}
+
+.brd .main-head a:link, .brd .main-head a:visited,
+.brd .main-foot .options a:link, .brd .main-foot .options a:visited {
+	color: #60C860;
+	}
+
+.brd .main-head a:hover, .brd .main-head a:active, .brd .main-head a:focus,
+.brd .main-foot .options a:hover, .brd .main-foot .options a:active, .brd .main-foot .options a:focus {
+	color: #60C860;
+	}
+
+.brd th {
+	background: #323232;
+	}
+
+.brd .main-frm .ct-group td {
+	background: #222222;
+	}
+
+
+
+/* Status indicators
+----------------------------------------------------------------*/
+
+.brd .main-content .main-item .icon {
+	border-color: #aaa #888 #666 #ccc;
+	}
+
+.brd .main-content .redirect .icon {
+	border-color: #004 #002 #003 #005;
+	}
+
+.brd .main-content .sticky .icon {
+	border-color: #a00 #800 #600 #c00;
+	}
+
+.brd .main-content .closed .icon {
+	border-color: #777 #555 #333 #666;
+	}
+
+.brd .main-content .sticky .closed .icon {
+	border-color: #700 #500 #300 #600;
+	}
+
+.brd .main-content .new .icon {
+/* 	border-color: #070 #050 #030 #060; */
+	background-image:url(active.gif);
+	}
+
+
+/* Multi Checkbox Widget
+-------------------------------------------------------------*/
+
+.brd .checklist .checklist-item label:hover {
+	background: #323232;
+	}
+#brd-announcement h1.hn.inactive {
+	border-bottom: none;
+	margin-bottom: 0;
+}

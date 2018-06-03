@@ -2,7 +2,7 @@
 /**
  * SEF URLs that use a file-like layout.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -14,8 +14,8 @@ if (!defined('FORUM'))
 
 // These are the simple file based SEF URLs
 $forum_url = array(
-	'insertion_find'				=>	'.html',
-	'insertion_replace'				=>	'-$1.html',
+	'insertion_find'				=>  '.html',
+	'insertion_replace'				=>  '-$1.html',
 	'change_email'					=>	'change-email$1.html',
 	'change_email_key'				=>	'change-email$1-$2.html',
 	'change_password'				=>	'change-password$1.html',
@@ -28,8 +28,6 @@ $forum_url = array(
 	'forum'							=>	'forum$1.html',
 	'forum_rss'						=>	'feed-rss-forum$1.xml',
 	'forum_atom'					=>	'feed-atom-forum$1.xml',
-	'forum_subscribe'				=>	'subscribe-forum$1-$2.html',
-	'forum_unsubscribe'				=>	'unsubscribe-forum$1-$2.html',
 	'help'							=>	'help-$1.html',
 	'index'							=>	'',
 	'index_rss'						=>	'feed-rss.xml',
@@ -40,7 +38,6 @@ $forum_url = array(
 	'mark_forum_read'				=>	'mark-forum$1-read-$2.html',
 	'new_topic'						=>	'new-topic$1.html',
 	'new_reply'						=>	'new-reply$1.html',
-	'opensearch'					=>	'misc.php?action=opensearch',
 	'post'							=>	'post$1.html#p$1',
 	'profile_about'					=>	'user$1-about.html',
 	'profile_identity'				=>	'user$1-identity.html',
@@ -54,7 +51,6 @@ $forum_url = array(
 	'request_password'				=>	'request-password.html',
 	'rules'							=>	'rules.html',
 	'search'						=>	'search.html',
-	'search_advanced'				=>	'search-advanced.html',
 	'search_resultft'				=>	'search-k$1-$4-a$3-$5-$6-$2-$7.html',
 	'search_results'				=>	'search$1.html',
 	'search_new'					=>	'search-new.html',
@@ -63,7 +59,6 @@ $forum_url = array(
 	'search_recent_results'			=>	'search-recent-$1.html',
 	'search_unanswered'				=>	'search-unanswered.html',
 	'search_subscriptions'			=>	'search-subscriptions$1.html',
-	'search_forum_subscriptions'	=>	'search-forum-subscriptions$1.html',
 	'search_user_posts'				=>	'search-posts-user$1.html',
 	'search_user_topics'			=>	'search-topics-user$1.html',
 	'subscribe'						=>	'subscribe$1-$2.html',
@@ -92,7 +87,6 @@ $forum_url = array(
 	'admin_extensions_manage'		=>	'admin/extensions.php?section=manage',
 	'admin_extensions_hotfixes'		=>	'admin/extensions.php?section=hotfixes',
 	'admin_forums'					=>	'admin/forums.php',
-	'admin_forums_forum'			=>	'admin/forums.php#forum$1',
 	'admin_groups'					=>	'admin/groups.php',
 	'admin_loader'					=>	'admin/loader.php',
 	'admin_reindex'					=>	'admin/reindex.php',

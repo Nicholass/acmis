@@ -5,13 +5,13 @@ $lang_post = array(
 
 // Post validation stuff (many are similar to those in edit.php)
 'No subject'			=>	'Topics must contain a subject.',
-'Too long subject'		=>	'Subjects cannot be longer than %s characters.',
+'Too long subject'		=>	'Subjects cannot be longer than 70 characters.',
 'All caps subject'		=>	'Subjects cannot contain only capital letters.',
 'No message'			=>	'You must enter a message.',
 'Too long message'		=>	'Your post length is %s bytes. This exceeds the %s bytes limit.',
 'All caps message'		=>	'Posts cannot contain only capital letters.',
 'CSRF token mismatch'	=>	'Unable to confirm security token. A likely cause for this is that some time passed between when you first entered the page and when you posted the form. Clicking "Submit" again should solve the problem.',
-'Invalid e-mail'		=>	'The email address you entered is invalid.',
+'Invalid e-mail'		=>	'The e-mail address you entered is invalid.',
 
 // Posting
 'Compose your reply'	=>	'Compose and post your new reply',
@@ -21,13 +21,13 @@ $lang_post = array(
 'Guest post legend'		=>	'Required information for guests',
 'Post errors'			=>	'<strong>Warning!</strong> The following errors must be corrected before your message can be posted:',
 'Guest name'			=>	'Guest name',	// For guests (instead of Username)
-'Guest e-mail'			=>	'Guest email',
-'Post redirect'			=>	'Post entered.',
+'Guest e-mail'			=>	'Guest e-mail',
+'Post redirect'			=>	'Post entered. Redirecting…',
 'Post reply'			=>	'Post new reply',
 'Post new topic'		=>	'Post new topic',
 'Topic subject'			=>	'Topic subject',
 'Write message'			=>	'Write message',
-'Hide smilies'			=>	'Never show smilies as icons for this post.',
+'Hide smilies'			=>	'Never show smilies as icons (images) for this post.',
 'Subscribe'				=>	'Subscribe to this topic.',
 'Stay subscribed'		=>	'Stay subscribed to this topic.',
 'Topic review'			=>	'Topic review (newest first)',
@@ -52,9 +52,9 @@ $lang_post = array(
 'Edit post legend'		=>	'Edit message',
 'Edit topic'			=>	'Edit topic',
 'Edit reply'			=>	'Edit reply',
-'Silent edit'			=>	'Silent edit.',
+'Silent edit'			=>	'Silent edit (don\'t display "Last edited by…" in topic view for this edit).',
 'Preview edited topic'	=>	'Preview of your edited topic',
 'Preview edited reply'	=>	'Preview of your edited reply',
-'Edit redirect'			=>	'Post updated.'
+'Edit redirect'			=>	'Post updated. Redirecting…'
 
 );

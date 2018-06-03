@@ -57,7 +57,8 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'ban.middleware.BanManagement'
+    'ban.middleware.BanManagement',
+#    'punbb_auth.middleware.PunBBSessionMiddleware'
 ]
 
 ROOT_URLCONF = 'acis.urls'
@@ -117,6 +118,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
+    #'punbb_auth.authentication.PunBBShaBackend'
 ]
 
 # Internationalization
@@ -236,3 +238,6 @@ SESSION_SAVE_EVERY_REQUEST = True
 ALLOWED_HOSTS = [
     'web',
 ]
+
+PUNBB_COOKIE_NAME = 'forum_cookie_e3cc0a'
+PUNBB_TABLES_PREFIX = 'punbb_'

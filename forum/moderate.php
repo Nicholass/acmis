@@ -2,7 +2,7 @@
 /**
  * Provides various mass-moderation tools to moderators.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -25,18 +25,14 @@ if (isset($_GET['get_host']))
 	if (!$forum_user['is_admmod'])
 		message($lang_common['No permission']);
 
-	$_get_host = $_GET['get_host'];
-	if (!is_string($_get_host))
-		message($lang_common['Bad request']);
-
 	($hook = get_hook('mr_view_ip_selected')) ? eval($hook) : null;
 
 	// Is get_host an IP address or a post ID?
-	if (preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $_get_host) || preg_match('/^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$/', $_get_host))
-		$ip = $_get_host;
+	if (preg_match('/^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$/', $_GET['get_host']) || preg_match('/^((([0-9A-Fa-f]{1,4}:){7}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}:[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){5}:([0-9A-Fa-f]{1,4}:)?[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){4}:([0-9A-Fa-f]{1,4}:){0,2}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){3}:([0-9A-Fa-f]{1,4}:){0,3}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){2}:([0-9A-Fa-f]{1,4}:){0,4}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){6}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(([0-9A-Fa-f]{1,4}:){0,5}:((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|(::([0-9A-Fa-f]{1,4}:){0,5}((\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b)\.){3}(\b((25[0-5])|(1\d{2})|(2[0-4]\d)|(\d{1,2}))\b))|([0-9A-Fa-f]{1,4}::([0-9A-Fa-f]{1,4}:){0,5}[0-9A-Fa-f]{1,4})|(::([0-9A-Fa-f]{1,4}:){0,6}[0-9A-Fa-f]{1,4})|(([0-9A-Fa-f]{1,4}:){1,7}:))$/', $_GET['get_host']))
+		$ip = $_GET['get_host'];
 	else
 	{
-		$get_host = intval($_get_host);
+		$get_host = intval($_GET['get_host']);
 		if ($get_host < 1)
 			message($lang_common['Bad request']);
 
@@ -48,10 +44,10 @@ if (isset($_GET['get_host']))
 
 		($hook = get_hook('mr_view_ip_qr_get_poster_ip')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$ip = $forum_db->result($result);
-
-		if (!$ip)
+		if (!$forum_db->num_rows($result))
 			message($lang_common['Bad request']);
+
+		$ip = $forum_db->result($result);
 	}
 
 	($hook = get_hook('mr_view_ip_pre_output')) ? eval($hook) : null;
@@ -80,10 +76,10 @@ $query = array(
 
 ($hook = get_hook('mr_qr_get_forum_data')) ? eval($hook) : null;
 $result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-$cur_forum = $forum_db->fetch_assoc($result);
-
-if (!$cur_forum)
+if (!$forum_db->num_rows($result))
 	message($lang_common['Bad request']);
+
+$cur_forum = $forum_db->fetch_assoc($result);
 
 // Make sure we're not trying to moderate a redirect forum
 if ($cur_forum['redirect_url'] != '')
@@ -124,10 +120,10 @@ if (isset($_GET['tid']))
 
 	($hook = get_hook('mr_post_actions_qr_get_topic_info')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-	$cur_topic = $forum_db->fetch_assoc($result);
-
-	if (!$cur_topic)
+	if (!$forum_db->num_rows($result))
 		message($lang_common['Bad request']);
+
+	$cur_topic = $forum_db->fetch_assoc($result);
 
 	// User pressed the cancel button
 	if (isset($_POST['delete_posts_cancel']))
@@ -179,8 +175,6 @@ if (isset($_GET['tid']))
 
 			sync_topic($tid);
 			sync_forum($fid);
-
-			$forum_flash->add_info($lang_misc['Delete posts redirect']);
 
 			($hook = get_hook('mr_confirm_delete_posts_pre_redirect')) ? eval($hook) : null;
 
@@ -237,8 +231,8 @@ if (isset($_GET['tid']))
 			</fieldset>
 <?php ($hook = get_hook('mr_confirm_delete_posts_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary caution"><input type="submit" name="delete_posts_comply" value="<?php echo $lang_common['Delete'] ?>" /></span>
-				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" formnovalidate /></span>
+				<span class="submit"><input type="submit" name="delete_posts_comply" value="<?php echo $lang_common['Delete'] ?>" /></span>
+				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -291,8 +285,8 @@ if (isset($_GET['tid']))
 
 			if ($new_subject == '')
 				message($lang_post['No subject']);
-			else if (utf8_strlen($new_subject) > FORUM_SUBJECT_MAXIMUM_LENGTH)
-				message(sprintf($lang_post['Too long subject'], FORUM_SUBJECT_MAXIMUM_LENGTH));
+			else if (utf8_strlen($new_subject) > 70)
+				message($lang_post['Too long subject']);
 
 			// Get data from the new first post
 			$query = array(
@@ -330,8 +324,6 @@ if (isset($_GET['tid']))
 			sync_topic($new_tid);
 			sync_topic($tid);
 			sync_forum($fid);
-
-			$forum_flash->add_info($lang_misc['Split posts redirect']);
 
 			($hook = get_hook('mr_confirm_split_posts_pre_redirect')) ? eval($hook) : null;
 
@@ -380,8 +372,8 @@ if (isset($_GET['tid']))
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 <?php ($hook = get_hook('mr_confirm_split_posts_pre_subject')) ? eval($hook) : null; ?>
 					<div class="sf-box text required">
-						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_misc['New subject'] ?></span></label><br />
-						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="new_subject" size="<?php echo FORUM_SUBJECT_MAXIMUM_LENGTH ?>" maxlength="<?php echo FORUM_SUBJECT_MAXIMUM_LENGTH ?>" required /></span>
+						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_misc['New subject'] ?> <em><?php echo $lang_common['Required'] ?></em></span></label><br />
+						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="new_subject" value="" size="70" maxlength="70" /></span>
 					</div>
 <?php ($hook = get_hook('mr_confirm_split_posts_pre_confirm_checkbox')) ? eval($hook) : null; ?>
 					<div class="sf-box checkbox">
@@ -393,8 +385,8 @@ if (isset($_GET['tid']))
 			</fieldset>
 <?php ($hook = get_hook('mr_confirm_split_posts_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="split_posts_comply" value="<?php echo $lang_common['Split'] ?>" /></span>
-				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" formnovalidate /></span>
+				<span class="submit"><input type="submit" name="split_posts_comply" value="<?php echo $lang_common['Split'] ?>" /></span>
+				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -461,8 +453,8 @@ if (isset($_GET['tid']))
 	// Setup main heading
 	$forum_page['main_title'] = sprintf($lang_misc['Moderate topic head'], forum_htmlencode($cur_topic['subject']));
 
-	$forum_page['main_head_options']['select_all'] = '<span '.(empty($forum_page['main_head_options']) ? ' class="first-item"' : '').'><span class="select-all js_link" data-check-form="mr-post-actions-form">'.$lang_misc['Select all'].'</span></span>';
-	$forum_page['main_foot_options']['select_all'] = '<span '.(empty($forum_page['main_foot_options']) ? ' class="first-item"' : '').'><span class="select-all js_link" data-check-form="mr-post-actions-form">'.$lang_misc['Select all'].'</span></span>';
+	$forum_page['main_head_options']['select_all'] = '<span '.(empty($forum_page['main_head_options']) ? ' class="first-item"' : '').'><a href="#" onclick="return Forum.toggleCheckboxes(document.getElementById(\'mr-post-actions-form\'))">'.$lang_misc['Select all'].'</a></span>';
+	$forum_page['main_foot_options']['select_all'] = '<span '.(empty($forum_page['main_foot_options']) ? ' class="first-item"' : '').'><a href="#" onclick="return Forum.toggleCheckboxes(document.getElementById(\'mr-post-actions-form\'))">'.$lang_misc['Select all'].'</a></span>';
 
 	if ($forum_page['num_pages'] > 1)
 		$forum_page['main_head_pages'] = sprintf($lang_common['Page info'], $forum_page['page'], $forum_page['num_pages']);
@@ -542,9 +534,6 @@ if (isset($_GET['tid']))
 
 		$forum_page['post_ident']['link'] = '<span class="post-link"><a class="permalink" rel="bookmark" title="'.$lang_topic['Permalink post'].'" href="'.forum_link($forum_url['post'], $cur_post['id']).'">'.format_time($cur_post['posted']).'</a></span>';
 
-		if ($cur_post['edited'] != '')
-			$forum_page['post_ident']['edited'] = '<span class="post-edit">'.sprintf($lang_topic['Last edited'], forum_htmlencode($cur_post['edited_by']), format_time($cur_post['edited'])).'</span>';
-
 		($hook = get_hook('mr_row_pre_item_ident_merge')) ? eval($hook) : null;
 
 		// Generate the checkbox field
@@ -582,6 +571,9 @@ if (isset($_GET['tid']))
 
 		// Perform the main parsing of the message (BBCode, smilies, censor words etc)
 		$forum_page['message']['message'] = parse_message($cur_post['message'], $cur_post['hide_smilies']);
+
+		if ($cur_post['edited'] != '')
+			$forum_page['message']['edited'] = '<p class="lastedit"><em>'.sprintf($lang_topic['Last edited'], forum_htmlencode($cur_post['edited_by']), format_time($cur_post['edited'])).'</em></p>';
 
 		($hook = get_hook('mr_post_actions_row_pre_display')) ? eval($hook) : null;
 
@@ -644,9 +636,6 @@ $forum_page['mod_options'] = array(
 
 	$forum_id = $fid;
 
-	// Init JS helper for select-all
-	$forum_loader->add_js('PUNBB.common.addDOMReadyEvent(PUNBB.common.initToggleCheckboxes);', array('type' => 'inline'));
-
 	($hook = get_hook('mr_post_actions_end')) ? eval($hook) : null;
 
 	$tpl_temp = forum_trim(ob_get_contents());
@@ -682,10 +671,10 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to']))
 		($hook = get_hook('mr_confirm_move_topics_qr_get_move_to_forum_name')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
-		$move_to_forum_name = $forum_db->result($result);
-
-		if (!$move_to_forum_name)
+		if (!$forum_db->num_rows($result))
 			message($lang_common['Bad request']);
+
+		$move_to_forum_name = $forum_db->result($result);
 
 		// Verify that the topic IDs are valid
 		$query = array(
@@ -751,8 +740,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to']))
 
 		$forum_page['redirect_msg'] = (count($topics) > 1) ? $lang_misc['Move topics redirect'] : $lang_misc['Move topic redirect'];
 
-		$forum_flash->add_info($forum_page['redirect_msg']);
-
 		($hook = get_hook('mr_confirm_move_topics_pre_redirect')) ? eval($hook) : null;
 
 		redirect(forum_link($forum_url['forum'], array($move_to_forum, sef_friendly($move_to_forum_name))), $forum_page['redirect_msg']);
@@ -793,12 +780,11 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to']))
 
 		($hook = get_hook('mr_move_topics_qr_get_topic_to_move_subject')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-		$subject = $forum_db->result($result);
 
-		if (!$subject)
-		{
+		if (!$forum_db->num_rows($result))
 			message($lang_common['Bad request']);
-		}
+
+		$subject = $forum_db->result($result);
 	}
 
 	// Get forums we can move the post into
@@ -822,17 +808,12 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to']))
 	($hook = get_hook('mr_move_topics_qr_get_target_forums')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
+	if (!$forum_db->num_rows($result))
+		message($lang_misc['Nowhere to move']);
+
 	$forum_list = array();
 	while ($cur_sel_forum = $forum_db->fetch_assoc($result))
-	{
 		$forum_list[] = $cur_sel_forum;
-	}
-
-	if (empty($forum_list))
-	{
-		message($lang_misc['Nowhere to move']);
-	}
-
 
 	// Setup form
 	$forum_page['group_count'] = $forum_page['item_count'] = $forum_page['fld_count'] = 0;
@@ -887,8 +868,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to']))
 	$forum_page['cur_category'] = 0;
 	foreach ($forum_list as $cur_forum)
 	{
-		($hook = get_hook('mr_move_topics_forum_loop_start')) ? eval($hook) : null;
-		
 		if ($cur_forum['cid'] != $forum_page['cur_category'])	// A new category since last iteration?
 		{
 			if ($forum_page['cur_category'])
@@ -900,8 +879,6 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to']))
 
 		if ($cur_forum['fid'] != $fid)
 			echo "\t\t\t\t".'<option value="'.$cur_forum['fid'].'">'.forum_htmlencode($cur_forum['forum_name']).'</option>'."\n";
-			
-		($hook = get_hook('mr_move_topics_forum_loop_end')) ? eval($hook) : null;
 	}
 
 ?>
@@ -913,15 +890,15 @@ if (isset($_REQUEST['move_topics']) || isset($_POST['move_topics_to']))
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box checkbox">
 						<span class="fld-input"><input type="checkbox" id="fld<?php echo (++$forum_page['fld_count']) ?>" name="with_redirect" value="1"<?php if ($action == 'single') echo ' checked="checked"' ?> /></span>
-						<label for="fld<?php echo $forum_page['fld_count'] ?>"><?php echo ($action == 'single') ? $lang_misc['Leave redirect'] : $lang_misc['Leave redirects'] ?></label>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>"><span><?php echo $lang_misc['Redirect topic'] ?></span> <?php echo ($action == 'single') ? $lang_misc['Leave redirect'] : $lang_misc['Leave redirects'] ?></label>
 					</div>
 				</div>
 <?php ($hook = get_hook('mr_move_topics_pre_fieldset_end')) ? eval($hook) : null; ?>
 			</fieldset>
 <?php ($hook = get_hook('mr_move_topics_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="move_topics_to" value="<?php echo $lang_misc['Move'] ?>" /></span>
-				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" formnovalidate /></span>
+				<span class="submit"><input type="submit" name="move_topics_to" value="<?php echo $lang_misc['Move'] ?>" /></span>
+				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -1018,8 +995,6 @@ else if (isset($_POST['merge_topics']) || isset($_POST['merge_topics_comply']))
 		sync_topic($merge_to_tid);
 		sync_forum($fid);
 
-		$forum_flash->add_info($lang_misc['Merge topics redirect']);
-
 		($hook = get_hook('mr_confirm_merge_topics_pre_redirect')) ? eval($hook) : null;
 
 		redirect(forum_link($forum_url['forum'], array($fid, sef_friendly($cur_forum['forum_name']))), $lang_misc['Merge topics redirect']);
@@ -1068,15 +1043,15 @@ else if (isset($_POST['merge_topics']) || isset($_POST['merge_topics_comply']))
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box checkbox">
 						<span class="fld-input"><input type="checkbox" id="fld<?php echo (++$forum_page['fld_count']) ?>" name="with_redirect" value="1" /></span>
-						<label for="fld<?php echo $forum_page['fld_count'] ?>"><?php echo $lang_misc['Leave merge redirects'] ?></label>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>"><span><?php echo $lang_misc['Redirect topic'] ?></span> <?php echo $lang_misc['Leave merge redirects'] ?></label>
 					</div>
 				</div>
 <?php ($hook = get_hook('mr_merge_topics_pre_fieldset_end')) ? eval($hook) : null; ?>
 			</fieldset>
 <?php ($hook = get_hook('mr_merge_topics_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="merge_topics_comply" value="<?php echo $lang_misc['Merge'] ?>" /></span>
-				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" formnovalidate /></span>
+				<span class="submit"><input type="submit" name="merge_topics_comply" value="<?php echo $lang_misc['Merge'] ?>" /></span>
+				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -1190,8 +1165,6 @@ else if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply
 		foreach ($forum_ids as $cur_forum_id)
 			sync_forum($cur_forum_id);
 
-		$forum_flash->add_info($multi ? $lang_misc['Delete topics redirect'] : $lang_misc['Delete topic redirect']);
-
 		($hook = get_hook('mr_confirm_delete_topics_pre_redirect')) ? eval($hook) : null;
 
 		redirect(forum_link($forum_url['forum'], array($fid, sef_friendly($cur_forum['forum_name']))), $multi ? $lang_misc['Delete topics redirect'] : $lang_misc['Delete topic redirect']);
@@ -1248,8 +1221,8 @@ else if (isset($_REQUEST['delete_topics']) || isset($_POST['delete_topics_comply
 			</fieldset>
 <?php ($hook = get_hook('mr_delete_topics_fieldset_end')) ? eval($hook) : null; ?>
 			<div class="frm-buttons">
-				<span class="submit primary caution"><input type="submit" name="delete_topics_comply" value="<?php echo $lang_common['Delete'] ?>" /></span>
-				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" formnovalidate /></span>
+				<span class="submit"><input type="submit" name="delete_topics_comply" value="<?php echo $lang_common['Delete'] ?>" /></span>
+				<span class="cancel"><input type="submit" name="cancel" value="<?php echo $lang_common['Cancel'] ?>" /></span>
 			</div>
 		</form>
 	</div>
@@ -1298,8 +1271,6 @@ else if (isset($_REQUEST['open']) || isset($_REQUEST['close']))
 		else
 			$forum_page['redirect_msg'] = ($action) ? $lang_misc['Close topics redirect'] : $lang_misc['Open topics redirect'];
 
-		$forum_flash->add_info($forum_page['redirect_msg']);
-
 		($hook = get_hook('mr_open_close_multi_topics_pre_redirect')) ? eval($hook) : null;
 
 		redirect(forum_link($forum_url['moderate_forum'], $fid), $forum_page['redirect_msg']);
@@ -1326,12 +1297,10 @@ else if (isset($_REQUEST['open']) || isset($_REQUEST['close']))
 		($hook = get_hook('mr_open_close_single_topic_qr_get_subject')) ? eval($hook) : null;
 		$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
 
-		$subject = $forum_db->result($result);
-
-		if (!$subject)
-		{
+		if (!$forum_db->num_rows($result))
 			message($lang_common['Bad request']);
-		}
+
+		$subject = $forum_db->result($result);
 
 		$query = array(
 			'UPDATE'	=> 'topics',
@@ -1343,8 +1312,6 @@ else if (isset($_REQUEST['open']) || isset($_REQUEST['close']))
 		$forum_db->query_build($query) or error(__FILE__, __LINE__);
 
 		$forum_page['redirect_msg'] = ($action) ? $lang_misc['Close topic redirect'] : $lang_misc['Open topic redirect'];
-
-		$forum_flash->add_info($forum_page['redirect_msg']);
 
 		($hook = get_hook('mr_open_close_single_topic_pre_redirect')) ? eval($hook) : null;
 
@@ -1376,12 +1343,11 @@ else if (isset($_GET['stick']))
 
 	($hook = get_hook('mr_stick_topic_qr_get_subject')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-	$subject = $forum_db->result($result);
 
-	if (!$subject)
-	{
+	if (!$forum_db->num_rows($result))
 		message($lang_common['Bad request']);
-	}
+
+	$subject = $forum_db->result($result);
 
 	$query = array(
 		'UPDATE'	=> 'topics',
@@ -1391,8 +1357,6 @@ else if (isset($_GET['stick']))
 
 	($hook = get_hook('mr_stick_topic_qr_stick_topic')) ? eval($hook) : null;
 	$forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	$forum_flash->add_info($lang_misc['Stick topic redirect']);
 
 	($hook = get_hook('mr_stick_topic_pre_redirect')) ? eval($hook) : null;
 
@@ -1423,12 +1387,11 @@ else if (isset($_GET['unstick']))
 
 	($hook = get_hook('mr_unstick_topic_qr_get_subject')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-	$subject = $forum_db->result($result);
 
-	if (!$subject)
-	{
+	if (!$forum_db->num_rows($result))
 		message($lang_common['Bad request']);
-	}
+
+	$subject = $forum_db->result($result);
 
 	$query = array(
 		'UPDATE'	=> 'topics',
@@ -1438,8 +1401,6 @@ else if (isset($_GET['unstick']))
 
 	($hook = get_hook('mr_unstick_topic_qr_unstick_topic')) ? eval($hook) : null;
 	$forum_db->query_build($query) or error(__FILE__, __LINE__);
-
-	$forum_flash->add_info($lang_misc['Unstick topic redirect']);
 
 	($hook = get_hook('mr_unstick_topic_pre_redirect')) ? eval($hook) : null;
 
@@ -1479,16 +1440,14 @@ $query = array(
 // With "has posted" indication
 if (!$forum_user['is_guest'] && $forum_config['o_show_dot'] == '1')
 {
-	$query['SELECT'] .= ', p.poster_id AS has_posted';
-	$query['JOINS'][]	= array(
-		'LEFT JOIN'		=> 'posts AS p',
-		'ON'			=> '(p.poster_id='.$forum_user['id'].' AND p.topic_id=t.id)'
+	$subquery = array(
+		'SELECT'	=> 'COUNT(p.id)',
+		'FROM'		=> 'posts AS p',
+		'WHERE'		=> 'p.poster_id='.$forum_user['id'].' AND p.topic_id=t.id'
 	);
 
-	// Must have same columns as in prev SELECT
-	$query['GROUP BY'] = 't.id, t.poster, t.subject, t.posted, t.last_post, t.last_post_id, t.last_poster, t.num_views, t.num_replies, t.closed, t.sticky, t.moved_to, p.poster_id';
-
 	($hook = get_hook('mr_qr_get_has_posted')) ? eval($hook) : null;
+	$query['SELECT'] .= ', ('.$forum_db->query_build($subquery, true).') AS has_posted';
 }
 
 ($hook = get_hook('mr_qr_get_topics')) ? eval($hook) : null;
@@ -1524,8 +1483,8 @@ $forum_page['crumbs'] = array(
 if ($forum_page['num_pages'] > 1)
 	$forum_page['main_head_pages'] = sprintf($lang_common['Page info'], $forum_page['page'], $forum_page['num_pages']);
 
-$forum_page['main_head_options']['select_all'] = '<span '.(empty($forum_page['main_head_options']) ? ' class="first-item"' : '').'><span class="select-all js_link" data-check-form="mr-topic-actions-form">'.$lang_misc['Select all'].'</span></span>';
-$forum_page['main_foot_options']['select_all'] = '<span '.(empty($forum_page['main_foot_options']) ? ' class="first-item"' : '').'><span class="select-all js_link" data-check-form="mr-topic-actions-form">'.$lang_misc['Select all'].'</span></span>';
+$forum_page['main_head_options']['select_all'] = '<span '.(empty($forum_page['main_head_options']) ? ' class="first-item"' : '').'><a href="#" onclick="return Forum.toggleCheckboxes(document.getElementById(\'mr-topic-actions-form\'))">'.$lang_misc['Select all'].'</a></span>';
+$forum_page['main_foot_options']['select_all'] = '<span '.(empty($forum_page['main_foot_options']) ? ' class="first-item"' : '').'><a href="#" onclick="return Forum.toggleCheckboxes(document.getElementById(\'mr-topic-actions-form\'))">'.$lang_misc['Select all'].'</a></span>';
 
 ($hook = get_hook('mr_topic_actions_pre_header_load')) ? eval($hook) : null;
 
@@ -1608,7 +1567,7 @@ $forum_page['item_header']['info']['lastpost'] = '<strong class="info-lastpost">
 			// First assemble the Topic heading
 
 			// Should we display the dot or not? :)
-			if (!$forum_user['is_guest'] && $forum_config['o_show_dot'] == '1' && $cur_topic['has_posted'] == $forum_user['id'])
+			if (!$forum_user['is_guest'] && $forum_config['o_show_dot'] == '1' && $cur_topic['has_posted'] > 0)
 			{
 				$forum_page['item_title']['posted'] = '<span class="posted-mark">'.$lang_forum['You posted indicator'].'</span>';
 				$forum_page['item_status']['posted'] = 'posted';
@@ -1631,7 +1590,7 @@ $forum_page['item_header']['info']['lastpost'] = '<strong class="info-lastpost">
 			if (!empty($forum_page['item_title_status']))
 				$forum_page['item_title']['status'] = '<span class="item-status">'.sprintf($lang_forum['Item status'], implode(', ', $forum_page['item_title_status'])).'</span>';
 
-			$forum_page['item_title']['link'] = '<a href="'.forum_link($forum_url['topic'], array($cur_topic['id'], sef_friendly($cur_topic['subject']))).'">'.forum_htmlencode($cur_topic['subject']).'</a>';
+			$forum_page['item_title']['link'] = '<strong><a href="'.forum_link($forum_url['topic'], array($cur_topic['id'], sef_friendly($cur_topic['subject']))).'">'.forum_htmlencode($cur_topic['subject']).'</a></strong>';
 
 			($hook = get_hook('mr_topic_loop_normal_topic_pre_item_title_merge')) ? eval($hook) : null;
 
@@ -1728,9 +1687,6 @@ $forum_page['item_header']['info']['lastpost'] = '<strong class="info-lastpost">
 <?php
 
 $forum_id = $fid;
-
-// Init JS helper for select-all
-$forum_loader->add_js('PUNBB.common.addDOMReadyEvent(PUNBB.common.initToggleCheckboxes);', array('type' => 'inline'));
 
 ($hook = get_hook('mr_end')) ? eval($hook) : null;
 

@@ -4,7 +4,7 @@
  *
  * Allows administrators to rebuild the index used to search the posts and topics.
  *
- * @copyright (C) 2008-2012 PunBB, partially based on code (C) 2008-2009 FluxBB.org
+ * @copyright (C) 2008-2009 PunBB, partially based on code (C) 2008-2009 FluxBB.org
  * @license http://www.gnu.org/licenses/gpl.html GPL version 2 or higher
  * @package PunBB
  */
@@ -66,9 +66,7 @@ if (isset($_GET['i_per_page']) && isset($_GET['i_start_at']))
 		switch ($db_type)
 		{
 			case 'mysql':
-			case 'mysql_innodb':
 			case 'mysqli':
-			case 'mysqli_innodb':
 				$result = $forum_db->query('ALTER TABLE '.$forum_db->prefix.'search_words auto_increment=1') or error(__FILE__, __LINE__);
 				break;
 
@@ -86,10 +84,12 @@ if (isset($_GET['i_per_page']) && isset($_GET['i_start_at']))
 	);
 
 ?>
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
 <html lang="<?php $lang_common['lang_identifier'] ?>" dir="<?php echo $lang_common['lang_direction'] ?>">
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
 <title><?php echo generate_crumbs(true) ?></title>
 <style type="text/css">
 body {
@@ -100,6 +100,7 @@ body {
 </style>
 </head>
 <body>
+
 <p><?php echo $lang_admin_reindex['Rebuilding index'] ?></p>
 
 <?php
@@ -117,7 +118,7 @@ body {
 				'ON'			=> 't.id=p.topic_id'
 			)
 		),
-		'WHERE'		=> 'p.id >= '.$start_at,
+		'WHERE'		=> 'p.id>='.$start_at,
 		'ORDER BY'	=> 'p.id',
 		'LIMIT'		=> $per_page
 	);
@@ -144,20 +145,15 @@ body {
 	$query = array(
 		'SELECT'	=> 'p.id',
 		'FROM'		=> 'posts AS p',
-		'WHERE'		=> 'p.id > '.$post_id,
+		'WHERE'		=> 'p.id>'.$post_id,
 		'ORDER BY'	=> 'p.id',
 		'LIMIT'		=> '1'
 	);
 
 	($hook = get_hook('ari_cycle_qr_find_next_post')) ? eval($hook) : null;
 	$result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-	$next_posts_to_proced = $forum_db->result($result);
 
-	$query_str = '';
-	if (!is_null($next_posts_to_proced) && $next_posts_to_proced !== false)
-	{
-		$query_str = '?i_per_page='.$per_page.'&i_start_at='.$next_posts_to_proced.'&csrf_token='.generate_form_token('reindex'.$forum_user['id']);
-	}
+	$query_str = ($forum_db->num_rows($result)) ? '?i_per_page='.$per_page.'&i_start_at='.$forum_db->result($result).'&csrf_token='.generate_form_token('reindex'.$forum_user['id']) : '';
 
 	($hook = get_hook('ari_cycle_end')) ? eval($hook) : null;
 
@@ -178,12 +174,8 @@ $query = array(
 
 ($hook = get_hook('ari_qr_find_lowest_post_id')) ? eval($hook) : null;
 $result = $forum_db->query_build($query) or error(__FILE__, __LINE__);
-$first_id = $forum_db->result($result);
-
-if (is_null($first_id) || $first_id === false)
-{
-	unset($first_id);
-}
+if ($forum_db->num_rows($result))
+	$first_id = $forum_db->result($result);
 
 // Setup form
 $forum_page['group_count'] = $forum_page['item_count'] = $forum_page['fld_count'] = 0;
@@ -212,10 +204,8 @@ ob_start();
 		<h2 class="hn"><span><?php echo $lang_admin_reindex['Reindex heading'] ?></span></h2>
 	</div>
 	<div class="main-content main-frm">
-		<div class="ct-box warn-box">
+		<div class="ct-box">
 			<p><?php echo $lang_admin_reindex['Reindex info'] ?></p>
-			<p class="important"><?php echo $lang_admin_reindex['Reindex warning'] ?></p>
-			<p class="warn"><?php echo $lang_admin_reindex['Empty index warning'] ?></p>
 		</div>
 		<form class="frm-form" method="get" accept-charset="utf-8" action="<?php echo forum_link($forum_url['admin_reindex']) ?>">
 			<div class="hidden">
@@ -228,28 +218,32 @@ ob_start();
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box text">
 						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span><?php echo $lang_admin_reindex['Posts per cycle'] ?></span> <small><?php echo $lang_admin_reindex['Posts per cycle info'] ?></small></label><br />
-						<span class="fld-input"><input type="number" id="fld<?php echo $forum_page['fld_count'] ?>" name="i_per_page" size="7" maxlength="7" value="100" /></span>
+						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="i_per_page" size="7" maxlength="7" value="100" /></span>
 					</div>
 				</div>
 <?php ($hook = get_hook('ari_pre_rebuild_start_post')) ? eval($hook) : null; ?>
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box text">
 						<label for="fld<?php echo ++$forum_page['fld_count'] ?>"><span class="fld-label"><?php echo $lang_admin_reindex['Starting post'] ?></span> <small><?php echo $lang_admin_reindex['Starting post info'] ?></small></label><br />
-						<span class="fld-input"><input type="number" id="fld<?php echo $forum_page['fld_count'] ?>" name="i_start_at" size="7" maxlength="7" value="<?php echo (isset($first_id)) ? $first_id : 0 ?>" /></span>
+						<span class="fld-input"><input type="text" id="fld<?php echo $forum_page['fld_count'] ?>" name="i_start_at" size="7" maxlength="7" value="<?php echo (isset($first_id)) ? $first_id : 0 ?>" /></span>
 					</div>
 				</div>
 <?php ($hook = get_hook('ari_pre_rebuild_empty_index')) ? eval($hook) : null; ?>
 				<div class="sf-set set<?php echo ++$forum_page['item_count'] ?>">
 					<div class="sf-box checkbox">
 						<span class="fld-input"><input type="checkbox" id="fld<?php echo ++$forum_page['fld_count'] ?>" name="i_empty_index" value="1" checked="checked" /></span>
-						<label for="fld<?php echo $forum_page['fld_count'] ?>"><?php echo $lang_admin_reindex['Empty index'] ?></label>
+						<label for="fld<?php echo $forum_page['fld_count'] ?>"><span><?php echo $lang_admin_reindex['Empty index'] ?></span> <?php echo $lang_admin_reindex['Empty index info'] ?></label>
 					</div>
 				</div>
 <?php ($hook = get_hook('ari_pre_rebuild_fieldset_end')) ? eval($hook) : null; ?>
 			</fieldset>
 <?php ($hook = get_hook('ari_rebuild_fieldset_end')) ? eval($hook) : null; ?>
+			<div class="ct-box warn-box">
+				<p class="important"><?php echo $lang_admin_reindex['Reindex warning'] ?></p>
+				<p class="warn"><?php echo $lang_admin_reindex['Empty index warning'] ?></p>
+			</div>
 			<div class="frm-buttons">
-				<span class="submit primary"><input type="submit" name="rebuild_index" value="<?php echo $lang_admin_reindex['Rebuild index'] ?>" /></span>
+				<span class="submit"><input type="submit" name="rebuild_index" value="<?php echo $lang_admin_reindex['Rebuild index'] ?>" /></span>
 			</div>
 		</form>
 	</div>
