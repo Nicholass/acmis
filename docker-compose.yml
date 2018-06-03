@@ -67,7 +67,7 @@ services:
     depends_on:
       - web
     volumes:
-      - opendkim_keys:/etc/opendkim/keys
+      - /data/opendkim_keys:/etc/opendkim/keys
     networks:
       - local
 
@@ -76,16 +76,15 @@ services:
     restart: always
     image: php
     volumes:
-     - data:/_data
+     - php_data:/_data
      - ./forum:/usr/src/app/forum
     networks:
       - local
     command: sh -c 'chown www-data /_data && exec php-fpm'
 
 volumes:
-  data:
+  php_data:
   postgres_data:
-  opendkim_keys:
 
 networks:
   local:
