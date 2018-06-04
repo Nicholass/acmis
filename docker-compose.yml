@@ -29,12 +29,13 @@ services:
       - local
 
   pgadmin:
-    build: ./config/pgadmin/
+    build: ./build/pgadmin/
     links:
       - postgres:postgres
     container_name: pgadmin
     volumes:
-       - /data/pgadmin:/root/.pgadmin
+       - ./data/pgadmin/.pgadmin:/root/.pgadmin
+       - ./data/pgadmin/storage:/var/lib/pgadmin/storage/pgadmin4
     ports:
       - "5050:5050"
     networks:
@@ -56,10 +57,9 @@ services:
       - local
 
   postfix:
-    build: ./config/postfix/
+    build: ./build/postfix/
     restart: always
     container_name: postfix
-    command: /usr/bin/supervisord -c /supervisord.conf
     environment:
       - DOMAINS=diggers.kiev.ua localhost
     ports:
@@ -67,23 +67,22 @@ services:
     depends_on:
       - web
     volumes:
-      - /data/opendkim_keys:/etc/opendkim/keys
+      - ./config/opendkim:/etc/opendkim
     networks:
       - local
 
   php:
-    build: ./forum/
+    build: ./build/php/
     restart: always
     image: php
     volumes:
-     - php_data:/_data
+     - ./data/php:/_data
      - ./forum:/usr/src/app/forum
     networks:
       - local
     command: sh -c 'chown www-data /_data && exec php-fpm'
 
 volumes:
-  php_data:
   postgres_data:
 
 networks:
