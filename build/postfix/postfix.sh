@@ -18,5 +18,4 @@ sed -i 's/^mynetworks.*/mynetworks = 172.0.0.0\/8/' /etc/postfix/main.cf
 postmap /etc/postfix/virtual
 service postfix reload
 service postfix restart
-service opendkim restart
 tail -f /var/log/mail.log
