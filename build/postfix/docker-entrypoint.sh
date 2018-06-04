@@ -7,5 +7,4 @@ then
 fi
 
 cd /tmp
-
 /usr/bin/supervisord -c /etc/supervisord.conf
