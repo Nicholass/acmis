@@ -5,10 +5,10 @@ $db_host = 'postgres';
 $db_name = 'postgres';
 $db_username = 'postgres';
 $db_password = 'postgres';
-$db_prefix = '';
+$db_prefix = 'punbb_';
 $p_connect = false;
 
-$base_url = 'http://web/forum';
+$base_url = 'http://localhost/forum';
 
 $cookie_name = 'acis_cookie';
 $cookie_domain = '';
