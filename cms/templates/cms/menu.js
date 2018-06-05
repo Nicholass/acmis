@@ -16,14 +16,7 @@ var menu = {
         {% if allow_drawing %}'{% trans "Графика" %}': '{% url 'category_list' category='drawing' %}', {% endif %}
         {% if allow_prose %}'{% trans "Писательство" %}': '{% url 'category_list' category='prose' %}' {% endif %}
     },
-    '{% trans "Общение" %}': {
-        '{% trans "Форум" %}': '#',
-        '{% trans "Вылазки" %}': '#',
-        '{% trans "Снаряжение" %}': '#',
-        '{% trans "Другие вылазки" %}': '#',
-        '{% trans "Курилка" %}': '#',
-        '{% trans "Техн. раздел" %}': '#'
-    },
+    '{% trans "Общение" %}': '/forum/',
     'Wiki/FAQ': '#',
 
     {% if user.is_staff %}

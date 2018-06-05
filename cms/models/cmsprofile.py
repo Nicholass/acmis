@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
+from django.utils.encoding import force_text
 from django.dispatch import receiver
 from django.conf import settings
 
@@ -18,7 +19,7 @@ TZ_CHOICES = [(float(x[0]), x[1]) for x in (
 )]
 
 class CmsProfile(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
     signature = models.TextField(_('Подпись'), blank=True, max_length=1024)
     signature_html = models.TextField(_('HTML подпись'), blank=True, max_length=1054)
@@ -52,6 +53,13 @@ class CmsProfile(models.Model):
             return self.avatar.url
         except:
             return getattr(settings, 'STATIC_URL', '') + 'pybb/img/default_avatar.jpg'
+
+    def get_display_name(self):
+        try:
+            if hasattr(self, 'user'):  # we have OneToOne foreign key to user model
+                return self.user.get_username()
+        except Exception:
+            return force_text(self)
 
     @receiver(post_save, sender=User)
     def create_user_profile(sender, instance, created, **kwargs):
