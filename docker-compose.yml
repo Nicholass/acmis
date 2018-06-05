@@ -71,17 +71,6 @@ services:
     networks:
       - local
 
-  php:
-    build: ./build/php/
-    restart: always
-    image: php
-    volumes:
-     - ./data/php:/_data
-     - ./forum:/usr/src/app/forum
-    networks:
-      - local
-    command: sh -c 'chown www-data /_data && exec php-fpm'
-
 volumes:
   postgres_data:
 

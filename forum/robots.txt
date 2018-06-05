@@ -1,6 +1,0 @@
-User-Agent: *
-Disallow: profile.php
-Disallow: search.php
-Disallow: userlist.php
-Disallow: viewtopic.php
-Disallow: viewforum.php
