@@ -5,13 +5,13 @@ from django.conf import settings
 
 from ..shortcuts import get_permited_object_or_403
 
-from ..models import Post
+from ..models import CmsPost
 
 
 def serve_map_file(request, map_hash):
   try:
     map_pk = request.session['map_urls'][map_hash]
-    m = get_permited_object_or_403(Post, request.user, pk=map_pk)
+    m = get_permited_object_or_403(CmsPost, request.user, pk=map_pk)
 
     # import sys
     # for key, value in request.session.items(): print('{} => {}'.format(key, value), file=sys.stderr)
@@ -22,7 +22,7 @@ def serve_map_file(request, map_hash):
 
 
 def do_stuff(sender, user, request, **kwargs):
-  maps = Post.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'map'))
+  maps = CmsPost.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'map'))
   request.session['map_urls'] = {md5(str(m.pk).encode()).hexdigest(): m.pk for m in maps}
 
 

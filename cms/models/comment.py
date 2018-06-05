@@ -7,7 +7,7 @@ from django.utils.translation import ugettext as _
 
 class Comment(MPTTModel):
 
-  post = models.ForeignKey('Post', on_delete=models.CASCADE, verbose_name=_("Пост"))
+  post = models.ForeignKey('CmsPost', on_delete=models.CASCADE, verbose_name=_("Пост"))
   author = models.ForeignKey('auth.User', verbose_name=_("Автор"))
   text = models.TextField(max_length=600, verbose_name=_("Текст"))
 

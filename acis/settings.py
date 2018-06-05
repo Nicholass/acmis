@@ -40,15 +40,33 @@ INSTALLED_APPS = [
     'taggit',
     'mptt',
     'cms',
+    'django.contrib.sitemaps',
     'django.contrib.admin',
     'ckeditor',
     'ckeditor_uploader',
     'django_bleach',
     'ban',
-    'djangobower'
+    'djangobower',
+    'django.contrib.admindocs',
+    'django.contrib.humanize',
+
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.openid',
+    'allauth.socialaccount.providers.google',
+    'allauth.socialaccount.providers.github',
+    'allauth.socialaccount.providers.twitter',
+
+    'haystack',
+    'django_messages',
+    'nocaptcha_recaptcha',
+
+    'djangobb_forum',
 ]
 
 MIDDLEWARE = [
+    'django.middleware.cache.UpdateCacheMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -58,7 +76,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
-#    'punbb_auth.middleware.PunBBSessionMiddleware'
+    'django.middleware.cache.FetchFromCacheMiddleware',
+
+    'djangobb_forum.middleware.LastLoginMiddleware',
+    'djangobb_forum.middleware.UsersOnline',
+    'djangobb_forum.middleware.TimezoneMiddleware'
 ]
 
 ROOT_URLCONF = 'acis.urls'
@@ -74,7 +96,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'django.template.context_processors.media'
+                'django.template.context_processors.media',
+                'django.contrib.messages.context_processors.messages',
+
+                'django_messages.context_processors.inbox',
+
+                'djangobb_forum.context_processors.forum_settings',
             ],
         },
     },
@@ -118,7 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
-    #'punbb_auth.authentication.PunBBShaBackend'
+    'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
 # Internationalization
@@ -239,5 +266,63 @@ ALLOWED_HOSTS = [
     'web',
 ]
 
-PUNBB_COOKIE_NAME = 'forum_cookie_e3cc0a'
-PUNBB_TABLES_PREFIX = 'punbb_'
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error when DEBUG=False.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'filters': {
+        'require_debug_false': {
+            '()': 'django.utils.log.RequireDebugFalse'
+        }
+    },
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'filters': ['require_debug_false'],
+            'class': 'django.utils.log.AdminEmailHandler'
+        }
+    },
+    'loggers': {
+        'django.request': {
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    }
+}
+
+try:
+    import mailer
+    INSTALLED_APPS += ('mailer',)
+    EMAIL_BACKEND = "mailer.backend.DbBackend"
+except ImportError:
+    pass
+
+# Haystack settings
+HAYSTACK_CONNECTIONS = {
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': os.path.join(BASE_DIR, 'djangobb_index'),
+        'INCLUDE_SPELLING': True,
+    },
+}
+HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
+FORCE_SCRIPT_NAME = ''
+
+# Cache settings
+CACHE_MIDDLEWARE_ANONYMOUS_ONLY = True
+
+# Allauth
+ACCOUNT_LOGOUT_ON_GET = True
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_SIGNUP_FORM_CLASS = 'cms.forms.SignupForm'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

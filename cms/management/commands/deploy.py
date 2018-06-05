@@ -1,7 +1,7 @@
 import subprocess
 from django.core.management.base import BaseCommand, CommandError
 
-from cms.models import Category
+from cms.models import CmsCategory
 from django.contrib.auth.models import User, Group, Permission
 from django.contrib.sites.models import Site
 
@@ -63,14 +63,14 @@ class Command(BaseCommand):
         ]
 
         for args in categories:
-            if not Category.objects.filter(name=args['name']).exists():
-                category = Category.objects.create(name=args['name'], route=args['route'])
+            if not CmsCategory.objects.filter(name=args['name']).exists():
+                category = CmsCategory.objects.create(name=args['name'], route=args['route'])
                 category.publish()
                 category.save()
 
                 self.stdout.write('Successfully created category "%s"' % category.name)
             else:
-                self.stdout.write('Category "%s" already exists' % args['name'])
+                self.stdout.write('CmsCategory "%s" already exists' % args['name'])
 
 
     def set_permissions(self):
@@ -204,7 +204,7 @@ class Command(BaseCommand):
             "Пользователи с доступом к разделу карт"
         ]
 
-        map_category = Category.objects.get(route='map')
+        map_category = CmsCategory.objects.get(route='map')
 
         if not map_category:
             raise CommandError('Map category not exists!')

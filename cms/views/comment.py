@@ -7,13 +7,13 @@ from django.utils import timezone
 from ..shortcuts import get_permited_object_or_403, is_owner_or_403
 from ..forms import CommentForm
 
-from ..models import Post, Comment
+from ..models import CmsPost, Comment
 
 
 @login_required
 @permission_required('cms.add_comment', raise_exception=True)
 def comment_new(request, pk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
   if request.method == "POST":
     form = CommentForm(request.POST)
@@ -32,7 +32,7 @@ def comment_new(request, pk):
 @login_required
 @permission_required('cms.change_comment', raise_exception=True)
 def comment_edit(request, pk, cpk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   edited_comment = get_permited_object_or_403(Comment, request.user, pk=cpk)
 
   is_owner_or_403(request.user, edited_comment)
@@ -55,7 +55,7 @@ def comment_edit(request, pk, cpk):
 @login_required
 @permission_required('cms.add_comment', raise_exception=True)
 def comment_reply(request, pk, cpk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   parent = get_permited_object_or_403(Comment, request.user, pk=cpk)
 
   if request.method == "POST":
@@ -78,7 +78,7 @@ def comment_reply(request, pk, cpk):
 @login_required
 @permission_required('cms.delete_comment', raise_exception=True)
 def comment_delete(request, pk, cpk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   comment = get_permited_object_or_403(Comment, request.user, pk=cpk)
 
   is_owner_or_403(request.user, comment)

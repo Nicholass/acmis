@@ -10,7 +10,7 @@ from hashlib import md5
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
-from ..models import Post, Category
+from ..models import CmsPost, CmsCategory
 
 
 def post_list(request, tags=None, category=None, author=None):
@@ -23,7 +23,7 @@ def post_list(request, tags=None, category=None, author=None):
     category = getattr(settings, 'HOME_CATEGORY_ROUTE', 'news')
 
   if category:
-    c = get_permited_object_or_403(Category, request.user, route=category)
+    c = get_permited_object_or_403(CmsCategory, request.user, route=category)
 
   if tags:
     t = tags.split(",")
@@ -39,7 +39,7 @@ def post_list(request, tags=None, category=None, author=None):
   q_groups = { **q, 'category__groups__in': request.user.groups.all() }
   q_anoymous = { **q, 'category__allow_anonymous': True }
 
-  posts_list = Post.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-created_date', 'title')
+  posts_list = CmsPost.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-created_date', 'title')
 
   page = request.GET.get('page', 1)
 
@@ -57,7 +57,7 @@ def post_list(request, tags=None, category=None, author=None):
         if post.pk == pk:
           post.hash = map_hash
 
-  posts_disapproved = Post.objects.filter(category=c, is_moderated=False)
+  posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
 
   return render(request, 'cms/post_list.html', {
     'posts': posts,
@@ -69,10 +69,10 @@ def post_list(request, tags=None, category=None, author=None):
 
 
 def post_disapproved(request, category):
-  c = get_permited_object_or_403(Category, request.user, route=category)
+  c = get_permited_object_or_403(CmsCategory, request.user, route=category)
   is_moderator_or_403(request.user)
 
-  posts_list = Post.objects.filter(category=c, is_moderated=False)
+  posts_list = CmsPost.objects.filter(category=c, is_moderated=False)
 
   page = request.GET.get('page', 1)
 
@@ -97,12 +97,12 @@ def post_disapproved(request, category):
   })
 
 def post_detail(request, pk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
   if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
-    raise Http404("No Post matches the given query.")
+    raise Http404("No CmsPost matches the given query.")
 
-  posts = Post.objects.filter(category=post.category).order_by('published_date')
+  posts = CmsPost.objects.filter(category=post.category).order_by('published_date')
 
   return render(request, 'cms/post_detail.html', {'post': post, 'posts': posts})
 
@@ -110,7 +110,7 @@ def post_detail(request, pk):
 @login_required
 @permission_required('cms.add_post', raise_exception=True)
 def post_new(request,category):
-  categoryObj = get_permited_object_or_403(Category, request.user, route=category)
+  categoryObj = get_permited_object_or_403(CmsCategory, request.user, route=category)
 
   if categoryObj.kind == '0':
     formClass = BinaryPostForm
@@ -157,7 +157,7 @@ def post_new(request,category):
 @login_required
 @permission_required('cms.change_post', raise_exception=True)
 def post_edit(request, pk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
   is_owner_or_403(request.user, post)
 
@@ -190,7 +190,7 @@ def post_edit(request, pk):
 @login_required
 @permission_required('cms.delete_post', raise_exception=True)
 def post_delete(request, pk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
   is_owner_or_403(request.user, post)
 
@@ -207,7 +207,7 @@ def post_delete(request, pk):
 @login_required
 @permission_required('cms.publish_post', raise_exception=True)
 def post_publish(request, pk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   is_owner_or_403(request.user, post)
 
   post.is_public = True
@@ -218,7 +218,7 @@ def post_publish(request, pk):
 @login_required
 @permission_required('cms.publish_post', raise_exception=True)
 def post_unpublish(request, pk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   is_owner_or_403(request.user, post)
 
   post.is_public = False
@@ -229,7 +229,7 @@ def post_unpublish(request, pk):
 @login_required
 @permission_required('cms.moderate_post', raise_exception=True)
 def post_approve(request, pk):
-  post = get_permited_object_or_403(Post, request.user, pk=pk)
+  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   is_moderator_or_403(request.user, post)
 
   post.is_moderated = True

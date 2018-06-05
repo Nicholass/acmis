@@ -1,18 +1,18 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-from .models import Post, Category, Comment
+from .models import CmsPost, CmsCategory, Comment
 from django.db.models import Q
 
 '''
 Example queries:
 
-Post.objects.filter(pk=4, category__groups__in=user.groups.all())
-Category.objects.filter(route='map', groups__in=user.groups.all())
+CmsPost.objects.filter(pk=4, category__groups__in=user.groups.all())
+CmsCategory.objects.filter(route='map', groups__in=user.groups.all())
 Comment.objects.filter(pk=19, post__category__groups__in=user.groups.all())
 '''
 
 def allow_view_category(user, category):
-  c = Category.objects.filter(route=category).first()
+  c = CmsCategory.objects.filter(route=category).first()
   if c is None:
     return False
 
@@ -31,9 +31,9 @@ def allow_view_category(user, category):
 
 def get_permited_object_or_404(model, user, **kwargs):
 
-  if model is Category:
+  if model is CmsCategory:
     q_category_prefix = ''
-  elif model is Post:
+  elif model is CmsPost:
     q_category_prefix = 'category__'
   elif model is Comment:
     q_category_prefix = 'post__category__'
@@ -50,9 +50,9 @@ def get_permited_object_or_404(model, user, **kwargs):
 def get_permited_object_or_403(model, user, **kwargs):
   object = get_object_or_404(model, **kwargs)
 
-  if model is Category:
+  if model is CmsCategory:
     cat = object
-  elif model is Post:
+  elif model is CmsPost:
     cat = object.category
   elif model is Comment:
     cat = object.post.category

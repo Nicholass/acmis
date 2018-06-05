@@ -11,7 +11,7 @@ from polymorphic.models import PolymorphicModel
 from django.dispatch import receiver
 
 
-class Post(PolymorphicModel):
+class CmsPost(PolymorphicModel):
   '''
   TODO:
   share post on save
@@ -24,7 +24,7 @@ class Post(PolymorphicModel):
 
   author = models.ForeignKey('auth.User', verbose_name=_("Автор"))
   title = models.CharField(max_length=200, verbose_name=_("Название"))
-  category = models.ForeignKey('Category', blank=True, null=False, verbose_name=_("Категория"))
+  category = models.ForeignKey('CmsCategory', blank=True, null=False, verbose_name=_("Категория"))
 
   tags = TaggableManager(blank=True, verbose_name=_("Теги"))
   created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Дата создания"))
@@ -60,7 +60,7 @@ class Post(PolymorphicModel):
     )
 
 
-class TextPost(Post):
+class TextPost(CmsPost):
   text = RichTextUploadingField(verbose_name=_("Текст"))
 
   @property
@@ -78,7 +78,7 @@ class TextPost(Post):
       return reverse('post_detail', kwargs={'pk': self.pk})
 
 
-class BinaryPost(Post):
+class BinaryPost(CmsPost):
   file = models.ImageField(
     upload_to='uploads/%Y/%m/%d/',
     verbose_name=_("Файл"),

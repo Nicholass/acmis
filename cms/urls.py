@@ -6,6 +6,15 @@ from django.conf import settings
 from . import views
 from django.contrib.auth import views as auth_views
 from cms.forms.registration import RememberAuthenticationForm
+from django.contrib.sitemaps.views import sitemap
+
+from djangobb_forum import settings as forum_settings
+from djangobb_forum.sitemap import SitemapForum, SitemapTopic
+
+sitemaps = {
+    'forum': SitemapForum,
+    'topic': SitemapTopic,
+}
 
 urlpatterns = [
   url(r'^$', views.post_list, name='post_list'),
@@ -73,7 +82,22 @@ urlpatterns = [
   url(r'^accounts/email/change/$', views.edit_email, name='auth_email_change'),
   url(r'^accounts/email/change/done/(?P<uidb64>[0-9A-Za-z_\-]+)/'
       r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.edit_email_done, name='auth_email_change_done'),
+  # Sitemap
+  url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}),
+
+  # Apps
+  url(r'^forum/account/', include('allauth.urls')),
+  url(r'^forum/', include('djangobb_forum.urls', namespace='djangobb')),
+
   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),
   url(r'^ajax/menu/', views.get_menu_data, name="get_menu_data")
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+]
+if settings.DEBUG:
+  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+# PM Extension
+if (forum_settings.PM_SUPPORT):
+  urlpatterns += [
+    url(r'^forum/pm/', include('django_messages.urls')),
+  ]
