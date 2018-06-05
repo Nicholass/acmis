@@ -1,4 +1,4 @@
-from django.core import serializers
+from django.shortcuts import render
 from django.http import JsonResponse
 
 from taggit.models import Tag
@@ -15,3 +15,6 @@ def get_simular_tags(request):
         result.append(tag['name'])
 
     return JsonResponse(list(result), safe=False)
+
+def get_menu_data(request):
+  return render(request, 'cms/menu.js', {'user': request.user})
