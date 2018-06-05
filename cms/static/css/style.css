@@ -152,7 +152,7 @@ button[disabled] {
     -moz-box-shadow: 0 4px 6px 0 rgba(0,0,0,0.75);
     box-shadow: 0 4px 6px 0 rgba(0,0,0,0.75);
     margin-bottom: 28px;
-    min-height: 1.5em;
+    min-height: 1.1em;
 }
 .menu .greeting {
     margin: 0 10px 0 0;
@@ -188,6 +188,7 @@ button[disabled] {
     display: flex;
     flex-direction: row;
     align-items: stretch;
+    font: 12px verdana, tahoma, Segoe, sans-serif;
     line-height: 1.5em;
     margin: 0;
 }

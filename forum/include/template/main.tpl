@@ -30,35 +30,7 @@
         <img src="/static/images/logo.jpg" class="logo" alt="ACIS logo" />
         <img src="/static/images/slogan.gif" class="slogan" alt="Artificial Caves Investigation System" />
     </div>
-    <div class="menu" id="acisMenu">
-        {% if user.is_authenticated %}
-            <p class="greeting">Вы вошли как: <strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong></p>
-        {% endif %}
-    </div>
-    <div class="navbar">
-        <ul class="breadcrumbs">
-            <li><a href="{% url 'post_list' %}">Главная</a></li>
-            <li class="sep">&#187;</li>
-            <li class="current">Форум</li>
-        </ul>
-
-        <form action="{% url 'set_language' %}" class="langSwitcher" method="post">{% csrf_token %}
-            <input name="next" type="hidden" value="{{ redirect_to }}" />
-            <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}">
-            <ul>
-                {% get_current_language as LANGUAGE_CODE %}
-                {% get_available_languages as LANGUAGES %}
-                {% get_language_info_list for LANGUAGES as languages %}
-                {% for language in languages %}
-                    <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}" id="{{ language.code }}">
-                        <a href="#" title="{{ language.name_local }} ({{ language.code }})">
-                            <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}" />
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </form>
-    </div>
+    <div class="menu" id="acisMenu"></div>
     <div class="main">
         <!--boms -->
 
@@ -127,50 +99,9 @@ pageTracker._trackPageview();
 </script>
 
 <script src="/static/js/menu.js"></script>
+<script src="/ajax/menu"></script>
+
 <script src="/static/js/misc.js"></script>
 
-<script>
-    var menu = {
-        '{% trans "Новости" %}': '{% url 'post_list' %}',
-        '{% trans "Категории" %}': {
-            {% auth_can_view_category 'report' as allow_report %}
-            {% auth_can_view_category 'photo' as allow_photo %}
-            {% auth_can_view_category 'map' as allow_map %}
-            {% auth_can_view_category 'drawing' as allow_drawing %}
-            {% auth_can_view_category 'prose' as allow_prose %}
-
-            {% if allow_report %}'{% trans "Очеты" %}': '{% url 'category_list' category='report' %}', {% endif %}
-            {% if allow_photo %}'{% trans "Фотографии" %}': '{% url 'category_list' category='photo' %}', {% endif %}
-            {% if allow_map %}'{% trans "Карты" %}': '{% url 'category_list' category='map' %}', {% endif %}
-            {% if allow_drawing %}'{% trans "Графика" %}': '{% url 'category_list' category='drawing' %}', {% endif %}
-            {% if allow_prose %}'{% trans "Писательство" %}': '{% url 'category_list' category='prose' %}' {% endif %}
-        },
-        '{% trans "Общение" %}': {
-            '{% trans "Форум" %}': '#',
-            '{% trans "Вылазки" %}': '#',
-            '{% trans "Снаряжение" %}': '#',
-            '{% trans "Другие вылазки" %}': '#',
-            '{% trans "Курилка" %}': '#',
-            '{% trans "Техн. раздел" %}': '#'
-        },
-        'Wiki/FAQ': '#',
-
-        {% if user.is_staff %}
-            'Управление': '/admin/',
-        {% endif %}
-
-        {% if user.is_authenticated %}
-            '{% trans "Выход" %}': '{% url 'auth_logout' %}?next={{request.path}}'
-        {% else %}
-            '{% trans "Регистрация" %}': '{% url 'registration_register' %}',
-            '{% trans "Вход" %}': '{% url 'auth_login' %}?next={{request.path}}'
-        {% endif %}
-    };
-
-    $('#acisMenu').acisMenu({
-        class: 'main-menu',
-        items: menu
-    });
-</script>
 </body>
 </html>
