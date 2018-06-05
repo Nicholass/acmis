@@ -25,7 +25,7 @@ class PostForm(forms.ModelForm):
     tags = self.cleaned_data.get('tags')
 
     for i, tag in enumerate(tags):
-      tags[i] = re.sub(r'[^\w\s\d\-_,]', '', tag)
+      tags[i] = re.sub(r'[^\w\s\d\-_,]', '', tag).lower()
 
     return tags
 
