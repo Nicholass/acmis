@@ -81,7 +81,6 @@
         <!--eoms -->
 
         <p>&nbsp;</p>
-        <p>&nbsp;</p>
     </div>
     <div class="footer">
         Copyright © 2001-2016 ACIS

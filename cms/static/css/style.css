@@ -17,7 +17,7 @@ a:hover, a:active {
     text-decoration: underline;
 }
 
-input:not(#id_tags_tag), textarea {
+input:not(#id_tags_tag, .brd input), textarea {
     padding: 6px 12px;
     font-size: 14px;
     line-height: 1.42857143;
