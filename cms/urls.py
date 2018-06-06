@@ -76,6 +76,7 @@ urlpatterns = [
   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),
   url(r'^forum/', include('pybb.urls', namespace='pybb')),
+  url(r'^messages/', include('django_messages.urls')),
 ]
 
 if settings.DEBUG:

@@ -21,17 +21,6 @@ TZ_CHOICES = [(float(x[0]), x[1]) for x in (
 class CmsProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
-    signature = models.TextField(_('Подпись'), blank=True, max_length=1024)
-    signature_html = models.TextField(_('HTML подпись'), blank=True, max_length=1054)
-    time_zone = models.FloatField(_('Часовой пояс'), choices=TZ_CHOICES, default=float(2))
-    language = models.CharField(_('Язык'), max_length=10, blank=True, choices=settings.LANGUAGES,
-                                default=settings.LANGUAGE_CODE)
-    show_signatures = models.BooleanField(_('Показывать подпись'), default=True)
-    post_count = models.IntegerField(_('Колличество постов'), blank=True, default=0)
-    autosubscribe = models.BooleanField(_('Автоматическая подписка'),
-                                        help_text=_('Автоматическая подписка на темы в которые вы отвечаете'),
-                                        default=False)
-
     avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name=_("Аватар"))
     birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Дата рождения"))
     location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Местонахождение"))

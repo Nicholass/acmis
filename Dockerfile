@@ -21,6 +21,9 @@ RUN . ./acis_venv/bin/activate
 
 RUN pip install -r ./requirements.txt
 
+COPY ./build/web/django-messages-master.zip ./
+RUN pip install ./django-messages-master.zip && rm ./django-messages-master.zip
+
 COPY . .
 
 EXPOSE 8000

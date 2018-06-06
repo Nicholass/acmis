@@ -46,7 +46,8 @@ INSTALLED_APPS = [
     'django_bleach',
     'ban',
     'djangobower',
-    'pybb'
+    'pybb',
+    'django_messages'
 ]
 
 MIDDLEWARE = [
@@ -239,8 +240,6 @@ SESSION_SAVE_EVERY_REQUEST = True
 ALLOWED_HOSTS = [
     'web',
 ]
-
-PYBB_PROFILE_RELATED_NAME = 'profile'
 
 PYBB_TEMPLATE = 'cms/base.html'
 PYBB_MARKUP = 'bbcode'
