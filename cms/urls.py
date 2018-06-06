@@ -75,5 +75,8 @@ urlpatterns = [
       r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.edit_email_done, name='auth_email_change_done'),
   url(r'^ckeditor/', include('ckeditor_uploader.urls')),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),
-  url(r'^forum/', include('pybb.urls', namespace='pybb'))
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  url(r'^forum/', include('pybb.urls', namespace='pybb')),
+]
+
+if settings.DEBUG:
+  urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
