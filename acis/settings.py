@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     'ban',
     'djangobower',
     'pybb',
-    'django_messages'
+    'django_messages',
+    'captcha'
 ]
 
 MIDDLEWARE = [
@@ -243,3 +244,7 @@ ALLOWED_HOSTS = [
 
 PYBB_TEMPLATE = 'cms/base.html'
 PYBB_MARKUP = 'bbcode'
+
+RECAPTCHA_PUBLIC_KEY = '6LegnF0UAAAAAIbP1Xu21W_e6kObQIOYbqFs2VBC'
+RECAPTCHA_PRIVATE_KEY = '6LegnF0UAAAAAONkfdiI5dU1MhqA2BAvQsaGI2bp'
+NOCAPTCHA = True
