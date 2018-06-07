@@ -11,7 +11,7 @@
 
 {% block breadcrumbs %}
     <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
-    <li class="sep">&#187;</li>
+    <li class="sep"></li>
 
     <li class="current">
         {% if not parent %}

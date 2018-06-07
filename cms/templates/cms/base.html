@@ -17,6 +17,7 @@
 
     <link rel="stylesheet" href="{% static 'jquery-ui/themes/base/jquery-ui.min.css' %}">
     <link rel="stylesheet" href="{% static 'fancybox/dist/jquery.fancybox.min.css' %}" >
+	<link rel="stylesheet" href="{% static 'css/fa/css/fontawesome-all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -31,22 +32,32 @@
     <script src="{% static 'fancybox/dist/jquery.fancybox.min.js' %}"></script>
 </head>
 <body>
-
-<div class="container-wrapper">
-    <div class="header">
-        <img src="{% static 'images/logo.jpg' %}" class="logo" alt="ACIS logo" />
-        <img src="{% static 'images/slogan.gif' %}" class="slogan" alt="Artificial Caves Investigation System" />
+<!-- header starts here -->
+<div id="header">
+    <div class="content">
+        <div class="dynamic">
+            <div id="logo-lt">&nbsp;</div>
+            <div id="logo-rt">&nbsp;</div>
+        </div>
+        <span id="logo">Diggers.kiev.ua</span>
+        <span id="slogan">Сайт</span>
+        <span id="greeting">
+            {% if user.is_authenticated %}
+                {% trans "Вы вошли как: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong>
+            {% else %}
+                <strong><a href="{% url 'auth_login' %}">{% trans "Войдите" %}</a></strong>{% trans " или " %}
+                <strong><a href="{% url 'registration_register' %}">{% trans "зарегистрируйтесь" %}</a></strong>
+            {% endif %}
+        </span>
+        <!-- Menu Tabs -->
+        {% include "cms/menu.html" %}
+        <!-- Menu Tabs -->
     </div>
-    <div class="menu" id="acisMenu">
-        {% if user.is_authenticated %}
-            <p class="greeting">{% trans "Вы вошли как: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong></p>
-        {% endif %}
-    </div>
+</div>
+<!-- content-wrap starts here -->
+<div id="content-wrap">
     <div class="navbar">
         <ul class="breadcrumbs">
-            <li><a href="{% url 'post_list' %}">{% trans "Главная" %}</a></li>
-            <li class="sep">&#187;</li>
-
             {% block breadcrumbs %}{% endblock %}
         </ul>
 
@@ -58,28 +69,38 @@
                 {% get_available_languages as LANGUAGES %}
                 {% get_language_info_list for LANGUAGES as languages %}
                 {% for language in languages %}
-                    <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}" id="{{ language.code }}">
-                        <a href="#" title="{{ language.name_local }} ({{ language.code }})">
-                            <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}" />
-                        </a>
-                    </li>
+                <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}" id="{{ language.code }}">
+                    <a href="#" title="{{ language.name_local }} ({{ language.code }})">
+                        <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}" />
+                    </a>
+                </li>
                 {% endfor %}
             </ul>
         </form>
     </div>
-    <div class="main">
+    <div class="content">
         {% block content %}{% endblock %}
     </div>
-    <div class="footer">
-        Copyright © 2001-{% now "Y" %} ACIS
+</div>
+<!-- content-wrap ends here -->
+
+<!-- footer starts here -->
+<div id="footer">
+    <div class="content">
+        <div>
+            {% include "cms/menu.html" %}
+        </div>
+        <div>
+            <p>
+                Design by Outsiders Diggers<br />
+                Copyright &copy; {% now "Y" %}<br />
+            </p>
+        </div>
     </div>
 </div>
 
 <script src="{% static 'pybb/js/pybbjs.js' %}"></script>
-<script src="{% static 'js/menu.js' %}"></script>
 <script src="{% static 'js/misc.js' %}"></script>
-<script>
-    {% include "cms/menu.js" %}
-</script>
+<!-- footer ends here -->
 </body>
 </html>

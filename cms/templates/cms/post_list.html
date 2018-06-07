@@ -20,6 +20,7 @@
 
 
 {% block breadcrumbs %}
+  <li class="sep"></li>
   {% if author %}
     {% if tags %}
       <li><a href="{% url 'author_list' author=author %}">
@@ -40,7 +41,7 @@
 
   {% if tags or is_disapproved  %}
     </a></li>
-    <li class="sep">&#187;</li>
+    <li class="sep"></li>
     <li class="current">{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
   {% else %}
     </li>
@@ -52,59 +53,64 @@
 {% endblock %}
 
 {% block content %}
-  <div class="block">
-    <h1 class="header-simple">
-      {% if author %}
-        {% trans "Материалы автора " %}{{ author }}
-      {% elif category %}
-          {% if is_disapproved %}
-            {% trans "премодерация постов категории " %}
+  <div class="content">
+    <div id="main">
+        {% if category and user.is_authenticated %}
+          <div class="actions">
+            {% if perms.cms.add_post %}
+                <a href="{% url 'post_new' category=category.route %}">
+                  <i class="fa fa-file"></i>
+                  {% trans "Добавить " %}
+
+                  {# TODO: перевод названия категории на уровне модели #}
+
+                  {% if category.route == 'drawing' %}
+                    {% trans "рисунок" %}
+                  {% elif category.route == 'map' %}
+                    {% trans "карту" %}
+                  {% elif category.route == 'news' %}
+                    {% trans "новость" %}
+                  {% elif category.route == 'photo' %}
+                    {% trans "фотографию" %}
+                  {% elif category.route == 'prose' %}
+                    {% trans "рассказ" %}
+                  {% elif category.route == 'report' %}
+                    {% trans "отчет" %}
+                  {% endif %}
+                </a>
+            {% endif %}
+
+            {% if perms.cms.moderate_post and posts_disapproved > 0 %}
+                <a href="{% url 'category_disapproved' category=category.route %}">
+                  <i class="fa fa-check-square"></i>
+                  Ожидают модерации ({{ posts_disapproved }})
+                </a>
+            {% endif %}
+          </div>
+        {% endif %}
+
+        <h1>
+          {% if author %}
+            {% trans "Материалы автора " %}{{ author }}
+          {% elif category %}
+              {% if is_disapproved %}
+                {% trans "премодерация постов категории " %}
+              {% endif %}
+
+              {# TODO: перевод названия категории на уровне модели #}
+              {{ category }}
+          {% elif tags %}
+            {% trans "Материалы" %}
           {% endif %}
 
-          {# TODO: перевод названия категории на уровне модели #}
-          {{ category }}
-      {% elif tags %}
-        {% trans "Материалы" %}
-      {% endif %}
-
-      {% if tags %}
-        {% trans " по тегам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
-      {% endif %}
-    </h1>
-
-      {% if category and user.is_authenticated %}
-        <div class="category-menu">
-          {% if perms.cms.add_post %}
-              <a href="{% url 'post_new' category=category.route %}">
-                {% trans "Добавить " %}
-
-                {# TODO: перевод названия категории на уровне модели #}
-
-                {% if category.route == 'drawing' %}
-                  {% trans "рисунок" %}
-                {% elif category.route == 'map' %}
-                  {% trans "карту" %}
-                {% elif category.route == 'news' %}
-                  {% trans "новость" %}
-                {% elif category.route == 'photo' %}
-                  {% trans "фотографию" %}
-                {% elif category.route == 'prose' %}
-                  {% trans "рассказ" %}
-                {% elif category.route == 'report' %}
-                  {% trans "отчет" %}
-                {% endif %}
-              </a>
+          {% if tags %}
+            {% trans " по тегам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
           {% endif %}
+        </h1>
 
-          {% if perms.cms.moderate_post and posts_disapproved > 0 %}
-              <strong><a href="{% url 'category_disapproved' category=category.route %}" class="link_dissaproved">Ожидают модерации ({{ posts_disapproved }})</a></strong>
-          {% endif %}
-        </div>
-      {% endif %}
-
-    <div class="content {{ category.route }}">
+        <div class="posts">
       {% if not posts %}
-        <p>
+        <p class="no-content">
           {% if not is_disapproved %}
             {% url 'post_new' category=category.route as post_new_url %}
             {% blocktrans with post_new_url=post_new_url %}
@@ -133,30 +139,9 @@
             {% endif %}
           </h2>
           <div class="info">
-            {% if category.route == 'photo' or category.route == 'drawing' %}
-                <p><a class="fa-link" href="{% url 'category_list' category=post.category.route %}">
-                    <i class="fa fa-list-ul"></i>
-                    {# TODO: перевод названия категории на уровне модели #}
-
-                    {% if post.category.route == 'drawing' %}
-                      {% trans "Графика" %}
-                    {% elif post.category.route == 'map' %}
-                      {% trans "Карты" %}
-                    {% elif post.category.route == 'news' %}
-                      {% trans "Новости" %}
-                    {% elif post.category.route == 'photo' %}
-                      {% trans "Фотографии" %}
-                    {% elif post.category.route == 'prose' %}
-                      {% trans "Писательство" %}
-                    {% elif post.category.route == 'report' %}
-                      {% trans "Отчеты" %}
-                    {% endif %}
-                </a></p>
-                <p><span class="fa-link"><i class="fa fa-calendar"></i>{{ post.created_date }}</span></p>
-                <p><a href="{% url 'author_list' author=post.author %}" class="fa-link"><i class="fa fa-user-o"></i>{{ post.author }}</a></p>
-            {% else %}
+            <span>
+                <i class="fa fa-list"></i>
                 <a class="fa-link" href="{% url 'category_list' category=post.category.route %}">
-                    <i class="fa fa-list-ul"></i>
                     {# TODO: перевод названия категории на уровне модели #}
 
                     {% if post.category.route == 'drawing' %}
@@ -173,41 +158,41 @@
                       {% trans "Отчеты" %}
                     {% endif %}
                 </a>
-                <span class="fa-link"><i class="fa fa-calendar"></i>{{ post.created_date }}</span>
-                <a href="{% url 'author_list' author=post.author %}" class="fa-link"><i class="fa fa-user-o"></i>{{ post.author }}</a>
-            {% endif %}
+            </span>
+            <span>
+                <i class="fa fa-calendar"></i>
+                {{ post.created_date }}
+            </span>
+            <span>
+                <i class="fa fa-user"></i>
+                <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
+            </span>
+
 
             {% comment_count as comm_count %}
             {% if comm_count and category.route != 'map' %}
-
-              {% if category.route == 'photo' or category.route == 'drawing' %}
-                <p>
-              {% endif %}
-
-              <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link fa-link"><i class="fa fa-comment-o"></i>{{ comm_count }}
-                {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
-                {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
-                {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
-              </a>
-
-              {% if category.route == 'photo' or category.route == 'drawing' %}
-                </p>
-              {% endif %}
-
+              <span>
+                <i class="fa fa-comment"></i>
+                <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link fa-link">{{ comm_count }}
+                  {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
+                  {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
+                  {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
+                </a>
+               </span>
             {% endif %}
           </div>
 
           {% if post.category.route != 'map' %}
-            <div class="content clearfix">
+            <p class="clearfix">
             {% if not post.file %}
               {{ post.text|truncatechars:800|bleach }}
             {% else %}
               <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
             {% endif %}
-            </div>
+            </p>
           {% else %}
             {% if need_relogin %}
-              <div class="content clearfix">{% trans "Для открытия доступа к картам пожалуста выйдите и зайдите на сайт снова" %}</div>
+              <p>{% trans "Для открытия доступа к картам пожалуста выйдите и зайдите на сайт снова" %}</p>
             {% endif %}
           {% endif %}
 
@@ -231,23 +216,23 @@
               {% auth_is_owner post as is_post_owner %}
 
               {% if perms.cms.change_post and is_post_owner %}
-                  <a href="{% url 'post_edit' pk=post.pk %}" class="fa-link" title="{% trans "Редактировать" %}"><i class="fa fa-pencil"></i></a>
+                  <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Редактировать" %}</a>
               {% endif %}
 
               {% if perms.cms.delete_post and is_post_owner %}
-                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link" title="{% trans "Удалить" %}"><i class="fa fa-trash-o"></i></a>
+                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
               {% endif %}
 
               {% if perms.cms.publish_post and is_post_owner %}
                 {% if post.is_public %}
-                  <a href="{% url 'post_unpublish' pk=post.pk %}" class="fa-link" title="{% trans "Скрыть" %}"><i class="fa fa-eye-slash"></i></a>
+                  <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Скрыть" %}</a>
                 {% else %}
-                  <a href="{% url 'post_publish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye" title="{% trans "Опубликовать" %}"></i></a>
+                  <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Опубликовать" %}</a>
                 {% endif %}
               {% endif %}
               {% if perms.cms.moderate_post %}
                 {% if not post.is_moderated %}
-                  <a href="{% url 'post_approve' pk=post.pk %}" class="fa-link" title="{% trans "Одобрить" %}"><i class="fa fa-check-square-o"></i></a>
+                  <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Одобрить" %}</a>
                 {% endif %}
               {% endif %}
             {% endif %}
@@ -279,6 +264,6 @@
         {% endif %}
       </ul>
     {% endif %}
-
+    </div>
   </div>
 {% endblock %}
