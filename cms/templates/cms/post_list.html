@@ -20,7 +20,9 @@
 
 
 {% block breadcrumbs %}
-  <li class="sep"></li>
+  {% if category or tags or author %}
+      <li class="sep"></li>
+  {% endif %}
   {% if author %}
     {% if tags %}
       <li><a href="{% url 'author_list' author=author %}">
@@ -41,7 +43,6 @@
 
   {% if tags or is_disapproved  %}
     </a></li>
-    <li class="sep"></li>
     <li class="current">{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
   {% else %}
     </li>
@@ -53,7 +54,6 @@
 {% endblock %}
 
 {% block content %}
-  <div class="content">
     <div id="main">
         {% if category and user.is_authenticated %}
           <div class="actions">
@@ -108,7 +108,7 @@
           {% endif %}
         </h1>
 
-        <div class="posts">
+        <div class="posts{% if category.route == 'photo' or category.route == 'drawing' %} tiles{% elif category.route == 'map' %} list{% endif %}">
       {% if not posts %}
         <p class="no-content">
           {% if not is_disapproved %}
@@ -139,9 +139,10 @@
             {% endif %}
           </h2>
           <div class="info">
+            {% if not category %}
             <span>
                 <i class="fa fa-list"></i>
-                <a class="fa-link" href="{% url 'category_list' category=post.category.route %}">
+                <a href="{% url 'category_list' category=post.category.route %}">
                     {# TODO: перевод названия категории на уровне модели #}
 
                     {% if post.category.route == 'drawing' %}
@@ -159,10 +160,12 @@
                     {% endif %}
                 </a>
             </span>
+            {% endif %}
             <span>
                 <i class="fa fa-calendar"></i>
                 {{ post.created_date }}
             </span>
+            {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
             <span>
                 <i class="fa fa-user"></i>
                 <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
@@ -173,7 +176,7 @@
             {% if comm_count and category.route != 'map' %}
               <span>
                 <i class="fa fa-comment"></i>
-                <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link fa-link">{{ comm_count }}
+                <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">{{ comm_count }}
                   {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
                   {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
                   {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
@@ -182,19 +185,20 @@
             {% endif %}
           </div>
 
-          {% if post.category.route != 'map' %}
-            <p class="clearfix">
-            {% if not post.file %}
-              {{ post.text|truncatechars:800|bleach }}
+          <div class="post-content clearfix">
+            {% if post.category.route != 'map' %}
+              {% if not post.file %}
+                {{ post.text|truncatechars:800|bleach }}
+              {% else %}
+                <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+              {% endif %}
             {% else %}
-              <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+              {% if need_relogin %}
+                <p>{% trans "Для открытия доступа к картам пожалуста выйдите и зайдите на сайт снова" %}</p>
+              {% endif %}
             {% endif %}
-            </p>
-          {% else %}
-            {% if need_relogin %}
-              <p>{% trans "Для открытия доступа к картам пожалуста выйдите и зайдите на сайт снова" %}</p>
-            {% endif %}
-          {% endif %}
+          </div>
+
 
           {% if post.tags.all %}
             <div class="tags">
@@ -203,8 +207,10 @@
                 {% if not forloop.first %}&nbsp;{% endif %}
                 {% if author %}
                   <a href="{% url 'author_tags_list' author=author tags=tag.name %}">#{{ tag.name }}</a>
-                {% else %}
+                {% elif category %}
                   <a href="{% url 'category_tags_list' category=post.category.route tags=tag.name %}">#{{ tag.name }}</a>
+                {% else %}
+                  <a href="{% url 'tag_list' tags=tag.name %}">#{{ tag.name }}</a>
                 {% endif %}
                 {% if not forloop.last %}, {% endif %}
               {% endfor %}
@@ -218,11 +224,11 @@
               {% if perms.cms.change_post and is_post_owner %}
                   <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Редактировать" %}</a>
               {% endif %}
-
+              {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
               {% if perms.cms.delete_post and is_post_owner %}
                 <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
               {% endif %}
-
+              {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
               {% if perms.cms.publish_post and is_post_owner %}
                 {% if post.is_public %}
                   <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Скрыть" %}</a>
@@ -232,6 +238,7 @@
               {% endif %}
               {% if perms.cms.moderate_post %}
                 {% if not post.is_moderated %}
+                  {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
                   <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Одобрить" %}</a>
                 {% endif %}
               {% endif %}
@@ -265,5 +272,4 @@
       </ul>
     {% endif %}
     </div>
-  </div>
 {% endblock %}

@@ -10,6 +10,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
+    <li class="sep"></li>
     <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
     <li class="sep"></li>
     <li class="current">{{ post }}</li>
@@ -19,92 +20,83 @@
     {% auth_is_owner post as is_post_owner %}
     {% comment_count as comm_count %}
 
-    <div class="block article {% if post.file %}file{% else %}text{% endif %}">
+    <div id="main">
+        <div class="post single">
+            <h1>{{ post.title }}</h1>
 
-        <div class="actions">
-            {% if user.is_authenticated %}
-              {% auth_is_owner post as is_post_owner %}
+             <div class="actions">
+                 {% if user.is_authenticated %}
+                   {% auth_is_owner post as is_post_owner %}
 
-              {% if perms.cms.change_post and is_post_owner %}
-                  <a href="{% url 'post_edit' pk=post.pk %}" class="fa-link"><i class="fa fa-pencil"></i>{% trans "Редактировать" %}</a>
-              {% endif %}
+                   {% if perms.cms.change_post and is_post_owner %}
+                       <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Редактировать" %}</a>
+                   {% endif %}
+                   {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
+                   {% if perms.cms.delete_post and is_post_owner %}
+                     <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
+                   {% endif %}
+                   {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
+                   {% if perms.cms.publish_post and is_post_owner %}
+                     {% if post.is_public %}
+                       <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Скрыть" %}</a>
+                     {% else %}
+                       <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Опубликовать" %}</a>
+                     {% endif %}
+                   {% endif %}
+                   {% if perms.cms.moderate_post %}
+                     {% if not post.is_moderated %}
+                       {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
+                       <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Одобрить" %}</a>
+                     {% endif %}
+                   {% endif %}
+                 {% endif %}
+             </div>
 
-              {% if perms.cms.delete_post and is_post_owner %}
-                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
-              {% endif %}
+             <div class="post-content clearfix">
+                 {% if post.file %}
+                     <a data-fancybox="images" href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+                     <p class="description">{{ post.description }}</p>
+                 {% else %}
+                     {{ post.text|bleach }}
+                 {% endif %}
+             </div>
 
-              {% if perms.cms.publish_post and is_post_owner %}
-                {% if post.is_public %}
-                  <a href="{% url 'post_unpublish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye-slash"></i>{% trans "Скрыть" %}</a>
-                {% else %}
-                  <a href="{% url 'post_publish' pk=post.pk %}" class="fa-link"><i class="fa fa-eye"></i>{% trans "Опубликовать" %}</a>
-                {% endif %}
-              {% endif %}
-            {% endif %}
-          </div>
+             {% if post.tags.all %}
+                 <div class="tags">
+                     <i class="fa fa-tags"></i>
+                     {% for tag in post.tags.all %}
+                         {% if not forloop.first %}&nbsp;{% endif %}
+                         <a href="{% url 'tag_list' tags=tag.name %}">#{{ tag.name }}</a>
+                         {% if not forloop.last %}, {% endif %}
+                     {% endfor %}
+                 </div>
+             {% endif %}
 
-        <div class="info">
-            <p>
-                <strong>{% trans "Автор: " %}</strong>
-                <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
-            </p>
-            <p><strong>{% trans "Дата: " %}</strong>{{ post.created_date }}</p>
-            <p>
-                <strong>{% trans "Категория: " %}</strong>
-                <a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a>
-            </p>
+             {% get_previous posts post as prev %}
+             {% get_next posts post as next %}
+
+             {% if prev or next %}
+                 <div class="posts_nav">
+                     {% if prev %}
+                         <a href="{% url 'post_detail' pk=prev.pk %}"><i class="fa fa-arrow-left"></i>{% trans " Предыдущий" %}</a>
+                     {% endif %}
+                     {% if next %}
+                         <a href="{% url 'post_detail' pk=next.pk %}">{% trans "Следующий " %}<i class="fa fa-arrow-right"></i></a>
+                     {% endif %}
+                 </div>
+             {% endif %}
         </div>
 
-        <h1 class="header-simple">{{ post.title }}</h1>
-        <div class="content clearfix">
-            {% if post.file %}
-                <a data-fancybox="images" href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
-
-                <p class="description">{{ post.description }}</p>
-            {% else %}
-                {{ post.text|bleach }}
+        <div class="comments">
+            {% if comm_count or perms.cms.add_comment %}
+                <h2>{% trans "Комментарии:" %}</h2>
             {% endif %}
-        </div>
 
-        {% if post.tags.all %}
-            <div class="tags">
-                <i class="fa fa-tags"></i>
-                {% for tag in post.tags.all %}
-                    {% if not forloop.first %}&nbsp;{% endif %}
-                    <a href="{% url 'category_tags_list' category=post.category.route tags=tag.name %}">#{{ tag.name }}</a>
-                    {% if not forloop.last %}, {% endif %}
-                {% endfor %}
-            </div>
-        {% endif %}
+            {% if comm_count %}{% comment_list %}{% endif %}
 
-        {% get_previous posts post as prev %}
-        {% get_next posts post as next %}
-
-        {% if prev or next %}
-            <div class="posts_nav">
-                {% if prev %}
-                    <a href="{% url 'post_detail' pk=prev.pk %}">{% trans "&lt; Предыдущий" %}</a>
-                {% else %}
-                    <span></span>
-                {% endif %}
-                {% if next %}
-                    <a href="{% url 'post_detail' pk=next.pk %}">{% trans "Следующий &gt;" %}</a>
-                {% endif %}
-            </div>
-        {% endif %}
-    </div>
-
-    {% if comm_count or perms.cms.add_comment %}
-        <h3 id="comments">{% trans "Комментарии:" %}</h3>
-    {% endif %}
-
-    {% if comm_count %}{% comment_list %}{% endif %}
-
-    {% if perms.cms.add_comment %}
-        <div class="comments-form">
-            <div class="well">
+            {% if perms.cms.add_comment %}
                 {% comment_form post %}
-            </div>
+            {% endif %}
         </div>
-    {% endif %}
+    </div>
 {% endblock %}

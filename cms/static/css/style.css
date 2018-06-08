@@ -89,18 +89,20 @@ blockquote {
 }
 
 /* form elements */
-form:not(.langSwitcher) {
+/*
+form {
 	margin: 15px;
 	padding: 15px 10px;
 	background: #111;
     border: 1px solid #151515;
 }
+*/
 label {
 	display:block;
 	font-weight:bold;
 	margin:5px 0;
 }
-input {
+input:not(input[type=file]) {
 	padding: 3px 2px;
 	border: 1px solid #CCC;
     color:#000;
@@ -115,8 +117,8 @@ textarea {
 	color:#000;
 	background: #CCC;
 }
-input.button { 
-	margin: 0; 
+input[type=button], button {
+	margin: 10px 0 0 0;
    	border: 1px solid #CCC;
 	padding: 2px 3px; 
 	color: #000;
@@ -399,7 +401,7 @@ input.button {
 }
 .posts.list .post {
 	display: grid;
-	grid-template-columns: 8fr 2fr;
+	grid-template-columns: 8fr 3fr;
 	padding: 5px 0 0px 0;
 	border-bottom: 1px solid #0D0D0D;
 }
@@ -408,6 +410,13 @@ input.button {
 }
 .posts.list .info {
 	text-align: right;
+}
+.post.single {
+	padding-top: 0;
+}
+.post.single > h1,
+.post.single > h2 {
+	padding-bottom: 5px;
 }
 
 .post {
@@ -418,31 +427,50 @@ input.button {
 .post.hidden {
 	opacity: 0.7;
 }
-.post h2 {
+.post > h2 {
 	font-size: 1.2em;
 	font-weight: bold;
 	display: block;
 	margin: 0;
 }
-.post h2 a {
+.post > h2 a {
 	color: #A0080D;
 }
-.post h2 a:hover {
+.post > h2 a:hover {
 	color: #FFF;
 }
 .post .info span,
 .post .actions a {
 	margin: 0 5px 0 0;
 }
-.post .actions a {
+.post .actions a,
+.post .posts_nav a {
 	color: #9A9A9A;
 }
-.post .actions a:hover {
+.post .actions a:hover,
+.post .posts_nav a:hover {
 	color: #FFF;
 }
-.post > p {
+.post .posts_nav {
+	display: flex;
+    justify-content: space-around;
+}
+.post .post-content {
 	padding: 5px 0;
 }
+
+/* forms */
+.post-form input[name=title] {
+	width: 830px;
+}
+.post-form label[for=id_is_public] {
+	display: inline-block;
+	vertical-align: middle;
+}
+.post-form input[type=checkbox] {
+	vertical-align: middle;
+}
+
 
 /* sidebar */
 #sidebar {
@@ -546,4 +574,16 @@ input.button {
 }
 .ul-circle {
 	list-style:circle;
+}
+
+.clearfix:before,
+.clearfix:after {
+   content: "";
+   display: table;
+}
+.clearfix:after {
+   clear: both;
+}
+.clearfix {
+   zoom: 1;
 }

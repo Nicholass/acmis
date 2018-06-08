@@ -8,7 +8,7 @@
 {% auth_can_view_category 'prose' as allow_prose %}
 
 <ul class="menu">
-    <li><a href='{% url 'post_list' %}'>{% trans "Новости" %}</a></li>
+    <li><a href='{% url 'category_list' category='news' %}'>{% trans "Новости" %}</a></li>
 
     {% if allow_report %}<li><a href='{% url 'category_list' category='report' %}'>{% trans "Очеты" %}</a></li>{% endif %}
     {% if allow_photo %}<li><a href='{% url 'category_list' category='photo' %}'>{% trans "Фотографии" %}</a></li>{% endif %}
@@ -21,5 +21,9 @@
 
     {% if user.is_staff %}
     <li><a href='/admin/'>{% trans "Управление" %}</a></li>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+        <li><a href='{% url 'auth_logout' %}?next={{request.path}}'>{% trans "Выход" %}</a></li>
     {% endif %}
 </ul>

@@ -6,11 +6,13 @@
 {% endblock %}
 
 {% block breadcrumbs %}
+    <li class="sep"></li>
+    <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
     <li class="current">{% trans "премодерация" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div class="error-page">
+    <div id="#main">
         <h1>{% trans "Ваш пост отправлен на премодерацию" %}</h1>
         <p>
             {% trans "Публикация постов в данной категории требуют проверки модератором. После проверки ваш пост будет опубликован." %}

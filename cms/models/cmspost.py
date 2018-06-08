@@ -84,7 +84,7 @@ class BinaryPost(CmsPost):
     verbose_name=_("Файл"),
     null=True
   )
-  description = models.TextField(max_length=200, verbose_name=_("Описание"))
+  description = models.TextField(max_length=200, verbose_name=_("Описание"), blank=True)
 
   class Meta:
     verbose_name = _("Изображение")

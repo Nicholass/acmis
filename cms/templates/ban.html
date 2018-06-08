@@ -6,11 +6,12 @@
 {% endblock %}
 
 {% block breadcrumbs %}
+    <li class="sep"></li>
     <li class="current">{% trans "Ваш аккаунт заблокирован" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div class="error-page">
+    <div id="#main">
         <h1>{% trans "Ваш аккаунт на сайте ACIS заблокирован" %}</h1>
         <p>
             {% trans "Для снятия блокировки обратитесь к администрации ресурса" %}

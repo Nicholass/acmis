@@ -19,8 +19,13 @@ def post_list(request, tags=None, category=None, author=None):
     return render(request, 'unconstruction.html')
 
   t = c = None
+  is_home = False
+
   if not category and not tags and not author:
-    category = getattr(settings, 'HOME_CATEGORY_ROUTE', 'news')
+    is_home = True
+    home_category = getattr(settings, 'HOME_CATEGORY_ROUTE', False)
+    if home_category:
+      category = home_category
 
   if category:
     c = get_permited_object_or_403(CmsCategory, request.user, route=category)
@@ -71,7 +76,8 @@ def post_list(request, tags=None, category=None, author=None):
     'tags': t,
     'author': author,
     'posts_disapproved': len(posts_disapproved),
-    'need_relogin': need_relogin
+    'need_relogin': need_relogin,
+    'is_home': is_home
   })
 
 
