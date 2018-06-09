@@ -109,7 +109,7 @@ input:not(input[type=file]) {
 	background: #CCC;
 }
 textarea {
-	width: 250px;
+/*	width: 250px; */
 	padding:3px 2px;
 	border: 1px solid #CCC;
 	height:100px;
@@ -378,8 +378,10 @@ input[type=button], button {
 #main > .actions a {
 	margin: 0 5px 0 0;
 }
-#main .no-content {
+#main .nocontent {
 	margin: 30px 0;
+	grid-column-start: 1;
+    grid-column-end: 4;
 }
 
 .posts {
@@ -460,17 +462,28 @@ input[type=button], button {
 }
 
 /* forms */
+form .help {
+	font-style: italic;
+}
+
 .post-form input[name=title] {
 	width: 830px;
 }
+
+.login-form {
+	margin-bottom: 10px;
+}
+.login-form label[for=id_remember],
+.registration-rules-form label,
 .post-form label[for=id_is_public] {
 	display: inline-block;
 	vertical-align: middle;
 }
+.login-form input[name=remember],
+.registration-rules-form input,
 .post-form input[type=checkbox] {
 	vertical-align: middle;
 }
-
 
 /* sidebar */
 #sidebar {
@@ -513,10 +526,44 @@ input[type=button], button {
 
 /* Comments */
 .comments {
+	margin-top: 10px;
+}
+.comments form {
+	margin-top: 15px;
+}
+.comments ul {
+	list-style: none;
+    margin: 0;
+    padding-left: 0;
+	color: #6A6A6A;
+}
+.comments ul.thread {
+	padding-left: 30px;
+}
+.comment {
 	border: 1px solid #151515;
 	background: #111;
 	padding: 8px 10px;
-	margin: 20px 15px 10px 15px;
+	margin: 20px 0 10px 0;
+	display: grid;
+    grid-template-columns: 1fr 11fr;
+}
+.comment.deleted {
+	display: block;
+}
+.comment .user {
+	padding-right: 10px;
+}
+.comment .text {
+	display: flex;
+	justify-content: space-between;
+    flex-direction: column;
+}
+.comment .actions a {
+	color: #9A9A9A;
+}
+.comment .actions a:hover {
+	color: #FFF;
 }
 
 /* footer */
@@ -586,4 +633,12 @@ input[type=button], button {
 }
 .clearfix {
    zoom: 1;
+}
+
+.noavatar {
+	width: 60px;
+	height: 60px;
+	background: #000;
+	color: orange;
+	border: 1px solid #999;
 }

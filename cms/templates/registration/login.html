@@ -2,43 +2,49 @@
 {% load i18n %}
 
 {% block title %}
-  {% trans "ACIS - Вход" %}
+  {% trans "Вход" %}
 {% endblock %}
 
 {% block breadcrumbs %}
+  <li class="sep"></li>
   <li class="current">{% trans "Вход" %}</li>
 {% endblock %}
 
 {% block content %}
-  <h1 class="form-header login-header">{% trans "Вход в систему" %}</h1>
+  <div id="main">
+    <h1>{% trans "Вход в систему" %}</h1>
 
-  <form method="post" action="." class="grid-form login-form">
-    {% csrf_token %}
+    <form method="post" action="." class="login-form">
+      {% csrf_token %}
 
-    {% for field in form.visible_fields %}
-      {{ field.label_tag }}
-      {{ field }}
-    {% endfor %}
+      {% for field in form.visible_fields %}
+        <p>
+          {{ field.label_tag }}
+          {{ field }}
+        </p>
+      {% endfor %}
 
-    {{ form.non_field_errors }}
+      {{ form.non_field_errors }}
 
-    {% for hidden in form.hidden_fields %}
-      {{ hidden }}
-    {% endfor %}
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
 
-    {% if next %}
-      <input type="hidden" name="next" value="{{ next }}" />
-    {% else %}
-      <input type="hidden" name="next" value="{% url 'post_list' %}" />
-    {% endif %}
+      {% if next %}
+        <input type="hidden" name="next" value="{{ next }}" />
+      {% else %}
+        <input type="hidden" name="next" value="{% url 'post_list' %}" />
+      {% endif %}
 
-    <p class="buttons">
-      <button type="submit">{% trans "Вход" %}</button>
+      <p class="buttons">
+        <button type="submit">{% trans "Вход" %}</button>
+      </p>
+    </form>
+
+    <p>
+      <p><a href="{% url 'auth_password_reset' %}">{% trans "Забыли пароль?" %}</a></p>
+      <p><a href="{% url 'registration_register' %}">{% trans "Регистрация" %}</a></p>
     </p>
-  </form>
 
-  <div class="accounts-actions">
-    <p><a href="{% url 'auth_password_reset' %}">{% trans "Забыли пароль?" %}</a></p>
-    <p><a href="{% url 'registration_register' %}">{% trans "Регистрация" %}</a></p>
   </div>
 {% endblock %}

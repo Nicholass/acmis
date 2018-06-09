@@ -3,13 +3,14 @@
 
 {% block title %}
     {% if not parent %}
-        {% trans "ACIS - Редактирование комментария" %}
+        {% trans "Редактирование комментария" %}
     {% else %}
-        {% trans "ACIS - Ответ на комментарий" %}
+        {% trans "Ответ на комментарий" %}
     {% endif %}
 {% endblock %}
 
 {% block breadcrumbs %}
+    <li class="sep"></li>
     <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
     <li class="sep"></li>
 
@@ -23,21 +24,19 @@
 {% endblock %}
 
 {% block content %}
-    <div class="block">
-        <h1 class="header-simple">
+    <div id="main" class="comments">
+        <h2>
             {% if not parent %}
                 {% trans "Редактирование комментария" %}
             {% else %}
                 {% trans "Ответ на комментарий " %} {{ parent.author }}: {{ parent.short_text }}
             {% endif %}
-        </h1>
+        </h2>
 
-        <div class="content">
-            <form method="POST" class="post-form">
-                {% csrf_token %}
-                {{ form.as_p }}
-                <button type="submit">{% trans "Отправить" %}</button>
-            </form>
-        </div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">{% trans "Отправить" %}</button>
+        </form>
     </div>
 {% endblock %}

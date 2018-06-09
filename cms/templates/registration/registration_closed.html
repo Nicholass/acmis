@@ -2,13 +2,18 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "ACIS - Регистрация" %}
+    {% trans "Регистрация" %}
 {% endblock %}
 
 {% block breadcrumbs %}
+    <li class="sep"></li>
     <li class="current">{% trans "Регистрация" %}</li>
 {% endblock %}
 
 {% block content %}
-    <p>{% trans "В настоящее время регистрация новых пользователей отключена." %}</p>
+    <div id="main">
+        <h1>{% trans "Регистрация" %}</h1>
+
+        <p>{% trans "В настоящее время регистрация новых пользователей отключена." %}</p>
+    </div>
 {% endblock %}

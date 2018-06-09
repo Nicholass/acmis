@@ -6,7 +6,7 @@
 {% load next_previous %}
 
 {% block title %}
-    {% trans "ACIS - " %}{{ post }}
+    {% trans "" %}{{ post }}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -23,6 +23,17 @@
     <div id="main">
         <div class="post single">
             <h1>{{ post.title }}</h1>
+
+           <div class="info">
+               <span>
+                   <i class="fa fa-calendar"></i>
+                   {{ post.created_date }}
+               </span>
+               <span>
+                   <i class="fa fa-user"></i>
+                   <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
+               </span>
+             </div>
 
              <div class="actions">
                  {% if user.is_authenticated %}

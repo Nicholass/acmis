@@ -6,11 +6,11 @@
 
 {% block title %}
   {% if author %}
-    {% trans "ACIS - Материалы пользователя " %}{{ author }}
+    {% trans "Материалы пользователя " %}{{ author }}
   {% elif category %}
-    {% trans "ACIS - " %}{{ category }}
+    {% trans "" %}{{ category }}
   {% elif tags %}
-    {% trans "ACIS - Материалы" %}
+    {% trans "Материалы" %}
   {% endif %}
 
   {% if tags %}
@@ -110,7 +110,7 @@
 
         <div class="posts{% if category.route == 'photo' or category.route == 'drawing' %} tiles{% elif category.route == 'map' %} list{% endif %}">
       {% if not posts %}
-        <p class="no-content">
+        <p class="nocontent">
           {% if not is_disapproved %}
             {% url 'post_new' category=category.route as post_new_url %}
             {% blocktrans with post_new_url=post_new_url %}

@@ -2,28 +2,28 @@
 {% load mptt_tags %}
 {% load auth %}
 
-<ul class="comments">
+<ul>
     {% recursetree comments %}
         <li>
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
-                    <div class="comment-user">
-                        <div class="username"><a href="{% url 'another_profile' username=node.author.username %}" class="fa-link"><i class="fa fa-user-o"></i>{{ node.author }}</a></div>
-                        <div class="avatar">
-                            {% if node.author.profile.avatar %}
-                                <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar }}" />
-                            {% else %}
-                                <p class="noavatar"></p>
-                            {% endif %}
-                        </div>
+                    <div class="user">
+                        <a href="{% url 'another_profile' username=node.author.username %}" >
+                            <i class="fa fa-user"></i>
+                            {{ node.author }}
+                        </a>
+                        <br>
+                        {% if node.author.profile.avatar %}
+                            <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar }}" />
+                        {% else %}
+                            <p class="noavatar"></p>
+                        {% endif %}
                     </div>
-                    <div class="comment-body">
-                        <p class="comment-heading">
-                            <span class="fa-link">
-                                <i class="fa fa-calendar"></i> {{ node.created_date }}
-                            </span>
+                    <div class="text">
+                        <p class="info">
+                            <i class="fa fa-calendar"></i> {{ node.created_date }}
                         </p>
-                        <p class="comment-content">
+                        <p>
                             {{ node.text|linebreaksbr }}
                             {% if node.modifed_date %}
                                 <br />
@@ -31,20 +31,32 @@
                                 <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
                             {% endif %}
                         </p>
-                        <p class="comment-footer">
+                        <p class="actions">
                             {% auth_is_owner node as is_comment_owner %}
                             {% if user.is_authenticated %}
                                 {% if perms.cms.add_comment %}
-                                    <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}" class="fa-link"><i class="fa fa-comment-o"></i>{% trans "Ответ" %}</a>
+                                    <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">
+                                        <i class="fa fa-comment"></i>
+                                        {% trans "Ответ" %}
+                                    </a>
                                 {% endif %}
                                 {% if perms.cms.change_comment and is_comment_owner %}
-                                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}" class="fa-link"><i class="fa fa-pencil"></i>{% trans "Редактировать" %}</a>
+                                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">
+                                        <i class="fa fa-edit"></i>
+                                        {% trans "Редактировать" %}
+                                    </a>
                                 {% endif %}
                                 {% if perms.cms.delete_comment and is_comment_owner %}
-                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')" class="fa-link"><i class="fa fa-trash-o"></i>{% trans "Удалить" %}</a>
+                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">
+                                        <i class="fa fa-trash"></i>
+                                        {% trans "Удалить" %}
+                                    </a>
                                 {% endif %}
                             {% endif %}
-                            <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}" class="fa-link"><i class="fa fa-link"></i>{% trans "Ссылка" %}</a>
+                            <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">
+                                <i class="fa fa-link"></i>
+                                {% trans "Ссылка" %}
+                            </a>
                         </p>
                     </div>
                 {% else %}

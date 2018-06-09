@@ -2,13 +2,18 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "ACIS - Выход" %}
+    {% trans "Выход" %}
 {% endblock %}
 
 {% block breadcrumbs %}
+    <li class="sep"></li>
     <li class="current">{% trans "Выход" %}</li>
 {% endblock %}
 
 {% block content %}
-    <p>{% trans "Успешный выход с сайта." %}</p>
+    <div id="main">
+        <h1>{% trans "Выход" %}</h1>
+
+        <p>{% trans "Успешный выход с сайта." %}</p>
+    </div>
 {% endblock %}
