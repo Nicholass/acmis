@@ -6,18 +6,15 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li class="current">{% trans "Изменение email" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div id="main">
-        <h1>{% trans "Изменение email" %}</h1>
+    <h1>{% trans "Изменение email" %}</h1>
 
-        {% if validlink %}
-          <p>{% trans "Email успешно изменен" %}</p>
-        {% else %}
-          <p>{% trans "Ссылка по которой вы перешли не правильная. Изменение email не удалось." %}</p>
-        {% endif %}
-    </div>
+    {% if validlink %}
+      <p>{% trans "Email успешно изменен" %}</p>
+    {% else %}
+      <p>{% trans "Ссылка по которой вы перешли не правильная. Изменение email не удалось." %}</p>
+    {% endif %}
 {% endblock %}

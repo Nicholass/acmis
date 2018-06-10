@@ -6,31 +6,28 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li class="current">{% trans "Регистрация" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div id="main">
-        <h1>{% trans "Регистрация учетной записи" %}</h1>
-        <p>{% trans "Для регистрации необходимо ознакомиться и согласиться с правилами ниже." %}</p>
+    <h1>{% trans "Регистрация учетной записи" %}</h1>
+    <p>{% trans "Для регистрации необходимо ознакомиться и согласиться с правилами ниже." %}</p>
 
-        <h2>{% trans "Правила сайта ACIS" %}</h2>
+    <h2>{% trans "Правила сайта ACIS" %}</h2>
 
-        {# TODO: Правила грузить в виде текста для возможности перевода на другие языки #}
-        <div class="rules">
-            {% block rules %}{% endblock %}
-        </div>
-
-        <form method="get" action="" class="registration-rules-form">
-            <p>
-                <input type="checkbox" name="accept" id="accept" />
-                <label for="accept">{% trans "Я согласен с указанными выше правилами" %}</label>
-            </p>
-            <input type="hidden" name="proceed" value="1" />
-            <p class="buttons">
-                <button type="submit" class="save btn btn-default">{% trans "Регистрация" %}</button>
-            </p>
-        </form>
+    {# TODO: Правила грузить в виде текста для возможности перевода на другие языки #}
+    <div class="rules">
+        {% block rules %}{% endblock %}
     </div>
+
+    <form method="get" action="" class="registration-rules-form">
+        <p>
+            <input type="checkbox" name="accept" id="accept" />
+            <label for="accept">{% trans "Я согласен с указанными выше правилами" %}</label>
+        </p>
+        <input type="hidden" name="proceed" value="1" />
+        <p class="buttons">
+            <button type="submit" class="save btn btn-default">{% trans "Регистрация" %}</button>
+        </p>
+    </form>
 {% endblock %}

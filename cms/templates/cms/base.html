@@ -49,6 +49,17 @@
                 <strong><a href="{% url 'registration_register' %}">{% trans "зарегистрируйтесь" %}</a></strong>
             {% endif %}
         </span>
+        <span id="pm">
+            {% if user.is_authenticated %}
+                {% url 'messages_inbox' as pm_url %}
+                {% inbox_count as pm_cout %}
+                {% if pm_cout > 0 %}<strong>{% endif %}
+                {% blocktrans with pm_url=pm_url %}
+                    У вас <a href="{{ pm_url }}">{{ pm_cout }} личных сообщений</a>
+                {% endblocktrans %}
+                {% if pm_cout > 0 %}</strong>{% endif %}
+            {% endif %}
+        </span>
         <!-- Menu Tabs -->
         {% include "cms/menu.html" %}
         <!-- Menu Tabs -->
@@ -63,6 +74,7 @@
                 <li class="current">{% trans "Главная" %}</li>
             {% else %}
                 <li><a href="/">{% trans "Главная" %}</a></li>
+                <li class="sep"></li>
             {% endif %}
             {% block breadcrumbs %}{% endblock %}
         </ul>
@@ -84,7 +96,12 @@
         </form>
     </div>
     <div class="content">
-        {% block content %}{% endblock %}
+        <div id="main">
+            {% block content %}{% endblock %}
+        </div>
+        <div id="sidebar">
+            {% block sidebar %}{% endblock %}
+        </div>
     </div>
 </div>
 <!-- content-wrap ends here -->

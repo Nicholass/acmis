@@ -6,12 +6,10 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-  <li class="sep"></li>
-  <li class="current">{% trans "Вход" %}</li>
+    <li class="current">{% trans "Вход" %}</li>
 {% endblock %}
 
 {% block content %}
-  <div id="main">
     <h1>{% trans "Вход в систему" %}</h1>
 
     <form method="post" action="." class="login-form">
@@ -36,7 +34,7 @@
         <input type="hidden" name="next" value="{% url 'post_list' %}" />
       {% endif %}
 
-      <p class="buttons">
+      <p>
         <button type="submit">{% trans "Вход" %}</button>
       </p>
     </form>
@@ -45,6 +43,4 @@
       <p><a href="{% url 'auth_password_reset' %}">{% trans "Забыли пароль?" %}</a></p>
       <p><a href="{% url 'registration_register' %}">{% trans "Регистрация" %}</a></p>
     </p>
-
-  </div>
 {% endblock %}

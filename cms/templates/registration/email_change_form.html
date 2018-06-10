@@ -6,43 +6,39 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li class="current">{% trans "Изменение email" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div id="main">
-        <h1>{% trans "Изменение email" %}</h1>
+    <h1>{% trans "Изменение email" %}</h1>
 
-        <form method="post" action=".">
-          {% csrf_token %}
+    <form method="post" action=".">
+      {% csrf_token %}
 
-          {% for field in form.visible_fields %}
-            {% if field.errors %}
-              {{ field.errors }}
-            {% endif %}
+      {% for field in form.visible_fields %}
+        {% if field.errors %}
+          {{ field.errors }}
+        {% endif %}
 
-            {{ field.label_tag }}
-            {{ field }}
+        {{ field.label_tag }}
+        {{ field }}
 
-            {% if field.help_text %}
-              <div class="help">
-                {{ field.help_text|safe }}
-              </div>
-            {% endif %}
-          {% endfor %}
+        {% if field.help_text %}
+          <div class="help">
+            {{ field.help_text|safe }}
+          </div>
+        {% endif %}
+      {% endfor %}
 
-          {{ form.non_field_errors }}
+      {{ form.non_field_errors }}
 
-          {% for hidden in form.hidden_fields %}
-            {{ hidden }}
-          {% endfor %}
+      {% for hidden in form.hidden_fields %}
+        {{ hidden }}
+      {% endfor %}
+      <input type="hidden" name="next" value="{{ next }}" />
 
-          <input type="hidden" name="next" value="{{ next }}" />
-
-          <p class="buttons">
-            <button type="submit">{% trans "Изменить email" %}</button>
-          </p>
-        </form>
-    </div>
+      <p>
+        <button type="submit">{% trans "Изменить email" %}</button>
+      </p>
+    </form>
 {% endblock %}

@@ -6,15 +6,12 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li class="current">{% trans "Ошибка 404" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div id="#main">
-        <h1>{% trans "Ошибка 404 - Страница не найдена" %}</h1>
-        <p>
-            {% trans "Запрошенной страницы не существует." %}
-        </p>
-    </div>
+    <h1>{% trans "Ошибка 404 - Страница не найдена" %}</h1>
+    <p>
+        {% trans "Запрошенной страницы не существует." %}
+    </p>
 {% endblock %}

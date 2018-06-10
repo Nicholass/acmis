@@ -48,7 +48,7 @@ class ProfileForm(forms.ModelForm):
         raise forms.ValidationError(_('Аватар не является изображением или не в форматах JPEG, GIF или PNG'))
 
       #validate file size
-      if len(avatar) > (self.AVATAR_MAX_SIZE * 1024):
+      if len(avatar) > int(self.AVATAR_MAX_SIZE * 1024):
         raise forms.ValidationError(_('Аватар больше %s Кб размером' % self.AVATAR_MAX_SIZE ))
 
     except AttributeError:

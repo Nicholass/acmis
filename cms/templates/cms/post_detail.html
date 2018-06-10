@@ -10,7 +10,6 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
     <li class="sep"></li>
     <li class="current">{{ post }}</li>
@@ -20,7 +19,6 @@
     {% auth_is_owner post as is_post_owner %}
     {% comment_count as comm_count %}
 
-    <div id="main">
         <div class="post single">
             <h1>{{ post.title }}</h1>
 
@@ -109,5 +107,4 @@
                 {% comment_form post %}
             {% endif %}
         </div>
-    </div>
 {% endblock %}

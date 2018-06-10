@@ -6,17 +6,14 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li class="current">{% trans "Активация учетной записи" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div id="main">
-        <h1>{% trans "Активация учетной записи" %}</h1>
+    <h1>{% trans "Активация учетной записи" %}</h1>
 
-        {% url 'auth_login' as auth_url %}
-        {% blocktrans %}
-            <p>Учетная запись активирована. Теперь вы можете <a href="{{ auth_url }}">войти</a> на сайт.</p>
-        {% endblocktrans %}
-    </div>
+    {% url 'auth_login' as auth_url %}
+    {% blocktrans %}
+        <p>Учетная запись активирована. Теперь вы можете <a href="{{ auth_url }}">войти</a> на сайт.</p>
+    {% endblocktrans %}
 {% endblock %}

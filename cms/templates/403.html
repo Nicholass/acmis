@@ -6,15 +6,12 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li class="current">{% trans "Ошибка 403" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div id="#main">
-        <h1>{% trans "Ошибка 403 - Доступ запрещен" %}</h1>
-        <p>
-            {% trans "У вас недостаточно прав для просмотра этой страницы." %}
-        </p>
-    </div>
+    <h1>{% trans "Ошибка 403 - Доступ запрещен" %}</h1>
+    <p>
+        {% trans "У вас недостаточно прав для просмотра этой страницы." %}
+    </p>
 {% endblock %}

@@ -28,7 +28,6 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-  <li class="sep"></li>
   <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
   <li class="sep"></li>
   <li class="current">
@@ -57,7 +56,6 @@
 {% endblock %}
 
 {% block content %}
-   <div id="main">
     <h1>
       {% if post %}
         {% trans "Редактировать " %}
@@ -88,8 +86,7 @@
       {% csrf_token %}
       {{ form.media }}
       {{ form.as_p }}
-      <button type="submit" class="save btn btn-default">{% trans "Отправить" %}</button>
+      <button type="submit">{% trans "Отправить" %}</button>
     </form>
-  </div>
 {% endblock %}
 

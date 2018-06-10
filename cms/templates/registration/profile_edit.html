@@ -10,26 +10,28 @@
 {% endblock %}
 
 {% block content %}
-    <h1 class="form-header">{% trans "Редактирование профиля пользователя " %}{{ user }}</h1>
+    <h1>{% trans "Редактирование профиля пользователя " %}{{ user }}</h1>
 
-    <form method="post" action="." class="grid-form profile-edit-form" enctype="multipart/form-data">
+    <form method="post" action="." class="pofile-edit-form" enctype="multipart/form-data">
         {% csrf_token %}
 
         <h2>{% trans "Основная информация" %}</h2>
 
         {% for field in user_form.visible_fields %}
-            {% if field.errors %}
-                {{ field.errors }}
-            {% endif %}
+            <p>
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
 
-            {{ field.label_tag }}
-            {{ field }}
+                {{ field.label_tag }}
+                {{ field }}
 
-            {% if field.help_text %}
-                <div class="help">
-                    {{ field.help_text|safe }}
-                </div>
-            {% endif %}
+                {% if field.help_text %}
+                    <div class="help">
+                        {{ field.help_text|safe }}
+                    </div>
+                {% endif %}
+            </p>
         {% endfor %}
 
         {{ user_form.non_field_errors }}
@@ -41,24 +43,27 @@
         <h2>{% trans "Профиль пользователя" %}</h2>
 
         {% for field in profile_form.visible_fields %}
-            {% if field.errors %}
-                {{ field.errors }}
-            {% endif %}
+            <p>
 
-            {{ field.label_tag }}
-            {{ field }}
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
 
-            {% if field.help_text %}
-                <div class="help">
-                    {{ field.help_text|safe }}
-                </div>
-            {% endif %}
+                {{ field.label_tag }}
+                {{ field }}
+
+                {% if field.help_text %}
+                    <div class="help">
+                        {{ field.help_text|safe }}
+                    </div>
+                {% endif %}
+            </p>
 
             {% if field.html_name == 'site' %}
                 <h3>{% trans "Контактная информация" %}</h3>
             {% endif %}
 
-            {% if field.html_name == 'skype' %}
+            {% if field.html_name == 'jabber' %}
                 <h3>{% trans "Социальные сети" %}</h3>
             {% endif %}
         {% endfor %}
@@ -69,7 +74,7 @@
             {{ hidden }}
         {% endfor %}
 
-        <p class="buttons">
+        <p>
             <button type="submit">{% trans "Сохранить" %}</button>
         </p>
     </form>

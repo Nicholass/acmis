@@ -20,9 +20,6 @@
 
 
 {% block breadcrumbs %}
-  {% if category or tags or author %}
-      <li class="sep"></li>
-  {% endif %}
   {% if author %}
     {% if tags %}
       <li><a href="{% url 'author_list' author=author %}">
@@ -54,7 +51,6 @@
 {% endblock %}
 
 {% block content %}
-    <div id="main">
         {% if category and user.is_authenticated %}
           <div class="actions">
             {% if perms.cms.add_post %}
@@ -271,5 +267,4 @@
         {% endif %}
       </ul>
     {% endif %}
-    </div>
 {% endblock %}

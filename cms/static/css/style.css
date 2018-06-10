@@ -30,7 +30,7 @@ h1, h2, h3 {
 }
 h1 {
 	color: #DBD0A3;
-	font-size: 2.2em;
+	font-size: 2.0em;
 }
 h2 {
 	color: #A0080D;
@@ -102,12 +102,15 @@ label {
 	font-weight:bold;
 	margin:5px 0;
 }
-input:not(input[type=file]) {
+input {
 	padding: 3px 2px;
+}
+input:not([type=file]) {
 	border: 1px solid #CCC;
     color:#000;
 	background: #CCC;
 }
+
 textarea {
 /*	width: 250px; */
 	padding:3px 2px;
@@ -123,6 +126,10 @@ input[type=button], button {
 	padding: 2px 3px; 
 	color: #000;
 	background: #CCC;	
+}
+
+table {
+	width: 100%;
 }
 
 /* search form */
@@ -227,6 +234,16 @@ input[type=button], button {
 #header #greeting {
 	position: absolute;
 	top: 7px;
+	right: 15px;
+	display: block;
+	padding: 3px 12px;
+	margin: 0 4px;
+	color: #FFF;
+	background: rgba(0, 0, 0, 0.35);
+}
+#header #pm {
+	position: absolute;
+	top: 55px;
 	right: 15px;
 	display: block;
 	padding: 3px 12px;
@@ -461,6 +478,19 @@ input[type=button], button {
 	padding: 5px 0;
 }
 
+.profile {
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+}
+.profile div {
+	display: inline-grid;
+	grid-template-columns: 1fr 2fr;
+}
+.profile div h2 {
+	grid-column-start: 1;
+    grid-column-end: 3;
+}
+
 /* forms */
 form .help {
 	font-style: italic;
@@ -483,6 +513,17 @@ form .help {
 .registration-rules-form input,
 .post-form input[type=checkbox] {
 	vertical-align: middle;
+}
+.pofile-edit-form h2,
+.pofile-edit-form h3 {
+    margin-top: 10px;
+}
+.pofile-edit-form input[name=avatar-clear] {
+    vertical-align: middle;
+}
+.pofile-edit-form label[for=avatar-clear_id] {
+    vertical-align: middle;
+    display: inline-block;
 }
 
 /* sidebar */

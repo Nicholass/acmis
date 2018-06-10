@@ -1,0 +1,11 @@
+{% load i18n %}
+
+{% blocktrans with recipient=message.recipient sender=message.sender %}Здравствуйте, {{ recipient }}.
+Вы получили личное сообщение от {{ sender }} со следующим содержанием:{% endblocktrans %}
+
+{{ message.body|safe }}
+
+--
+{% blocktrans %}Sent from {{ site_url }}{% endblocktrans %}
+{% trans "Inbox" %}: {{ site_url }}{% url 'messages_inbox' %}
+{% trans "Reply" %}: {{ site_url }}{% url 'messages_reply' message.pk %}

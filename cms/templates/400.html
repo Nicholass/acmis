@@ -6,15 +6,12 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="sep"></li>
     <li class="current">{% trans "Ошибка 400" %}</li>
 {% endblock %}
 
 {% block content %}
-    <div id="#main">
-        <h1>{% trans "Ошибка 400 - Неправильный запрос" %}</h1>
-        <p>
-            {% trans "При обработке запроса произошла ошибка." %}
-        </p>
-    </div>
+    <h1>{% trans "Ошибка 400 - Неправильный запрос" %}</h1>
+    <p>
+        {% trans "При обработке запроса произошла ошибка." %}
+    </p>
 {% endblock %}
