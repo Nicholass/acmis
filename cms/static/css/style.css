@@ -491,6 +491,14 @@ table {
     grid-column-end: 3;
 }
 
+.message-headers {
+	display: grid;
+    grid-template-columns: 1fr 5fr;
+}
+.message-body {
+	padding: 30px 0;
+}
+
 /* forms */
 form .help {
 	font-style: italic;

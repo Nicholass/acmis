@@ -1,6 +1,10 @@
 {% extends "django_messages/base.html" %}
 {% load i18n %}
 
+{% block breadcrumbs %}
+    <li class="current">{% trans "View Message" %}</li>
+{% endblock %}
+
 {% block content %}
 <h1>{% trans "View Message" %}</h1>
 <dl class="message-headers">
@@ -13,12 +17,15 @@
     <dt>{% trans "Recipient" %}</dt>
     <dd>{{ message.recipient }}</dd>
 </dl>
-{{ message.body|linebreaksbr }}<br /><br />
-
-{% ifequal message.recipient.pk user.pk %}
-<a href="{% url 'messages_reply' message.id %}">{% trans "Reply" %}</a>
-{% endifequal %}
-<a href="{% url 'messages_delete' message.id %}">{% trans "Delete" %}</a>
+<div class="message-body">
+{{ message.body|linebreaksbr }}
+</div>
+<div class="actions">
+    {% ifequal message.recipient.pk user.pk %}
+        <a href="{% url 'messages_reply' message.id %}"><i class="fa fa-reply"></i> {% trans "Reply" %}</a>
+    {% endifequal %}
+    <a href="{% url 'messages_delete' message.id %}"><i class="fa fa-trash"></i> {% trans "Delete" %}</a>
+</div>
 
 {% comment %}Example reply_form integration
 {% if reply_form %}
