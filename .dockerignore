@@ -1,5 +1,5 @@
 bower_components/
-acis_venv/
+diggers_venv/
 static/
 config/
 *.sqlite3

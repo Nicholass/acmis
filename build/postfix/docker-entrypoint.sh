@@ -1,5 +1,7 @@
 #!/bin/bash
 
+mkdir /etc/opendkim/keys
+mkdir /etc/opendkim/keys/diggers.kiev.ua
 cd /etc/opendkim/keys/diggers.kiev.ua
 if [ ! -f "mail.txt" ]
 then

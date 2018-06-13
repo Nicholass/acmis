@@ -10,7 +10,7 @@ docker-compose exec web ./manage.py deploy
 `==VirtualEnv for Developmentcode hinting==`
 
 ```shell
-virtualenv --python=python3 --prompt="ACIS" acis_venv
-. ./acis_venv/bin/activate
+virtualenv --python=python3 --prompt="DIG" diggers_venv
+. ./diggers_venv/bin/activate
 pip install -r ./requirements.txt
 ```

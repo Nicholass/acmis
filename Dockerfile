@@ -16,8 +16,8 @@ RUN apt-get install -y nodejs
 RUN npm install --global bower
 
 RUN pip install virtualenv
-RUN virtualenv --python=python3 --prompt="ACIS" acis_venv
-RUN . ./acis_venv/bin/activate
+RUN virtualenv --python=python3 --prompt="DIG" diggers_venv
+RUN . ./diggers_venv/bin/activate
 
 RUN pip install -r ./requirements.txt
 
