@@ -3,7 +3,7 @@
 
 {% block title %}{{ forum.name }}{% endblock title %}
 
-{% block breadcrumb %}
+{% block breadcrumbs %}
     {% with forum as object %}
         {% include "pybb/breadcrumb.html" %}
     {% endwith %}
@@ -28,7 +28,7 @@
 
         <div class="controls">
             {% if user|pybb_may_create_topic:forum %}
-                {% include "pybb/_button_new_topic.html" %}
+                {% include "pybb/_button_new_topic.html" %} /
             {% endif %}
             {% include "pybb/_button_forum_subscription.html" %}
         </div>

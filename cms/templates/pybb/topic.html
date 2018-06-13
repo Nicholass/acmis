@@ -14,7 +14,7 @@
     <script type="text/javascript" src="{% static 'pybb/js/jquery.formset.min.js' %}"></script>
 {% endblock %}
 
-{% block breadcrumb %}
+{% block breadcrumbs %}
     {% with object=topic %}
         {% include "pybb/breadcrumb.html" %}
     {% endwith %}
@@ -29,7 +29,7 @@
             {% include 'pybb/poll.html' %}
         {% endif %}
 
-        <div class="posts">
+        <div class="topic-posts">
             {% if first_post and first_post != post_list.0 %}
                 <div class="first_post">{% include "pybb/post_template.html" with first_post=post %}</div>
             {% endif %}
@@ -38,7 +38,7 @@
                 {% include "pybb/post_template.html" %}
             {% endfor %}
         </div>
-        <div>&nbsp;</div>
+
         {% with _('Posts') as label %}
             {% include "pybb/pagination.html" %}
         {% endwith %}

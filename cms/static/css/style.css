@@ -491,12 +491,117 @@ table {
     grid-column-end: 3;
 }
 
+/* PM */
 .message-headers {
 	display: grid;
     grid-template-columns: 1fr 5fr;
 }
 .message-body {
 	padding: 30px 0;
+}
+
+/* Forum */
+.category-table, .topic-list {
+	margin-top: 10px;
+}
+.category-table td, .category-table th,
+.topic-list td, .topic-list th {
+	border: 1px solid #6A6A6A;
+	padding: 5px;
+}
+.category-table th, .topic-list th {
+	background: #6A6A6A;
+	color: #000;
+}
+.topic-post {
+	margin-top: 10px;
+	display: grid;
+    grid-template-columns: 1fr 8fr 2fr;
+}
+.topic-post > div {
+	padding: 5px;
+}
+.topic-post .post-header {
+	grid-column-start: 1;
+    grid-column-end: 4;
+	line-height: 1em;
+}
+.topic-post .post-content {
+	grid-column-start: 2;
+	grid-column-end: 4;
+	display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.topic-post .post-header {
+	background: #6A6A6A;
+    color: #000;
+}
+.topic-post .post-header{
+	border: 1px solid #6A6A6A;
+}
+.topic-post .post-info{
+	border-left: 1px solid #6A6A6A;
+	border-right: 1px solid #6A6A6A;
+	border-bottom: 1px solid #6A6A6A;
+}
+.topic-post .post-content{
+	border-right: 1px solid #6A6A6A;
+	border-bottom: 1px solid #6A6A6A;
+}
+.topic-post .post-controls {
+	display: inline-flex;
+    justify-content: space-between;
+}
+.topic-post .updated-message {
+	font-style: italic;
+}
+.topic-post .post-controls a {
+	display: inline-block;
+	margin-right: 5px;
+	color: #9A9A9A;
+}
+.topic-post .post-controls a:hover {
+	color: #FFF;
+}
+.topic-post .attachments a img {
+	vertical-align: middle;
+}
+.post-form fieldset {
+	border: 1px solid #6A6A6A;
+	padding: 0 10px 10px 10px;
+}
+.post-form .attachments-form {
+	margin: 5px 0;
+}
+.post-form .attachment-item {
+	display: flex;
+    justify-content: space-between;
+    padding-bottom: 5px;
+    margin-bottom: 5px;
+    border-bottom: 1px solid #0D0D0D;
+}
+.post-preview {
+	padding: 30px 0;
+}
+form a.btn {
+	margin-right: 10px;
+}
+form fieldset {
+	border: none;
+    margin-bottom: 10px;
+}
+.multiple-checkbox ul {
+	list-style: none;
+	margin: 0;
+}
+.multiple-checkbox li input {
+	vertical-align: middle;
+}
+.post-signature div{
+    margin-top: 10px;
+    border-top: 1px solid #0D0D0D;
+	display: inline-block;
 }
 
 /* forms */
@@ -513,13 +618,16 @@ form .help {
 }
 .login-form label[for=id_remember],
 .registration-rules-form label,
-.post-form label[for=id_is_public] {
+.post-form label[for=id_is_public],
+.profile-edit label[for=id_show_signatures]{
 	display: inline-block;
 	vertical-align: middle;
 }
 .login-form input[name=remember],
 .registration-rules-form input,
-.post-form input[type=checkbox] {
+.post-form input[type=checkbox],
+.profile-edit input[name=show_signatures]
+{
 	vertical-align: middle;
 }
 .pofile-edit-form h2,

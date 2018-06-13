@@ -15,7 +15,7 @@
     <script type="text/javascript" src="{% static 'pybb/js/jquery.formset.min.js' %}"></script>
 {% endblock %}
 
-{% block breadcrumb %}
+{% block breadcrumbs %}
     {% if forum %}
         {% with object=forum extra_crumb="New topic" %}
             {% include 'pybb/breadcrumb.html' %}

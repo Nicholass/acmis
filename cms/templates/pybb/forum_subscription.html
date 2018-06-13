@@ -3,7 +3,7 @@
 
 {% block title %}{% blocktrans with forum=forum.name context 'page title' %}{{ forum }} - Subscription{% endblocktrans %}{% endblock title %}
 
-{% block breadcrumb %}
+{% block breadcrumbs %}
     {% with forum as object %}
         {% include "pybb/breadcrumb.html" %}
     {% endwith %}
