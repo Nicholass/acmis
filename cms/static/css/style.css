@@ -478,6 +478,7 @@ table {
 	padding: 5px 0;
 }
 
+/* Profile */
 .profile {
     display: grid;
     grid-template-columns: 2fr 3fr;
@@ -489,6 +490,10 @@ table {
 .profile div h2 {
 	grid-column-start: 1;
     grid-column-end: 3;
+}
+.profile .noitems {
+	grid-column-start: 1;
+	grid-column-end: 3;
 }
 
 /* PM */

@@ -2,6 +2,7 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.core.files.images import get_image_dimensions
 from django.conf import settings
+import re
 
 from ..models import CmsProfile
 from django.contrib.auth.models import User
@@ -26,6 +27,60 @@ class ProfileForm(forms.ModelForm):
     widgets = {
       'birth_date': DateInput()
     }
+
+  def clean_site(self):
+    value = self.cleaned_data.get('site')
+    if not value:
+      return None
+    has_http = re.match(r'^(http://|https://)', value)
+    if not has_http:
+      value = "%s%s" % ('http://', value)
+    return value
+
+  def clean_facebook(self):
+    value = self.cleaned_data.get('facebook')
+    if not value:
+      return None
+    has_http = re.match(r'^(http://|https://)', value)
+    if not has_http:
+      value = "%s%s" % ('https://', value)
+    return value
+
+  def clean_vk(self):
+    value = self.cleaned_data.get('vk')
+    if not value:
+      return None
+    has_http = re.match(r'^(http://|https://)', value)
+    if not has_http:
+      value = "%s%s" % ('https://', value)
+    return value
+
+  def clean_instagram(self):
+    value = self.cleaned_data.get('instagram')
+    if not value:
+      return None
+    has_http = re.match(r'^(http://|https://)', value)
+    if not has_http:
+      value = "%s%s" % ('https://', value)
+    return value
+
+  def clean_twitter(self):
+    value = self.cleaned_data.get('twitter')
+    if not value:
+      return None
+    has_http = re.match(r'^(http://|https://)', value)
+    if not has_http:
+      value = "%s%s" % ('https://', value)
+    return value
+
+  def clean_youtube(self):
+    value = self.cleaned_data.get('youtube')
+    if not value:
+      return None
+    has_http = re.match(r'^(http://|https://)', value)
+    if not has_http:
+      value = "%s%s" % ('https://', value)
+    return value
 
   def clean_avatar(self):
     avatar = self.cleaned_data['avatar']
