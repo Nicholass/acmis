@@ -22,6 +22,7 @@ class Command(BaseCommand):
         self.set_sites()
         self.create_categories()
         self.create_groups()
+        self.set_superuser_group()
         self.set_permissions()
         self.set_map_groups()
 
@@ -71,6 +72,14 @@ class Command(BaseCommand):
                 self.stdout.write('Successfully created category "%s"' % category.name)
             else:
                 self.stdout.write('CmsCategory "%s" already exists' % args['name'])
+
+
+    def set_superuser_group(self):
+        superusers = User.objects.filter(is_superuser=True)
+        admin_group = Group.objects.get(name='Администраторы')
+        for user in superusers:
+            admin_group.user_set.add(user)
+            self.stdout.write('User "%s" added to group "%s"' % (user, admin_group.name))
 
 
     def set_permissions(self):
