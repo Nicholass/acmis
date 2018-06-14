@@ -61,7 +61,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
-    'pybb.middleware.PybbMiddleware'
+
+# Conflict with existing i18n switcher
+#    'pybb.middleware.PybbMiddleware'
 ]
 
 ROOT_URLCONF = 'acis.urls'

@@ -4,10 +4,12 @@
 {% include "pybb/form_errors.html" %}
 
 {% for field in form.visible_fields %}
-    {% if field.auto_id|endswith:'DELETE' %}
-        {{ field }}
-    {% else %}
-        {% include "pybb/form_field.html" %}
+    {% if not field.name == 'language' %}
+        {% if field.auto_id|endswith:'DELETE' %}
+            {{ field }}
+        {% else %}
+            {% include "pybb/form_field.html" %}
+        {% endif %}
     {% endif %}
 {% endfor %}
 
