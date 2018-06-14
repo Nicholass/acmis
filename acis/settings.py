@@ -234,7 +234,7 @@ DEFAULT_REGISTRATION_GROUP = 'Пользователи'
 PAGINATION_POSTS_COUNT = 25
 
 PREMODERATION_CATEGORIES = ['map', 'news']
-PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с доступом к разделу карт']
+PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с доступом к закрытым разделам']
 
 SESSION_SAVE_EVERY_REQUEST = True
 

@@ -121,7 +121,7 @@ def post_detail(request, pk):
 
 
 @login_required
-@permission_required('cms.add_post', raise_exception=True)
+@permission_required('cms.add_cmspost', raise_exception=True)
 def post_new(request,category):
   categoryObj = get_permited_object_or_403(CmsCategory, request.user, route=category)
 
@@ -248,4 +248,4 @@ def post_approve(request, pk):
   post.is_moderated = True
   post.save()
 
-  return redirect('category_list', category=post.category.route)
+  return redirect('category_disapproved', category=post.category.route)

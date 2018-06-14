@@ -24,7 +24,7 @@ class Command(BaseCommand):
         self.create_groups()
         self.set_superuser_group()
         self.set_permissions()
-        self.set_map_groups()
+        self.set_restricted_groups()
 
 
     def create_superuser(self):
@@ -39,7 +39,7 @@ class Command(BaseCommand):
         groups = [
             {'name': 'Администраторы'},
             {'name': 'Модераторы'},
-            {'name': 'Пользователи с доступом к разделу карт'},
+            {'name': 'Пользователи с доступом к закрытым разделам'},
             {'name': 'Пользователи'}
         ]
 
@@ -60,7 +60,8 @@ class Command(BaseCommand):
             {'name': 'News', 'route': 'news'},
             {'name': 'Photo', 'route': 'photo'},
             {'name': 'Prose', 'route': 'prose'},
-            {'name': 'Report', 'route': 'report'}
+            {'name': 'Report', 'route': 'report'},
+            {'name': 'Permited report', 'route': 'pm_report'}
         ]
 
         for args in categories:
@@ -160,7 +161,7 @@ class Command(BaseCommand):
                 'change_emailchange',
                 'delete_emailchange'
             ],
-            "Пользователи с доступом к разделу карт": [
+            "Пользователи с доступом к закрытым разделам": [
                 'add_comment',
                 'change_comment',
                 'delete_comment',
@@ -206,11 +207,11 @@ class Command(BaseCommand):
                 raise CommandError('No permissions for group "%s"' % group.name)
 
 
-    def set_map_groups(self):
+    def set_restricted_groups(self):
         groups = [
             "Администраторы",
             "Модераторы",
-            "Пользователи с доступом к разделу карт"
+            "Пользователи с доступом к закрытым разделам"
         ]
 
         map_cmscategory = CmsCategory.objects.get(route='map')
@@ -221,12 +222,22 @@ class Command(BaseCommand):
         map_cmscategory.allow_anonymous = False
         map_cmscategory.save()
 
+        pm_report_cmscategory = CmsCategory.objects.get(route='pm_report')
+
+        if not pm_report_cmscategory:
+            raise CommandError('Permited report category not exists!')
+
+        pm_report_cmscategory.allow_anonymous = False
+        pm_report_cmscategory.save()
+
         for arg in groups:
             group = Group.objects.get(name=arg)
 
             if group:
                 map_cmscategory.groups.add(group)
                 self.stdout.write('Successfully added group "%s" for map category' % group.name)
+                pm_report_cmscategory.groups.add(group)
+                self.stdout.write('Successfully added group "%s" for permited report category' % group.name)
             else:
                 raise CommandError('Group "%s" not exists' % arg)
 

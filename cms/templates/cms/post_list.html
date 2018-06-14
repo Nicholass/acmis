@@ -22,38 +22,33 @@
 {% block breadcrumbs %}
   {% if author %}
     {% if tags %}
-      <li><a href="{% url 'author_list' author=author %}">
+        <li><a href="{% url 'author_list' author=author %}">{{ author }}</a></li>
+        <li class="sep"></li>
     {% else %}
-      <li class="current">
+        <li class="current">{{ author }}</li>
     {% endif %}
 
-    {{ author }}
+
   {% elif category %}
     {% if tags or is_disapproved %}
-      <li><a href="{% url 'category_list' category=category.route %}">
+        <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
+        <li class="sep"></li>
     {% else %}
-      <li class="current">
+        <li class="current">{{ category }}</li>
     {% endif %}
-
-    {{ category }}
   {% endif %}
 
-  {% if tags or is_disapproved  %}
-    </a></li>
-    <li class="current">{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
-  {% else %}
-    </li>
-  {% endif %}
-
-  {% if is_disapproved %}
-      <li class="current">{% trans "премодерация" %}</li>
+  {% if tags %}
+      <li class="current">{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
+  {% elif is_disapproved %}
+      <li class="current">{% trans "Премодерация" %}</li>
   {% endif %}
 {% endblock %}
 
 {% block content %}
         {% if category and user.is_authenticated %}
           <div class="actions">
-            {% if perms.cms.add_post %}
+            {% if perms.cms.add_cmspost %}
                 <a href="{% url 'post_new' category=category.route %}">
                   <i class="fa fa-file"></i>
                   {% trans "Добавить " %}
@@ -70,7 +65,7 @@
                     {% trans "фотографию" %}
                   {% elif category.route == 'prose' %}
                     {% trans "рассказ" %}
-                  {% elif category.route == 'report' %}
+                  {% elif category.route == 'report' or category.route == 'pm_report'  %}
                     {% trans "отчет" %}
                   {% endif %}
                 </a>
@@ -108,10 +103,17 @@
       {% if not posts %}
         <p class="nocontent">
           {% if not is_disapproved %}
-            {% url 'post_new' category=category.route as post_new_url %}
-            {% blocktrans with post_new_url=post_new_url %}
-            В категории пока нет материалов. Вы можете <a href="{{ post_new_url }}">добавить</a> первым.
-            {% endblocktrans %}
+              {% if is_home %}
+                  {% trans "На сайте пока нет материалов. Для добавления нового материала перейдите в категорию." %}
+              {% else %}
+                  {% trans "В категории пока нет материалов." %}
+                  {% if perms.cms.add_cmspost %}
+                    {% url 'post_new' category=category.route as post_new_url %}
+                    {% blocktrans with post_new_url=post_new_url %}
+                    В категории пока нет материалов. Вы можете <a href="{{ post_new_url }}">добавить</a> первым.
+                    {% endblocktrans %}
+                  {% endif %}
+              {% endif %}
           {% else %}
               {% trans "В категории нет постов ожидающих премодерации." %}
           {% endif %}

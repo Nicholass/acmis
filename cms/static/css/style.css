@@ -716,6 +716,9 @@ form .help {
 .comment .user {
 	padding-right: 10px;
 }
+.comment .user a{
+	word-break: break-all;
+}
 .comment .text {
 	display: flex;
 	justify-content: space-between;

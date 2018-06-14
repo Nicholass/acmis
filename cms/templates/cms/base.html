@@ -40,7 +40,7 @@
             <div id="logo-rt">&nbsp;</div>
         </div>
         <span id="logo">Diggers.kiev.ua</span>
-        <span id="slogan">Сайт</span>
+        <span id="slogan">Сайт диггеров Киева</span>
         <span id="greeting">
             {% if user.is_authenticated %}
                 {% trans "Вы вошли как: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong>
@@ -49,8 +49,8 @@
                 <strong><a href="{% url 'registration_register' %}">{% trans "зарегистрируйтесь" %}</a></strong>
             {% endif %}
         </span>
-        <span id="pm">
-            {% if user.is_authenticated %}
+        {% if user.is_authenticated %}
+            <span id="pm">
                 {% url 'messages_inbox' as pm_url %}
                 {% inbox_count as pm_cout %}
                 {% if pm_cout > 0 %}<strong>{% endif %}
@@ -58,8 +58,9 @@
                     У вас <a href="{{ pm_url }}">{{ pm_cout }} личных сообщений</a>
                 {% endblocktrans %}
                 {% if pm_cout > 0 %}</strong>{% endif %}
-            {% endif %}
-        </span>
+            </span>
+        {% endif %}
+
         <!-- Menu Tabs -->
         {% include "cms/menu.html" %}
         <!-- Menu Tabs -->
