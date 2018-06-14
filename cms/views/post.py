@@ -7,10 +7,11 @@ from django.http import Http404
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
 from hashlib import md5
+from ..tagtools.tagcloud import TaggitCloud
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
-from ..models import CmsPost, CmsCategory
+from ..models import CmsPost, TextPost, BinaryPost, CmsCategory
 
 
 def post_list(request, tags=None, category=None, author=None):
@@ -70,6 +71,9 @@ def post_list(request, tags=None, category=None, author=None):
 
   posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
 
+  cloud_calculator = TaggitCloud([TextPost, BinaryPost], getattr(settings, 'TAGTOOLS_CLOUD_STEPS', 6), getattr(settings, 'TAGTOOLS_CLOUD_MIN_COUNT', 1))
+  tags_cloud = cloud_calculator.calculate_cloud()
+
   return render(request, 'cms/post_list.html', {
     'posts': posts,
     'category': c,
@@ -77,7 +81,8 @@ def post_list(request, tags=None, category=None, author=None):
     'author': author,
     'posts_disapproved': len(posts_disapproved),
     'need_relogin': need_relogin,
-    'is_home': is_home
+    'is_home': is_home,
+    'tags_cloud': tags_cloud
   })
 
 

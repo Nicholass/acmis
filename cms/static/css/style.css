@@ -380,7 +380,7 @@ table {
 /* main */
 #main {
 	margin: 0 0 20px 0;
-	padding: 0 0 0 50px;
+	padding: 0 0 0 15px;
 }
 #main > .actions {
 	margin-bottom: 10px;
@@ -649,7 +649,7 @@ form .help {
 
 /* sidebar */
 #sidebar {
-	margin: 10px 15px 30px 0;
+	margin: 0;
     padding: 0;
 }
 #sidebar h3 {
@@ -660,10 +660,18 @@ form .help {
     margin-bottom: 10px;
 	color: #A0080D;
 }
+#sidebar > div {
+	padding: 10px 10px 15px 10px;
+	background: #000;
+}
+#sidebar .block {
+	padding: 0 12px;
+}
 #sidebar ul {
-	list-style:none;
+	list-style: none;
 	margin: 0;
-	padding: 5px 0 15px 0;			
+	padding: 5px 0 15px 0;
+	background: #000;
 }
 #sidebar ul li {
 	padding: 0 10px;
