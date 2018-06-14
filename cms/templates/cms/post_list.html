@@ -276,7 +276,7 @@
         <h3>{% trans "Теги" %}</h3>
         <div class="block">
             {% for tag in tags_cloud %}
-                <a href="{% url 'tag_list' tags=tag.name %}" style="font-size:{{ tag.font_size }}em;">{{ tag.name }}</a>
+                <a href="{% url 'tag_list' tags=tag.name %}" class="tag-size-{{ tag.font_size }}">{{ tag.name }}</a>
             {% endfor %}
         </div>
     </div>
