@@ -15,6 +15,8 @@
         {% endblock %}
     </title>
 
+    {% block extra_head %}{% endblock %}
+
     <link rel="stylesheet" href="{% static 'jquery-ui/themes/base/jquery-ui.min.css' %}">
     <link rel="stylesheet" href="{% static 'fancybox/dist/jquery.fancybox.min.css' %}" >
 	<link rel="stylesheet" href="{% static 'css/fa/css/fontawesome-all.min.css' %}">
@@ -121,6 +123,8 @@
         </div>
     </div>
 </div>
+
+{% block extra_script %}{% endblock %}
 
 <script src="{% static 'pybb/js/pybbjs.js' %}"></script>
 <script src="{% static 'js/misc.js' %}"></script>

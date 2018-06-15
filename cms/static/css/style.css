@@ -586,6 +586,14 @@ table {
     margin-bottom: 5px;
     border-bottom: 1px solid #0D0D0D;
 }
+.poll-form ul {
+	margin-left: 0;
+	padding: 0;
+    list-style: none;
+}
+.poll-form input[name=answers] {
+	vertical-align: middle;
+}
 .post-preview {
 	padding: 30px 0;
 }
@@ -607,6 +615,9 @@ form fieldset {
     margin-top: 10px;
     border-top: 1px solid #0D0D0D;
 	display: inline-block;
+}
+.poll {
+	margin-top: 10px;
 }
 
 /* forms */
