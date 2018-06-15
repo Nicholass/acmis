@@ -72,12 +72,10 @@
 <div id="content-wrap">
     <div class="navbar">
         <ul class="breadcrumbs">
-            <li class="sep"></li>
             {% if is_home %}
                 <li class="current">{% trans "Главная" %}</li>
             {% else %}
                 <li><a href="/">{% trans "Главная" %}</a></li>
-                <li class="sep"></li>
             {% endif %}
             {% block breadcrumbs %}{% endblock %}
         </ul>

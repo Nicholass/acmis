@@ -2,7 +2,6 @@
 {% include "pybb/breadcrumb_top_extra_crumb.html" %}
 {% if object or extra_crumb %}
 <li><a href="{% url 'pybb:index' %}">{% trans 'Home' %}</a></li>
-<li class="sep"></li>
 {% else %}
 <li class="current">{% trans 'Home' %}</li>
 {% endif %}
@@ -10,12 +9,10 @@
     {% if object.get_parents %}
         {% for obj in object.get_parents %}
             <li>{% pybb_link obj %}</li>
-            <li class="sep"></li>
         {% endfor %}
     {% endif %}
     {% if extra_crumb %}
         <li>{% pybb_link object %}</li>
-        <li class="sep"></li>
     {% else %}
         <li class="current">{{ object }}</li>
     {% endif %}

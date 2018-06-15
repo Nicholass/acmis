@@ -26,4 +26,15 @@ $(document).ready(function(){
             "close"
         ],
     });
+
+    //Handlers for mobile devices
+    if($(window).width() < 600) {
+        $('.breadcrumbs li.current').click(function () {
+            $('.breadcrumbs li:not(.current)').toggle("slow");
+        });
+
+         $('.langBtn.selected').click(function () {
+            $('.langBtn:not(.selected)').toggle("slow");
+        });
+    }
 });

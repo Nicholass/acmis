@@ -29,7 +29,6 @@
 
 {% block breadcrumbs %}
   <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
-  <li class="sep"></li>
   <li class="current">
     {% if post %}
       {% trans "Редактировать " %}
