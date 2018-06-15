@@ -19,7 +19,8 @@ class CmsCategory(models.Model):
     'News': POST,
     'Photo': FILE,
     'Prose': POST,
-    'Report': POST
+    'Report': POST,
+    'Permited report': POST
   }
 
   kind = models.CharField(
