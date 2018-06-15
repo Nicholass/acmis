@@ -673,7 +673,6 @@ form .help {
 }
 #sidebar > div {
 	padding: 10px 10px 15px 10px;
-	background: #000;
 }
 #sidebar .block {
 	padding: 0 12px;
@@ -682,7 +681,6 @@ form .help {
 	list-style: none;
 	margin: 0;
 	padding: 5px 0 15px 0;
-	background: #000;
 }
 #sidebar ul li {
 	padding: 0 10px;
