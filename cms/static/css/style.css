@@ -748,6 +748,24 @@ form .help {
 	color: #FFF;
 }
 
+/* pagination */
+ul.pagination {
+	list-style: none;
+	margin-left: 0;
+	padding: 0;
+	display: flex;
+	justify-content: center;
+}
+ul.pagination li {
+	margin: 0 5px;
+}
+ul.pagination a {
+    color: #9A9A9A;
+}
+ul.pagination a:hover {
+    color: #FFF;
+}
+
 /* footer */
 #footer {
 	border-top: 1px solid #68050A;
