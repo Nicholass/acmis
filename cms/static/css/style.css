@@ -480,6 +480,9 @@ table {
 .post .post-content {
 	padding: 5px 0;
 }
+.post img {
+	max-width: 900px;
+}
 
 /* Profile */
 .profile {
@@ -977,6 +980,21 @@ ul.pagination a:hover {
 		padding-right: 0;
 	}
 
+	.post img {
+		max-width: 100%;
+	}
+
+	.post-form input[name=title] {
+    	width: 100%;
+	}
+	.post-form #cke_id_text {
+		width: 100% !important;
+	 }
+
+	.comments textarea {
+		width: 100%;
+	}
+
 	.profile {
 		display: block;
 	}
@@ -1000,5 +1018,25 @@ ul.pagination a:hover {
 	.profile-edit label[for=id_show_signatures] {
 		width: 90%;
 		word-break: break-all;
+	}
+
+	.markItUp {
+		min-width: 270px;
+		width: auto;
+	}
+	.markItUpEditor {
+		width: auto;
+		height: auto;
+		min-width: 250px;
+	}
+}
+
+@media (max-width: 320px) {
+	.markItUp {
+		width: 270px;
+	}
+	.markItUpEditor {
+		height: auto;
+		width: 250px;
 	}
 }
