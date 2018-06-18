@@ -45,8 +45,8 @@ if [ "$1" = 'pgadmin4' ]; then
 		        s/^MAIL_PASSWORD.*/MAIL_PASSWORD = '${MAIL_PASSWORD}'/" \
 		    config_local.py
 
-		file_env 'DEFAULT_USER' 'pgadmin4@pgadmin.org'
-		file_env 'DEFAULT_PASSWORD' 'admin'
+		file_env 'DEFAULT_USER' 'ramenky27@gmail.com'
+		file_env 'DEFAULT_PASSWORD' 'fQMsoSHqs1JIGc0EZW8M'
 		export PGADMIN_SETUP_EMAIL=${DEFAULT_USER}
 		export PGADMIN_SETUP_PASSWORD=${DEFAULT_PASSWORD}
 

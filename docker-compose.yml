@@ -18,8 +18,8 @@ services:
     image: postgres
     restart: always
     environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: postgres
+      POSTGRES_USER: diggers_dbu
+      POSTGRES_PASSWORD: lA4EgJN1BzPcmPjLDvjW
       PGDATA: /data/postgres
       SITE_NAME: Acis urban exploration site
       SITE_DOMAIN: diggers.kiev.ua
@@ -41,6 +41,8 @@ services:
     networks:
       - local
     restart: always
+    depends_on:
+      - postgres
 
   web:
     build: .
