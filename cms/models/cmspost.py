@@ -9,6 +9,7 @@ from django.core.urlresolvers import reverse
 from taggit.managers import TaggableManager
 from polymorphic.models import PolymorphicModel
 from django.dispatch import receiver
+from sorl.thumbnail import ImageField
 
 
 class CmsPost(PolymorphicModel):
@@ -79,7 +80,7 @@ class TextPost(CmsPost):
 
 
 class BinaryPost(CmsPost):
-  file = models.ImageField(
+  file = ImageField(
     upload_to='uploads/%Y/%m/%d/',
     verbose_name=_("Файл"),
     null=True

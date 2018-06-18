@@ -71,8 +71,21 @@ services:
     networks:
       - local
 
+  redis:
+    build: ./build/redis
+    command: redis-server
+    environment:
+      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/var/lib/redis/data/
+    networks:
+      - local
+
 volumes:
   postgres_data:
+  redis_data:
 
 networks:
   local:

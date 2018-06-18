@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.contenttypes.models import ContentType
 from polymorphic.admin import PolymorphicParentModelAdmin, PolymorphicChildModelAdmin, PolymorphicChildModelFilter
 from django.utils.translation import ugettext as _
+from sorl.thumbnail.admin import AdminImageMixin
 
 from ..models import CmsPost, TextPost, BinaryPost, CmsCategory
 
@@ -62,6 +63,6 @@ class PostParentAdmin(PolymorphicParentModelAdmin):
   get_short_title.short_description = _('Пост')
 
 
-class PostChildAdmin(PolymorphicChildModelAdmin):
+class PostChildAdmin(AdminImageMixin, PolymorphicChildModelAdmin):
   base_model = CmsPost
   base_form = PostFormAdmin

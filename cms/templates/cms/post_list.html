@@ -3,6 +3,7 @@
 {% load comments %}
 {% load auth %}
 {% load bleach_tags %}
+{% load thumbnail %}
 
 {% block title %}
   {% if author %}
@@ -186,7 +187,17 @@
               {% if not post.file %}
                 {{ post.text|truncatechars:800|bleach }}
               {% else %}
-                <a href="{% url 'post_detail' pk=post.pk %}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+                  <a href="{% url 'post_detail' pk=post.pk %}">
+                    {% if category and category.route == 'photo' or category.route == 'drawing' %}
+                      {% thumbnail post.file "x100" as th_im %}
+                          <img class="image" src="{{ th_im.url }}" alt="{{ post.title }}" />
+                      {% endthumbnail %}
+                    {% else %}
+                      {% thumbnail post.file "900" as th_im %}
+                          <img class="image" src="{{ th_im.url }}" alt="{{ post.title }}" />
+                      {% endthumbnail %}
+                    {% endif %}
+                  </a>
               {% endif %}
             {% else %}
               {% if need_relogin %}

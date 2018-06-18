@@ -48,7 +48,8 @@ INSTALLED_APPS = [
     'djangobower',
     'pybb',
     'django_messages',
-    'captcha'
+    'captcha',
+    'sorl.thumbnail'
 ]
 
 MIDDLEWARE = [
@@ -261,3 +262,11 @@ NOCAPTCHA = True
 
 TAGTOOLS_CLOUD_STEPS = 6
 TAGTOOLS_CLOUD_MIN_COUNT = 1
+
+THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
+THUMBNAIL_REDIS_HOST = 'redis'
+THUMBNAIL_REDIS_PORT = 6379
+THUMBNAIL_REDIS_PASSWORD = ''
+THUMBNAIL_REDIS_DB = 0
+THUMBNAIL_UPSCALE = False
+THUMBNAIL_DEBUG = True

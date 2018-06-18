@@ -8,7 +8,7 @@ COPY requirements.txt ./
 COPY bower.json ./
 
 RUN apt-get update -qq
-RUN apt-get install -y -qq git curl wget
+RUN apt-get install -y -qq git curl wget libjpeg62 zlib1g-dev imagemagick
 
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash
 RUN apt-get install -y nodejs

@@ -4,6 +4,7 @@
 {% load auth %}
 {% load bleach_tags %}
 {% load next_previous %}
+{% load thumbnail %}
 
 {% block title %}
     {% trans "" %}{{ post }}
@@ -62,7 +63,11 @@
 
              <div class="post-content clearfix">
                  {% if post.file %}
-                     <a data-fancybox="images" href="{{ MEDIA_URL }}{{ post.file }}"><img class="image" src="{{ MEDIA_URL }}{{ post.file }}" alt="{{ post.title }}" /></a>
+                     <a data-fancybox="images" href="{{ MEDIA_URL }}{{ post.file }}">
+                         {% thumbnail post.file "900" as th_im %}
+                            <img class="image" src="{{ th_im.url }}" alt="{{ post.title }}" />
+                         {% endthumbnail %}
+                     </a>
                      <p class="description">{{ post.description }}</p>
                  {% else %}
                      {{ post.text|bleach }}
