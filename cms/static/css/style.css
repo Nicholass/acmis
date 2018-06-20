@@ -292,7 +292,7 @@ table {
 }
 #content-wrap .navbar {
 	display: grid;
-	grid-template-columns: 1fr 20fr 3fr;
+	grid-template-columns: 8fr 1fr;
 	align-items: center;
 	padding: 10px 0 10px 0;
 }
@@ -305,7 +305,7 @@ table {
 	flex-basis: 75%;
 	margin: 0;
 	overflow: hidden;
-	padding: 0;
+	padding: 0 0 0 50px;
 }
 .breadcrumbs li:last-child {
 	overflow: hidden;
@@ -402,6 +402,17 @@ table {
 	margin: 30px 0;
 	grid-column-start: 1;
     grid-column-end: 4;
+}
+
+a.feed {
+	color: #9A9A9A;
+    font-weight: bold;
+}
+a.feed:hover{
+	color: #FFF;
+}
+.feed img {
+	vertical-align: middle;
 }
 
 .posts {

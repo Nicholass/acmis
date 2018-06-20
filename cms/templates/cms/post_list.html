@@ -4,6 +4,7 @@
 {% load auth %}
 {% load bleach_tags %}
 {% load thumbnail %}
+{% load staticfiles %}
 
 {% block title %}
   {% if is_home %}
@@ -81,7 +82,9 @@
         {% endif %}
 
         <h1>
-          {% if author %}
+          {% if is_home %}
+            {% trans "Последние посты " %}
+          {% elif author %}
             {% trans "Материалы автора " %}{{ author }}
           {% elif category %}
               {% if is_disapproved %}
@@ -98,6 +101,8 @@
             {% trans " по тегам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
           {% endif %}
         </h1>
+
+        <a class="feed" href="{% url 'feed_latest' %}" title="RSS"><img src="{% static 'images/rss.png' %}" alt="rss" style="width: 19px;"></a>
 
         <div class="posts{% if category.route == 'photo' or category.route == 'drawing' %} tiles{% elif category.route == 'map' %} list{% endif %}">
       {% if not posts %}
