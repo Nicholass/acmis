@@ -3,9 +3,18 @@ from django.urls import reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
 
+from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
+
 from . import views
+from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 from cms.forms.registration import RememberAuthenticationForm
+
+sitemaps = {
+	'categories': CategoriesSitemap,
+  'static': StaticSitemap,
+	'posts': PostsSitemap,
+}
 
 urlpatterns = [
   url(r'^$', views.post_list, name='post_list'),
@@ -77,6 +86,7 @@ urlpatterns = [
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),
   url(r'^forum/', include('pybb.urls', namespace='pybb')),
   url(r'^messages/', include('django_messages.urls')),
+  url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]
 
 if settings.DEBUG:

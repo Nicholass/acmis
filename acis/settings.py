@@ -49,7 +49,8 @@ INSTALLED_APPS = [
     'pybb',
     'django_messages',
     'captcha',
-    'sorl.thumbnail'
+    'sorl.thumbnail',
+    'django.contrib.sitemaps'
 ]
 
 MIDDLEWARE = [
@@ -97,8 +98,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'postgres',
-        'USER': 'postgres',
-        'PASSWORD': 'postgres',
+        'USER': 'diggers_dbu',
+        'PASSWORD': 'lA4EgJN1BzPcmPjLDvjW',
         'HOST': 'postgres',
         'PORT': 5432
     }

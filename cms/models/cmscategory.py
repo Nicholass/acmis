@@ -45,6 +45,9 @@ class CmsCategory(models.Model):
     help_text=_('Установка этой галочки отключает контроль доступа к категории по группам пользователя'),
   )
 
+  def get_absolute_url(self):
+    return "/category/%s/" % self.route
+
   def publish(self):
     self.kind = self.DATA_KINDS[self.name]
     #TODO: validate here

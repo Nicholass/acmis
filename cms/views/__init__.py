@@ -4,3 +4,4 @@ from .post import post_new, post_list, post_edit, post_detail, post_delete, post
 from .registration import registration, activation, send_activation_code, remember_login, edit_email, edit_email_done
 from .profile import profile, profile_edit
 from .ajax import get_simular_tags
+from .sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
