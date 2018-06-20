@@ -50,7 +50,8 @@ INSTALLED_APPS = [
     'django_messages',
     'captcha',
     'sorl.thumbnail',
-    'django.contrib.sitemaps'
+    'django.contrib.sitemaps',
+    'robots',
 ]
 
 MIDDLEWARE = [
@@ -270,4 +271,11 @@ THUMBNAIL_REDIS_PORT = 6379
 THUMBNAIL_REDIS_PASSWORD = ''
 THUMBNAIL_REDIS_DB = 0
 THUMBNAIL_UPSCALE = False
-THUMBNAIL_DEBUG = True
+THUMBNAIL_DEBUG = DEBUG
+
+OPENGRAPH_CONFIG = {
+    'FB_ADMINS': '',
+    'FB_APP_ID': '',
+    'DEFAULT_IMAGE': '%sdefault/og_image.png' % STATIC_URL,
+    'SITE_NAME': 'Сайт диггеров Киева',
+}

@@ -6,10 +6,12 @@
 {% load thumbnail %}
 
 {% block title %}
-  {% if author %}
+  {% if is_home %}
+    {% trans "Diggers.kiev.ua" %}
+  {% elif author %}
     {% trans "Материалы пользователя " %}{{ author }}
   {% elif category %}
-    {% trans "" %}{{ category }}
+    {{ category }}
   {% elif tags %}
     {% trans "Материалы" %}
   {% endif %}
@@ -18,7 +20,6 @@
     {% trans " по тэгам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
   {% endif %}
 {% endblock %}
-
 
 {% block breadcrumbs %}
   {% if author %}

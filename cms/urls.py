@@ -87,6 +87,7 @@ urlpatterns = [
   url(r'^forum/', include('pybb.urls', namespace='pybb')),
   url(r'^messages/', include('django_messages.urls')),
   url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
+  url(r'^robots\.txt', include('robots.urls')),
 ]
 
 if settings.DEBUG:

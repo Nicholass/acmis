@@ -17,3 +17,4 @@ bbcode==1.0.31
 django-recaptcha==1.4.0
 sorl-thumbnail==12.4.1
 redis==2.10.6
+django-robots==3.0
