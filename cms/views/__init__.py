@@ -5,3 +5,4 @@ from .registration import registration, activation, send_activation_code, rememb
 from .profile import profile, profile_edit
 from .ajax import get_simular_tags
 from .sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
+from .rss import LatestEntriesFeed

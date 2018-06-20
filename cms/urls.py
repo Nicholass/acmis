@@ -10,6 +10,8 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 from cms.forms.registration import RememberAuthenticationForm
 
+from cms.views.rss import LatestEntriesFeed
+
 sitemaps = {
 	'categories': CategoriesSitemap,
   'static': StaticSitemap,
@@ -88,6 +90,7 @@ urlpatterns = [
   url(r'^messages/', include('django_messages.urls')),
   url(r'^sitemap\.xml$', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
   url(r'^robots\.txt', include('robots.urls')),
+  url(r'^latest/feed/', LatestEntriesFeed(), name="feed_latest"),
 ]
 
 if settings.DEBUG:

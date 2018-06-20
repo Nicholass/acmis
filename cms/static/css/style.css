@@ -292,7 +292,7 @@ table {
 }
 #content-wrap .navbar {
 	display: grid;
-	grid-template-columns: 8fr 1fr;
+	grid-template-columns: 1fr 20fr 3fr;
 	align-items: center;
 	padding: 10px 0 10px 0;
 }
@@ -305,7 +305,7 @@ table {
 	flex-basis: 75%;
 	margin: 0;
 	overflow: hidden;
-	padding: 0 0 0 50px;
+	padding: 0;
 }
 .breadcrumbs li:last-child {
 	overflow: hidden;
