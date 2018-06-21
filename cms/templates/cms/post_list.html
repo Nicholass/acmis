@@ -5,21 +5,12 @@
 {% load bleach_tags %}
 {% load thumbnail %}
 {% load staticfiles %}
+{% load opengraph %}
 
-{% block title %}
-  {% if is_home %}
-    {% trans "Diggers.kiev.ua" %}
-  {% elif author %}
-    {% trans "Материалы пользователя " %}{{ author }}
-  {% elif category %}
-    {{ category }}
-  {% elif tags %}
-    {% trans "Материалы" %}
-  {% endif %}
+{% block title %}{{ page_title }}{% endblock %}
 
-  {% if tags %}
-    {% trans " по тэгам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
-  {% endif %}
+{% block og %}
+    {% opengraph title=page_title %}
 {% endblock %}
 
 {% block breadcrumbs %}
@@ -29,7 +20,6 @@
     {% else %}
         <li class="current">{{ author }}</li>
     {% endif %}
-
 
   {% elif category %}
     {% if tags or is_disapproved %}
@@ -81,26 +71,7 @@
           </div>
         {% endif %}
 
-        <h1>
-          {% if is_home %}
-            {% trans "Последние посты " %}
-          {% elif author %}
-            {% trans "Материалы автора " %}{{ author }}
-          {% elif category %}
-              {% if is_disapproved %}
-                {% trans "премодерация постов категории " %}
-              {% endif %}
-
-              {# TODO: перевод названия категории на уровне модели #}
-              {{ category }}
-          {% elif tags %}
-            {% trans "Материалы" %}
-          {% endif %}
-
-          {% if tags %}
-            {% trans " по тегам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
-          {% endif %}
-        </h1>
+        <h1>{{ page_title }}</h1>
 
         <a class="feed" href="{% url 'feed_latest' %}" title="RSS"><img src="{% static 'images/rss.png' %}" alt="rss" style="width: 19px;"></a>
 

@@ -5,9 +5,12 @@
 {% load bleach_tags %}
 {% load next_previous %}
 {% load thumbnail %}
+{% load opengraph %}
 
-{% block title %}
-    {% trans "" %}{{ post }}
+{% block title %}{{ post.title }}{% endblock %}
+
+{% block og %}
+    {% opengraph title=post.title %}
 {% endblock %}
 
 {% block breadcrumbs %}

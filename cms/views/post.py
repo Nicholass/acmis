@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required, permission_required
 from django.utils import timezone
 from hashlib import md5
 from ..tagtools.tagcloud import TaggitCloud
+from django.utils.translation import ugettext as _
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
@@ -74,6 +75,20 @@ def post_list(request, tags=None, category=None, author=None):
   cloud_calculator = TaggitCloud([TextPost, BinaryPost], getattr(settings, 'TAGTOOLS_CLOUD_STEPS', 6), getattr(settings, 'TAGTOOLS_CLOUD_MIN_COUNT', 1))
   tags_cloud = cloud_calculator.calculate_cloud()
 
+  if is_home:
+    page_title = _('Все посты')
+  elif author:
+    page_title = _('Материалы пользователя %s') % author
+  elif c:
+    page_title = c.name
+  elif t:
+    page_title = _('Материалы')
+
+  if t:
+    page_title = _('%s по тэгам') % page_title
+    for tag in t:
+      page_title = _('%s #%s') % (page_title, tag)
+
   return render(request, 'cms/post_list.html', {
     'posts': posts,
     'category': c,
@@ -82,7 +97,8 @@ def post_list(request, tags=None, category=None, author=None):
     'posts_disapproved': len(posts_disapproved),
     'need_relogin': need_relogin,
     'is_home': is_home,
-    'tags_cloud': tags_cloud
+    'tags_cloud': tags_cloud,
+    'page_title': page_title
   })
 
 
