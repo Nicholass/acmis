@@ -64,6 +64,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
+    'cms.midlewares.OnlineNowMiddleware'
 
 # Conflict with existing i18n switcher
 #    'pybb.middleware.PybbMiddleware'

@@ -105,6 +105,13 @@
         </div>
         <div id="sidebar">
             {% block sidebar %}{% endblock %}
+
+            <div>
+                <h3>{% trans "Статистика" %}</h3>
+                <div class="block">
+                    <p>Онлайн пользователей: {{ request.online_now.count }}</p>
+                </div>
+            </div>
         </div>
     </div>
 </div>
