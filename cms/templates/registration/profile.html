@@ -47,9 +47,11 @@
             <p><a href="mailto:{{ user.email }}">{{ user.email }}</a></p>
             <p>{% trans "Зарегистрирован:" %}</p>
             <p>{{ user.date_joined|date:"d.m.Y" }}</p>
-            {% if user.last_login %}
-                <p>{% trans "Последний вход:" %}</p>
-                <p>{{ user.last_login|date:"d.m.Y H:i" }}</p>
+            <p>Статус:</p>
+            <p>{% if user.profile.online %}Активен{% else %}Не активен{% endif %}</p>
+            {% if user.profile.last_activity %}
+                <p>{% trans "Был онлайн:" %}</p>
+                <p>{{ user.profile.last_activity|date:"d.m.Y H:i" }}</p>
             {% endif %}
             <p>{% trans "Активность:" %}</p>
             <p><a href="{% url 'author_list' author=user.username %}">Публикации пользователя</a></p>

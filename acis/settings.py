@@ -64,7 +64,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
-    'cms.midlewares.OnlineNowMiddleware'
+    'cms.midlewares.OnlineNowMiddleware',
+    'cms.midlewares.ActiveUserMiddleware'
 
 # Conflict with existing i18n switcher
 #    'pybb.middleware.PybbMiddleware'
@@ -107,6 +108,12 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'default-cache'
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -280,3 +287,6 @@ OPENGRAPH_CONFIG = {
     'DEFAULT_IMAGE': '%sdefault/og_image.png' % STATIC_URL,
     'SITE_NAME': 'Сайт диггеров Киева',
 }
+
+# Number of seconds of inactivity before a user is marked offline
+USER_ONLINE_TIMEOUT = 300

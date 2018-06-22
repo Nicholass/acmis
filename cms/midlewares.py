@@ -1,3 +1,5 @@
+from django.utils import timezone
+
 from django.core.cache import cache
 from django.conf import settings
 
@@ -48,3 +50,14 @@ class OnlineNowMiddleware(MiddlewareMixin):
     # Set the new cache
     cache.set('online-%s' % (request.user.pk,), True, ONLINE_THRESHOLD)
     cache.set('online-now', online_now_ids, ONLINE_THRESHOLD)
+
+
+
+class ActiveUserMiddleware(MiddlewareMixin):
+
+    def process_request(self, request):
+        current_user = request.user
+        if request.user.is_authenticated():
+            user = User.objects.get(pk=current_user.pk)
+            user.profile.last_activity = timezone.now()
+            user.save()
