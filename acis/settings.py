@@ -49,7 +49,20 @@ INSTALLED_APPS = [
     'pybb',
     'django_messages',
     'captcha',
-    'sorl.thumbnail'
+    'sorl.thumbnail',
+    'django.contrib.sitemaps',
+    'robots',
+    'hitcount',
+
+    # Django-wiki
+    'django.contrib.humanize.apps.HumanizeConfig',
+    'django_nyt.apps.DjangoNytConfig',
+    'sekizai',
+    'wiki.apps.WikiConfig',
+    'wiki.plugins.attachments.apps.AttachmentsConfig',
+    'wiki.plugins.notifications.apps.NotificationsConfig',
+    'wiki.plugins.images.apps.ImagesConfig',
+    'wiki.plugins.macros.apps.MacrosConfig',
 ]
 
 MIDDLEWARE = [
@@ -62,6 +75,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
+    'cms.midlewares.ActiveUserMiddleware',
+    'cms.midlewares.OnlineUsersMiddleware',
 
 # Conflict with existing i18n switcher
 #    'pybb.middleware.PybbMiddleware'
@@ -81,7 +96,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                'pybb.context_processors.processor'
+                'pybb.context_processors.processor',
+                #Django-wiki
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                "sekizai.context_processors.sekizai",
             ],
         },
     },
@@ -104,6 +126,12 @@ DATABASES = {
     }
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+        'LOCATION': 'default-cache'
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/1.11/ref/settings/#auth-password-validators
@@ -269,4 +297,17 @@ THUMBNAIL_REDIS_PORT = 6379
 THUMBNAIL_REDIS_PASSWORD = ''
 THUMBNAIL_REDIS_DB = 0
 THUMBNAIL_UPSCALE = False
-THUMBNAIL_DEBUG = True
+THUMBNAIL_DEBUG = DEBUG
+
+OPENGRAPH_CONFIG = {
+    'FB_ADMINS': '',
+    'FB_APP_ID': '',
+    'DEFAULT_IMAGE': '%simages/og_image.png' % STATIC_URL,
+    'SITE_NAME': 'Сайт диггеров Киева',
+}
+
+# Number of seconds of inactivity before a user is marked offline
+USER_ONLINE_TIMEOUT = 60 * 15
+
+WIKI_ACCOUNT_HANDLING = False
+WIKI_ACCOUNT_SIGNUP_ALLOWED = False

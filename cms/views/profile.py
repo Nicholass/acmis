@@ -19,9 +19,21 @@ def profile(request, username=None):
     is_owner = (request.user == user)
 
     context = {
-        'user': user,
+        'profile_user': user,
         'is_owner': is_owner,
         'is_moderator': is_moderator
+    }
+
+    return render(request, 'registration/profile.html', context)
+
+@login_required
+def owner_profile(request):
+    user = request.user
+
+    context = {
+        'profile_user': user,
+        'is_owner': True,
+        'is_moderator': False
     }
 
     return render(request, 'registration/profile.html', context)

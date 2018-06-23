@@ -404,6 +404,17 @@ table {
     grid-column-end: 4;
 }
 
+a.feed {
+	color: #9A9A9A;
+    font-weight: bold;
+}
+a.feed:hover{
+	color: #FFF;
+}
+.feed img {
+	vertical-align: middle;
+}
+
 .posts {
 	padding: 5px 30px 0 0;
 }

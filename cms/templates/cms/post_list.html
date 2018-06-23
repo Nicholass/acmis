@@ -4,21 +4,15 @@
 {% load auth %}
 {% load bleach_tags %}
 {% load thumbnail %}
+{% load staticfiles %}
+{% load opengraph %}
+{% load hitcount_tags %}
 
-{% block title %}
-  {% if author %}
-    {% trans "Материалы пользователя " %}{{ author }}
-  {% elif category %}
-    {% trans "" %}{{ category }}
-  {% elif tags %}
-    {% trans "Материалы" %}
-  {% endif %}
+{% block title %}{{ page_title }}{% endblock %}
 
-  {% if tags %}
-    {% trans " по тэгам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
-  {% endif %}
+{% block og %}
+    {% opengraph title=page_title %}
 {% endblock %}
-
 
 {% block breadcrumbs %}
   {% if author %}
@@ -27,7 +21,6 @@
     {% else %}
         <li class="current">{{ author }}</li>
     {% endif %}
-
 
   {% elif category %}
     {% if tags or is_disapproved %}
@@ -79,24 +72,9 @@
           </div>
         {% endif %}
 
-        <h1>
-          {% if author %}
-            {% trans "Материалы автора " %}{{ author }}
-          {% elif category %}
-              {% if is_disapproved %}
-                {% trans "премодерация постов категории " %}
-              {% endif %}
+        <h1>{{ page_title }}</h1>
 
-              {# TODO: перевод названия категории на уровне модели #}
-              {{ category }}
-          {% elif tags %}
-            {% trans "Материалы" %}
-          {% endif %}
-
-          {% if tags %}
-            {% trans " по тегам " %}{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}
-          {% endif %}
-        </h1>
+        <a class="feed" href="{% url 'feed_latest' %}" title="RSS"><img src="{% static 'images/rss.png' %}" alt="rss"></a>
 
         <div class="posts{% if category.route == 'photo' or category.route == 'drawing' %} tiles{% elif category.route == 'map' %} list{% endif %}">
       {% if not posts %}
@@ -168,6 +146,10 @@
                 <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
             </span>
 
+            <span>
+                <i class="fa fa-eye"></i>
+                {% get_hit_count for post %}
+            </span>
 
             {% comment_count as comm_count %}
             {% if comm_count and category.route != 'map' %}

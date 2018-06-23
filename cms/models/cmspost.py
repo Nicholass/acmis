@@ -49,6 +49,9 @@ class CmsPost(PolymorphicModel):
   def short_title(self):
     return truncatechars(self.title, 100)
 
+  def get_absolute_url(self):
+    return "/post/%i/" % self.pk
+
   def __str__(self):
     return self.title
 

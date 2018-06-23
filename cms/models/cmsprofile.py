@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
@@ -35,6 +36,7 @@ class CmsProfile(models.Model):
     jabber = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Jabber"))
     telegram = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Telegram"))
     skype = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Skype"))
+    last_activity = models.DateTimeField(null=True, blank=True, verbose_name=_("Был онлайн"))
 
     @property
     def avatar_url(self):
@@ -42,6 +44,15 @@ class CmsProfile(models.Model):
             return self.avatar.url
         except:
             return getattr(settings, 'STATIC_URL', '') + 'pybb/img/default_avatar.jpg'
+
+    @property
+    def online(self):
+        if self.last_activity:
+            now = timezone.now()
+            if now < self.last_activity + timezone.timedelta(seconds=settings.USER_ONLINE_TIMEOUT):
+                return True
+
+        return False
 
     def get_display_name(self):
         try:
