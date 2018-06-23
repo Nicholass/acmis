@@ -302,7 +302,7 @@ THUMBNAIL_DEBUG = DEBUG
 OPENGRAPH_CONFIG = {
     'FB_ADMINS': '',
     'FB_APP_ID': '',
-    'DEFAULT_IMAGE': '%sdefault/og_image.png' % STATIC_URL,
+    'DEFAULT_IMAGE': '%simages/og_image.png' % STATIC_URL,
     'SITE_NAME': 'Сайт диггеров Киева',
 }
 
