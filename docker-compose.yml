@@ -35,7 +35,7 @@ services:
     container_name: pgadmin
     volumes:
        - ./data/pgadmin/.pgadmin:/root/.pgadmin
-       - ./data/pgadmin/storage:/var/lib/pgadmin/storage/pgadmin4
+       - ./data/pgadmin/storage:/var/lib/pgadmin/storage
     ports:
       - "5050:5050"
     networks:
