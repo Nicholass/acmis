@@ -65,8 +65,8 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
-    'cms.midlewares.OnlineNowMiddleware',
-    'cms.midlewares.ActiveUserMiddleware'
+    'cms.midlewares.ActiveUserMiddleware',
+    'cms.midlewares.OnlineUsersMiddleware',
 
 # Conflict with existing i18n switcher
 #    'pybb.middleware.PybbMiddleware'
@@ -290,4 +290,4 @@ OPENGRAPH_CONFIG = {
 }
 
 # Number of seconds of inactivity before a user is marked offline
-USER_ONLINE_TIMEOUT = 300
+USER_ONLINE_TIMEOUT = 60 * 15

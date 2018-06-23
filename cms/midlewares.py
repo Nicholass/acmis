@@ -1,56 +1,77 @@
-from django.utils import timezone
+import uuid
+import datetime
 
+from django.utils import timezone
+from django.contrib.auth.signals import user_logged_out, user_logged_in
 from django.core.cache import cache
 from django.conf import settings
 
 from django.contrib.auth.models import User
 from django.utils.deprecation import MiddlewareMixin
 
+ONLINE_THRESHOLD = getattr(settings, 'USER_ONLINE_TIMEOUT', 60 * 15)
 
-ONLINE_THRESHOLD = getattr(settings, 'ONLINE_THRESHOLD', 60 * 15)
-ONLINE_MAX = getattr(settings, 'ONLINE_MAX', 50)
+def remove_user_id(sender, user, request, **kwargs):
+  uids = cache.get('online-users', [])
+  uids.remove(user.id)
+  cache.set('online-users', uids, ONLINE_THRESHOLD)
 
+user_logged_out.connect(remove_user_id)
 
-def get_online_now(self):
-  return User.objects.filter(id__in=self.online_now_ids or [])
+def remove_anon_id(sender, user, request, **kwargs):
+  aids = cache.get('online-guests', [])
+  aid = request.COOKIES.get('aid')
+  if aid and aid in aids:
+    aids.remove(aid)
+    cache.set('online-guests', aids, ONLINE_THRESHOLD)
 
+user_logged_in.connect(remove_anon_id)
 
-class OnlineNowMiddleware(MiddlewareMixin):
-  """
-  Maintains a list of users who have interacted with the website recently.
-  Their user IDs are available as ``online_now_ids`` on the request object,
-  and their corresponding users are available (lazily) as the
-  ``online_now`` property on the request object.
-  """
+class OnlineUsersMiddleware(MiddlewareMixin):
+  aid = None
+
+  def get_online_now(self, uids):
+    return User.objects.filter(id__in=uids or [])
 
   def process_request(self, request):
-    # First get the index
-    uids = cache.get('online-now', [])
+    uids = cache.get('online-users', [])
+    aids = cache.get('online-guests', [])
 
-    # Perform the multiget on the individual online uid keys
-    online_keys = ['online-%s' % (u,) for u in uids]
-    fresh = cache.get_many(online_keys).keys()
-    online_now_ids = [int(k.replace('online-', '')) for k in fresh]
-
-    # If the user is authenticated, add their id to the list
     if request.user.is_authenticated():
       uid = request.user.id
-      # If their uid is already in the list, we want to bump it
-      # to the top, so we remove the earlier entry.
-      if uid in online_now_ids:
-        online_now_ids.remove(uid)
-      online_now_ids.append(uid)
-      if len(online_now_ids) > ONLINE_MAX:
-        del online_now_ids[0]
+
+      if not uid in uids:
+        uids.append(uid)
+
+    else:
+      self.aid = request.COOKIES.get('aid')
+
+      if not self.aid:
+        self.aid = str(uuid.uuid4())
+
+      if not self.aid in aids:
+        aids.append(self.aid)
 
     # Attach our modifications to the request object
-    request.__class__.online_now_ids = online_now_ids
-    request.__class__.online_now = property(get_online_now)
+    request.__class__.online_users = uids
+    request.__class__.online_guests = aids
+    request.__class__.online_now = self.get_online_now(uids)
 
     # Set the new cache
-    cache.set('online-%s' % (request.user.pk,), True, ONLINE_THRESHOLD)
-    cache.set('online-now', online_now_ids, ONLINE_THRESHOLD)
+    cache.set('online-users', uids, ONLINE_THRESHOLD)
+    cache.set('online-guests', aids, ONLINE_THRESHOLD)
 
+  def process_response(self, request, response):
+    if not request.user.is_authenticated():
+      expires = datetime.datetime.strftime(datetime.datetime.utcnow() + datetime.timedelta(seconds=ONLINE_THRESHOLD),
+                                         "%a, %d-%b-%Y %H:%M:%S GMT")
+      response.set_cookie('aid', self.aid, max_age=ONLINE_THRESHOLD, expires=expires,
+                       domain=settings.SESSION_COOKIE_DOMAIN,
+                       secure=settings.SESSION_COOKIE_SECURE or None)
+    else:
+      response.delete_cookie('aid')
+
+    return response
 
 
 class ActiveUserMiddleware(MiddlewareMixin):

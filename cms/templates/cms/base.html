@@ -109,7 +109,12 @@
             <div>
                 <h3>{% trans "Статистика" %}</h3>
                 <div class="block">
-                    <p>Онлайн пользователей: {{ request.online_now.count }}</p>
+                    <p>Онлайн пользователей: {{ request.online_users|length }}</p>
+                    <p>Онлайн гостей: {{ request.online_guests|length }}</p>
+                    {% if request.online_now %}
+                        <p>Сейчас на сайте:</p>
+                        <p>{% for user in request.online_now %}<strong>{{ user }}{% if not forloop.last %}, {% endif %}</strong>{% endfor %}</p>
+                    {% endif %}
                 </div>
             </div>
         </div>
