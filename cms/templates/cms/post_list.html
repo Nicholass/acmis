@@ -6,6 +6,7 @@
 {% load thumbnail %}
 {% load staticfiles %}
 {% load opengraph %}
+{% load hitcount_tags %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
@@ -145,6 +146,10 @@
                 <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
             </span>
 
+            <span>
+                <i class="fa fa-eye"></i>
+                {% get_hit_count for post %}
+            </span>
 
             {% comment_count as comm_count %}
             {% if comm_count and category.route != 'map' %}

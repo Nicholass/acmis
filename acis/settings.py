@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'django.contrib.sitemaps',
     'robots',
+    'hitcount',
 ]
 
 MIDDLEWARE = [

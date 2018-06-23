@@ -9,10 +9,12 @@ from django.utils import timezone
 from hashlib import md5
 from ..tagtools.tagcloud import TaggitCloud
 from django.utils.translation import ugettext as _
+from hitcount.views import HitCountMixin
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
 from ..models import CmsPost, TextPost, BinaryPost, CmsCategory
+from hitcount.models import HitCount
 
 
 def post_list(request, tags=None, category=None, author=None):
@@ -135,6 +137,9 @@ def post_detail(request, pk):
 
   if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
     raise Http404("No CmsPost matches the given query.")
+
+  hit_count = HitCount.objects.get_for_object(post)
+  hit_count_response = HitCountMixin.hit_count(request, hit_count)
 
   posts = CmsPost.objects.filter(category=post.category).order_by('published_date')
 
