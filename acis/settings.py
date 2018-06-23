@@ -53,6 +53,16 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'robots',
     'hitcount',
+
+    # Django-wiki
+    'django.contrib.humanize.apps.HumanizeConfig',
+    'django_nyt.apps.DjangoNytConfig',
+    'sekizai',
+    'wiki.apps.WikiConfig',
+    'wiki.plugins.attachments.apps.AttachmentsConfig',
+    'wiki.plugins.notifications.apps.NotificationsConfig',
+    'wiki.plugins.images.apps.ImagesConfig',
+    'wiki.plugins.macros.apps.MacrosConfig',
 ]
 
 MIDDLEWARE = [
@@ -86,7 +96,14 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                'pybb.context_processors.processor'
+                'pybb.context_processors.processor',
+                #Django-wiki
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+                "sekizai.context_processors.sekizai",
             ],
         },
     },
@@ -291,3 +308,6 @@ OPENGRAPH_CONFIG = {
 
 # Number of seconds of inactivity before a user is marked offline
 USER_ONLINE_TIMEOUT = 60 * 15
+
+WIKI_ACCOUNT_HANDLING = False
+WIKI_ACCOUNT_SIGNUP_ALLOWED = False

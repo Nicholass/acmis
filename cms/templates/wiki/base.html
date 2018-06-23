@@ -1,0 +1,14 @@
+{% extends "wiki/base_site.html" %}
+{% load i18n %}
+
+{% block wiki_site_title %} - Wiki{% endblock %}
+
+{% block wiki_header_branding %}
+<a class="navbar-brand" href="/">{% trans "На сайт" %}</a>
+{% endblock %}
+
+{% block wiki_header_navlinks %}
+<ul class="nav navbar-nav">
+  <li class="active"><a href="{% url 'wiki:root' %}">Diggers Wiki</a></li>
+</ul>
+{% endblock %}
