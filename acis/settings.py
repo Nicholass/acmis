@@ -63,6 +63,9 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications.apps.NotificationsConfig',
     'wiki.plugins.images.apps.ImagesConfig',
     'wiki.plugins.macros.apps.MacrosConfig',
+
+    'django_user_agents',
+    'tracking_analyzer',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +80,7 @@ MIDDLEWARE = [
     'ban.middleware.BanManagement',
     'cms.midlewares.ActiveUserMiddleware',
     'cms.midlewares.OnlineUsersMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 
 # Conflict with existing i18n switcher
 #    'pybb.middleware.PybbMiddleware'
@@ -311,3 +315,5 @@ USER_ONLINE_TIMEOUT = 60 * 15
 
 WIKI_ACCOUNT_HANDLING = False
 WIKI_ACCOUNT_SIGNUP_ALLOWED = False
+
+GEOIP_PATH = '%s/geoip-data' % BASE_DIR

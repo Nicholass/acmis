@@ -9,6 +9,7 @@ forum/img/avatars/
 data/
 config/opendkim/keys/
 bower_components/
+geoip-data/
 *.pyc
 *.mo
 db.sqlite3

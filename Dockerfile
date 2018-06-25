@@ -21,8 +21,11 @@ RUN . ./diggers_venv/bin/activate
 
 RUN pip install -r ./requirements.txt
 
+# Need a fix model migration file which have null field value without parameter Null=True. Maybe it fixed in new wersions
 COPY ./build/web/django-messages-master.zip ./
-RUN pip install ./django-messages-master.zip && rm ./django-messages-master.zip
+# We use a polymorphic model instead a model class for Posts. Package net to fix assertion is subclass of django model class check on tracking_analyzer/manager.py line 33-34
+COPY ./build/web/django-tracking-analyzer-master.zip ./
+RUN pip install ./django-messages-master.zip && rm ./django-messages-master.zip && pip install ./django-tracking-analyzer-master.zip && rm ./django-tracking-analyzer-master.zip
 
 COPY . .
 
