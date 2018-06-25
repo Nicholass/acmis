@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'taggit',
     'mptt',
+    'tracking',
     'cms',
     'django.contrib.admin',
     'ckeditor',
@@ -81,6 +82,7 @@ MIDDLEWARE = [
     'cms.midlewares.ActiveUserMiddleware',
     'cms.midlewares.OnlineUsersMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
+    'tracking.middleware.VisitorTrackingMiddleware',
 
 # Conflict with existing i18n switcher
 #    'pybb.middleware.PybbMiddleware'
@@ -316,4 +318,19 @@ USER_ONLINE_TIMEOUT = 60 * 15
 WIKI_ACCOUNT_HANDLING = False
 WIKI_ACCOUNT_SIGNUP_ALLOWED = False
 
-GEOIP_PATH = '%s/geoip-data' % BASE_DIR
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip-data')
+
+TRACK_USING_GEOIP = True
+TRACK_REFERER = True
+TRACK_PAGEVIEWS = True
+
+TRACK_IGNORE_URLS = (
+    r'^(favicon\.ico|robots\.txt|sitemap\.xml)$',
+    r'^admin(?!/login).*$',
+    r'^ajax/tags',
+    r'^ckeditor',
+    r'^latest/feed',
+    # No need. This track by another tracking
+    r'^post/\d',
+    r'^category/\w+',
+)
