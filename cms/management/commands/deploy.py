@@ -16,7 +16,6 @@ class Command(BaseCommand):
         subprocess.call(['python', './manage.py', 'collectstatic'])
         subprocess.call(['python', './manage.py', 'makemigrations'])
         subprocess.call(['python', './manage.py', 'migrate'])
-        subprocess.call(['python', './manage.py', 'migrate', '--run-syncdb'])
 
         self.create_superuser()
         self.set_sites()
