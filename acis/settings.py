@@ -127,7 +127,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'diggers_dbu',
         'PASSWORD': 'lA4EgJN1BzPcmPjLDvjW',
-        'HOST': 'postgres',
+        'HOST': 'localhost',
         'PORT': 5432
     }
 }
@@ -212,7 +212,7 @@ ACCOUNT_ACTIVATION_DAYS = 2
 REGISTRATION_OPEN = True
 REGISTRATION_SALT = 'FfjoH3YJSavC67d6MvZCzAUGZJluMJqYlZ10WqLfPM79uydOe4CqMQMuJWeie9yA'
 
-EMAIL_HOST = 'postfix'
+EMAIL_HOST = 'localhost'
 EMAIL_PORT = 25
 EMAIL_HOST_USER = ''
 EMAIL_HOST_PASSWORD = ''
@@ -276,7 +276,7 @@ PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с
 SESSION_SAVE_EVERY_REQUEST = True
 
 ALLOWED_HOSTS = [
-    'web',
+    '127.0.0.1',
 ]
 
 PYBB_TEMPLATE = 'cms/base.html'
@@ -298,7 +298,7 @@ TAGTOOLS_CLOUD_STEPS = 6
 TAGTOOLS_CLOUD_MIN_COUNT = 1
 
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
-THUMBNAIL_REDIS_HOST = 'redis'
+THUMBNAIL_REDIS_HOST = 'localhost'
 THUMBNAIL_REDIS_PORT = 6379
 THUMBNAIL_REDIS_PASSWORD = ''
 THUMBNAIL_REDIS_DB = 0
