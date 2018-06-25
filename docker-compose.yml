@@ -6,6 +6,8 @@ services:
     restart: always
     image: websource
     command: gunicorn acis.wsgi -b 0.0.0.0:8000
+    env_file:
+      - .env
     volumes:
       - ./:/usr/src/app
     ports:

@@ -15,3 +15,4 @@ geoip-data/
 db.sqlite3
 db.sqlite3.old
 .DS_Store
+.env
