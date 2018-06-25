@@ -127,7 +127,7 @@ DATABASES = {
         'NAME': 'postgres',
         'USER': 'diggers_dbu',
         'PASSWORD': 'lA4EgJN1BzPcmPjLDvjW',
-        'HOST': 'localhost',
+        'HOST': 'postgres',
         'PORT': 5432
     }
 }
@@ -276,7 +276,7 @@ PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с
 SESSION_SAVE_EVERY_REQUEST = True
 
 ALLOWED_HOSTS = [
-    '127.0.0.1',
+    'web',
 ]
 
 PYBB_TEMPLATE = 'cms/base.html'
