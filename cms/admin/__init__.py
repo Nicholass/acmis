@@ -7,15 +7,24 @@ from ..forms import ProfileForm
 
 from ..models import CmsPost, TextPost, BinaryPost, CmsCategory, Comment, CmsProfile, EmailChange
 from django.contrib.auth.models import User, Permission
+from tracking.models import Visitor, Pageview
+from tracking.settings import TRACK_PAGEVIEWS
 
 from .comment import CustomMPTTModelAdmin
 from .post import PostParentAdmin, PostChildAdmin
+from .tracking2 import PageviewCustomAdmin, VisitorCustomAdmin
 
 admin.site.register(Comment, CustomMPTTModelAdmin)
 
 admin.site.register(CmsPost, PostParentAdmin)
 admin.site.register(TextPost, PostChildAdmin)
 admin.site.register(BinaryPost, PostChildAdmin)
+
+admin.site.unregister(Visitor)
+admin.site.register(Visitor, VisitorCustomAdmin)
+
+admin.site.unregister(Pageview)
+admin.site.register(Pageview, PageviewCustomAdmin)
 
 
 class CmsCategoryAdmin(admin.ModelAdmin):

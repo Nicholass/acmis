@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'taggit',
     'mptt',
+    'tracking',
     'cms',
     'django.contrib.admin',
     'ckeditor',
@@ -63,6 +64,9 @@ INSTALLED_APPS = [
     'wiki.plugins.notifications.apps.NotificationsConfig',
     'wiki.plugins.images.apps.ImagesConfig',
     'wiki.plugins.macros.apps.MacrosConfig',
+
+    'django_user_agents',
+    'tracking_analyzer',
 ]
 
 MIDDLEWARE = [
@@ -77,6 +81,8 @@ MIDDLEWARE = [
     'ban.middleware.BanManagement',
     'cms.midlewares.ActiveUserMiddleware',
     'cms.midlewares.OnlineUsersMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
+    'tracking.middleware.VisitorTrackingMiddleware',
 
 # Conflict with existing i18n switcher
 #    'pybb.middleware.PybbMiddleware'
@@ -118,11 +124,11 @@ WSGI_APPLICATION = 'acis.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres',
-        'USER': 'diggers_dbu',
-        'PASSWORD': 'lA4EgJN1BzPcmPjLDvjW',
-        'HOST': 'postgres',
-        'PORT': 5432
+        'NAME': os.getenv('POSTGRES_DBNAME', 'postgres'),
+        'USER': os.getenv('POSTGRES_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
+        'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_PORT', 5432),
     }
 }
 
@@ -206,11 +212,11 @@ ACCOUNT_ACTIVATION_DAYS = 2
 REGISTRATION_OPEN = True
 REGISTRATION_SALT = 'FfjoH3YJSavC67d6MvZCzAUGZJluMJqYlZ10WqLfPM79uydOe4CqMQMuJWeie9yA'
 
-EMAIL_HOST = 'postfix'
-EMAIL_PORT = 25
-EMAIL_HOST_USER = ''
-EMAIL_HOST_PASSWORD = ''
-EMAIL_USE_TLS = False
+EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
+EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
+EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
+EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
 DEFAULT_FROM_EMAIL = 'info@diggers.kiev.ua'
 
 #HOME_CATEGORY_ROUTE = 'news'
@@ -292,12 +298,12 @@ TAGTOOLS_CLOUD_STEPS = 6
 TAGTOOLS_CLOUD_MIN_COUNT = 1
 
 THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
-THUMBNAIL_REDIS_HOST = 'redis'
-THUMBNAIL_REDIS_PORT = 6379
-THUMBNAIL_REDIS_PASSWORD = ''
-THUMBNAIL_REDIS_DB = 0
+THUMBNAIL_REDIS_HOST = os.getenv('THUMBNAIL_REDIS_HOST', 'localhost')
+THUMBNAIL_REDIS_PORT = os.getenv('THUMBNAIL_REDIS_PORT', 6379)
+THUMBNAIL_REDIS_PASSWORD = os.getenv('THUMBNAIL_REDIS_PASSWORD', '')
+THUMBNAIL_REDIS_DB = os.getenv('THUMBNAIL_REDIS_DB', 0)
 THUMBNAIL_UPSCALE = False
-THUMBNAIL_DEBUG = DEBUG
+THUMBNAIL_DEBUG = os.getenv('DEBUG', False)
 
 OPENGRAPH_CONFIG = {
     'FB_ADMINS': '',
@@ -311,3 +317,20 @@ USER_ONLINE_TIMEOUT = 60 * 15
 
 WIKI_ACCOUNT_HANDLING = False
 WIKI_ACCOUNT_SIGNUP_ALLOWED = False
+
+GEOIP_PATH = os.path.join(BASE_DIR, 'geoip-data')
+
+TRACK_USING_GEOIP = True
+TRACK_REFERER = True
+TRACK_PAGEVIEWS = True
+
+TRACK_IGNORE_URLS = (
+    r'^(favicon\.ico|robots\.txt|sitemap\.xml)$',
+    r'^admin(?!/login).*$',
+    r'^ajax/tags',
+    r'^ckeditor',
+    r'^latest/feed',
+    # No need. This track by another tracking
+    r'^post/\d',
+    r'^category/\w+',
+)

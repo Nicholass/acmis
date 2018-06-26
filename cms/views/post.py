@@ -15,6 +15,7 @@ from ..forms import TextPostForm, BinaryPostForm, PostForm
 
 from ..models import CmsPost, TextPost, BinaryPost, CmsCategory
 from hitcount.models import HitCount
+from tracking_analyzer.models import Tracker
 
 
 def post_list(request, tags=None, category=None, author=None):
@@ -33,6 +34,7 @@ def post_list(request, tags=None, category=None, author=None):
 
   if category:
     c = get_permited_object_or_403(CmsCategory, request.user, route=category)
+    Tracker.objects.create_from_request(request, c)
 
   if tags:
     t = tags.split(",")
@@ -139,9 +141,11 @@ def post_detail(request, pk):
     raise Http404("No CmsPost matches the given query.")
 
   hit_count = HitCount.objects.get_for_object(post)
-  hit_count_response = HitCountMixin.hit_count(request, hit_count)
+  HitCountMixin.hit_count(request, hit_count)
 
   posts = CmsPost.objects.filter(category=post.category).order_by('published_date')
+
+  Tracker.objects.create_from_request(request, post)
 
   return render(request, 'cms/post_detail.html', {'post': post, 'posts': posts})
 

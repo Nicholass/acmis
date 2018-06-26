@@ -20,3 +20,4 @@ redis==2.10.6
 django-robots==3.0
 django-hitcount==1.3.0
 wiki==0.3.1
+django-tracking2==0.4.0

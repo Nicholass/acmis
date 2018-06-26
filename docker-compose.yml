@@ -1,6 +1,20 @@
 version: '2'
 
 services:
+  web:
+    build: .
+    image: websource
+    container_name: "diggers_websource_local"
+    command: gunicorn acis.wsgi -b 0.0.0.0:8000
+    env_file: .env
+    volumes:
+      - ./:/usr/src/app
+    ports:
+      - "8000:8000"
+    networks:
+      - localnet
+    restart: always
+
   nginx:
     image: nginx:latest
     restart: always
@@ -8,88 +22,11 @@ services:
       - "80:80"
     volumes:
       - ./:/usr/src/app
-      - ./config/nginx:/etc/nginx/conf.d
-    depends_on:
-      - web
+      - ./nginx:/etc/nginx/conf.d
     networks:
-      - local
-
-  postgres:
-    image: postgres
-    restart: always
-    environment:
-      POSTGRES_USER: diggers_dbu
-      POSTGRES_PASSWORD: lA4EgJN1BzPcmPjLDvjW
-      PGDATA: /data/postgres
-      SITE_NAME: Acis urban exploration site
-      SITE_DOMAIN: diggers.kiev.ua
-    volumes:
-      - postgres_data:/var/lib/postgresql/data/
-    networks:
-      - local
-
-  pgadmin:
-    build: ./build/pgadmin/
-    links:
-      - postgres:postgres
-    container_name: pgadmin
-    volumes:
-       - ./data/pgadmin/.pgadmin:/root/.pgadmin
-       - ./data/pgadmin/storage:/var/lib/pgadmin/storage
-    ports:
-      - "5050:5050"
-    networks:
-      - local
-    restart: always
-    depends_on:
-      - postgres
-
-  web:
-    build: .
-    restart: always
-    image: websource
-    command: gunicorn acis.wsgi -b 0.0.0.0:8000
-    volumes:
-      - ./:/usr/src/app
-    expose:
-      - "8000"
-    depends_on:
-      - postgres
-      - redis
-    networks:
-      - local
-
-  postfix:
-    build: ./build/postfix/
-    restart: always
-    container_name: postfix
-    environment:
-      - DOMAINS=diggers.kiev.ua localhost
-    ports:
-      - "25:25"
-    depends_on:
-      - web
-    volumes:
-      - ./config/opendkim:/etc/opendkim
-    networks:
-      - local
-
-  redis:
-    build: ./build/redis
-    command: redis-server
-    environment:
-      - REDIS_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
-    ports:
-      - "6379:6379"
-    volumes:
-      - redis_data:/var/lib/redis/data/
-    networks:
-      - local
-
-volumes:
-  postgres_data:
-  redis_data:
+      - localnet
 
 networks:
-  local:
-    driver: bridge
+  localnet:
+    external:
+      name: diggers-local
