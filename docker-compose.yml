@@ -3,17 +3,17 @@ version: '2'
 services:
   web:
     build: .
-    restart: always
     image: websource
+    container_name: "diggers_websource_local"
     command: gunicorn acis.wsgi -b 0.0.0.0:8000
-    env_file:
-      - .env
+    env_file: .env
     volumes:
       - ./:/usr/src/app
     ports:
       - "8000:8000"
     networks:
-      - local
+      - localnet
+    restart: always
 
   nginx:
     image: nginx:latest
@@ -24,8 +24,9 @@ services:
       - ./:/usr/src/app
       - ./nginx:/etc/nginx/conf.d
     networks:
-      - local
+      - localnet
 
 networks:
-  local:
-    driver: bridge
+  localnet:
+    external:
+      name: diggers-local
