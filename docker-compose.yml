@@ -2,31 +2,34 @@ version: '2'
 
 services:
   web:
+    container_name: "diggers_websource"
     build: .
     image: websource
-    container_name: "diggers_websource_local"
+    restart: on-failure
     command: gunicorn acis.wsgi -b 0.0.0.0:8000
     env_file: .env
     volumes:
       - ./:/usr/src/app
-    ports:
-      - "8000:8000"
+    expose:
+      - "8000"
     networks:
-      - localnet
-    restart: always
+      - diggers-websource-localnet
+      - diggers-external
 
   nginx:
+    container_name: "diggers_websource_proxy"
     image: nginx:latest
-    restart: always
+    restart: on-failure
     ports:
       - "80:80"
     volumes:
       - ./:/usr/src/app
       - ./nginx:/etc/nginx/conf.d
     networks:
-      - localnet
+      - diggers-websource-localnet
 
 networks:
-  localnet:
-    external:
-      name: diggers-local
+  diggers-websource-localnet:
+    driver: bridge
+  diggers-external:
+    external: true

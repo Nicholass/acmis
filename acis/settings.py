@@ -204,7 +204,7 @@ BOWER_INSTALLED_APPS = (
 
 FILE_UPLOAD_PERMISSIONS = 0o755
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
@@ -277,6 +277,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 ALLOWED_HOSTS = [
     'web',
+    '127.0.0.1',
 ]
 
 PYBB_TEMPLATE = 'cms/base.html'
