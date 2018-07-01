@@ -1,5 +1,7 @@
 import subprocess
+import os
 from django.core.management.base import BaseCommand, CommandError
+from django.conf import settings
 
 from cms.models import CmsCategory
 from django.contrib.auth.models import User, Group, Permission
@@ -14,6 +16,13 @@ class Command(BaseCommand):
 
         subprocess.call(['python', './manage.py', 'bower', 'install', '--', '--allow-root'])
         subprocess.call(['python', './manage.py', 'collectstatic'])
+
+        geoip_dir = getattr(settings, 'GEOIP_PATH')
+        if not os.path.exists(geoip_dir):
+            os.makedirs(geoip_dir)
+            self.stdout.write('Created geoip dir "%s"' % geoip_dir)
+
+        subprocess.call(['python', './manage.py', 'install_geoip_dataset'])
         subprocess.call(['python', './manage.py', 'makemigrations'])
         subprocess.call(['python', './manage.py', 'migrate'])
 

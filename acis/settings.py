@@ -277,7 +277,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 ALLOWED_HOSTS = [
     'diggers.kiev.ua',
-    'localhost',
+    '127.0.0.1',
 ]
 
 PYBB_TEMPLATE = 'cms/base.html'
