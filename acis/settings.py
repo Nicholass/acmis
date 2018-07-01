@@ -276,8 +276,8 @@ PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с
 SESSION_SAVE_EVERY_REQUEST = True
 
 ALLOWED_HOSTS = [
-    'web',
-    '127.0.0.1',
+    'diggers.kiev.ua',
+    'localhost',
 ]
 
 PYBB_TEMPLATE = 'cms/base.html'
