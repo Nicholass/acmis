@@ -204,7 +204,7 @@ BOWER_INSTALLED_APPS = (
 
 FILE_UPLOAD_PERMISSIONS = 0o755
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, '/media/')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CKEDITOR_UPLOAD_PATH = 'uploads/'
 CKEDITOR_ALLOW_NONIMAGE_FILES = False
 
