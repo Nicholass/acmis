@@ -77,7 +77,7 @@ def is_moderator_or_403(user_obj, obj=None):
     model_name = obj.__class__.__name__.lower()
     is_moderator = user_obj.has_perm('cms.moderate_%s' % model_name)
   else:
-    is_moderator = user_obj.has_perm('cms.moderate_post')
+    is_moderator = user_obj.has_perm('cms.moderate_cmspost')
 
   if not is_moderator:
     raise PermissionDenied()

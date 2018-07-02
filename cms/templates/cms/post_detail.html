@@ -40,22 +40,22 @@
                  {% if user.is_authenticated %}
                    {% auth_is_owner post as is_post_owner %}
 
-                   {% if perms.cms.change_post and is_post_owner %}
+                   {% if perms.cms.change_cmspost and is_post_owner %}
                        <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Редактировать" %}</a>
                    {% endif %}
                    {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
-                   {% if perms.cms.delete_post and is_post_owner %}
+                   {% if perms.cms.delete_cmspost and is_post_owner %}
                      <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
                    {% endif %}
                    {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
-                   {% if perms.cms.publish_post and is_post_owner %}
+                   {% if perms.cms.publish_cmspost and is_post_owner %}
                      {% if post.is_public %}
                        <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Скрыть" %}</a>
                      {% else %}
                        <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Опубликовать" %}</a>
                      {% endif %}
                    {% endif %}
-                   {% if perms.cms.moderate_post %}
+                   {% if perms.cms.moderate_cmspost %}
                      {% if not post.is_moderated %}
                        {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
                        <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Одобрить" %}</a>

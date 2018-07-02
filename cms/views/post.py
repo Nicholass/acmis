@@ -198,7 +198,7 @@ def post_new(request,category):
 
 
 @login_required
-@permission_required('cms.change_post', raise_exception=True)
+@permission_required('cms.change_cmspost', raise_exception=True)
 def post_edit(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
@@ -231,7 +231,7 @@ def post_edit(request, pk):
 
 
 @login_required
-@permission_required('cms.delete_post', raise_exception=True)
+@permission_required('cms.delete_cmspost', raise_exception=True)
 def post_delete(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
@@ -248,7 +248,7 @@ def post_delete(request, pk):
   return redirect('category_list', category=category)
 
 @login_required
-@permission_required('cms.publish_post', raise_exception=True)
+@permission_required('cms.publish_cmspost', raise_exception=True)
 def post_publish(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   is_owner_or_403(request.user, post)
@@ -259,7 +259,7 @@ def post_publish(request, pk):
   return redirect('category_list', category=post.category.route)
 
 @login_required
-@permission_required('cms.publish_post', raise_exception=True)
+@permission_required('cms.publish_cmspost', raise_exception=True)
 def post_unpublish(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   is_owner_or_403(request.user, post)
@@ -270,7 +270,7 @@ def post_unpublish(request, pk):
   return redirect('category_list', category=post.category.route)
 
 @login_required
-@permission_required('cms.moderate_post', raise_exception=True)
+@permission_required('cms.moderate_cmspost', raise_exception=True)
 def post_approve(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   is_moderator_or_403(request.user, post)
