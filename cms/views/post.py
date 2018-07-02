@@ -50,7 +50,7 @@ def post_list(request, tags=None, category=None, author=None):
   q_groups = { **q, 'category__groups__in': request.user.groups.all() }
   q_anoymous = { **q, 'category__allow_anonymous': True }
 
-  posts_list = CmsPost.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-published_date', 'title')
+  posts_list = CmsPost.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-created_date', 'title')
 
   page = request.GET.get('page', 1)
 
@@ -143,7 +143,7 @@ def post_detail(request, pk):
   hit_count = HitCount.objects.get_for_object(post)
   HitCountMixin.hit_count(request, hit_count)
 
-  posts = CmsPost.objects.filter(category=post.category).order_by('published_date')
+  posts = CmsPost.objects.filter(category=post.category).order_by('created_date')
 
   Tracker.objects.create_from_request(request, post)
 
