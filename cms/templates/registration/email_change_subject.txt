@@ -1,1 +1,1 @@
-{% load i18n %}{% trans "Изменение email на сайте ACIS" %}
+{% load i18n %}{% trans "Изменение email на сайте" %}
