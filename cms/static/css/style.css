@@ -674,6 +674,13 @@ form .help {
     vertical-align: middle;
     display: inline-block;
 }
+.errorlist {
+	padding-left: 0;
+}
+.errorlist li {
+	list-style: none;
+    color: red;
+}
 
 /* sidebar */
 #sidebar {
