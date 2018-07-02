@@ -490,6 +490,7 @@ a.feed:hover{
 }
 .post .post-content {
 	padding: 5px 0;
+	word-break: break-word;
 }
 .post img {
 	max-width: 900px;
