@@ -29,21 +29,13 @@ class CmsPost(PolymorphicModel):
 
   tags = TaggableManager(blank=True, verbose_name=_("Теги"))
   created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Дата создания"))
-  published_date = models.DateTimeField(blank=True, null=True, verbose_name=_("Дата публикации"))
+  published_date = models.DateTimeField(default=timezone.now, blank=True, null=True, verbose_name=_("Дата публикации"))
 
   is_public = models.BooleanField(default=True, verbose_name=_("Опубликован"))
   is_moderated = models.BooleanField(default=True, verbose_name=_("Одобрен"))
 
   def _tags(self):
         return [t.name for t in self.tags.all()]
-
-  def publish(self):
-    '''
-    TODO set is_public/is_moderated basing on category/etc
-    '''
-    self.published_date = timezone.now()
-
-    self.save()
 
   @property
   def short_title(self):
@@ -54,6 +46,10 @@ class CmsPost(PolymorphicModel):
 
   def __str__(self):
     return self.title
+
+  def clean(self):
+    if getattr(self, 'is_public', None) is False:
+      self.published_date = timezone.now()
 
   class Meta:
     verbose_name = _("Пост")

@@ -50,7 +50,7 @@ def post_list(request, tags=None, category=None, author=None):
   q_groups = { **q, 'category__groups__in': request.user.groups.all() }
   q_anoymous = { **q, 'category__allow_anonymous': True }
 
-  posts_list = CmsPost.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-created_date', 'title')
+  posts_list = CmsPost.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-published_date', 'title')
 
   page = request.GET.get('page', 1)
 
@@ -168,7 +168,6 @@ def post_new(request,category):
     if form.is_valid():
       post = form.save(commit=False)
       post.author = request.user
-      post.published_date = timezone.now()
       post.category = categoryObj
 
       is_premod_cat = post.category.route in getattr(settings, 'PREMODERATION_CATEGORIES', [])
