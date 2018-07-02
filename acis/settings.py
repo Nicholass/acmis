@@ -239,7 +239,8 @@ BLEACH_ALLOWED_TAGS = [
   'caption',
   'hr',
   'span',
-  'img'
+  'img',
+  'br'
 ]
 BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'cellpadding', 'cellspacing', 'border', 'target', 'alt', 'src']
 BLEACH_ALLOWED_STYLES = [
