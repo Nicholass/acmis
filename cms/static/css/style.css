@@ -268,7 +268,7 @@ table {
 }
 #header ul.menu li a {
 	display: block;
-	padding: 3px 12px;
+	padding: 3px 10px;
 	margin: 0 4px;	
 	color: #FFF;
 	background: rgba(0, 0, 0, 0.35);
@@ -305,7 +305,7 @@ table {
 	flex-basis: 75%;
 	margin: 0;
 	overflow: hidden;
-	padding: 0 0 0 50px;
+	padding: 0 0 0 15px;
 }
 .breadcrumbs li:last-child {
 	overflow: hidden;
@@ -313,7 +313,7 @@ table {
 	text-overflow: ellipsis;
 }
 .breadcrumbs li:before {
-	content: '.';
+	content: '';
 	height: 1.75em;
 	margin: 0 10px;
 	width: 16px;
@@ -450,6 +450,7 @@ a.feed:hover{
 .post.single > h1,
 .post.single > h2 {
 	padding-bottom: 5px;
+	word-break: break-word;
 }
 
 .post {
@@ -967,6 +968,17 @@ ul.pagination a:hover {
 	}
 	.breadcrumbs li.current {
 		display: block;
+		width: 98%;
+	}
+	.breadcrumbs li:before {
+		content: '';
+    	height: 1.75em;
+    	margin: 0 10px 0 0;
+    	width: 16px;
+    	background: #000 url(../images/arrow.gif) no-repeat;
+    	color: #A0080D;
+    	display: inline-block;
+   		vertical-align: text-top;
 	}
 
 	/* content */

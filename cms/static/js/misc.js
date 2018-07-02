@@ -27,14 +27,26 @@ $(document).ready(function(){
         ],
     });
 
-    //Handlers for mobile devices
-    if($(window).width() < 600) {
-        $('.breadcrumbs li.current').click(function () {
-            $('.breadcrumbs li:not(.current)').toggle("slow");
-        });
+    resize_handle();
 
-         $('.langBtn.selected').click(function () {
-            $('.langBtn:not(.selected)').toggle("slow");
-        });
+    //Handlers for mobile devices
+    $(window).resize(function () {
+        console.log('resize');
+        resize_handle();
+    });
+
+    function resize_handle() {
+        $('.breadcrumbs li.current').off('click');
+        $('.langBtn.selected').off('click');
+
+        if($(window).width() < 600) {
+            $('.breadcrumbs li.current').click(function () {
+                $('.breadcrumbs li:not(.current)').toggle("slow");
+            });
+
+            $('.langBtn.selected').click(function () {
+                $('.langBtn:not(.selected)').toggle("slow");
+            });
+        }
     }
 });
