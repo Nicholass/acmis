@@ -48,7 +48,7 @@ class CmsPost(PolymorphicModel):
     return self.title
 
   def clean(self):
-    if getattr(self, 'is_public', None) is False:
+    if getattr(self, 'is_public', None) is False or getattr(self, 'is_moderated', None) is False:
       self.published_date = timezone.now()
 
   class Meta:
