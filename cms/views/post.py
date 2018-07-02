@@ -5,7 +5,6 @@ from django.conf import settings
 from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required, permission_required
-from django.utils import timezone
 from hashlib import md5
 from ..tagtools.tagcloud import TaggitCloud
 from django.utils.translation import ugettext as _

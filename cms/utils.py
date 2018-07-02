@@ -1,6 +1,15 @@
+import re
 from django.db.models import Q
 from django.db.models.sql.query import get_order_dir
 
+def get_post_announce(item):
+    text = item.text
+
+    images = re.search('<img[^>]+>', text)
+    if images:
+        return images.group(0)
+
+    return ''
 
 def get_next_or_previous(qs, item, next=True):
     """
