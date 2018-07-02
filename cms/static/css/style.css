@@ -993,6 +993,7 @@ ul.pagination a:hover {
 
 	.post img {
 		max-width: 100%;
+		height: auto !important;
 	}
 
 	.post-form input[name=title] {
