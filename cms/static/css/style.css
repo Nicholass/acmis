@@ -493,8 +493,10 @@ a.feed:hover{
 	padding: 5px 0;
 	word-break: break-word;
 }
-.post img {
+.post img, .post iframe {
 	max-width: 900px;
+}
+.post img {
 	height: auto!important;
 }
 

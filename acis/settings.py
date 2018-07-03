@@ -243,7 +243,7 @@ BLEACH_ALLOWED_TAGS = [
   'br',
   'iframe'
 ]
-BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'cellpadding', 'cellspacing', 'border', 'target', 'alt', 'src']
+BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'cellpadding', 'cellspacing', 'border', 'target', 'alt', 'src', 'allowfullscreen', 'frameborder', 'height', 'width']
 BLEACH_ALLOWED_STYLES = [
   'font-family',
   'font-weight',
@@ -348,9 +348,13 @@ CKEDITOR_CONFIGS = {
         'toolbar_Custom': [
             ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
             ['Link', 'Unlink', 'Anchor'],
-            ['Image', 'Table', 'HorizontalRule'],
+            ['Image', 'Youtube', 'Table', 'HorizontalRule'],
             ['TextColor', 'BGColor'],
             ['Smiley', 'SpecialChar'], ['Source'],
-        ]
+        ],
+        'extraPlugins': ','.join([
+          'youtube',
+          'autoembed'
+        ])
     }
 }

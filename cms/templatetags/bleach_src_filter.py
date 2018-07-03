@@ -11,6 +11,8 @@ def allow_src(tag, name, value):
   if name == 'src':
     p = urlparse(value)
     return p.netloc in getattr(settings, 'BLEACH_ALLOWED_IFRAME_SRC', [])
+  elif name in ['allowfullscreen', 'frameborder', 'height', 'width']:
+    return True
   return False
 
 @register.filter
