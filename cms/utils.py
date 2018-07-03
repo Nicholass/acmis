@@ -2,12 +2,19 @@ import re
 from django.db.models import Q
 from django.db.models.sql.query import get_order_dir
 
+def hide_first_item(text):
+    items = re.search('(<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>)', text)
+    if items:
+        item = items.group(0)
+        text = text.replace(item, '')
+    return text
+
 def get_post_announce(item):
     text = item.text
 
-    images = re.search('<img[^>]+>', text)
-    if images:
-        return images.group(0)
+    items = re.search('(<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>)', text)
+    if items:
+        return items.group(0)
 
     return ''
 

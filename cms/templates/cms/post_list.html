@@ -8,6 +8,7 @@
 {% load opengraph %}
 {% load announce %}
 {% load hitcount_tags %}
+{% load bleach_src_filter %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
@@ -168,9 +169,9 @@
           <div class="post-content clearfix">
             {% if post.category.route != 'map' %}
               {% if not post.file %}
-                  {{ post.text|truncatechars:800|bleach }}
+                  {{ post.text|truncatechars:800|hide_announced_item|bleach_src|bleach }}
                   {% get_announce post as announce %}
-                  {{ announce|bleach }}
+                  <p>{{ announce|bleach_src|bleach }}</p>
               {% else %}
                   <a href="{% url 'post_detail' pk=post.pk %}">
                     {% if category and category.route == 'photo' or category.route == 'drawing' %}

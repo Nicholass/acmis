@@ -6,6 +6,7 @@
 {% load next_previous %}
 {% load thumbnail %}
 {% load opengraph %}
+{% load bleach_src_filter %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -73,7 +74,7 @@
                      </a>
                      <p class="description">{{ post.description }}</p>
                  {% else %}
-                     {{ post.text|bleach }}
+                     {{ post.text|bleach_src|bleach }}
                  {% endif %}
              </div>
 

@@ -240,7 +240,8 @@ BLEACH_ALLOWED_TAGS = [
   'hr',
   'span',
   'img',
-  'br'
+  'br',
+  'iframe'
 ]
 BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'cellpadding', 'cellspacing', 'border', 'target', 'alt', 'src']
 BLEACH_ALLOWED_STYLES = [
@@ -263,6 +264,10 @@ BLEACH_ALLOWED_STYLES = [
 ]
 BLEACH_STRIP_TAGS = True
 BLEACH_STRIP_COMMENTS = False
+BLEACH_ALLOWED_IFRAME_SRC = [
+  'youtube.com',
+  'www.youtube.com',
+]
 
 AVATAR_MAX_WIDTH = 80
 AVATAR_MAX_HEIGHT = 80
