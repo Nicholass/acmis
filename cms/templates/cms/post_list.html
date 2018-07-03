@@ -153,17 +153,20 @@
                 {% get_hit_count for post %}
             </span>
 
+            <span>
+                <i class="fa fa-comment"></i>
+                <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">
             {% comment_count as comm_count %}
             {% if comm_count and category.route != 'map' %}
-              <span>
-                <i class="fa fa-comment"></i>
-                <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">{{ comm_count }}
-                  {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
-                  {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
-                  {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
-                </a>
-               </span>
+                {{ comm_count }}
+                {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
+                {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
+                {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
+            {% else %}
+                {% trans "Комментировать" %}
             {% endif %}
+              </a>
+            </span>
           </div>
 
           <div class="post-content clearfix">
