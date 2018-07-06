@@ -1,6 +1,7 @@
 {% extends 'cms/base.html' %}
 {% load staticfiles %}
 {% load i18n %}
+{% load i18n_filter %}
 
 {% block title %}
   {% if post %}
@@ -28,29 +29,16 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-  <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
+  <li><a href="{% url 'category_list' category=category.route %}">
+      {% if category.i18n_name %}{{ category.i18n_name|i18n }}{% else %}{{ category.name }}{% endif %}
+  </a></li>
   <li class="current">
     {% if post %}
       {% trans "Редактировать " %}
     {% else %}
       {% trans "Добавить " %}
     {% endif %}
-
-    {# TODO: перевод названия категории на уровне модели #}
-
-    {% if category.route == 'drawing' %}
-      {% trans "рисунок" %}
-    {% elif category.route == 'map' %}
-      {% trans "карту" %}
-    {% elif category.route == 'news' %}
-      {% trans "новость" %}
-    {% elif category.route == 'photo' %}
-      {% trans "фотографию" %}
-    {% elif category.route == 'prose' %}
-      {% trans "рассказ" %}
-    {% elif category.route == 'report' %}
-      {% trans "отчет" %}
-    {% endif %}
+    {{ category.i18n_name_plural|i18n }}
   </li>
 {% endblock %}
 
@@ -62,21 +50,7 @@
         {% trans "Добавить " %}
       {% endif %}
 
-      {# TODO: перевод названия категории на уровне модели #}
-
-      {% if category.route == 'drawing' %}
-        {% trans "рисунок" %}
-      {% elif category.route == 'map' %}
-        {% trans "карту" %}
-      {% elif category.route == 'news' %}
-        {% trans "новость" %}
-      {% elif category.route == 'photo' %}
-        {% trans "фотографию" %}
-      {% elif category.route == 'prose' %}
-        {% trans "рассказ" %}
-      {% elif category.route == 'report' %}
-        {% trans "отчет" %}
-      {% endif %}
+      {{ category.i18n_name_plural|i18n }}
 
       {% if post %}: {{ post.short_title }}{% endif %}
     </h1>

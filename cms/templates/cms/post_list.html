@@ -9,6 +9,7 @@
 {% load announce %}
 {% load hitcount_tags %}
 {% load bleach_src_filter %}
+{% load i18n_filter %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
@@ -45,30 +46,14 @@
             {% if perms.cms.add_cmspost %}
                 <a href="{% url 'post_new' category=category.route %}">
                   <i class="fa fa-file"></i>
-                  {% trans "Добавить " %}
-
-                  {# TODO: перевод названия категории на уровне модели #}
-
-                  {% if category.route == 'drawing' %}
-                    {% trans "рисунок" %}
-                  {% elif category.route == 'map' %}
-                    {% trans "карту" %}
-                  {% elif category.route == 'news' %}
-                    {% trans "новость" %}
-                  {% elif category.route == 'photo' %}
-                    {% trans "фотографию" %}
-                  {% elif category.route == 'prose' %}
-                    {% trans "рассказ" %}
-                  {% elif category.route == 'report' or category.route == 'pm_report'  %}
-                    {% trans "отчет" %}
-                  {% endif %}
+                  {% trans "Добавить " %}{{ category.i18n_name_plural|i18n }}
                 </a>
             {% endif %}
 
             {% if perms.cms.moderate_cmspost and posts_disapproved > 0 %}
                 <a href="{% url 'category_disapproved' category=category.route %}">
                   <i class="fa fa-check-square"></i>
-                  Ожидают модерации ({{ posts_disapproved }})
+                  {% trans "Ожидают модерации " %}({{ posts_disapproved }})
                 </a>
             {% endif %}
           </div>
@@ -120,20 +105,10 @@
             <span>
                 <i class="fa fa-list"></i>
                 <a href="{% url 'category_list' category=post.category.route %}">
-                    {# TODO: перевод названия категории на уровне модели #}
-
-                    {% if post.category.route == 'drawing' %}
-                      {% trans "Графика" %}
-                    {% elif post.category.route == 'map' %}
-                      {% trans "Карты" %}
-                    {% elif post.category.route == 'news' %}
-                      {% trans "Новости" %}
-                    {% elif post.category.route == 'photo' %}
-                      {% trans "Фотографии" %}
-                    {% elif post.category.route == 'prose' %}
-                      {% trans "Писательство" %}
-                    {% elif post.category.route == 'report' %}
-                      {% trans "Отчеты" %}
+                    {% if post.category.i18n_name %}
+                        {{ post.category.i18n_name|i18n }}
+                    {% else %}
+                        {{ post.category.name }}
                     {% endif %}
                 </a>
             </span>
@@ -172,7 +147,7 @@
           <div class="post-content clearfix">
             {% if post.category.route != 'map' %}
               {% if not post.file %}
-                  {{ post.text|truncatechars:800|hide_announced_item|bleach_src|bleach }}
+                  {{ post.text|hide_announced_item|bleach_src|i18n|truncatechars:800|bleach }}
                   {% get_announce post as announce %}
                   <p>{{ announce|bleach_src|bleach }}</p>
               {% else %}

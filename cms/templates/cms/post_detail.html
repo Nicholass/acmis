@@ -7,6 +7,7 @@
 {% load thumbnail %}
 {% load opengraph %}
 {% load bleach_src_filter %}
+{% load i18n_filter %}
 
 {% block title %}{{ post.title }}{% endblock %}
 
@@ -15,7 +16,9 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
+    <li><a href="{% url 'category_list' category=post.category.route %}">
+        {% if post.category.i18n_name %}{{ post.category.i18n_name|i18n }}{% else %}{{ post.category.name }}{% endif %}
+    </a></li>
     <li class="current">{{ post }}</li>
 {% endblock %}
 
@@ -74,7 +77,7 @@
                      </a>
                      <p class="description">{{ post.description }}</p>
                  {% else %}
-                     {{ post.text|bleach_src|bleach }}
+                     {{ post.text|bleach_src|i18n|bleach }}
                  {% endif %}
              </div>
 

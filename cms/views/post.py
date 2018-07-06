@@ -9,6 +9,7 @@ from hashlib import md5
 from ..tagtools.tagcloud import TaggitCloud
 from django.utils.translation import ugettext as _
 from hitcount.views import HitCountMixin
+from ..utils import i18n_grep
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
@@ -83,7 +84,10 @@ def post_list(request, tags=None, category=None, author=None):
   elif author:
     page_title = _('Материалы пользователя %s') % author
   elif c:
-    page_title = c.name
+    if c.i18n_name:
+      page_title = i18n_grep(c.i18n_name)
+    else:
+      page_title = c.name
   elif t:
     page_title = _('Материалы')
 

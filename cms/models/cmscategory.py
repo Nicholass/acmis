@@ -33,6 +33,8 @@ class CmsCategory(models.Model):
     verbose_name=_("Тип объектов")
   )
   name = models.CharField(max_length=200, verbose_name=_("Название"))
+  i18n_name = models.CharField(blank=True, null=True, max_length=200, verbose_name=_("Перевод названия"))
+  i18n_name_plural = models.CharField(blank=True, null=True, max_length=200, verbose_name=_("Перевод названия в единичном числе"))
   route = models.CharField(
     max_length=200,
     verbose_name=_("Название в URL"),

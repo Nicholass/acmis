@@ -1,6 +1,23 @@
 import re
 from django.db.models import Q
 from django.db.models.sql.query import get_order_dir
+from django.utils.translation import get_language
+
+def i18n_grep(text):
+    i18n_values = re.findall('<!--\s*([a-zA-Z]+)\s*-->\n*((?:(?!<!--\s*[a-zA-Z]+\s*-->).)*)', text)
+
+    if not i18n_values:
+        return text
+
+    lang_code = get_language()
+
+    for translation in i18n_values:
+        if lang_code == translation[0]:
+            return translation[1]
+
+    return text
+
+
 
 def hide_first_item(text):
     items = re.search('(<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>)', text)
