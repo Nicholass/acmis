@@ -63,13 +63,13 @@ class Command(BaseCommand):
 
     def create_categories(self):
         categories = [
-            {'name': 'Drawing', 'route': 'drawing'},
-            {'name': 'Map', 'route': 'map'},
+            {'name': 'Drawings', 'route': 'drawing'},
+            {'name': 'Maps', 'route': 'map'},
             {'name': 'News', 'route': 'news'},
-            {'name': 'Photo', 'route': 'photo'},
+            {'name': 'Photos', 'route': 'photo'},
             {'name': 'Prose', 'route': 'prose'},
-            {'name': 'Report', 'route': 'report'},
-            {'name': 'Permited report', 'route': 'pm_report'}
+            {'name': 'Reports', 'route': 'report'},
+            {'name': 'Permited reports', 'route': 'pm_report'}
         ]
 
         for args in categories:
