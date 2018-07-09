@@ -16,7 +16,7 @@ RUN apt-get install -y nodejs
 RUN npm install --global bower
 
 RUN pip install virtualenv
-RUN virtualenv --python=python3 --prompt="DIG" diggers_venv
+RUN virtualenv --python=python3 --prompt="DIG" ./diggers_venv
 RUN . ./diggers_venv/bin/activate
 
 RUN pip install -r ./requirements.txt
@@ -26,6 +26,8 @@ COPY ./packages/django-messages-master.zip ./
 # We use a polymorphic model instead a model class for Posts. Package net to fix assertion is subclass of django model class check on tracking_analyzer/manager.py line 33-34
 COPY ./packages/django-tracking-analyzer-master.zip ./
 RUN pip install ./django-messages-master.zip && rm ./django-messages-master.zip && pip install ./django-tracking-analyzer-master.zip && rm ./django-tracking-analyzer-master.zip
+
+COPY ./packages/0008_auto_20180709_2221.py /usr/local/lib/python3.6/site-packages/pybb/migrations/
 
 COPY . .
 
