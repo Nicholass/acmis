@@ -3,3 +3,4 @@ from .comment import Comment
 from .cmspost import CmsPost, TextPost, BinaryPost
 from .cmsprofile import CmsProfile
 from .email import EmailChange
+from .forum_groups import ForumGroups
