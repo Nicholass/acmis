@@ -1,5 +1,7 @@
 .idea/
 __pycache__/
+acis/__pycache__/
+cms/__pycache__/
 diggers_venv/
 media/
 draft/
