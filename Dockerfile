@@ -15,10 +15,6 @@ RUN apt-get install -y nodejs
 
 RUN npm install --global bower
 
-RUN pip install virtualenv
-RUN virtualenv --python=python3 --prompt="DIG" diggers_venv
-RUN . ./diggers_venv/bin/activate
-
 RUN pip install -r ./requirements.txt
 
 # Need a fix model migration file which have null field value without parameter Null=True. Maybe it fixed in new wersions
