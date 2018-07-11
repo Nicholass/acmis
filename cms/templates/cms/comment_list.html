@@ -14,7 +14,7 @@
                         </a>
                         <br>
                         {% if node.author.profile.avatar %}
-                            <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar }}" />
+                            <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar.url }}" />
                         {% else %}
                             <p class="noavatar"></p>
                         {% endif %}
