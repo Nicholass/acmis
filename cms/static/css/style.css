@@ -493,11 +493,15 @@ a.feed:hover{
 	padding: 5px 0;
 	word-break: break-word;
 }
-.post img, .post iframe {
+.post img, .post iframe{
 	max-width: 900px;
 }
 .post img {
 	height: auto!important;
+}
+.post-content img {
+	max-width: 100%;
+	height:auto!important;
 }
 
 /* Profile */
