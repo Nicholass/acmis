@@ -18,6 +18,9 @@
                         {% else %}
                             <p class="noavatar"></p>
                         {% endif %}
+                        <p class="user-actions">
+                            <a href="{% url 'messages_compose_to' recipient=node.author %}">{% trans 'ЛС' %}</a>
+                        </p>
                     </div>
                     <div class="text">
                         <p class="info">

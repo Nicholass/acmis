@@ -26,6 +26,9 @@
                 {% endif %}
             </div>
         {% endif %}
+        <div class="user-actions">
+            <a href="{% url 'messages_compose_to' recipient=post_user_profile.get_display_name %}">{% trans 'ЛС' %}</a>
+        </div>
         {% if user.is_superuser %}
             <div class="post-extra-info">{{ post.user_ip }}</div>
         {% endif %}
