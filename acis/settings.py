@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'hitcount',
 
     # Django-wiki
+    'simplemde',
     'django.contrib.humanize.apps.HumanizeConfig',
     'django_nyt.apps.DjangoNytConfig',
     'sekizai',
@@ -71,6 +72,7 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -325,6 +327,7 @@ USER_ONLINE_TIMEOUT = 60 * 15
 
 WIKI_ACCOUNT_HANDLING = False
 WIKI_ACCOUNT_SIGNUP_ALLOWED = False
+WIKI_EDITOR = 'cms.editors.simplemde.SimpleMDE'
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip-data')
 

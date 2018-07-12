@@ -14,13 +14,13 @@ class CmsCategory(models.Model):
   )
 
   DATA_KINDS = {
-    'Drawing': FILE,
-    'Map': FILE,
-    'News': POST,
-    'Photo': FILE,
-    'Prose': POST,
-    'Report': POST,
-    'Permited report': POST
+    'drawing': FILE,
+    'map': FILE,
+    'news': POST,
+    'photo': FILE,
+    'prose': POST,
+    'report': POST,
+    'pm_report': POST
   }
 
   kind = models.CharField(
@@ -51,7 +51,7 @@ class CmsCategory(models.Model):
     return "/category/%s/" % self.route
 
   def publish(self):
-    self.kind = self.DATA_KINDS[self.name]
+    self.kind = self.DATA_KINDS[self.route]
     #TODO: validate here
     self.save()
 
