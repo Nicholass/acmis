@@ -105,13 +105,14 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
                 'pybb.context_processors.processor',
+                'cms.context_processors.export_settings',
                 #Django-wiki
                 'django.template.context_processors.i18n',
                 'django.template.context_processors.media',
                 'django.template.context_processors.static',
                 'django.template.context_processors.tz',
                 'django.contrib.messages.context_processors.messages',
-                "sekizai.context_processors.sekizai",
+                'sekizai.context_processors.sekizai',
             ],
         },
     },
@@ -273,6 +274,8 @@ BLEACH_ALLOWED_IFRAME_SRC = [
 
 AVATAR_MAX_WIDTH = 80
 AVATAR_MAX_HEIGHT = 80
+AVATAR_DEFAULT = STATIC_URL + 'pybb/img/default_avatar.jpg'
+AVATAR_DIMENSIONS = '%sx%s' % (AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT,)
 
 DEFAULT_REGISTRATION_GROUP = 'Пользователи'
 
@@ -299,6 +302,8 @@ PYBB_SIGNATURE_MAX_LENGTH = 400
 PYBB_ATTACHMENT_ENABLE = True
 PYBB_ENABLE_ADMIN_POST_FORM = False
 PYBB_PERMISSION_HANDLER = 'cms.permissions.HiddenForumPermissionHandler'
+PYBB_PROFILE_RELATED_NAME = 'profile'
+PYBB_DEFAULT_AVATAR_URL = AVATAR_DEFAULT
 
 RECAPTCHA_PUBLIC_KEY = '6LegnF0UAAAAAIbP1Xu21W_e6kObQIOYbqFs2VBC'
 RECAPTCHA_PRIVATE_KEY = '6LegnF0UAAAAAONkfdiI5dU1MhqA2BAvQsaGI2bp'

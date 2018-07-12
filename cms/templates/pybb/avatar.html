@@ -1,7 +1,7 @@
 {% load pybb_tags %}
 <div class="avatar">
     {% pybb_get_profile user=user as user_profile %}
-    <a href="{{ user_profile.get_absolute_url }}">
+    <a href="{% url 'another_profile' username=user_profile.get_display_name %}">
         {% if user_profile.avatar %}
             {% if 'sorl.thumbnail'|check_app_installed %}
                 {% include 'pybb/_sorl_thumbnail_avatar.html' %}

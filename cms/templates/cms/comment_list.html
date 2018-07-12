@@ -1,6 +1,7 @@
 {% load i18n %}
 {% load mptt_tags %}
 {% load auth %}
+{% load thumbnail %}
 
 <ul>
     {% recursetree comments %}
@@ -14,9 +15,11 @@
                         </a>
                         <br>
                         {% if node.author.profile.avatar %}
-                            <img alt="{% trans "Аватар" %}" src="{{ node.author.profile.avatar.url }}" />
+                            {% thumbnail '/usr/src/app'|add:node.author.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
+                                <img src="{{ avatar.url }}" alt="{{ user_profile.get_display_name }} avatar"/>
+                            {% endthumbnail %}
                         {% else %}
-                            <p class="noavatar"></p>
+                            <img src="{{ AVATAR_DEFAULT }}" alt="default avatar" width="{{ AVATAR_MAX_WIDTH }}" height="{{ AVATAR_MAX_HEIGHT }}"/>
                         {% endif %}
                         <p class="user-actions">
                             <a href="{% url 'messages_compose_to' recipient=node.author %}">{% trans 'ЛС' %}</a>

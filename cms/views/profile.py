@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404
 from ..forms import ProfileForm, UserForm
 
 from django.contrib.auth.models import User
+from pybb.models import Topic
 
 
 def profile(request, username=None):
@@ -21,7 +22,8 @@ def profile(request, username=None):
     context = {
         'profile_user': user,
         'is_owner': is_owner,
-        'is_moderator': is_moderator
+        'is_moderator': is_moderator,
+        'user_topics': Topic.objects.filter(user=user).count()
     }
 
     return render(request, 'registration/profile.html', context)
