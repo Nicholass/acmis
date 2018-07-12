@@ -2,6 +2,8 @@ from django.conf.urls import url, include
 from django.urls import reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
+from ckeditor_uploader.views import upload, browse
+from django.views.decorators.cache import never_cache
 
 from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
 
@@ -87,7 +89,8 @@ urlpatterns = [
   url(r'^accounts/email/change/$', views.edit_email, name='auth_email_change'),
   url(r'^accounts/email/change/done/(?P<uidb64>[0-9A-Za-z_\-]+)/'
       r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.edit_email_done, name='auth_email_change_done'),
-  url(r'^ckeditor/', include('ckeditor_uploader.urls')),
+  url(r'^upload/', upload, name='ckeditor_upload'),
+  url(r'^browse/', never_cache(browse), name='ckeditor_browse'),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),
   url(r'^forum/', include('pybb.urls', namespace='pybb')),
   url(r'^messages/', include('django_messages.urls')),
