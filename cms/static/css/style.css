@@ -685,8 +685,9 @@ form .help {
 	padding-left: 0;
 }
 .errorlist li {
-	list-style: none;
     color: red;
+    font-weight: bold;
+    font-size: 1.2em;
 }
 
 /* sidebar */
