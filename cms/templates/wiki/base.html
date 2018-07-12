@@ -1,6 +1,7 @@
 {% extends "wiki/base_site.html" %}
 {% load i18n %}
 
+
 {% block wiki_site_title %} - Wiki{% endblock %}
 
 {% block wiki_header_branding %}
@@ -11,4 +12,17 @@
 <ul class="nav navbar-nav">
   <li class="active"><a href="{% url 'wiki:root' %}">Diggers Wiki</a></li>
 </ul>
+{% endblock %}
+
+{% block wiki_body %}
+    <style>
+        .CodeMirror-fullscreen,
+        .editor-preview-side {
+        	top: 101px;
+        }
+        .editor-toolbar.fullscreen {
+        	top: 51px;
+        }
+    </style>
+    {{ block.super }}
 {% endblock %}
