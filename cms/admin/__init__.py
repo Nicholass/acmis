@@ -10,7 +10,6 @@ from ..models import CmsPost, TextPost, BinaryPost, CmsCategory, Comment, CmsPro
 from django.contrib.auth.models import User, Permission
 from pybb.models import Forum
 from tracking.models import Visitor, Pageview
-from tracking.settings import TRACK_PAGEVIEWS
 
 from .comment import CustomMPTTModelAdmin
 from .post import PostParentAdmin, PostChildAdmin

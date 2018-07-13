@@ -1,5 +1,6 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
+{% load pybb_tags %}
 
 {% block title %}
     {% trans "Редактирование профиля" %}
@@ -14,6 +15,9 @@
 
     <form method="post" action="." class="pofile-edit-form" enctype="multipart/form-data">
         {% csrf_token %}
+
+        {{ profile_form.non_field_errors }}
+        {{ profile_form.non_form_errors }}
 
         <h2>{% trans "Основная информация" %}</h2>
 
@@ -66,9 +70,26 @@
             {% if field.html_name == 'jabber' %}
                 <h3>{% trans "Социальные сети" %}</h3>
             {% endif %}
+
+            {% if field.html_name == 'youtube' %}
+                <h3>{% trans "Форум" %}</h3>
+            {% endif %}
         {% endfor %}
 
-        {{ profile_form.non_field_errors }}
+        {% if sub %}
+        <h3>{% trans 'Subscriptions on topics' %}</h3>
+        <ul>
+            {% for sub in user.subscriptions.all %}
+                <li>
+                    {% pybb_link sub %}
+                    &mdash;
+                    <strong>
+                        <a href="{% url 'pybb:delete_subscription' sub.id %}">{% trans 'delete' %}</a>
+                    </strong>
+                </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
 
         {% for hidden in profile_form.hidden_fields %}
             {{ hidden }}

@@ -3,6 +3,7 @@ from django.utils.translation import ugettext as _
 from django.core.files.images import get_image_dimensions
 from django.conf import settings
 import re
+from pybb import defaults as pybb_defaults
 
 from ..models import CmsProfile
 from django.contrib.auth.models import User
@@ -20,14 +21,22 @@ class ProfileForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super(ProfileForm, self).__init__(*args, **kwargs)
     self.fields['avatar'].help_text = _('<ul><li>Аватар не должен быть размером больше %s x %s пикселей.</li><li>Аватар должен быть изображением в формате JPEG, GIF или PNG</li><li>Аватар должен быть меньше %s Кб размером</li></ul>' % (self.AVATAR_MAX_WIDTH, self.AVATAR_MAX_HEIGHT, self.AVATAR_MAX_SIZE))
+    self.fields['signature'].widget = forms.Textarea(attrs={'rows': 2, 'cols:': 60})
 
   class Meta:
     model = CmsProfile
-    fields = ('avatar', 'birth_date', 'location', 'site',  'skype', 'telegram', 'jabber', 'facebook', 'vk', 'instagram', 'twitter', 'youtube')
+    fields = ('avatar', 'birth_date', 'location', 'site',  'skype', 'telegram', 'jabber', 'facebook', 'vk', 'instagram', 'twitter', 'youtube', 'signature', 'time_zone', 'language', 'show_signatures')
     widgets = {
       'birth_date': DateInput()
     }
 
+  def clean_signature(self):
+    value = self.cleaned_data['signature'].strip()
+    if len(re.findall(r'\n', value)) > pybb_defaults.PYBB_SIGNATURE_MAX_LINES:
+      raise forms.ValidationError('Number of lines is limited to %d' % pybb_defaults.PYBB_SIGNATURE_MAX_LINES)
+    if len(value) > pybb_defaults.PYBB_SIGNATURE_MAX_LENGTH:
+      raise forms.ValidationError('Length of signature is limited to %d' % pybb_defaults.PYBB_SIGNATURE_MAX_LENGTH)
+    return value
   def clean_site(self):
     value = self.cleaned_data.get('site')
     if not value:

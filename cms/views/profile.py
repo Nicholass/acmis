@@ -67,6 +67,7 @@ def profile_edit(request, username=None):
         user_form = UserForm(instance=user)
         profile_form = ProfileForm(instance=user.profile)
     return render(request, 'registration/profile_edit.html', {
+        'user': user,
         'user_form': user_form,
         'profile_form': profile_form
     })

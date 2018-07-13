@@ -1,6 +1,7 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
 {% load thumbnail %}
+{% load bleach_tags %}
 
 {% block title %}
     {% trans "Профиль пользователя " %}{{ profile_user }}
@@ -132,18 +133,32 @@
 
          <div class="userinfo">
              <h2>{% trans 'Форум' %}</h2>
+
              <p>{% trans "Number of topics:" %}</p>
              <p>
                  <a href="{% url 'pybb:user_topics' profile_user.username %}">
                      {% if user_topics %}{{ user_topics }}{% else %}{% trans "Нет" %}{% endif %}
                  </a>
              </p>
+
              <p>{% trans "Number of posts:" %}</p>
              <p>
                 <a href="{% url 'pybb:user_posts' profile_user.username %}">
                     {% if profile_user.profile.post_count %}{{ profile_user.profile.post_count }}{% else %}{% trans "Нет" %}{% endif %}
                 </a>
              </p>
+
+             {% if profile_user.profile.signature or profile_user.profile.signature_html %}
+             <p>{% trans 'Подпись: ' %}</p>
+             <p>
+                 {% if profile_user.profile.signature %}
+                    {{ profile_user.profile.signature }}
+                 {% elif profile_user.profile.signature_htm %}
+                    {{ profile_user.profile.signature|bleach }}
+                 {% endif %}
+             </p>
+             {% endif %}
+
              {% if request.user.is_superuser %}
                  <p class="grid-colspan-2">
                     <a href="{% url 'pybb:edit_privileges' profile_user.username %}" class="btn">{% trans 'Moderator' %}</a>
