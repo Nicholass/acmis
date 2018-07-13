@@ -44,7 +44,7 @@
             <div id="logo-lt">&nbsp;</div>
             <div id="logo-rt">&nbsp;</div>
         </div>
-        <span id="logo">Diggers.kiev.ua</span>
+        <span id="logo"><a href="{{ request.scheme }}://{{ request.site }}/">Diggers.kiev.ua</a></span>
         <span id="slogan">Сайт диггеров Киева</span>
         <span id="greeting">
             {% if user.is_authenticated %}
