@@ -152,11 +152,7 @@
              {% if profile_user.profile.signature or profile_user.profile.signature_html %}
              <p>{% trans 'Подпись: ' %}</p>
              <p>
-                 {% if profile_user.profile.signature %}
-                    {{ profile_user.profile.signature }}
-                 {% elif profile_user.profile.signature_htm %}
-                    {{ profile_user.profile.signature|bleach }}
-                 {% endif %}
+                 {{ profile_user.profile.signature_html|bleach }}
              </p>
              {% endif %}
 
