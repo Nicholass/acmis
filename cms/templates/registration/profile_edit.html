@@ -1,6 +1,5 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
-{% load pybb_tags %}
 
 {% block title %}
     {% trans "Редактирование профиля" %}
@@ -75,19 +74,6 @@
                 <h3>{% trans "Форум" %}</h3>
             {% endif %}
         {% endfor %}
-
-        <h3>{% trans 'Subscriptions on topics' %}</h3>
-        <ul>
-            {% for sub in user.profile.subscriptions.all %}
-                <li>
-                    {% pybb_link sub %}
-                    &mdash;
-                    <strong>
-                        <a href="{% url 'pybb:delete_subscription' sub.id %}">{% trans 'delete' %}</a>
-                    </strong>
-                </li>
-            {% endfor %}
-        </ul>
 
         {% for hidden in profile_form.hidden_fields %}
             {{ hidden }}

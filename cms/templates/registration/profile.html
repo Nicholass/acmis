@@ -2,6 +2,7 @@
 {% load i18n %}
 {% load thumbnail %}
 {% load bleach_tags %}
+{% load pybb_tags %}
 
 {% block title %}
     {% trans "Профиль пользователя " %}{{ profile_user }}
@@ -179,5 +180,22 @@
                  {% endif %}
              {% endif %}
          </div>
+
+        {% if user.subscriptions.all and is_owner %}
+            <div class="subscriprion">
+                <h3>{% trans 'Subscriptions on topics' %}</h3>
+                <ul>
+                    {% for sub in profile_user.subscriptions.all %}
+                        <li>
+                            {% pybb_link sub %}
+                            &mdash;
+                            <strong>
+                                <a href="{% url 'pybb:delete_subscription' sub.id %}">{% trans 'delete' %}</a>
+                            </strong>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
