@@ -13,7 +13,7 @@
         {% include "pybb/avatar.html" with user=post.user %}
 
         <div class="post-author">
-            <a href="{{ post_user_profile.get_absolute_url }}">
+            <a href="{% url 'another_profile' username=post_user_profile.get_display_name %}">
                 <span class="post-username">{{ post_user_profile.get_display_name }}</span>
             </a>
         </div>
@@ -26,6 +26,9 @@
                 {% endif %}
             </div>
         {% endif %}
+        <div class="user-actions">
+            <a href="{% url 'messages_compose_to' recipient=post_user_profile.get_display_name %}">{% trans 'ЛС' %}</a>
+        </div>
         {% if user.is_superuser %}
             <div class="post-extra-info">{{ post.user_ip }}</div>
         {% endif %}

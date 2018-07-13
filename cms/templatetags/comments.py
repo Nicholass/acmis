@@ -1,6 +1,7 @@
 from django import template
 from cms.forms import CommentForm
 from cms.models import Comment
+from django.conf import settings
 
 register = template.Library()
 
@@ -18,7 +19,11 @@ def comment_list(context):
       'comments': comments,
       'post': post,
       'user': context['user'],
-      'perms': context['perms']
+      'perms': context['perms'],
+      'AVATAR_MAX_WIDTH': settings.AVATAR_MAX_WIDTH,
+      'AVATAR_MAX_HEIGHT': settings.AVATAR_MAX_HEIGHT,
+      'AVATAR_DEFAULT': settings.AVATAR_DEFAULT,
+      'AVATAR_DIMENSIONS': settings.AVATAR_DIMENSIONS
     }
 
 @register.assignment_tag(takes_context=True)

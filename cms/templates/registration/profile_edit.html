@@ -15,6 +15,9 @@
     <form method="post" action="." class="pofile-edit-form" enctype="multipart/form-data">
         {% csrf_token %}
 
+        {{ profile_form.non_field_errors }}
+        {{ profile_form.non_form_errors }}
+
         <h2>{% trans "Основная информация" %}</h2>
 
         {% for field in user_form.visible_fields %}
@@ -66,9 +69,11 @@
             {% if field.html_name == 'jabber' %}
                 <h3>{% trans "Социальные сети" %}</h3>
             {% endif %}
-        {% endfor %}
 
-        {{ profile_form.non_field_errors }}
+            {% if field.html_name == 'youtube' %}
+                <h3>{% trans "Форум" %}</h3>
+            {% endif %}
+        {% endfor %}
 
         {% for hidden in profile_form.hidden_fields %}
             {{ hidden }}

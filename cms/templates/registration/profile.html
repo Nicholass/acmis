@@ -1,5 +1,8 @@
 {% extends "cms/base.html" %}
 {% load i18n %}
+{% load thumbnail %}
+{% load bleach_tags %}
+{% load pybb_tags %}
 
 {% block title %}
     {% trans "Профиль пользователя " %}{{ profile_user }}
@@ -29,11 +32,11 @@
         <div>
             <h2>{{ profile_user }}</h2>
             {% if profile_user.profile.avatar %}
-                <img alt="{% trans "Аватар" %}" src="{{ profile_user.profile.avatar.url }}" />
-                <br />
-                <a href="#">{% trans "Удалить" %}</a>
+                {% thumbnail '/usr/src/app'|add:profile_user.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
+                    <img src="{{ avatar.url }}" alt="{{ profile_user }} avatar"/>
+                {% endthumbnail %}
             {% else %}
-                <p class="noavatar"></p>
+                <img src="{{ AVATAR_DEFAULT }}" alt="default avatar" width="{{ AVATAR_MAX_WIDTH }}" height="{{ AVATAR_MAX_HEIGHT }}"/>
             {% endif %}
         </div>
 
@@ -77,7 +80,7 @@
                     <p><a href="{{ profile_user.profile.site }}">{{ profile_user.profile.site }}</a></p>
                 {% endif %}
             {% else %}
-                <p class="noitems">{% trans "Информация не указана" %}</p>
+                <p class="grid-colspan-2">{% trans "Информация не указана" %}</p>
             {% endif %}
         </div>
 
@@ -105,7 +108,7 @@
                      <p><a href="{{ profile_user.profile.youtube }}">{{ profile_user.profile.youtube }}</a></p>
                  {% endif %}
              {% else %}
-                 <p class="noitems">{% trans "Информация не указана" %}</p>
+                 <p class="grid-colspan-2">{% trans "Информация не указана" %}</p>
              {% endif %}
          </div>
 
@@ -125,8 +128,74 @@
                      <p>{{ profile_user.profile.jabber }}</p>
                  {% endif %}
              {% else %}
-                 <p class="noitems">{% trans "Информация не указана" %}</p>
+                 <p class="grid-colspan-2">{% trans "Информация не указана" %}</p>
              {% endif %}
          </div>
+
+         <div class="userinfo">
+             <h2>{% trans 'Форум' %}</h2>
+
+             <p>{% trans "Number of topics:" %}</p>
+             <p>
+                 <a href="{% url 'pybb:user_topics' profile_user.username %}">
+                     {% if user_topics %}{{ user_topics }}{% else %}{% trans "Нет" %}{% endif %}
+                 </a>
+             </p>
+
+             <p>{% trans "Number of posts:" %}</p>
+             <p>
+                <a href="{% url 'pybb:user_posts' profile_user.username %}">
+                    {% if profile_user.profile.post_count %}{{ profile_user.profile.post_count }}{% else %}{% trans "Нет" %}{% endif %}
+                </a>
+             </p>
+
+             {% if profile_user.profile.signature or profile_user.profile.signature_html %}
+             <p>{% trans 'Подпись: ' %}</p>
+             <p>
+                 {% if profile_user.profile.signature %}
+                    {{ profile_user.profile.signature }}
+                 {% elif profile_user.profile.signature_htm %}
+                    {{ profile_user.profile.signature|bleach }}
+                 {% endif %}
+             </p>
+             {% endif %}
+
+             {% if request.user.is_superuser %}
+                 <p class="grid-colspan-2">
+                    <a href="{% url 'pybb:edit_privileges' profile_user.username %}" class="btn">{% trans 'Moderator' %}</a>
+                 </p>
+             {% endif %}
+             {% if perms.pybb.block_users %}
+                 {% if profile_user.is_active %}
+                     <form action="{% url 'pybb:block_user' profile_user.username %}" method="post" class="grid-colspan-2">
+                         {% csrf_token %}
+                         <button type="submit">{% trans 'Block' %}</button>
+                         <button type="submit" name="block_and_delete_messages">{% trans 'Block and delete all messages' %}</button>
+                     </form>
+                 {% else %}
+                     <form action="{% url 'pybb:unblock_user' profile_user.username %}" method="post" class="grid-colspan-2">
+                         {% csrf_token %}
+                         <button type="submit">{% trans 'Unblock' %}</button>
+                     </form>
+                 {% endif %}
+             {% endif %}
+         </div>
+
+        {% if user.subscriptions.all and is_owner %}
+            <div class="subscriprion">
+                <h3>{% trans 'Subscriptions on topics' %}</h3>
+                <ul>
+                    {% for sub in profile_user.subscriptions.all %}
+                        <li>
+                            {% pybb_link sub %}
+                            &mdash;
+                            <strong>
+                                <a href="{% url 'pybb:delete_subscription' sub.id %}">{% trans 'delete' %}</a>
+                            </strong>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
     </div>
 {% endblock %}
