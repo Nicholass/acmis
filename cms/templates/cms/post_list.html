@@ -130,7 +130,7 @@
 
             <span>
                 <i class="fa fa-comment"></i>
-                <a href="bleach#comments" class="comments-link">
+                <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">
             {% comment_count as comm_count %}
             {% if comm_count and category.route != 'map' %}
                 {{ comm_count }}
