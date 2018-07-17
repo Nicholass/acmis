@@ -1,0 +1,14 @@
+{% load i18n %}
+<ul>
+    {% if comments %}
+        {% for comment in comments %}
+            <li>
+                <a href="{% url 'post_detail' сomment.post.pk %}">{{ comment|truncatechars:24 }}</a>
+                <br>
+                {{ comment.created_date|date:"DATETIME_FORMAT" }} - {{ comment.author }}
+            </li>
+        {% endfor %}
+    {% else %}
+        <ul><li>{% trans "На cайте нет новых комментариев" %}</li></ul>
+    {% endif %}
+</ul>

@@ -11,6 +11,7 @@
 {% load bleach_src_filter %}
 {% load i18n_filter %}
 {% load pybb_last_posts %}
+{% load last_comments %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
@@ -260,6 +261,12 @@
         <h3>{% trans "Новое на форуме" %}</h3>
         <div class="block list">
             {% pybb_last_posts 6 %}
+        </div>
+    </div>
+    <div>
+        <h3>{% trans "Новое в комментах" %}</h3>
+        <div class="block list">
+            {% last_comments 6 %}
         </div>
     </div>
 {% endblock %}
