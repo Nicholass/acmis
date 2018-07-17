@@ -1,5 +1,9 @@
 {% load pybb_tags %}
+{% load pybb_last_posts %}
 
 {% if forum.updated %}
-    {% pybb_time forum.updated %}
+    {% with forum.last_post as last_post %}
+        <a href="{% url "pybb:post" last_post.pk %}">{{ last_post.topic|truncatechars:32 }}</a><br>
+        {{ last_post.created|date:"DATETIME_FORMAT" }} - {{ last_post.user }}
+    {% endwith %}
 {% endif %}
