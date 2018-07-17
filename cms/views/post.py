@@ -6,14 +6,13 @@ from django.shortcuts import render, redirect
 from django.http import Http404
 from django.contrib.auth.decorators import login_required, permission_required
 from hashlib import md5
-from ..tagtools.tagcloud import TaggitCloud
 from django.utils.translation import ugettext as _
 from hitcount.views import HitCountMixin
 from ..utils import i18n_grep
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
-from ..models import CmsPost, TextPost, BinaryPost, CmsCategory
+from ..models import CmsPost, CmsCategory
 from hitcount.models import HitCount
 from tracking_analyzer.models import Tracker
 
@@ -76,9 +75,6 @@ def post_list(request, tags=None, category=None, author=None):
 
   posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
 
-  cloud_calculator = TaggitCloud([TextPost, BinaryPost], getattr(settings, 'TAGTOOLS_CLOUD_STEPS', 6), getattr(settings, 'TAGTOOLS_CLOUD_MIN_COUNT', 1))
-  tags_cloud = cloud_calculator.calculate_cloud()
-
   if is_home:
     page_title = _('Все посты')
   elif author:
@@ -104,7 +100,6 @@ def post_list(request, tags=None, category=None, author=None):
     'posts_disapproved': len(posts_disapproved),
     'need_relogin': need_relogin,
     'is_home': is_home,
-    'tags_cloud': tags_cloud,
     'page_title': page_title
   })
 

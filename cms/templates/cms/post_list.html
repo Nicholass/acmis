@@ -10,8 +10,6 @@
 {% load hitcount_tags %}
 {% load bleach_src_filter %}
 {% load i18n_filter %}
-{% load pybb_last_posts %}
-{% load last_comments %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
@@ -133,7 +131,7 @@
 
                 <span>
                     <i class="fa fa-comment"></i>
-                    <a href="bleach#comments" class="comments-link">
+                    <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">
                 {% comment_count as comm_count %}
                 {% if comm_count and category.route != 'map' %}
                     {{ comm_count }}
@@ -249,24 +247,5 @@
 {% endblock %}
 
 {% block sidebar %}
-    <div>
-        <h3>{% trans "Теги" %}</h3>
-        <div class="block">
-            {% for tag in tags_cloud %}
-                <a href="{% url 'tag_list' tags=tag.name %}" class="tag-size-{{ tag.font_size }}">{{ tag.name }}</a>
-            {% endfor %}
-        </div>
-    </div>
-    <div>
-        <h3>{% trans "Новое на форуме" %}</h3>
-        <div class="block list">
-            {% pybb_last_posts 6 %}
-        </div>
-    </div>
-    <div>
-        <h3>{% trans "Новое в комментах" %}</h3>
-        <div class="block list">
-            {% last_comments 6 %}
-        </div>
-    </div>
+    {% include "cms/blog_sidebar.html" %}
 {% endblock %}
