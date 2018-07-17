@@ -433,15 +433,20 @@ a.feed:hover{
 }
 .posts.list .post {
 	display: grid;
-	grid-template-columns: 8fr 3fr;
+	grid-template-columns: 9fr auto;
 	padding: 5px 0 0px 0;
 	border-bottom: 1px solid #0D0D0D;
 }
 .posts.list .post:first-child {
 	border-top: 1px solid #0D0D0D;
 }
-.posts.list .info {
+.posts.list .info,
+.posts.list .actions {
 	text-align: right;
+}
+.posts.list .post-content {
+	grid-column-start: 1;
+	grid-column-end: 3;
 }
 .post.single {
 	padding-top: 0;
@@ -705,6 +710,7 @@ form .help {
 #sidebar {
 	margin: 0;
     padding: 0;
+	padding-left: 10px;
 }
 #sidebar h3 {
 	font-size: 1.6em;
@@ -715,7 +721,12 @@ form .help {
 	color: #A0080D;
 }
 #sidebar > div {
-	padding: 10px 10px 15px 10px;
+    margin: 10px 0 15px 0;
+    padding: 0 5px 10px 5px;
+	background: #000;
+	-webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
 }
 #sidebar .block {
 	padding: 0 12px;
@@ -746,6 +757,33 @@ form .help {
 	color: #D30F16;		
 }
 
+/* sidebar block list */
+#sidebar .block.list {
+	margin: 0;
+    padding: 0;
+}
+#sidebar .block.list ul {
+	padding: 5px 0;
+}
+#sidebar .block.list li {
+	color: #ABABAB;
+	border-top: none;
+	border-bottom: 1px solid #0D0D0D;
+}
+#sidebar .block.list li:last-child {
+	border-bottom: none;
+}
+#sidebar .block.list li a {
+	padding: 0;
+    display: inline;
+    min-height: auto;
+    color: #F88F26;
+}
+#sidebar .block.list  li a:hover {
+	border-left: none;
+	color: #FFF;
+}
+
 /* Comments */
 .comments {
 	margin-top: 10px;
@@ -768,7 +806,7 @@ form .help {
 	padding: 8px 10px;
 	margin: 20px 0 10px 0;
 	display: grid;
-    grid-template-columns: 1fr 11fr;
+    grid-template-columns: auto 11fr;
 }
 .comment.deleted {
 	display: block;
