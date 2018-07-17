@@ -3,7 +3,7 @@
     {% if posts %}
         {% for post in posts %}
             <li>
-                <a href="{% url 'pybb:post' post.pk %}">{{ post.topic|truncatechars:24 }}</a>
+                <a href="{% url 'pybb:post' post.pk %}" title="{{ post.topic }}">{{ post.topic|truncatechars:24 }}</a>
                 <br>
                 {{ post.created|date:"DATETIME_FORMAT" }} - {{ post.user }}
             </li>
