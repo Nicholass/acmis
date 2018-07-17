@@ -646,6 +646,19 @@ form fieldset {
 .poll {
 	margin-top: 10px;
 }
+.profile .subscriprion {
+	display: block;
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+.profile .subscriprion ul {
+	padding: 0 0;
+    list-style: none;
+    margin: 10px 0;
+}
+.profile .subscriprion ul li {
+	color: #ABABAB;
+}
 
 /* forms */
 form .help {
