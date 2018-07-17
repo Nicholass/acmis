@@ -1,0 +1,14 @@
+{% load i18n %}
+<ul>
+    {% if posts %}
+        {% for post in posts %}
+            <li>
+                <a href="{% url 'pybb:post' post.pk %}">{{ post.topic|truncatechars:24 }}</a>
+                <br>
+                {{ post.created|date:"DATETIME_FORMAT" }} - {{ post.user }}
+            </li>
+        {% endfor %}
+    {% else %}
+        <ul><li>{% trans "На форуме нет новых постов" %}</li></ul>
+    {% endif %}
+</ul>

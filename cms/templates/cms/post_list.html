@@ -10,6 +10,7 @@
 {% load hitcount_tags %}
 {% load bleach_src_filter %}
 {% load i18n_filter %}
+{% load pybb_last_posts %}
 
 {% block title %}{{ page_title }}{% endblock %}
 
@@ -253,6 +254,12 @@
             {% for tag in tags_cloud %}
                 <a href="{% url 'tag_list' tags=tag.name %}" class="tag-size-{{ tag.font_size }}">{{ tag.name }}</a>
             {% endfor %}
+        </div>
+    </div>
+    <div>
+        <h3>{% trans "Новое на форуме" %}</h3>
+        <div class="block list">
+            {% pybb_last_posts 6 %}
         </div>
     </div>
 {% endblock %}

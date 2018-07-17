@@ -707,7 +707,12 @@ form .help {
 	color: #A0080D;
 }
 #sidebar > div {
-	padding: 10px 10px 15px 10px;
+    margin: 10px 0 15px 0;
+    padding: 0 5px 10px 5px;
+	background: #000;
+	-webkit-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
+	-moz-box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
+	box-shadow: 0px 0px 15px 5px rgba(0,0,0,0.75);
 }
 #sidebar .block {
 	padding: 0 12px;
@@ -736,6 +741,33 @@ form .help {
 #sidebar ul a:hover {
 	border-left: 5px solid  #D30F16;
 	color: #D30F16;		
+}
+
+/* sidebar block list */
+#sidebar .block.list {
+	margin: 0;
+    padding: 0;
+}
+#sidebar .block.list ul {
+	padding: 5px 0;
+}
+#sidebar .block.list li {
+	color: #ABABAB;
+	border-top: none;
+	border-bottom: 1px solid #0D0D0D;
+}
+#sidebar .block.list li:last-child {
+	border-bottom: none;
+}
+#sidebar .block.list li a {
+	padding: 0;
+    display: inline;
+    min-height: auto;
+    color: #F88F26;
+}
+#sidebar .block.list  li a:hover {
+	border-left: none;
+	color: #FFF;
 }
 
 /* Comments */
