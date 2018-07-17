@@ -433,15 +433,20 @@ a.feed:hover{
 }
 .posts.list .post {
 	display: grid;
-	grid-template-columns: 8fr 3fr;
+	grid-template-columns: 9fr auto;
 	padding: 5px 0 0px 0;
 	border-bottom: 1px solid #0D0D0D;
 }
 .posts.list .post:first-child {
 	border-top: 1px solid #0D0D0D;
 }
-.posts.list .info {
+.posts.list .info,
+.posts.list .actions {
 	text-align: right;
+}
+.posts.list .post-content {
+	grid-column-start: 1;
+	grid-column-end: 3;
 }
 .post.single {
 	padding-top: 0;
@@ -755,7 +760,7 @@ form .help {
 	padding: 8px 10px;
 	margin: 20px 0 10px 0;
 	display: grid;
-    grid-template-columns: 1fr 11fr;
+    grid-template-columns: auto 11fr;
 }
 .comment.deleted {
 	display: block;

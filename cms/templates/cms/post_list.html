@@ -123,29 +123,31 @@
                 <a href="{% url 'author_list' author=post.author %}">{{ post.author }}</a>
             </span>
 
-            <span>
-                <i class="fa fa-eye"></i>
-                {% get_hit_count for post %}
-            </span>
+            {% if not post.category.route == 'map' %}
+                <span>
+                    <i class="fa fa-eye"></i>
+                    {% get_hit_count for post %}
+                </span>
 
-            <span>
-                <i class="fa fa-comment"></i>
-                <a href="bleach#comments" class="comments-link">
-            {% comment_count as comm_count %}
-            {% if comm_count and category.route != 'map' %}
-                {{ comm_count }}
-                {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
-                {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
-                {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
-            {% else %}
-                {% trans "Комментировать" %}
+                <span>
+                    <i class="fa fa-comment"></i>
+                    <a href="bleach#comments" class="comments-link">
+                {% comment_count as comm_count %}
+                {% if comm_count and category.route != 'map' %}
+                    {{ comm_count }}
+                    {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
+                    {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
+                    {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
+                {% else %}
+                    {% trans "Комментировать" %}
+                {% endif %}
+                  </a>
+                </span>
             {% endif %}
-              </a>
-            </span>
           </div>
 
+        {% if post.category.route != 'map' %}
           <div class="post-content clearfix">
-            {% if post.category.route != 'map' %}
               {% if not post.file %}
                   {{ post.text|hide_announced_item|bleach_src|i18n|truncatechars:800|bleach }}
                   {% get_announce post as announce %}
@@ -163,12 +165,12 @@
                     {% endif %}
                   </a>
               {% endif %}
-            {% else %}
-              {% if need_relogin %}
-                <p>{% trans "Для открытия доступа к картам пожалуста выйдите и зайдите на сайт снова" %}</p>
-              {% endif %}
-            {% endif %}
           </div>
+        {% elif need_relogin %}
+            <div class="post-content clearfix">
+                <p>{% trans "Для открытия доступа к картам пожалуста выйдите и зайдите на сайт снова" %}</p>
+            </div>
+        {% endif %}
 
 
           {% if post.tags.all %}
