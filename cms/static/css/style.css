@@ -949,6 +949,27 @@ ul.pagination a:hover {
 	grid-column-end: 3;
 }
 
+#pm-notification {
+	position: absolute;
+    top: 30px;
+    right: 50px;
+    color: #004085;
+    background-color: #cce5ff;
+    padding: .75rem 1.25rem;
+    margin-bottom: 1rem;
+    border: 1px solid #b8daff;
+    border-radius: .25rem;
+    z-index: 9000;
+}
+#pm-notification a {
+	color: #004085;
+	font-weight: bold;
+	text-decoration: underline;
+}
+#pm-notification a:hover {
+	color: #F88F26;
+}
+
 @media (max-width: 600px) {
 
 	/* layout */

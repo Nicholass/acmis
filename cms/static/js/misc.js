@@ -35,6 +35,20 @@ $(document).ready(function(){
         resize_handle();
     });
 
+    //Show PM notify popup if user first see this in 1 hour
+    var cookies = getCookies();
+    if (!cookies.hasOwnProperty('hidePopup')) {
+        var pmPopup = $("#pm-notification");
+        pmPopup.fadeIn("slow");
+        pmPopup.click(function(){
+            pmPopup.fadeOut("slow");
+
+            var date = new Date(new Date().getTime() + 60 * 1000 * 60);
+            document.cookie = "hidePopup=true; path=/; expires=" + date.toUTCString()
+        });
+    }
+
+    //Resize elements depends on screen dimensions
     function resize_handle() {
         $('.breadcrumbs li.current').off('click');
         $('.langBtn.selected').off('click');
@@ -48,5 +62,19 @@ $(document).ready(function(){
                 $('.langBtn:not(.selected)').toggle("slow");
             });
         }
+    }
+
+    //Return object of cookies
+    function getCookies () {
+        var cookies = {};
+
+        document.cookie.split('; ').map(function (item) {
+        var pair = item.split('=');
+            if (pair.length > 1){
+                cookies[pair[0]] = pair[1]
+            }
+        });
+
+        return cookies;
     }
 });
