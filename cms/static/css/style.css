@@ -507,6 +507,15 @@ a.feed:hover{
 	max-width: 100%;
 	height:auto!important;
 }
+figure {
+	display: inline-block;
+}
+figcaption {
+	text-align: center;
+	font-size: 0.95em;
+   	color: #DBDBDB;
+   	font-style: italic;
+}
 
 /* Profile */
 .profile {
