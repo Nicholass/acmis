@@ -64,6 +64,13 @@
                 {% endblocktrans %}
                 {% if pm_cout > 0 %}</strong>{% endif %}
             </span>
+
+            {% if pm_cout > 0 %}
+                <div id="pm-notification" style="display: none; position: absolute; top: 30px; right: 50px;">
+                    <p>Вы получили {{ pm_cout }} личных сообщений</p>
+                    <p>Для просмотра перейдите по <a href="{{ pm_url }}">ссылке</a></p>
+                </div>
+            {% endif %}
         {% endif %}
 
         <!-- Menu Tabs -->
@@ -141,6 +148,7 @@
 
 <script src="{% static 'pybb/js/pybbjs.js' %}"></script>
 <script src="{% static 'js/misc.js' %}"></script>
+<script src="{% static 'js/notify.min.js' %}"></script>
 <!-- footer ends here -->
 </body>
 </html>

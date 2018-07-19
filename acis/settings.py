@@ -244,7 +244,9 @@ BLEACH_ALLOWED_TAGS = [
   'span',
   'img',
   'br',
-  'iframe'
+  'iframe',
+  'figcaption',
+  'figure',
 ]
 BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'cellpadding', 'cellspacing', 'border', 'target', 'alt', 'src', 'allowfullscreen', 'frameborder', 'height', 'width']
 BLEACH_ALLOWED_STYLES = [
@@ -363,7 +365,8 @@ CKEDITOR_CONFIGS = {
         ],
         'extraPlugins': ','.join([
           'youtube',
-          'autoembed'
+          'autoembed',
+          'image2'
         ])
     }
 }
