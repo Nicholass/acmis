@@ -1127,6 +1127,11 @@ ul.pagination a:hover {
     	word-break: break-word;
 	}
 
+	.topic-post .post-info,
+	.topic-post .post-content {
+		word-break: break-all;
+	}
+
 	/* footer */
 	#footer .content {
 		display: block;
