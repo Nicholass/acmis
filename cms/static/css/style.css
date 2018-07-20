@@ -993,7 +993,7 @@ ul.pagination a:hover {
 		right: 5%;
 		font-size: 18px;
 		left: auto;
-		top: 38px;
+		top: 45px;
 	}
 	#header #greeting {
 		right: 0;
@@ -1002,7 +1002,7 @@ ul.pagination a:hover {
 	}
 	#header #pm {
 		right: 0;
-     	top: 62px;
+     	top: 68px;
 		padding: 1px 6px;
 	}
 	#header #logo, #header #slogan, #header #greeting, #header #pm {
@@ -1120,6 +1120,11 @@ ul.pagination a:hover {
 
 	.profile {
 		display: block;
+	}
+
+	.category-table td, .category-table th,
+	.topic-list td, .topic-list th {
+    	word-break: break-word;
 	}
 
 	/* footer */
