@@ -2,7 +2,7 @@
 
 {% if forum.updated %}
     {% with forum.last_post as last_post %}
-        <a href="{% url "pybb:post" last_post.pk %}">{{ last_post.topic|truncatechars:32 }}</a><br>
+        <a href="{% url "pybb:post" last_post.pk %}" title="{{ last_post.topic }}">{{ last_post.topic|truncatechars:32 }}</a><br>
         {{ last_post.created|date:"DATETIME_FORMAT" }} - {{ last_post.user }}
     {% endwith %}
 {% endif %}

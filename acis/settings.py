@@ -306,6 +306,20 @@ PYBB_ENABLE_ADMIN_POST_FORM = False
 PYBB_PERMISSION_HANDLER = 'cms.permissions.HiddenForumPermissionHandler'
 PYBB_PROFILE_RELATED_NAME = 'profile'
 PYBB_DEFAULT_AVATAR_URL = AVATAR_DEFAULT
+PYBB_SMILES = {
+    ' &gt;_&lt;': 'angry.png',
+    ' :.(': 'cry.png',
+    ' o_O': 'eyes.png',
+    ' []_[]': 'geek.png',
+    ' 8)': 'glasses.png',
+    ' :D': 'lol.png',
+    ' :(': 'sad.png',
+    ' :O': 'shok.png',
+    ' -_-': 'shy.png',
+    ' :)': 'smile.png',
+    ' :P': 'tongue.png',
+    ' ;)': 'wink.png'
+}
 
 RECAPTCHA_PUBLIC_KEY = '6LegnF0UAAAAAIbP1Xu21W_e6kObQIOYbqFs2VBC'
 RECAPTCHA_PRIVATE_KEY = '6LegnF0UAAAAAONkfdiI5dU1MhqA2BAvQsaGI2bp'

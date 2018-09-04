@@ -1104,7 +1104,8 @@ ul.pagination a:hover {
 		padding-right: 0;
 	}
 
-	.post img {
+	.post img,
+	.post iframe {
 		max-width: 100%;
 	}
 
