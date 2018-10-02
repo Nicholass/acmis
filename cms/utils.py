@@ -20,7 +20,7 @@ def i18n_grep(text):
 
 
 def hide_first_item(text):
-    items = re.search('(<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>)', text)
+    items = re.search('(<p>)?((<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>))(</p>)?', text)
     if items:
         item = items.group(0)
         text = text.replace(item, '')

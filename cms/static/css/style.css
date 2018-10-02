@@ -595,7 +595,7 @@ figcaption {
 }
 .topic-post .updated-message {
 	font-style: italic;
-	font-size: 0.8em;
+	font-size: 0.85em;
 }
 .topic-post .post-controls a {
 	display: inline-block;
@@ -649,8 +649,9 @@ form fieldset {
 }
 .post-signature div{
     margin-top: 10px;
-    border-top: 1px solid #0D0D0D;
+    border-top: 1px solid #6A6A6A;
 	display: inline-block;
+	font-size: 0.95em;
 }
 .poll {
 	margin-top: 10px;
@@ -993,7 +994,7 @@ ul.pagination a:hover {
 		right: 5%;
 		font-size: 18px;
 		left: auto;
-		top: 38px;
+		top: 45px;
 	}
 	#header #greeting {
 		right: 0;
@@ -1002,7 +1003,7 @@ ul.pagination a:hover {
 	}
 	#header #pm {
 		right: 0;
-     	top: 62px;
+     	top: 68px;
 		padding: 1px 6px;
 	}
 	#header #logo, #header #slogan, #header #greeting, #header #pm {
@@ -1121,6 +1122,16 @@ ul.pagination a:hover {
 
 	.profile {
 		display: block;
+	}
+
+	.category-table td, .category-table th,
+	.topic-list td, .topic-list th {
+    	word-break: break-word;
+	}
+
+	.topic-post .post-info,
+	.topic-post .post-content {
+		word-break: break-all;
 	}
 
 	/* footer */
