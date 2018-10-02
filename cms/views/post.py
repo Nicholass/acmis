@@ -9,6 +9,7 @@ from hashlib import md5
 from django.utils.translation import ugettext as _
 from hitcount.views import HitCountMixin
 from ..utils import i18n_grep
+from .map import do_stuff
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
@@ -27,6 +28,7 @@ def post_list(request, tags=None, category=None, author=None):
 
   if not category and not tags and not author:
     is_home = True
+
     home_category = getattr(settings, 'HOME_CATEGORY_ROUTE', False)
     if home_category:
       category = home_category
@@ -61,17 +63,15 @@ def post_list(request, tags=None, category=None, author=None):
   except EmptyPage:
     posts = paginator.page(paginator.num_pages)
 
-  need_relogin = False
-
   if request.user.is_authenticated():
     for post in posts:
       if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
-        if not request.session['map_urls']:
-          need_relogin = True
-        else:
-          for map_hash, pk in request.session['map_urls'].items():
-            if post.pk == pk:
-              post.hash = map_hash
+        if 'map_urls' not in request.session or not request.session['map_urls']:
+          do_stuff(None, None, request)
+
+        for map_hash, pk in request.session['map_urls'].items():
+          if post.pk == pk:
+            post.hash = map_hash
 
   posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
 
@@ -98,7 +98,6 @@ def post_list(request, tags=None, category=None, author=None):
     'tags': t,
     'author': author,
     'posts_disapproved': len(posts_disapproved),
-    'need_relogin': need_relogin,
     'is_home': is_home,
     'page_title': page_title
   })
