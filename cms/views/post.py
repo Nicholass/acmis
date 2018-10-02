@@ -66,12 +66,12 @@ def post_list(request, tags=None, category=None, author=None):
   if request.user.is_authenticated():
     for post in posts:
       if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
-        if request.session['map_urls']:
+        if not request.session['map_urls']:
+          need_relogin = True
+        else:
           for map_hash, pk in request.session['map_urls'].items():
             if post.pk == pk:
               post.hash = map_hash
-        else:
-          need_relogin = True
 
   posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
 
