@@ -12,7 +12,11 @@
 {% block title %}{{ post.title }}{% endblock %}
 
 {% block og %}
-    {% opengraph title=post.title %}
+    {% if post.category.route == 'photo' or post.category.route == 'drawing' %}
+        {% opengraph title=post.title description=post.description %}
+    {% else %}
+        {% opengraph title=post.title description=post.text|i18n|striptags|truncatechars:400 %}
+    {% endif %}
 {% endblock %}
 
 {% block breadcrumbs %}
