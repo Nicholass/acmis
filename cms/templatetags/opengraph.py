@@ -37,7 +37,7 @@ def get_opengraph_attributes(context, kwargs):
         images = [normalize_image_url(request, img) for img in image]
         images.insert(0, default_image)
     else:
-        images = [normalize_image_url(request, str(image))]
+        images = [normalize_image_url(request, 'media/%s' % str(image))]
 
     graph['images'] = images
     return graph
