@@ -440,6 +440,12 @@ a.feed:hover{
 .posts.list .post:first-child {
 	border-top: 1px solid #0D0D0D;
 }
+.posts .post .post-content {
+	padding: 5px 0;
+}
+.posts.list .post .post-content {
+	padding: 0;
+}
 .posts.list .info,
 .posts.list .actions {
 	text-align: right;
@@ -494,7 +500,6 @@ a.feed:hover{
     justify-content: space-around;
 }
 .post .post-content {
-	padding: 5px 0;
 	word-break: break-word;
 }
 .post img, .post iframe{
