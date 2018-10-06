@@ -142,8 +142,8 @@
             {% endif %}
           </div>
 
-        {% if post.category.route != 'map' %}
           <div class="post-content clearfix">
+             {% if post.category.route != 'map' %}
               {% if not post.file %}
                   {{ post.text|hide_announced_item|bleach_src|i18n|truncatechars:800|bleach }}
                   {% get_announce post as announce %}
@@ -161,9 +161,10 @@
                     {% endif %}
                   </a>
               {% endif %}
+            {% else %}
+                 {{ post.description }}
+            {% endif %}
           </div>
-        {% endif %}
-
 
 
             <div class="tags">
