@@ -13,7 +13,7 @@
 
 {% block og %}
     {% if post.category.route == 'photo' or post.category.route == 'drawing' %}
-        {% opengraph title=post.title description=post.description image=post.url %}
+        {% opengraph title=post.title description=post.description image=post.file %}
     {% else %}
         {% opengraph title=post.title description=post.text|i18n|striptags|truncatechars:400 %}
     {% endif %}

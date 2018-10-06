@@ -1,6 +1,5 @@
 from django import template
 from django.conf import settings
-from django.utils.safestring import SafeString
 from django.core.validators import EMPTY_VALUES
 
 register = template.Library()
@@ -31,13 +30,15 @@ def get_opengraph_attributes(context, kwargs):
     if default_image is not None:
         images.append(default_image)
     image = kwargs.get('image', None)
+
     if image in EMPTY_VALUES:
         image = None
     if isinstance(image, list):
         images = [normalize_image_url(request, img) for img in image]
         images.insert(0, default_image)
-    elif isinstance(image, str) or isinstance(image, SafeString) or isinstance(image, bytes):
-        images = [normalize_image_url(request, image)]
+    else:
+        images = [normalize_image_url(request, str(image))]
+
     graph['images'] = images
     return graph
 
@@ -51,4 +52,4 @@ def normalize_image_url(request, image):
     if image[:2] == '//':
         return '%s:%s' % (protocol, image)
     host = request.get_host()
-    return '%s://%s%s' % (protocol, host, image)
+    return '%s://%s/%s' % (protocol, host, image)
