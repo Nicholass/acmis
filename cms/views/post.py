@@ -10,6 +10,7 @@ from django.utils.translation import ugettext as _
 from hitcount.views import HitCountMixin
 from ..utils import i18n_grep
 from .map import do_stuff
+import random
 
 from ..forms import TextPostForm, BinaryPostForm, PostForm
 
@@ -72,6 +73,10 @@ def post_list(request, tags=None, category=None, author=None):
         for map_hash, pk in request.session['map_urls'].items():
           if post.pk == pk:
             post.hash = map_hash
+
+        if not hasattr(post, 'hash'):
+          post.hash = md5(str(post.pk + random.randint(1, 32)).encode()).hexdigest()
+          request.session['map_urls'][post.hash] = post.pk
 
   posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
 
