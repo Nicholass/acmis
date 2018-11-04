@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
 from django.shortcuts import get_object_or_404
+from django.conf import settings
 
 from ..forms import ProfileForm, UserForm
 
@@ -23,7 +24,8 @@ def profile(request, username=None):
         'profile_user': user,
         'is_owner': is_owner,
         'is_moderator': is_moderator,
-        'user_topics': Topic.objects.filter(user=user).count()
+        'user_topics': Topic.objects.filter(user=user).count(),
+        'base_path': settings.BASE_DIR,
     }
 
     return render(request, 'registration/profile.html', context)
