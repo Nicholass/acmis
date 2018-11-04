@@ -15,7 +15,7 @@
                         </a>
                         <br>
                         {% if node.author.profile.avatar %}
-                            {% thumbnail '/usr/src/app'|add:node.author.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
+                            {% thumbnail base_path|add:node.author.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
                                 <img src="{{ avatar.url }}" alt="{{ user_profile.get_display_name }} avatar"/>
                             {% endthumbnail %}
                         {% else %}

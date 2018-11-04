@@ -101,5 +101,6 @@ urlpatterns = [
   url(r'^wiki/', get_wiki_pattern()),
 ]
 
-if settings.DEBUG:
+if settings.ENV == 'development':
   urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+  urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

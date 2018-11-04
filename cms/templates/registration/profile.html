@@ -32,7 +32,7 @@
         <div>
             <h2>{{ profile_user }}</h2>
             {% if profile_user.profile.avatar %}
-                {% thumbnail '/usr/src/app'|add:profile_user.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
+                {% thumbnail base_path|add:profile_user.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
                     <img src="{{ avatar.url }}" alt="{{ profile_user }} avatar"/>
                 {% endthumbnail %}
             {% else %}
