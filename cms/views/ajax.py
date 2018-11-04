@@ -6,7 +6,6 @@ from taggit.models import Tag
 
 def get_simular_tags(request):
     query = request.GET.get('term')
-    print(query)
     tags = Tag.objects.filter(name__icontains=query).values('name')
 
     result = []

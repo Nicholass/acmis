@@ -10,6 +10,4 @@ register = template.Library()
 def tags_cloud():
   cloud_calculator = TaggitCloud([TextPost, BinaryPost], getattr(settings, 'TAGTOOLS_CLOUD_STEPS', 6), getattr(settings, 'TAGTOOLS_CLOUD_MIN_COUNT', 1))
 
-  print(cloud_calculator)
-
   return cloud_calculator.calculate_cloud()
