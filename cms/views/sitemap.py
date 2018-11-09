@@ -11,7 +11,7 @@ class PostsSitemap(Sitemap):
     return CmsPost.objects.filter(is_moderated=True, is_public=True, category__allow_anonymous=True)
 
   def lastmod(self, obj):
-    return obj.published_date
+    return obj.created_date
 
 
 class CategoriesSitemap(Sitemap):

@@ -10,7 +10,7 @@ class LatestEntriesFeed(Feed):
     description = _('Последние посты на сайте')
 
     def items(self):
-        return CmsPost.objects.filter(is_moderated=True, is_public=True, category__allow_anonymous=True).order_by('-published_date')[:10]
+        return CmsPost.objects.filter(is_moderated=True, is_public=True, category__allow_anonymous=True).order_by('-created_date')[:10]
 
     def item_title(self, item):
         return item.title
