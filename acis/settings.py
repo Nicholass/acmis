@@ -88,6 +88,7 @@ MIDDLEWARE = [
     'ban.middleware.BanManagement',
     'cms.midlewares.ActiveUserMiddleware',
     'cms.midlewares.OnlineUsersMiddleware',
+    'cms.midlewares.XForwardedForMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'tracking.middleware.VisitorTrackingMiddleware',
 
