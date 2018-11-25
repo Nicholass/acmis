@@ -76,6 +76,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+#    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -392,3 +393,12 @@ CKEDITOR_CONFIGS = {
         ])
     }
 }
+
+'''
+CSP_DEFAULT_SRC = ("'self'")
+CSP_SCRIPT_SRC = ("'self'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/')
+CSP_FRAME_SRC = ('https://www.google.com/recaptcha/')
+CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
+CSP_FONT_SRC = ("'self'")
+CSP_IMG_SRC = ("'self'")
+'''

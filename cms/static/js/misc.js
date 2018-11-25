@@ -31,7 +31,6 @@ $(document).ready(function(){
 
     //Handlers for mobile devices
     $(window).resize(function () {
-        console.log('resize');
         resize_handle();
     });
 
