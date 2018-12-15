@@ -1,13 +1,13 @@
 {% load i18n %}
 {% blocktrans %}
-    Вы зарегистрировались на сайте {{ site_name }} как {{ user }}.
-    Для активации учетной записи необходимо перейти по ссылке ниже.
+    You have registered at {{site_name}} as {{user}}.
+    To activate your account, click on the link below.
 {% endblocktrans %}
 
 {{ protocol }}://{{ domain }}{% url 'registration_activate' activation_key %}
 
 {% blocktrans %}
-    Ссылка будет активна {{ expiration_days }} дней.
+    The link will be active {{expiration_days}} days.
 
-    Если вы не регистрировались на сайте - просто пригнорируйте это письмо.
+    If you have not registered on the site - just ignore this email.
 {% endblocktrans %}

@@ -47,13 +47,13 @@
             <div id="logo-rt">&nbsp;</div>
         </div>
         <span id="logo"><a href="{{ request.scheme }}://{{ request.site }}/">Diggers.kiev.ua</a></span>
-        <span id="slogan">Сайт диггеров Киева</span>
+        <span id="slogan">Site of Kiev Diggers</span>
         <span id="greeting">
             {% if user.is_authenticated %}
                 {% trans "Вы вошли как: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong>
             {% else %}
-                <strong><a href="{% url 'auth_login' %}">{% trans "Войдите" %}</a></strong>{% trans " или " %}
-                <strong><a href="{% url 'registration_register' %}">{% trans "зарегистрируйтесь" %}</a></strong>
+                <strong><a href="{% url 'auth_login' %}">{% trans "Login" %}</a></strong>{% trans " or " %}
+                <strong><a href="{% url 'registration_register' %}">{% trans "register" %}</a></strong>
             {% endif %}
         </span>
         {% if user.is_authenticated %}
@@ -62,15 +62,19 @@
                 {% inbox_count as pm_cout %}
                 {% if pm_cout > 0 %}<strong>{% endif %}
                 {% blocktrans with pm_url=pm_url %}
-                    У вас <a href="{{ pm_url }}">{{ pm_cout }} личных сообщений</a>
+                    You have <a href="{{ pm_url }}">{{ pm_cout }} personal messages</a>
                 {% endblocktrans %}
                 {% if pm_cout > 0 %}</strong>{% endif %}
             </span>
 
             {% if pm_cout > 0 %}
                 <div id="pm-notification" style="display: none; position: absolute; top: 30px; right: 50px;">
-                    <p>Вы получили {{ pm_cout }} личных сообщений</p>
-                    <p>Для просмотра перейдите по <a href="{{ pm_url }}">ссылке</a></p>
+                    {% blocktrans with pm_cout=pm_cout %}
+                        <p>You received {{ pm_cout }} personal messages</p>
+                    {% endblocktrans %}
+                    {% blocktrans with pm_cout=pm_cout %}
+                        <p>For view them go to <a href="{{ pm_url }}">link</a></p>
+                    {% endblocktrans %}
                 </div>
             {% endif %}
         {% endif %}
@@ -85,9 +89,9 @@
     <div class="navbar">
         <ul class="breadcrumbs">
             {% if is_home %}
-                <li class="current">{% trans "Главная" %}</li>
+                <li class="current">{% trans "Home" %}</li>
             {% else %}
-                <li><a href="/">{% trans "Главная" %}</a></li>
+                <li><a href="/">{% trans "Home" %}</a></li>
             {% endif %}
             {% block breadcrumbs %}{% endblock %}
         </ul>
@@ -116,12 +120,12 @@
             {% block sidebar %}{% endblock %}
 
             <div>
-                <h3>{% trans "Статистика" %}</h3>
+                <h3>{% trans "Statistics" %}</h3>
                 <div class="block">
-                    <p>Онлайн пользователей: {{ request.online_users|length }}</p>
-                    <p>Онлайн гостей: {{ request.online_guests|length }}</p>
+                    <p>{% trans "Users online:" %} {{ request.online_users|length }}</p>
+                    <p>{% trans "Guests online:" %} {{ request.online_guests|length }}</p>
                     {% if request.online_now %}
-                        <p>Сейчас на сайте:</p>
+                        <p>{% trans "Online now:" %}</p>
                         <p>{% for user in request.online_now %}<strong>{{ user }}{% if not forloop.last %}, {% endif %}</strong>{% endfor %}</p>
                     {% endif %}
                 </div>

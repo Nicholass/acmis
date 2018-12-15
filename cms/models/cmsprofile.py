@@ -12,10 +12,10 @@ from pybb.profiles import PybbProfile
 class CmsProfile(PybbProfile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name=_("Аватар"))
-    birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Дата рождения"))
-    location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Местонахождение"))
-    site = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Вебсайт"))
+    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name=_("Avatar"))
+    birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Birth date"))
+    location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Location"))
+    site = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Site"))
 
     facebook = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Facebook"))
     vk = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Vkontakte"))
@@ -26,7 +26,7 @@ class CmsProfile(PybbProfile):
     jabber = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Jabber"))
     telegram = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Telegram"))
     skype = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Skype"))
-    last_activity = models.DateTimeField(null=True, blank=True, verbose_name=_("Был онлайн"))
+    last_activity = models.DateTimeField(null=True, blank=True, verbose_name=_("Last online"))
 
     @property
     def avatar_url(self):
@@ -63,10 +63,10 @@ class CmsProfile(PybbProfile):
     '''
 
     class Meta:
-      verbose_name = _("Профиль")
-      verbose_name_plural = _("Профили")
+      verbose_name = _("Profile")
+      verbose_name_plural = _("Profiles")
       permissions = (
-          ("moderate_cmsprofile", _("Модерация профилей")),
+          ("moderate_cmsprofile", _("Moderate profiles")),
       )
 
     @receiver(post_save, sender=User)

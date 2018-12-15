@@ -7,17 +7,17 @@ from django.utils.translation import ugettext as _
 
 class Comment(MPTTModel):
 
-  post = models.ForeignKey('CmsPost', on_delete=models.CASCADE, verbose_name=_("Пост"))
-  author = models.ForeignKey('auth.User', verbose_name=_("Автор"))
-  text = models.TextField(max_length=600, verbose_name=_("Текст"))
+  post = models.ForeignKey('CmsPost', on_delete=models.CASCADE, verbose_name=_("Post"))
+  author = models.ForeignKey('auth.User', verbose_name=_("Author"))
+  text = models.TextField(max_length=600, verbose_name=_("Text"))
 
-  parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True, verbose_name=_("Ответ на"))
+  parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True, verbose_name=_("Reply to"))
 
-  is_moderated = models.BooleanField(default=True, verbose_name=_("Одобрен"))
-  is_deleted = models.BooleanField(default=False, verbose_name=_("Удален"))
+  is_moderated = models.BooleanField(default=True, verbose_name=_("Approved"))
+  is_deleted = models.BooleanField(default=False, verbose_name=_("Deleted"))
 
-  created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Дата создания"), unique=True)
-  modifed_date = models.DateTimeField(null=True, blank=True, verbose_name=_("Дата редактирования"))
+  created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Date created"), unique=True)
+  modifed_date = models.DateTimeField(null=True, blank=True, verbose_name=_("Dete edited"))
 
   @property
   def short_text(self):
@@ -27,10 +27,10 @@ class Comment(MPTTModel):
     return self.text
 
   class Meta:
-    verbose_name = _("Комментарий")
-    verbose_name_plural = _("Комментарии")
+    verbose_name = _("Comment")
+    verbose_name_plural = _("Comments")
     permissions = (
-        ("moderate_comment", _("Модерация комментариев")),
+        ("moderate_comment", _("Moderate comments")),
     )
 
   class MPTTMeta:

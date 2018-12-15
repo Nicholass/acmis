@@ -2,16 +2,16 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Ошибка 500" %}
+    {% trans "Error 500" %}
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="current">{% trans "Ошибка 500" %}</li>
+    <li class="current">{% trans "Error 500" %}</li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Ошибка 500 - Внутренняя ошибка на сервере" %}</h1>
+    <h1>{% trans "Error 500 - Internal server error" %}</h1>
     <p>
-        {% trans "При обработке запроса произошла ошибка на сервере." %}
+        {% trans "While processing the request an error occurred on the server." %}
     </p>
 {% endblock %}

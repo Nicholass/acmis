@@ -4,7 +4,7 @@
 {% load tags_cloud %}
 
 <div>
-    <h3>{% trans "Теги" %}</h3>
+    <h3>{% trans "Tags" %}</h3>
     <div class="block">
         {% tags_cloud as cloud %}
         {% for tag in cloud %}
@@ -14,14 +14,14 @@
 </div>
 
 <div>
-    <h3>{% trans "Новое на форуме" %}</h3>
+    <h3>{% trans "New on forum" %}</h3>
     <div class="block list">
         {% pybb_last_posts 6 %}
     </div>
 </div>
 
 <div>
-    <h3>{% trans "Комментарии" %}</h3>
+    <h3>{% trans "Last comments" %}</h3>
     <div class="block list">
         {% last_comments 6 %}
     </div>

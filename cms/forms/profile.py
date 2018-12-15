@@ -20,7 +20,7 @@ class ProfileForm(forms.ModelForm):
 
   def __init__(self, *args, **kwargs):
     super(ProfileForm, self).__init__(*args, **kwargs)
-    self.fields['avatar'].help_text = _('<ul><li>Аватар не должен быть размером больше %s x %s пикселей.</li><li>Аватар должен быть изображением в формате JPEG, GIF или PNG</li><li>Аватар должен быть меньше %s Кб размером</li></ul>' % (self.AVATAR_MAX_WIDTH, self.AVATAR_MAX_HEIGHT, self.AVATAR_MAX_SIZE))
+    self.fields['avatar'].help_text = _('<ul><li>Avatar dimensions should be less than %(x)s x %(y)s px.</li><li>Avatar should be in format JPEG, GIF or PNG</li><li>Avatar size should be less than %(size)s Kb</li></ul>' % {'x': self.AVATAR_MAX_WIDTH, 'y': self.AVATAR_MAX_HEIGHT, 'size': self.AVATAR_MAX_SIZE})
     self.fields['signature'].widget = forms.Textarea(attrs={'rows': 2, 'cols:': 60})
 
   class Meta:
@@ -103,17 +103,17 @@ class ProfileForm(forms.ModelForm):
       #validate dimensions
       if w > self.AVATAR_MAX_WIDTH or h > self.AVATAR_MAX_HEIGHT:
         raise forms.ValidationError(
-          _('Аватар больше %s x %s пикселей размером' % (self.AVATAR_MAX_WIDTH, self.AVATAR_MAX_HEIGHT))
+          _('Avatar dimensions greater than %(x)s x %(y)s px' % {'x': self.AVATAR_MAX_WIDTH, 'y': self.AVATAR_MAX_HEIGHT})
         )
 
       #validate content type
       main, sub = avatar.content_type.split('/')
       if not (main == 'image' and sub in ['jpeg', 'jpg', 'gif', 'png']):
-        raise forms.ValidationError(_('Аватар не является изображением или не в форматах JPEG, GIF или PNG'))
+        raise forms.ValidationError(_('Avatar format is not JPEG, GIF or PNG'))
 
       #validate file size
       if len(avatar) > int(self.AVATAR_MAX_SIZE * 1024):
-        raise forms.ValidationError(_('Аватар больше %s Кб размером' % self.AVATAR_MAX_SIZE ))
+        raise forms.ValidationError(_('Avatar size greater than %s Kb' % self.AVATAR_MAX_SIZE ))
 
     except AttributeError:
       """

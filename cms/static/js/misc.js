@@ -1,7 +1,7 @@
 $(document).ready(function(){
     "use strict";
 
-    //Переключатель языка
+    //Language switcher
     $('.langBtn').click(function (event) {
         var element = $(event.target).parent().parent();
         if(element.hasClass('selected')){

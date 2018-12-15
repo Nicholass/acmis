@@ -6,9 +6,9 @@
 
 {% block sidebar %}
     <ul class="subnavilist">
-        <li><a href="{% url 'messages_inbox' %} ">{% trans "Входящие" %}</a></li>
-        <li><a href="{% url 'messages_outbox' %} ">{% trans "Исходящие" %}</a></li>
-        <li><a href="{% url 'messages_compose' %} ">{% trans "Новое сообщение" %}</a></li>
-        <li><a href="{% url 'messages_trash' %} ">{% trans "Корзина" %}</a></li>
+        <li><a href="{% url 'messages_inbox' %} ">{% trans "Inbox" %}</a></li>
+        <li><a href="{% url 'messages_outbox' %} ">{% trans "Outbox" %}</a></li>
+        <li><a href="{% url 'messages_compose' %} ">{% trans "New message" %}</a></li>
+        <li><a href="{% url 'messages_trash' %} ">{% trans "Trash" %}</a></li>
     </ul>
 {% endblock %}

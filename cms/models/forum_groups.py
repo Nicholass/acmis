@@ -9,7 +9,7 @@ from django.contrib.auth.models import Group
 class ForumGroups(models.Model):
   forum = models.OneToOneField(Forum, on_delete=models.CASCADE, related_name='groups')
 
-  groups = models.ManyToManyField(Group, blank=True, verbose_name=_("Группы имеющие доступ"))
+  groups = models.ManyToManyField(Group, blank=True, verbose_name=_("Groups with aditional access to forum"))
 
   @receiver(post_save, sender=Forum)
   def create_forum_groups(sender, instance, created, **kwargs):
@@ -21,8 +21,8 @@ class ForumGroups(models.Model):
     instance.groups.save()
 
   class Meta:
-    verbose_name = _("Группы форума")
-    verbose_name_plural = _("Группы форума")
+    verbose_name = _("Forum group")
+    verbose_name_plural = _("Forum groups")
     permissions = (
-      ("change_forumn_access", _("Изменение доступа к закрытым форумам")),
+      ("change_forumn_access", _("Change aditional access to forum")),
     )

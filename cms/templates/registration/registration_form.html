@@ -2,15 +2,15 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Регистрация" %}
+    {% trans "Registration" %}
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="current">{% trans "Регистрация" %}</li>
+    <li class="current">{% trans "Registration" %}</li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Регистрация учетной записи" %}</h1>
+    <h1>{% trans "Account registration" %}</h1>
 
     <form method="post" action="." class="grid-form registration-form">
         {% csrf_token %}
@@ -39,7 +39,7 @@
         {% endfor %}
 
         <p class="buttons">
-            <button type="submit">{% trans "Зарегистрироваться" %}</button>
+            <button type="submit">{% trans "Register" %}</button>
         </p>
     </form>
 {% endblock %}

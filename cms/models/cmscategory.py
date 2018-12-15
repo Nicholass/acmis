@@ -8,9 +8,9 @@ class CmsCategory(models.Model):
   POST = '1'
   UNKNOWN = '3'
   KINDS = (
-    (FILE, _("Файлы")),
-    (POST, _("Посты")),
-    (UNKNOWN, _("Не определено")),
+    (FILE, _("File")),
+    (POST, _("Post")),
+    (UNKNOWN, _("Unknown")),
   )
 
   DATA_KINDS = {
@@ -29,22 +29,22 @@ class CmsCategory(models.Model):
     blank=False,
     choices=KINDS,
     default=UNKNOWN,
-    help_text=_('<font color="red">Внимание! Изменение этого поля у существующих категорий может повлиять на отображение объектов!</font>'),
-    verbose_name=_("Тип объектов")
+    help_text=_('<font color="red">Attention! Changing this field in existing categories may affect the display of objects!</font>'),
+    verbose_name=_("Type")
   )
-  name = models.CharField(max_length=200, verbose_name=_("Название"))
-  i18n_name = models.CharField(blank=True, null=True, max_length=200, verbose_name=_("Перевод названия"))
-  i18n_name_plural = models.CharField(blank=True, null=True, max_length=200, verbose_name=_("Перевод названия в единичном числе"))
+  name = models.CharField(max_length=200, verbose_name=_("Name"))
+  i18n_name = models.CharField(blank=True, null=True, max_length=200, verbose_name=_("i18n name"))
+  i18n_name_plural = models.CharField(blank=True, null=True, max_length=200, verbose_name=_("i18n name plural"))
   route = models.CharField(
     max_length=200,
-    verbose_name=_("Название в URL"),
-    help_text=_('<font color="red">Внимание! Изменение этого поля у существующих категорий может повлиять на логику работы!</font>'),
+    verbose_name=_("Route"),
+    help_text=_('<font color="red">Attention! Changing this field in existing categories may affect the logic!</font>'),
   )
-  groups = models.ManyToManyField(Group, blank=True, verbose_name=_("Группы имеющие доступ"))
+  groups = models.ManyToManyField(Group, blank=True, verbose_name=_("Groups with access"))
   allow_anonymous = models.BooleanField(
     default=True,
-    verbose_name=_("Полный доступ"),
-    help_text=_('Установка этой галочки отключает контроль доступа к категории по группам пользователя'),
+    verbose_name=_("Full access"),
+    help_text=_('Setting this checkbox disables access control to categories by user group.'),
   )
 
   def get_absolute_url(self):
@@ -65,5 +65,5 @@ class CmsCategory(models.Model):
     return self.name
 
   class Meta:
-    verbose_name = _("Категория")
-    verbose_name_plural = _("Категории")
+    verbose_name = _("Category")
+    verbose_name_plural = _("Categories")

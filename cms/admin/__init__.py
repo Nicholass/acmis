@@ -43,17 +43,17 @@ def send_activation(modeladmin, request, queryset):
     for user in queryset:
         send_activation_code(user, request)
 
-    messages.add_message(request, messages.INFO, _('Коды активации были отправлены выбранным аккаунтам'))
+    messages.add_message(request, messages.INFO, _('Activation codes sended to selected accounts'))
 
 
-send_activation.short_description = _('Отправить код активации')
+send_activation.short_description = _('Send activation code')
 
 
 class ProfileInline(admin.StackedInline):
     model = CmsProfile
     can_delete = False
     form = ProfileForm
-    verbose_name_plural = 'Профиль'
+    verbose_name_plural = _('Profile')
     fk_name = 'user'
 
 
@@ -78,7 +78,7 @@ admin.site.register(User, CustomUserAdmin)
 class ForumGroupsInline(admin.StackedInline):
     model = ForumGroups
     can_delete = False
-    verbose_name_plural = 'Группы форума'
+    verbose_name_plural = _('Forum groups')
     fk_name = 'forum'
 
 

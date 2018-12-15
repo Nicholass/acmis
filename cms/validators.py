@@ -189,7 +189,7 @@ def free_email(value):
     email_domain = value.split('@')[1]
 
     if email_domain.lower() in BAD_EMAIL_DOMAINS:
-      raise ValidationError(_("Регистрация e-mail данного почтового сервиса запрещена."))
+      raise ValidationError(_("Registration email of this mail service is prohibited."))
   except IndexError:
     pass
 
@@ -202,7 +202,7 @@ def reserved_name(value):
   if not isinstance(value, six.text_type):
     return
   if value.lower() in DEFAULT_RESERVED_NAMES:
-    raise ValidationError(_("Это имя пользователя зарезервировано."))
+    raise ValidationError(_("This username is reserved."))
 
 def validate_confusables(value):
     """
@@ -217,7 +217,7 @@ def validate_confusables(value):
     if not isinstance(value, six.text_type):
       return
     if confusables.is_dangerous(value):
-      raise ValidationError(_("Это имя пользователя не может быть зарегистрировано."))
+      raise ValidationError(_("This username cannot be registered."))
 
 
 def validate_confusables_email(value):
@@ -236,4 +236,4 @@ def validate_confusables_email(value):
     local_part, domain = value.split('@')
     if confusables.is_dangerous(local_part) or \
       confusables.is_dangerous(domain):
-       raise ValidationError(_("Этот e-mail не может быть зарегистрирован."))
+       raise ValidationError(_("This email cannot be registered."))

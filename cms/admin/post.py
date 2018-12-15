@@ -60,7 +60,7 @@ class PostParentAdmin(PolymorphicParentModelAdmin):
   def get_short_title(self, obj):
     return obj.short_title
 
-  get_short_title.short_description = _('Пост')
+  get_short_title.short_description = _('Post')
 
 
 class PostChildAdmin(AdminImageMixin, PolymorphicChildModelAdmin):

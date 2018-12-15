@@ -23,15 +23,15 @@ class CmsPost(PolymorphicModel):
   comments
   '''
 
-  author = models.ForeignKey('auth.User', verbose_name=_("Автор"))
-  title = models.CharField(max_length=200, verbose_name=_("Название"))
-  category = models.ForeignKey('CmsCategory', blank=True, null=False, verbose_name=_("Категория"))
+  author = models.ForeignKey('auth.User', verbose_name=_("Author"))
+  title = models.CharField(max_length=200, verbose_name=_("Title"))
+  category = models.ForeignKey('CmsCategory', blank=True, null=False, verbose_name=_("Category"))
 
-  tags = TaggableManager(blank=True, verbose_name=_("Теги"))
-  created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Дата создания"))
+  tags = TaggableManager(blank=True, verbose_name=_("Tags"))
+  created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Creation date"))
 
-  is_public = models.BooleanField(default=True, verbose_name=_("Опубликован"))
-  is_moderated = models.BooleanField(default=True, verbose_name=_("Одобрен"))
+  is_public = models.BooleanField(default=True, verbose_name=_("Published"))
+  is_moderated = models.BooleanField(default=True, verbose_name=_("Approved"))
 
   def _tags(self):
         return [t.name for t in self.tags.all()]
@@ -47,26 +47,26 @@ class CmsPost(PolymorphicModel):
     return self.title
 
   class Meta:
-    verbose_name = _("Пост")
-    verbose_name_plural = _("Посты")
+    verbose_name = _("Post")
+    verbose_name_plural = _("Posts")
     permissions = (
-        ("moderate_cmspost", _("Модерация постов")),
-        ("publish_cmspost", _("Публикация постов")),
+        ("moderate_cmspost", _("Moderate posts")),
+        ("publish_cmspost", _("Publish posts")),
     )
 
 
 class TextPost(CmsPost):
-  text = RichTextUploadingField(verbose_name=_("Текст"))
+  text = RichTextUploadingField(verbose_name=_("Text"))
 
   @property
   def short_text(self):
     return truncatechars(self.text, 400)
 
   class Meta:
-    verbose_name = _("Текстовый пост")
-    verbose_name_plural = _("Текстовые посты")
+    verbose_name = _("Text post")
+    verbose_name_plural = _("Text posts")
     permissions = (
-        ("moderate_textpost", _("Модерация текстовых постов")),
+        ("moderate_textpost", _("Moderate text post")),
     )
 
   def get_absolute_url(self):
@@ -79,13 +79,13 @@ class BinaryPost(CmsPost):
     verbose_name=_("Файл"),
     null=True
   )
-  description = models.TextField(max_length=200, verbose_name=_("Описание"), blank=True)
+  description = models.TextField(max_length=200, verbose_name=_("Description"), blank=True)
 
   class Meta:
-    verbose_name = _("Изображение")
-    verbose_name_plural = _("Изображения")
+    verbose_name = _("Image post")
+    verbose_name_plural = _("Images posts")
     permissions = (
-        ("moderate_binarypost", _("Модерация изображений")),
+        ("moderate_binarypost", _("Moderate images posts")),
     )
 
   def get_absolute_url(self):

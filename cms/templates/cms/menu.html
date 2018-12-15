@@ -9,23 +9,23 @@
 {% auth_can_view_category 'prose' as allow_prose %}
 
 <ul class="menu">
-    <li><a href='{% url 'category_list' category='news' %}'>{% trans "Новости" %}</a></li>
+    <li><a href='{% url 'category_list' category='news' %}'>{% trans "News" %}</a></li>
 
-    {% if allow_report %}<li><a href='{% url 'category_list' category='report' %}'>{% trans "Очеты" %}</a></li>{% endif %}
-    {% if allow_pm_report %}<li><a href='{% url 'category_list' category='pm_report' %}'>{% trans "Закрытые отчеты" %}</a></li>{% endif %}
-    {% if allow_photo %}<li><a href='{% url 'category_list' category='photo' %}'>{% trans "Фотографии" %}</a></li>{% endif %}
-    {% if allow_map %}<li><a href='{% url 'category_list' category='map' %}'>{% trans "Карты" %}</a></li>{% endif %}
-    {% if allow_drawing %}<li><a href='{% url 'category_list' category='drawing' %}'>{% trans "Графика" %}</a></li>{% endif %}
-    {% if allow_prose %}<li><a href='{% url 'category_list' category='prose' %}'>{% trans "Писательство" %}</a></li>{% endif %}
+    {% if allow_report %}<li><a href='{% url 'category_list' category='report' %}'>{% trans "Reports" %}</a></li>{% endif %}
+    {% if allow_pm_report %}<li><a href='{% url 'category_list' category='pm_report' %}'>{% trans "Restricted reports" %}</a></li>{% endif %}
+    {% if allow_photo %}<li><a href='{% url 'category_list' category='photo' %}'>{% trans "Photo" %}</a></li>{% endif %}
+    {% if allow_map %}<li><a href='{% url 'category_list' category='map' %}'>{% trans "Maps" %}</a></li>{% endif %}
+    {% if allow_drawing %}<li><a href='{% url 'category_list' category='drawing' %}'>{% trans "Graphics" %}</a></li>{% endif %}
+    {% if allow_prose %}<li><a href='{% url 'category_list' category='prose' %}'>{% trans "Writing" %}</a></li>{% endif %}
 
-    <li><a href='/forum/'>{% trans "Общение" %}</a></li>
+    <li><a href='/forum/'>{% trans "Forum" %}</a></li>
     <li><a href='/wiki/'>{% trans "Wiki" %}</a></li>
 
     {% if user.is_staff %}
-    <li><a href='/admin/'>{% trans "Управление" %}</a></li>
+    <li><a href='/admin/'>{% trans "Control panel" %}</a></li>
     {% endif %}
 
     {% if user.is_authenticated %}
-        <li><a href='{% url 'auth_logout' %}?next={{request.path}}'>{% trans "Выход" %}</a></li>
+        <li><a href='{% url 'auth_logout' %}?next={{request.path}}'>{% trans "Logout" %}</a></li>
     {% endif %}
 </ul>

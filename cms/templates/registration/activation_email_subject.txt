@@ -1,1 +1,1 @@
-{% load i18n %}{% trans "Активация учетной записи на сайте" %}
+{% load i18n %}{% trans "Account activation on diggers.kiev.ua" %}

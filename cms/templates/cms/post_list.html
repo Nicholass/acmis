@@ -36,7 +36,7 @@
   {% if tags %}
       <li class="current">{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
   {% elif is_disapproved %}
-      <li class="current">{% trans "Премодерация" %}</li>
+      <li class="current">{% trans "Pre-moderation" %}</li>
   {% endif %}
 {% endblock %}
 
@@ -46,14 +46,14 @@
             {% if perms.cms.add_cmspost %}
                 <a href="{% url 'post_new' category=category.route %}">
                   <i class="fa fa-file"></i>
-                  {% trans "Добавить " %}{{ category.i18n_name_plural|i18n }}
+                  {% trans "Add " %}{{ category.i18n_name_plural|i18n }}
                 </a>
             {% endif %}
 
             {% if perms.cms.moderate_cmspost and posts_disapproved > 0 %}
                 <a href="{% url 'category_disapproved' category=category.route %}">
                   <i class="fa fa-check-square"></i>
-                  {% trans "Ожидают модерации " %}({{ posts_disapproved }})
+                  {% trans "Waiting for moderation " %}({{ posts_disapproved }})
                 </a>
             {% endif %}
           </div>
@@ -68,18 +68,18 @@
         <p class="nocontent">
           {% if not is_disapproved %}
               {% if is_home %}
-                  {% trans "На сайте пока нет материалов. Для добавления нового материала перейдите в категорию." %}
+                  {% trans "The site has no materials yet. To add a new material, go to the category." %}
               {% else %}
-                  {% trans "В категории пока нет материалов." %}
+                  {% trans "There are no materials in the category yet." %}
                   {% if perms.cms.add_cmspost %}
                     {% url 'post_new' category=category.route as post_new_url %}
                     {% blocktrans with post_new_url=post_new_url %}
-                    В категории пока нет материалов. Вы можете <a href="{{ post_new_url }}">добавить</a> первым.
+                    There are no materials in the category yet. You can <a href="{{ post_new_url }}">add</a> first.
                     {% endblocktrans %}
                   {% endif %}
               {% endif %}
           {% else %}
-              {% trans "В категории нет постов ожидающих премодерации." %}
+              {% trans "In the category there are no posts waiting for moderation." %}
           {% endif %}
         </p>
       {% endif %}
@@ -131,11 +131,11 @@
                 {% comment_count as comm_count %}
                 {% if comm_count and category.route != 'map' %}
                     {{ comm_count }}
-                    {% if comm_count|plural_type == 1 %}{% trans "комментарий" %}{% endif %}
-                    {% if comm_count|plural_type == 2  %}{% trans "комментария" %}{% endif %}
-                    {% if comm_count|plural_type == 3  %}{% trans "комментариев" %}{% endif %}
+                    {% if comm_count|plural_type == 1 %}{% trans "comment" %}{% endif %}
+                    {% if comm_count|plural_type == 2  %}{% trans "comments" %}{% endif %}
+                    {% if comm_count|plural_type == 3  %}{% trans "comments" %}{% endif %}
                 {% else %}
-                    {% trans "Комментировать" %}
+                    {% trans "Comment" %}
                 {% endif %}
                   </a>
                 </span>
@@ -190,24 +190,24 @@
               {% auth_is_owner post as is_post_owner %}
 
               {% if perms.cms.change_cmspost and is_post_owner %}
-                  <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Редактировать" %}</a>
+                  <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Edit" %}</a>
               {% endif %}
               {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
               {% if perms.cms.delete_cmspost and is_post_owner %}
-                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
+                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Are you sure you want to delete the post? Cancel this action will be impossible." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
               {% endif %}
               {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
               {% if perms.cms.publish_cmspost and is_post_owner %}
                 {% if post.is_public %}
-                  <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Скрыть" %}</a>
+                  <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Hide" %}</a>
                 {% else %}
-                  <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Опубликовать" %}</a>
+                  <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Publish" %}</a>
                 {% endif %}
               {% endif %}
               {% if perms.cms.moderate_cmspost %}
                 {% if not post.is_moderated %}
                   {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
-                  <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Одобрить" %}</a>
+                  <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Approve" %}</a>
                 {% endif %}
               {% endif %}
             {% endif %}

@@ -18,7 +18,7 @@ class RegistrationForm(UserCreationForm):
     self.fields['username'].validators=[validators.reserved_name, validators.validate_confusables]
     self.fields['email'].validators=[validators.validate_confusables_email, validators.free_email]
     self.fields['email'].required = True
-    self.fields['captcha'].label = _('Капча')
+    self.fields['captcha'].label = _('Captcha')
 
   class Meta:
     model = User
@@ -27,13 +27,13 @@ class RegistrationForm(UserCreationForm):
   def clean_email(self):
     email = self.cleaned_data['email']
     if User.objects.filter(email=email).exists():
-      self.add_error('email', forms.ValidationError(_('Пользователь с такими email уже существует')))
+      self.add_error('email', forms.ValidationError(_('User with this email already exists')))
 
     return email
 
 
 class RememberAuthenticationForm(AuthenticationForm):
-  remember = forms.BooleanField(label=_('Запомнить меня'), required=False)
+  remember = forms.BooleanField(label=_('Remember me'), required=False)
 
 
 class EmailChangeForm(forms.ModelForm):

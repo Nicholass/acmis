@@ -3,9 +3,9 @@
 
 {% block title %}
     {% if not parent %}
-        {% trans "Редактирование комментария" %}
+        {% trans "Edit comment" %}
     {% else %}
-        {% trans "Ответ на комментарий" %}
+        {% trans "Reply to comment" %}
     {% endif %}
 {% endblock %}
 
@@ -13,9 +13,9 @@
     <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
     <li class="current">
         {% if not parent %}
-            {% trans "Редактирование комментария" %}
+            {% trans "Edit comment" %}
         {% else %}
-            {% trans "Ответ на комментарий" %}
+            {% trans "Reply to comment" %}
         {% endif %}
     </li>
 {% endblock %}
@@ -23,15 +23,15 @@
 {% block content %}
     <h2>
         {% if not parent %}
-            {% trans "Редактирование комментария" %}
+            {% trans "Edit comment" %}
         {% else %}
-            {% trans "Ответ на комментарий " %} {{ parent.author }}: {{ parent.short_text }}
+            {% trans "Reply to comment: " %} {{ parent.author }}: {{ parent.short_text }}
         {% endif %}
     </h2>
 
     <form method="POST">
         {% csrf_token %}
         {{ form.as_p }}
-        <button type="submit">{% trans "Отправить" %}</button>
+        <button type="submit">{% trans "Send" %}</button>
     </form>
 {% endblock %}

@@ -3,5 +3,5 @@
 <form method="POST" action="{% url 'comment_new' pk=post.pk %}">
     {% csrf_token %}
     {{ form.as_p }}
-    <button type="submit">{% trans "Отправить" %}</button>
+    <button type="submit">{% trans "Send" %}</button>
 </form>

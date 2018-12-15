@@ -22,7 +22,7 @@
                             <img src="{{ AVATAR_DEFAULT }}" alt="default avatar" width="{{ AVATAR_MAX_WIDTH }}" height="{{ AVATAR_MAX_HEIGHT }}"/>
                         {% endif %}
                         <p class="user-actions">
-                            <a href="{% url 'messages_compose_to' recipient=node.author %}">{% trans 'ЛС' %}</a>
+                            <a href="{% url 'messages_compose_to' recipient=node.author %}">{% trans 'PM' %}</a>
                         </p>
                     </div>
                     <div class="text">
@@ -34,7 +34,7 @@
                             {% if node.modifed_date %}
                                 <br />
                                 <br />
-                                <i class="edit-notice">{% trans "Отредактирован " %} {{ node.modifed_date }}</i>
+                                <i class="edit-notice">{% trans "Edited " %} {{ node.modifed_date }}</i>
                             {% endif %}
                         </p>
                         <p class="actions">
@@ -43,31 +43,31 @@
                                 {% if perms.cms.add_comment %}
                                     <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">
                                         <i class="fa fa-comment"></i>
-                                        {% trans "Ответ" %}
+                                        {% trans "Reply" %}
                                     </a>
                                 {% endif %}
                                 {% if perms.cms.change_comment and is_comment_owner %}
                                     <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">
                                         <i class="fa fa-edit"></i>
-                                        {% trans "Редактировать" %}
+                                        {% trans "Edit" %}
                                     </a>
                                 {% endif %}
                                 {% if perms.cms.delete_comment and is_comment_owner %}
-                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить комментарий? Отменить это действие будет невозможно." %}')">
+                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Are you sure you want to delete the comment? Cancel this action will be impossible." %}')">
                                         <i class="fa fa-trash"></i>
-                                        {% trans "Удалить" %}
+                                        {% trans "Delete" %}
                                     </a>
                                 {% endif %}
                             {% endif %}
                             <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">
                                 <i class="fa fa-link"></i>
-                                {% trans "Ссылка" %}
+                                {% trans "Link" %}
                             </a>
                         </p>
                     </div>
                 {% else %}
                     <p class="media-content">
-                        <i>Комментарий был удален</i>
+                        <i>The comment has been deleted.</i>
                     </p>
                 {% endif %}
             </div>

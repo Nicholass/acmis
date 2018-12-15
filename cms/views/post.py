@@ -81,21 +81,21 @@ def post_list(request, tags=None, category=None, author=None):
   posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
 
   if is_home:
-    page_title = _('Все посты')
+    page_title = _('All posts')
   elif author:
-    page_title = _('Материалы пользователя %s') % author
+    page_title = _('Posts of user: %s') % author
   elif c:
     if c.i18n_name:
       page_title = i18n_grep(c.i18n_name)
     else:
       page_title = c.name
   elif t:
-    page_title = _('Материалы')
+    page_title = _('Posts')
 
   if t:
-    page_title = _('%s по тэгам') % page_title
+    page_title = _('%s by tags') % page_title
     for tag in t:
-      page_title = _('%s #%s') % (page_title, tag)
+      page_title = _('%(title)s #%(tag)s') % {"title": page_title, "tag": tag}
 
   return render(request, 'cms/post_list.html', {
     'posts': posts,

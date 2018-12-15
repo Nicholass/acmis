@@ -286,12 +286,12 @@ AVATAR_MAX_HEIGHT = 80
 AVATAR_DEFAULT = STATIC_URL + 'pybb/img/default_avatar.jpg'
 AVATAR_DIMENSIONS = '%sx%s' % (AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT,)
 
-DEFAULT_REGISTRATION_GROUP = 'Пользователи'
+DEFAULT_REGISTRATION_GROUP = 'Users'
 
 PAGINATION_POSTS_COUNT = 25
 
 PREMODERATION_CATEGORIES = ['map', 'news']
-PREMODERATION_GROUPS = ['Пользователи', 'Пользователи с доступом к закрытым разделам']
+PREMODERATION_GROUPS = ['Users', 'Users with aditional access']
 
 SESSION_SAVE_EVERY_REQUEST = True
 

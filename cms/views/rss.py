@@ -5,9 +5,9 @@ import re
 from cms.models import CmsPost
 
 class LatestEntriesFeed(Feed):
-    title = _("Лента постов")
+    title = _("Posts feed")
     link = "/"
-    description = _('Последние посты на сайте')
+    description = _('Last site posts')
 
     def items(self):
         return CmsPost.objects.filter(is_moderated=True, is_public=True, category__allow_anonymous=True).order_by('-created_date')[:10]

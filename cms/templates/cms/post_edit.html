@@ -5,25 +5,25 @@
 
 {% block title %}
   {% if post %}
-    {% trans "Редактировать " %}
+    {% trans "Edit " %}
   {% else %}
-    {% trans "Добавить " %}
+    {% trans "Add " %}
   {% endif %}
 
   {# TODO: перевод названия категории на уровне модели #}
 
   {% if category.route == 'drawing' %}
-    {% trans "рисунок" %}
+    {% trans "picture" %}
   {% elif category.route == 'map' %}
-    {% trans "карту" %}
+    {% trans "map" %}
   {% elif category.route == 'news' %}
-    {% trans "новость" %}
+    {% trans "news" %}
   {% elif category.route == 'photo' %}
-    {% trans "фотографию" %}
+    {% trans "photo" %}
   {% elif category.route == 'prose' %}
-    {% trans "рассказ" %}
+    {% trans "text" %}
   {% elif category.route == 'report' %}
-    {% trans "отчет" %}
+    {% trans "report" %}
   {% endif %}
 
 {% endblock %}
@@ -34,9 +34,9 @@
   </a></li>
   <li class="current">
     {% if post %}
-      {% trans "Редактировать " %}
+      {% trans "Edit " %}
     {% else %}
-      {% trans "Добавить " %}
+      {% trans "Add " %}
     {% endif %}
     {{ category.i18n_name_plural|i18n }}
   </li>
@@ -45,9 +45,9 @@
 {% block content %}
     <h1>
       {% if post %}
-        {% trans "Редактировать " %}
+        {% trans "Edit " %}
       {% else %}
-        {% trans "Добавить " %}
+        {% trans "Add " %}
       {% endif %}
 
       {{ category.i18n_name_plural|i18n }}
@@ -59,7 +59,7 @@
       {% csrf_token %}
       {{ form.media }}
       {{ form.as_p }}
-      <button type="submit">{% trans "Отправить" %}</button>
+      <button type="submit">{% trans "Send" %}</button>
     </form>
 {% endblock %}
 

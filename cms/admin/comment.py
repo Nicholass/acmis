@@ -26,8 +26,8 @@ def add_related_field_wrapper(form, col_name):
 class CustomMPTTAdminForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super(CustomMPTTAdminForm, self).__init__(*args, **kwargs)
-    self.fields['parent'] = ShortParentChoiseField(queryset=Comment.objects.all(), label='Ответ на')
-    self.fields['post'] = ShortPostChoiseField(queryset=CmsPost.objects.all(), label='Пост')
+    self.fields['parent'] = ShortParentChoiseField(queryset=Comment.objects.all(), label='Reply to')
+    self.fields['post'] = ShortPostChoiseField(queryset=CmsPost.objects.all(), label='Post')
     add_related_field_wrapper(self, 'parent')
     add_related_field_wrapper(self, 'post')
 
@@ -48,5 +48,5 @@ class CustomMPTTModelAdmin(MPTTModelAdmin):
   def get_short_text(self, obj):
     return obj.short_text
 
-  get_short_text.short_description = _('Комментарий')
-  get_post.short_description = _('Пост')
+  get_short_text.short_description = _('Comment')
+  get_post.short_description = _('Post')

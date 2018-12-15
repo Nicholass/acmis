@@ -2,18 +2,18 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "Активация учетной записи" %}
+    {% trans "Account activation" %}
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="current">{% trans "Активация учетной записи" %}</li>
+    <li class="current">{% trans "Account activation" %}</li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Активация учетной записи" %}</h1>
+    <h1>{% trans "Account activation" %}</h1>
 
     {% url 'auth_login' as auth_url %}
     {% blocktrans %}
-        <p>Учетная запись активирована. Теперь вы можете <a href="{{ auth_url }}">войти</a> на сайт.</p>
+        <p>Account activated. Now you can <a href="{{ auth_url }}">login</a>.</p>
     {% endblocktrans %}
 {% endblock %}

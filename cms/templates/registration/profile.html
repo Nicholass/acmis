@@ -5,25 +5,25 @@
 {% load pybb_tags %}
 
 {% block title %}
-    {% trans "Профиль пользователя " %}{{ profile_user }}
+    {% trans "User profile " %}{{ profile_user }}
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="current">{% trans "Профиль пользователя " %}{{ profile_user }}</li>
+    <li class="current">{% trans "User profile " %}{{ profile_user }}</li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Профиль пользователя " %}{{ profile_user }}</h1>
+    <h1>{% trans "User profile " %}{{ profile_user }}</h1>
 
     {% if user.is_authenticated %}
         {% if is_owner or is_moderator %}
             <div class="actions">
                 {% if is_owner %}
-                    <a href="{% url 'profile_edit' %}">{% trans "Редактировать" %}</a>
-                    <a href="{% url 'auth_password_change' %}">{% trans "Изменить пароль" %}</a>
-                    <a href="{% url 'auth_email_change' %}">{% trans "Изменить email" %}</a>
+                    <a href="{% url 'profile_edit' %}">{% trans "Edit" %}</a>
+                    <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>
+                    <a href="{% url 'auth_email_change' %}">{% trans "Change email" %}</a>
                 {% else %}
-                    <a href="{% url 'another_profile_edit' username=profile_user.username %}">{% trans "Редактировать" %}</a>
+                    <a href="{% url 'another_profile_edit' username=profile_user.username %}">{% trans "Edit" %}</a>
                 {% endif %}
             </div>
         {% endif %}
@@ -41,51 +41,51 @@
         </div>
 
         <div>
-            <h2>{% trans "Основная информация" %}</h2>
+            <h2>{% trans "Basic" %}</h2>
             {% if profile_user.first_name or profile_user.last_name %}
-                <p>{% trans "Имя:" %}</p>
+                <p>{% trans "Name:" %}</p>
                 <p>{{ profile_user.first_name }} {{ profile_user.last_name }}</p>
             {% endif %}
             <p>{% trans "E-mail:" %}</p>
             <p><a href="mailto:{{ profile_user.email }}">{{ profile_user.email }}</a></p>
-            <p>{% trans "Зарегистрирован:" %}</p>
+            <p>{% trans "Registration date:" %}</p>
             <p>{{ profile_user.date_joined|date:"d.m.Y" }}</p>
-            <p>Статус:</p>
-            <p>{% if profile_user.profile.online %}Активен{% else %}Не активен{% endif %}</p>
+            <p>Online:</p>
+            <p>{% if profile_user.profile.online %}Yes{% else %}No{% endif %}</p>
             {% if profile_user.last_login %}
-                <p>{% trans "Последний вход:" %}</p>
+                <p>{% trans "Last login:" %}</p>
                 <p>{{ profile_user.last_login|date:"d.m.Y H:i" }}</p>
             {% endif %}
             {% if profile_user.profile.last_activity %}
-                <p>{% trans "Последний визит:" %}</p>
+                <p>{% trans "Last online:" %}</p>
                 <p>{{ profile_user.profile.last_activity|date:"d.m.Y H:i" }}</p>
             {% endif %}
-            <p>{% trans "Активность:" %}</p>
-            <p><a href="{% url 'author_list' author=profile_user.username %}">Публикации пользователя</a></p>
+            <p>{% trans "Activity:" %}</p>
+            <p><a href="{% url 'author_list' author=profile_user.username %}">User publications</a></p>
         </div>
 
         <div>
-            <h2>{% trans "Дополнительная информация" %}</h2>
+            <h2>{% trans "Aditional" %}</h2>
             {% if profile_user.profile.birth_date or  profile_user.profile.location or profile_user.profile.site %}
                 {% if profile_user.profile.birth_date %}
-                    <p>{% trans "Дата рождения:" %}</p>
+                    <p>{% trans "Birth date:" %}</p>
                     <p>{{ profile_user.profile.birth_date }}</p>
                 {% endif %}
                 {% if profile_user.profile.location %}
-                    <p>{% trans "Местоположение:" %}</p>
+                    <p>{% trans "Location:" %}</p>
                     <p>{{ profile_user.profile.location }}</p>
                 {% endif %}
                 {% if profile_user.profile.site %}
-                    <p>{% trans "Сайт:" %}</p>
+                    <p>{% trans "Site:" %}</p>
                     <p><a href="{{ profile_user.profile.site }}">{{ profile_user.profile.site }}</a></p>
                 {% endif %}
             {% else %}
-                <p class="grid-colspan-2">{% trans "Информация не указана" %}</p>
+                <p class="grid-colspan-2">{% trans "Information not specified" %}</p>
             {% endif %}
         </div>
 
          <div>
-             <h2>{% trans "Социальные сети" %}</h2>
+             <h2>{% trans "Social" %}</h2>
              {% if profile_user.profile.facebook or profile_user.profile.vk or profile_user.profile.instagram or profile_user.profile.twitter or profile_user.profile.youtube %}
                  {% if profile_user.profile.facebook %}
                      <p>{% trans "Facebook:" %}</p>
@@ -108,12 +108,12 @@
                      <p><a href="{{ profile_user.profile.youtube }}">{{ profile_user.profile.youtube }}</a></p>
                  {% endif %}
              {% else %}
-                 <p class="grid-colspan-2">{% trans "Информация не указана" %}</p>
+                 <p class="grid-colspan-2">{% trans "Information not specified" %}</p>
              {% endif %}
          </div>
 
          <div>
-             <h2>{% trans "Контакты" %}</h2>
+             <h2>{% trans "Contact" %}</h2>
              {% if profile_user.profile.telegram or profile_user.profile.skype or profile_user.profile.jabber %}
                  {% if profile_user.profile.telegram %}
                      <p>{% trans "Telegram:" %}</p>
@@ -128,29 +128,29 @@
                      <p>{{ profile_user.profile.jabber }}</p>
                  {% endif %}
              {% else %}
-                 <p class="grid-colspan-2">{% trans "Информация не указана" %}</p>
+                 <p class="grid-colspan-2">{% trans "Information not specified" %}</p>
              {% endif %}
          </div>
 
          <div class="userinfo">
-             <h2>{% trans 'Форум' %}</h2>
+             <h2>{% trans 'Forum' %}</h2>
 
              <p>{% trans "Number of topics:" %}</p>
              <p>
                  <a href="{% url 'pybb:user_topics' profile_user.username %}">
-                     {% if user_topics %}{{ user_topics }}{% else %}{% trans "Нет" %}{% endif %}
+                     {% if user_topics %}{{ user_topics }}{% else %}{% trans "No" %}{% endif %}
                  </a>
              </p>
 
              <p>{% trans "Number of posts:" %}</p>
              <p>
                 <a href="{% url 'pybb:user_posts' profile_user.username %}">
-                    {% if profile_user.profile.post_count %}{{ profile_user.profile.post_count }}{% else %}{% trans "Нет" %}{% endif %}
+                    {% if profile_user.profile.post_count %}{{ profile_user.profile.post_count }}{% else %}{% trans "No" %}{% endif %}
                 </a>
              </p>
 
              {% if profile_user.profile.signature or profile_user.profile.signature_html %}
-             <p>{% trans 'Подпись: ' %}</p>
+             <p>{% trans 'Signature: ' %}</p>
              <p>
                  {{ profile_user.profile.signature_html|bleach }}
              </p>

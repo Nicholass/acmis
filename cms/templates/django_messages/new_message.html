@@ -1,7 +1,7 @@
 {% load i18n %}
 
-{% blocktrans with recipient=message.recipient sender=message.sender %}Здравствуйте, {{ recipient }}.
-Вы получили личное сообщение от {{ sender }} со следующим содержанием:{% endblocktrans %}
+{% blocktrans with recipient=message.recipient sender=message.sender %}Hello, {{ recipient }}.
+You have received a personal message from {{ sender }} with the following content:{% endblocktrans %}
 
 {{ message.body|safe }}
 

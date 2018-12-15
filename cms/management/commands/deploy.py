@@ -45,10 +45,10 @@ class Command(BaseCommand):
 
     def create_groups(self):
         groups = [
-            {'name': 'Администраторы'},
-            {'name': 'Модераторы'},
-            {'name': 'Пользователи с доступом к закрытым разделам'},
-            {'name': 'Пользователи'}
+            {'name': 'Administrators'},
+            {'name': 'Moderators'},
+            {'name': 'Users with aditional access'},
+            {'name': 'Users'}
         ]
 
         for args in groups:
@@ -85,7 +85,7 @@ class Command(BaseCommand):
 
     def set_superuser_group(self):
         superusers = User.objects.filter(is_superuser=True)
-        admin_group = Group.objects.get(name='Администраторы')
+        admin_group = Group.objects.get(name='Administrators')
         for user in superusers:
             admin_group.user_set.add(user)
             self.stdout.write('User "%s" added to group "%s"' % (user, admin_group.name))
@@ -93,7 +93,7 @@ class Command(BaseCommand):
 
     def set_permissions(self):
         permissions = {
-            'Администраторы': [
+            'Administrators': [
                 'add_user',
                 'change_user',
                 'delete_user',
@@ -135,7 +135,7 @@ class Command(BaseCommand):
                 'change_emailchange',
                 'delete_emailchange'
             ],
-            "Модераторы": [
+            "Moderators": [
                 'change_user',
                 'add_tag',
                 'change_tag',
@@ -169,7 +169,7 @@ class Command(BaseCommand):
                 'change_emailchange',
                 'delete_emailchange'
             ],
-            "Пользователи с доступом к закрытым разделам": [
+            "Users with aditional access": [
                 'add_comment',
                 'change_comment',
                 'delete_comment',
@@ -185,7 +185,7 @@ class Command(BaseCommand):
                 'delete_binarypost',
                 'add_emailchange'
             ],
-            "Пользователи": [
+            "Users": [
                 'add_comment',
                 'change_comment',
                 'delete_comment',
@@ -217,9 +217,9 @@ class Command(BaseCommand):
 
     def set_restricted_groups(self):
         groups = [
-            "Администраторы",
-            "Модераторы",
-            "Пользователи с доступом к закрытым разделам"
+            "Administrators",
+            "Moderators",
+            "Users with aditional access"
         ]
 
         map_cmscategory = CmsCategory.objects.get(route='map')

@@ -49,24 +49,24 @@
                    {% auth_is_owner post as is_post_owner %}
 
                    {% if perms.cms.change_cmspost and is_post_owner %}
-                       <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Редактировать" %}</a>
+                       <a href="{% url 'post_edit' pk=post.pk %}"><i class="fa fa-edit"></i> {% trans " Edit" %}</a>
                    {% endif %}
                    {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
                    {% if perms.cms.delete_cmspost and is_post_owner %}
-                     <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Вы уверены, что хотите удалить пост? Отменить это действие будет невозможно." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
+                     <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Are you sure you want to delete the post? Cancel this action will be impossible." %}')"><i class="fa fa-trash"></i>{% trans " Delete" %}</a>
                    {% endif %}
                    {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
                    {% if perms.cms.publish_cmspost and is_post_owner %}
                      {% if post.is_public %}
-                       <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Скрыть" %}</a>
+                       <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Hide" %}</a>
                      {% else %}
-                       <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Опубликовать" %}</a>
+                       <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Publish" %}</a>
                      {% endif %}
                    {% endif %}
                    {% if perms.cms.moderate_cmspost %}
                      {% if not post.is_moderated %}
                        {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
-                       <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Одобрить" %}</a>
+                       <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Approve" %}</a>
                      {% endif %}
                    {% endif %}
                  {% endif %}
@@ -102,10 +102,10 @@
              {% if prev or next %}
                  <div class="posts_nav">
                      {% if prev %}
-                         <a href="{% url 'post_detail' pk=prev.pk %}"><i class="fa fa-arrow-left"></i>{% trans " Предыдущий" %}</a>
+                         <a href="{% url 'post_detail' pk=prev.pk %}"><i class="fa fa-arrow-left"></i>{% trans " Previous" %}</a>
                      {% endif %}
                      {% if next %}
-                         <a href="{% url 'post_detail' pk=next.pk %}">{% trans "Следующий " %}<i class="fa fa-arrow-right"></i></a>
+                         <a href="{% url 'post_detail' pk=next.pk %}">{% trans "Next " %}<i class="fa fa-arrow-right"></i></a>
                      {% endif %}
                  </div>
              {% endif %}
@@ -113,7 +113,7 @@
 
         <div class="comments">
             {% if comm_count or perms.cms.add_comment %}
-                <h2>{% trans "Комментарии:" %}</h2>
+                <h2>{% trans "Comments:" %}</h2>
             {% endif %}
 
             {% if comm_count %}{% comment_list %}{% endif %}

@@ -2,18 +2,18 @@
 {% load i18n %}
 
 {% block title %}
-    {% trans "премодерация" %}
+    {% trans "premoderation" %}
 {% endblock %}
 
 {% block breadcrumbs %}
     <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
-    <li class="current">{% trans "Премодерация" %}</li>
+    <li class="current">{% trans "Pre-moderation" %}</li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Ваш пост отправлен на премодерацию" %}</h1>
+    <h1>{% trans "Your post has been sent for pre-moderation." %}</h1>
     <p>
-        {% trans "Публикация постов в данной категории требуют проверки модератором. После проверки ваш пост будет опубликован." %}
+        {% trans "Publication of posts in this category require moderation. After checking your post will be published." %}
     </p>
-    <p><a href="{% url 'category_list' category=category.route %}">{% trans "Вернуться в категорию" %}</a></p>
+    <p><a href="{% url 'category_list' category=category.route %}">{% trans "Return to category" %}</a></p>
 {% endblock %}
