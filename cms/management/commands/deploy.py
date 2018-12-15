@@ -93,6 +93,10 @@ class Command(BaseCommand):
 
     def set_permissions(self):
         permissions = {
+            'Администраторы': [],
+            'Модераторы': [],
+            'Пользователи': [],
+            'Пользователи с доступом к закрытым разделам': [],
             'Administrators': [
                 'add_user',
                 'change_user',
