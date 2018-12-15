@@ -76,7 +76,7 @@ class TextPost(CmsPost):
 class BinaryPost(CmsPost):
   file = ImageField(
     upload_to='uploads/%Y/%m/%d/',
-    verbose_name=_("Файл"),
+    verbose_name=_("File"),
     null=True
   )
   description = models.TextField(max_length=200, verbose_name=_("Description"), blank=True)

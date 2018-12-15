@@ -1,0 +1,3153 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-12-16 00:20+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: cms/admin/__init__.py:46
+msgid "Activation codes sended to selected accounts"
+msgstr ""
+
+#: cms/admin/__init__.py:49
+msgid "Send activation code"
+msgstr ""
+
+#: cms/admin/__init__.py:56 cms/models/cmsprofile.py:66
+msgid "Profile"
+msgstr ""
+
+#: cms/admin/__init__.py:81 cms/models/forum_groups.py:25
+msgid "Forum groups"
+msgstr ""
+
+#: cms/admin/comment.py:51 cms/models/comment.py:30
+#: cms/templates/cms/post_list.html:138
+msgid "Comment"
+msgstr ""
+
+#: cms/admin/comment.py:52 cms/admin/post.py:63 cms/models/cmscategory.py:12
+#: cms/models/cmspost.py:50 cms/models/comment.py:10
+msgid "Post"
+msgstr ""
+
+#: cms/forms/profile.py:23
+#, python-format
+msgid ""
+"<ul><li>Avatar dimensions should be less than %(x)s x %(y)s px.</"
+"li><li>Avatar should be in format JPEG, GIF or PNG</li><li>Avatar size "
+"should be less than %(size)s Kb</li></ul>"
+msgstr ""
+
+#: cms/forms/profile.py:106
+#, python-format
+msgid "Avatar dimensions greater than %(x)s x %(y)s px"
+msgstr ""
+
+#: cms/forms/profile.py:112
+msgid "Avatar format is not JPEG, GIF or PNG"
+msgstr ""
+
+#: cms/forms/profile.py:116
+#, python-format
+msgid "Avatar size greater than %s Kb"
+msgstr ""
+
+#: cms/forms/registration.py:21
+msgid "Captcha"
+msgstr ""
+
+#: cms/forms/registration.py:30
+msgid "User with this email already exists"
+msgstr ""
+
+#: cms/forms/registration.py:36
+msgid "Remember me"
+msgstr ""
+
+#: cms/models/cmscategory.py:11 cms/models/cmspost.py:79
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/files.py:228
+msgid "File"
+msgstr ""
+
+#: cms/models/cmscategory.py:13
+#: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:697
+msgid "Unknown"
+msgstr ""
+
+#: cms/models/cmscategory.py:32
+msgid ""
+"<font color=\"red\">Attention! Changing this field in existing categories "
+"may affect the display of objects!</font>"
+msgstr ""
+
+#: cms/models/cmscategory.py:33
+msgid "Type"
+msgstr ""
+
+#: cms/models/cmscategory.py:35
+msgid "Name"
+msgstr ""
+
+#: cms/models/cmscategory.py:36
+msgid "i18n name"
+msgstr ""
+
+#: cms/models/cmscategory.py:37
+msgid "i18n name plural"
+msgstr ""
+
+#: cms/models/cmscategory.py:40
+msgid "Route"
+msgstr ""
+
+#: cms/models/cmscategory.py:41
+msgid ""
+"<font color=\"red\">Attention! Changing this field in existing categories "
+"may affect the logic!</font>"
+msgstr ""
+
+#: cms/models/cmscategory.py:43
+msgid "Groups with access"
+msgstr ""
+
+#: cms/models/cmscategory.py:46
+msgid "Full access"
+msgstr ""
+
+#: cms/models/cmscategory.py:47
+msgid ""
+"Setting this checkbox disables access control to categories by user group."
+msgstr ""
+
+#: cms/models/cmscategory.py:68 cms/models/cmspost.py:28
+msgid "Category"
+msgstr ""
+
+#: cms/models/cmscategory.py:69
+msgid "Categories"
+msgstr ""
+
+#: cms/models/cmspost.py:26 cms/models/comment.py:11
+msgid "Author"
+msgstr ""
+
+#: cms/models/cmspost.py:27
+msgid "Title"
+msgstr ""
+
+#: cms/models/cmspost.py:30 cms/templates/cms/blog_sidebar.html:7
+msgid "Tags"
+msgstr ""
+
+#: cms/models/cmspost.py:31
+msgid "Creation date"
+msgstr ""
+
+#: cms/models/cmspost.py:33
+msgid "Published"
+msgstr ""
+
+#: cms/models/cmspost.py:34 cms/models/comment.py:16
+msgid "Approved"
+msgstr ""
+
+#: cms/models/cmspost.py:51 cms/templates/pybb/forum_list.html:14
+#: cms/templates/pybb/topic.html:42 cms/templates/pybb/topic_list.html:10
+#: cms/templates/pybb/user_posts.html:7 cms/views/post.py:93
+msgid "Posts"
+msgstr ""
+
+#: cms/models/cmspost.py:53
+msgid "Moderate posts"
+msgstr ""
+
+#: cms/models/cmspost.py:54
+msgid "Publish posts"
+msgstr ""
+
+#: cms/models/cmspost.py:59 cms/models/comment.py:12
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2137
+msgid "Text"
+msgstr ""
+
+#: cms/models/cmspost.py:66
+msgid "Text post"
+msgstr ""
+
+#: cms/models/cmspost.py:67
+msgid "Text posts"
+msgstr ""
+
+#: cms/models/cmspost.py:69
+msgid "Moderate text post"
+msgstr ""
+
+#: cms/models/cmspost.py:82
+msgid "Description"
+msgstr ""
+
+#: cms/models/cmspost.py:85
+msgid "Image post"
+msgstr ""
+
+#: cms/models/cmspost.py:86
+msgid "Images posts"
+msgstr ""
+
+#: cms/models/cmspost.py:88
+msgid "Moderate images posts"
+msgstr ""
+
+#: cms/models/cmsprofile.py:15
+msgid "Avatar"
+msgstr ""
+
+#: cms/models/cmsprofile.py:16
+msgid "Birth date"
+msgstr ""
+
+#: cms/models/cmsprofile.py:17
+msgid "Location"
+msgstr ""
+
+#: cms/models/cmsprofile.py:18
+msgid "Site"
+msgstr ""
+
+#: cms/models/cmsprofile.py:20
+msgid "Facebook"
+msgstr ""
+
+#: cms/models/cmsprofile.py:21
+msgid "Vkontakte"
+msgstr ""
+
+#: cms/models/cmsprofile.py:22
+msgid "Instagram"
+msgstr ""
+
+#: cms/models/cmsprofile.py:23
+msgid "Twitter"
+msgstr ""
+
+#: cms/models/cmsprofile.py:24
+msgid "YouTube"
+msgstr ""
+
+#: cms/models/cmsprofile.py:26
+msgid "Jabber"
+msgstr ""
+
+#: cms/models/cmsprofile.py:27
+msgid "Telegram"
+msgstr ""
+
+#: cms/models/cmsprofile.py:28
+msgid "Skype"
+msgstr ""
+
+#: cms/models/cmsprofile.py:29
+msgid "Last online"
+msgstr ""
+
+#: cms/models/cmsprofile.py:67
+msgid "Profiles"
+msgstr ""
+
+#: cms/models/cmsprofile.py:69
+msgid "Moderate profiles"
+msgstr ""
+
+#: cms/models/comment.py:14
+msgid "Reply to"
+msgstr ""
+
+#: cms/models/comment.py:17
+msgid "Deleted"
+msgstr ""
+
+#: cms/models/comment.py:19
+msgid "Date created"
+msgstr ""
+
+#: cms/models/comment.py:20
+msgid "Dete edited"
+msgstr ""
+
+#: cms/models/comment.py:31
+msgid "Comments"
+msgstr ""
+
+#: cms/models/comment.py:33
+msgid "Moderate comments"
+msgstr ""
+
+#: cms/models/email.py:7
+msgid "Confirmation code"
+msgstr ""
+
+#: cms/models/email.py:8
+msgid "User"
+msgstr ""
+
+#: cms/models/email.py:9
+msgid "New email"
+msgstr ""
+
+#: cms/models/forum_groups.py:12
+msgid "Groups with aditional access to forum"
+msgstr ""
+
+#: cms/models/forum_groups.py:24
+msgid "Forum group"
+msgstr ""
+
+#: cms/models/forum_groups.py:27
+msgid "Change aditional access to forum"
+msgstr ""
+
+#: cms/templates/400.html:5 cms/templates/400.html:9
+msgid "Error 400"
+msgstr ""
+
+#: cms/templates/400.html:13
+msgid "Error 400 - Bad request"
+msgstr ""
+
+#: cms/templates/400.html:15
+msgid "An error occurred while processing the request."
+msgstr ""
+
+#: cms/templates/403.html:5 cms/templates/403.html:9
+msgid "Error 403"
+msgstr ""
+
+#: cms/templates/403.html:13
+msgid "Error 403 - Access denine"
+msgstr ""
+
+#: cms/templates/403.html:15
+msgid "You do not have permission to view this page."
+msgstr ""
+
+#: cms/templates/404.html:5 cms/templates/404.html:9
+msgid "Error 404"
+msgstr ""
+
+#: cms/templates/404.html:13
+msgid "Error 404 - Page not found"
+msgstr ""
+
+#: cms/templates/404.html:15
+msgid "The requested page does not exist."
+msgstr ""
+
+#: cms/templates/500.html:5 cms/templates/500.html:9
+msgid "Error 500"
+msgstr ""
+
+#: cms/templates/500.html:13
+msgid "Error 500 - Internal server error"
+msgstr ""
+
+#: cms/templates/500.html:15
+msgid "While processing the request an error occurred on the server."
+msgstr ""
+
+#: cms/templates/ban.html:5
+msgid "Diggers.kiev.ua"
+msgstr ""
+
+#: cms/templates/ban.html:9
+msgid "Your account has been blocked"
+msgstr ""
+
+#: cms/templates/ban.html:13
+msgid "Your account has been blocked."
+msgstr ""
+
+#: cms/templates/ban.html:15
+msgid "To remove the block, contact the administration."
+msgstr ""
+
+#: cms/templates/cms/base.html:53
+msgid "You logged in as: "
+msgstr ""
+
+#: cms/templates/cms/base.html:55 cms/templates/registration/login.html:4
+#: cms/templates/registration/login.html:7
+#: cms/templates/registration/login.html:11
+#: cms/templates/registration/login.html:36
+#: cms/templates/registration/password_reset_complete.html:16
+msgid "Login"
+msgstr ""
+
+#: cms/templates/cms/base.html:55
+msgid " or "
+msgstr ""
+
+#: cms/templates/cms/base.html:56
+msgid "register"
+msgstr ""
+
+#: cms/templates/cms/base.html:64
+#, python-format
+msgid ""
+"\n"
+"                    You have <a href=\"%(pm_url)s\">%(pm_cout)s personal "
+"messages</a>\n"
+"                "
+msgstr ""
+
+#: cms/templates/cms/base.html:72
+#, python-format
+msgid ""
+"\n"
+"                        <p>You received %(pm_cout)s personal messages</p>\n"
+"                    "
+msgstr ""
+
+#: cms/templates/cms/base.html:75
+#, python-format
+msgid ""
+"\n"
+"                        <p>For view them go to <a href=\"%(pm_url)s\">link</"
+"a></p>\n"
+"                    "
+msgstr ""
+
+#: cms/templates/cms/base.html:92 cms/templates/cms/base.html:94
+#: cms/templates/pybb/breadcrumb.html:4 cms/templates/pybb/breadcrumb.html:6
+msgid "Home"
+msgstr ""
+
+#: cms/templates/cms/base.html:123 cms/templates/pybb/user.html:16
+msgid "Statistics"
+msgstr ""
+
+#: cms/templates/cms/base.html:125
+msgid "Users online:"
+msgstr ""
+
+#: cms/templates/cms/base.html:126
+msgid "Guests online:"
+msgstr ""
+
+#: cms/templates/cms/base.html:128
+msgid "Online now:"
+msgstr ""
+
+#: cms/templates/cms/blog_sidebar.html:17
+msgid "New on forum"
+msgstr ""
+
+#: cms/templates/cms/blog_sidebar.html:24
+msgid "Last comments"
+msgstr ""
+
+#: cms/templates/cms/comment_edit.html:6 cms/templates/cms/comment_edit.html:16
+#: cms/templates/cms/comment_edit.html:26
+msgid "Edit comment"
+msgstr ""
+
+#: cms/templates/cms/comment_edit.html:8 cms/templates/cms/comment_edit.html:18
+msgid "Reply to comment"
+msgstr ""
+
+#: cms/templates/cms/comment_edit.html:28
+msgid "Reply to comment: "
+msgstr ""
+
+#: cms/templates/cms/comment_edit.html:35 cms/templates/cms/comment_form.html:6
+#: cms/templates/cms/post_edit.html:62
+#: cms/templates/django_messages/compose.html:17
+#: cms/templates/registration/password_reset_confirm.html:20
+#: cms/templates/registration/password_reset_form.html:40
+msgid "Send"
+msgstr ""
+
+#: cms/templates/cms/comment_list.html:25
+#: cms/templates/pybb/post_template.html:30
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dateformat.py:72
+msgid "PM"
+msgstr ""
+
+#: cms/templates/cms/comment_list.html:37
+msgid "Edited "
+msgstr ""
+
+#: cms/templates/cms/comment_list.html:46
+#: cms/templates/django_messages/new_message.html:11
+#: cms/templates/django_messages/view.html:25
+msgid "Reply"
+msgstr ""
+
+#: cms/templates/cms/comment_list.html:52
+#: cms/templates/pybb/post_template.html:76 cms/templates/pybb/user.html:51
+#: cms/templates/registration/profile.html:22
+#: cms/templates/registration/profile.html:26
+msgid "Edit"
+msgstr ""
+
+#: cms/templates/cms/comment_list.html:56
+msgid ""
+"Are you sure you want to delete the comment? Cancel this action will be "
+"impossible."
+msgstr ""
+
+#: cms/templates/cms/comment_list.html:58
+#: cms/templates/django_messages/view.html:27
+#: cms/templates/pybb/post_template.html:79
+#: diggers_venv/lib/python3.5/site-packages/django/forms/formsets.py:394
+msgid "Delete"
+msgstr ""
+
+#: cms/templates/cms/comment_list.html:64 cms/templates/pybb/_markitup.html:31
+#: cms/templates/pybb/markup/bbcode_widget.html:22
+#: cms/templates/pybb/markup/markdown_widget.html:33
+msgid "Link"
+msgstr ""
+
+#: cms/templates/cms/last_comments.html:12
+msgid "There are no new comments"
+msgstr ""
+
+#: cms/templates/cms/menu.html:12
+msgid "News"
+msgstr ""
+
+#: cms/templates/cms/menu.html:14
+msgid "Reports"
+msgstr ""
+
+#: cms/templates/cms/menu.html:15
+msgid "Restricted reports"
+msgstr ""
+
+#: cms/templates/cms/menu.html:16
+msgid "Photo"
+msgstr ""
+
+#: cms/templates/cms/menu.html:17
+msgid "Maps"
+msgstr ""
+
+#: cms/templates/cms/menu.html:18
+msgid "Graphics"
+msgstr ""
+
+#: cms/templates/cms/menu.html:19
+msgid "Writing"
+msgstr ""
+
+#: cms/templates/cms/menu.html:21 cms/templates/pybb/forum_list.html:8
+#: cms/templates/registration/profile.html:136
+#: cms/templates/registration/profile_edit.html:74
+msgid "Forum"
+msgstr ""
+
+#: cms/templates/cms/menu.html:22
+msgid "Wiki"
+msgstr ""
+
+#: cms/templates/cms/menu.html:25
+msgid "Control panel"
+msgstr ""
+
+#: cms/templates/cms/menu.html:29 cms/templates/registration/logout.html:5
+#: cms/templates/registration/logout.html:9
+#: cms/templates/registration/logout.html:13
+msgid "Logout"
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:52 cms/templates/cms/post_list.html:193
+msgid " Edit"
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:56 cms/templates/cms/post_list.html:197
+msgid ""
+"Are you sure you want to delete the post? Cancel this action will be "
+"impossible."
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:56 cms/templates/cms/post_list.html:197
+msgid " Delete"
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:61 cms/templates/cms/post_list.html:202
+msgid " Hide"
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:63 cms/templates/cms/post_list.html:204
+msgid " Publish"
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:69 cms/templates/cms/post_list.html:210
+msgid " Approve"
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:105
+msgid " Previous"
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:108
+msgid "Next "
+msgstr ""
+
+#: cms/templates/cms/post_detail.html:116
+msgid "Comments:"
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:8 cms/templates/cms/post_edit.html:37
+#: cms/templates/cms/post_edit.html:48
+msgid "Edit "
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:10 cms/templates/cms/post_edit.html:39
+#: cms/templates/cms/post_edit.html:50 cms/templates/cms/post_list.html:49
+msgid "Add "
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:16
+msgid "picture"
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:18
+msgid "map"
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:20
+msgid "news"
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:22
+msgid "photo"
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:24
+msgid "text"
+msgstr ""
+
+#: cms/templates/cms/post_edit.html:26
+msgid "report"
+msgstr ""
+
+#: cms/templates/cms/post_list.html:39
+#: cms/templates/cms/post_moderation.html:10
+msgid "Pre-moderation"
+msgstr ""
+
+#: cms/templates/cms/post_list.html:56
+msgid "Waiting for moderation "
+msgstr ""
+
+#: cms/templates/cms/post_list.html:71
+msgid ""
+"The site has no materials yet. To add a new material, go to the category."
+msgstr ""
+
+#: cms/templates/cms/post_list.html:73
+msgid "There are no materials in the category yet."
+msgstr ""
+
+#: cms/templates/cms/post_list.html:76
+#, python-format
+msgid ""
+"\n"
+"                    There are no materials in the category yet. You can <a "
+"href=\"%(post_new_url)s\">add</a> first.\n"
+"                    "
+msgstr ""
+
+#: cms/templates/cms/post_list.html:82
+msgid "In the category there are no posts waiting for moderation."
+msgstr ""
+
+#: cms/templates/cms/post_list.html:134
+msgid "comment"
+msgstr ""
+
+#: cms/templates/cms/post_list.html:135 cms/templates/cms/post_list.html:136
+msgid "comments"
+msgstr ""
+
+#: cms/templates/cms/post_moderation.html:5
+msgid "premoderation"
+msgstr ""
+
+#: cms/templates/cms/post_moderation.html:14
+msgid "Your post has been sent for pre-moderation."
+msgstr ""
+
+#: cms/templates/cms/post_moderation.html:16
+msgid ""
+"Publication of posts in this category require moderation. After checking "
+"your post will be published."
+msgstr ""
+
+#: cms/templates/cms/post_moderation.html:18
+msgid "Return to category"
+msgstr ""
+
+#: cms/templates/cms/pybb_last_posts.html:12
+msgid "There are no new posts on the forum."
+msgstr ""
+
+#: cms/templates/django_messages/base.html:9
+#: cms/templates/django_messages/inbox.html:5
+#: cms/templates/django_messages/inbox.html:9
+#: cms/templates/django_messages/inbox.html:13
+#: cms/templates/django_messages/new_message.html:10
+msgid "Inbox"
+msgstr ""
+
+#: cms/templates/django_messages/base.html:10
+msgid "Outbox"
+msgstr ""
+
+#: cms/templates/django_messages/base.html:11
+msgid "New message"
+msgstr ""
+
+#: cms/templates/django_messages/base.html:12
+msgid "Trash"
+msgstr ""
+
+#: cms/templates/django_messages/compose.html:5
+#: cms/templates/django_messages/compose.html:9
+#: cms/templates/django_messages/compose.html:13
+msgid "Compose Message"
+msgstr ""
+
+#: cms/templates/django_messages/inbox.html:17
+#: cms/templates/django_messages/trash.html:17
+#: cms/templates/django_messages/view.html:13
+msgid "Sender"
+msgstr ""
+
+#: cms/templates/django_messages/inbox.html:17
+#: cms/templates/django_messages/outbox.html:17
+#: cms/templates/django_messages/trash.html:17
+#: cms/templates/django_messages/view.html:11
+msgid "Subject"
+msgstr ""
+
+#: cms/templates/django_messages/inbox.html:17
+msgid "Received"
+msgstr ""
+
+#: cms/templates/django_messages/inbox.html:17
+#: cms/templates/django_messages/outbox.html:17
+#: cms/templates/django_messages/trash.html:17
+msgid "Action"
+msgstr ""
+
+#: cms/templates/django_messages/inbox.html:29
+#: cms/templates/django_messages/outbox.html:26
+#: cms/templates/django_messages/trash.html:26
+#: cms/templates/django_messages/view.html:16
+msgid "DATETIME_FORMAT"
+msgstr ""
+
+#: cms/templates/django_messages/inbox.html:30
+#: cms/templates/django_messages/outbox.html:27
+#: cms/templates/pybb/attachments_formset.html:17
+#: cms/templates/pybb/edit_profile.html:27
+#: cms/templates/registration/profile.html:189
+msgid "delete"
+msgstr ""
+
+#: cms/templates/django_messages/inbox.html:36
+#: cms/templates/django_messages/outbox.html:33
+#: cms/templates/django_messages/trash.html:33
+msgid "No messages."
+msgstr ""
+
+#: cms/templates/django_messages/new_message.html:3
+#, python-format
+msgid ""
+"Hello, %(recipient)s.\n"
+"You have received a personal message from %(sender)s with the following "
+"content:"
+msgstr ""
+
+#: cms/templates/django_messages/new_message.html:9
+#, python-format
+msgid "Sent from %(site_url)s"
+msgstr ""
+
+#: cms/templates/django_messages/outbox.html:5
+#: cms/templates/django_messages/outbox.html:9
+#: cms/templates/django_messages/outbox.html:13
+msgid "Sent Messages"
+msgstr ""
+
+#: cms/templates/django_messages/outbox.html:17
+#: cms/templates/django_messages/view.html:17
+msgid "Recipient"
+msgstr ""
+
+#: cms/templates/django_messages/outbox.html:17
+msgid "Sent"
+msgstr ""
+
+#: cms/templates/django_messages/trash.html:5
+#: cms/templates/django_messages/trash.html:9
+#: cms/templates/django_messages/trash.html:13
+msgid "Deleted Messages"
+msgstr ""
+
+#: cms/templates/django_messages/trash.html:17
+#: cms/templates/django_messages/view.html:15
+msgid "Date"
+msgstr ""
+
+#: cms/templates/django_messages/trash.html:27
+msgid "undelete"
+msgstr ""
+
+#: cms/templates/django_messages/trash.html:36
+msgid ""
+"Deleted Messages are removed from the trash at unregular intervals, don't "
+"rely on this feature for long-time storage."
+msgstr ""
+
+#: cms/templates/django_messages/view.html:5
+#: cms/templates/django_messages/view.html:9
+msgid "View Message"
+msgstr ""
+
+#: cms/templates/pybb/_button_forum_subscription.html:1
+msgid "Manage subscription"
+msgstr ""
+
+#: cms/templates/pybb/_button_forum_subscription.html:1
+#: cms/templates/pybb/topic.html:72
+msgid "Subscribe"
+msgstr ""
+
+#: cms/templates/pybb/_button_new_topic.html:1
+#: cms/templates/pybb/add_post.html:5 cms/templates/pybb/add_post.html:32
+msgid "New topic"
+msgstr ""
+
+#: cms/templates/pybb/_button_save.html:1
+#: cms/templates/registration/profile_edit.html:83
+msgid "Save"
+msgstr ""
+
+#: cms/templates/pybb/_button_submit.html:1
+#: cms/templates/pybb/forum_subscription.html:33
+msgid "Submit"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:25
+#: cms/templates/pybb/markup/bbcode_widget.html:16
+#: cms/templates/pybb/markup/markdown_widget.html:24
+msgid "Bold"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:26
+#: cms/templates/pybb/markup/bbcode_widget.html:17
+#: cms/templates/pybb/markup/markdown_widget.html:25
+msgid "Italic"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:27
+#: cms/templates/pybb/markup/bbcode_widget.html:18
+msgid "Underline"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:28
+#: cms/templates/pybb/markup/bbcode_widget.html:19
+msgid "Stroke"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:30
+#: cms/templates/pybb/markup/bbcode_widget.html:21
+#: cms/templates/pybb/markup/markdown_widget.html:32
+msgid "Picture"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:33
+#: cms/templates/pybb/markup/bbcode_widget.html:24
+msgid "Bulleted list"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:34
+#: cms/templates/pybb/markup/bbcode_widget.html:25
+msgid "Numeric list"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:35
+#: cms/templates/pybb/markup/bbcode_widget.html:26
+msgid "List item"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:37
+#: cms/templates/pybb/markup/bbcode_widget.html:28
+#: cms/templates/pybb/markup/markdown_widget.html:35
+msgid "Quotes"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:38
+#: cms/templates/pybb/markup/bbcode_widget.html:29
+msgid "Code"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:40
+#: cms/templates/pybb/markup/bbcode_widget.html:31
+msgid "Clean"
+msgstr ""
+
+#: cms/templates/pybb/_markitup.html:41
+#: cms/templates/pybb/markup/bbcode_widget.html:32
+#: cms/templates/pybb/markup/markdown_widget.html:38
+msgid "Preview"
+msgstr ""
+
+#: cms/templates/pybb/_need_to_login_message.html:2
+#: cms/templates/registration/login.html:42
+#: cms/templates/registration/registration_form.html:42
+msgid "Register"
+msgstr ""
+
+#: cms/templates/pybb/_need_to_login_message.html:2
+#: diggers_venv/lib/python3.5/site-packages/django/utils/text.py:251
+msgid "or"
+msgstr ""
+
+#: cms/templates/pybb/_need_to_login_message.html:2
+msgid "login"
+msgstr ""
+
+#: cms/templates/pybb/_need_to_login_message.html:2
+msgid "to create to post a reply"
+msgstr ""
+
+#: cms/templates/pybb/add_post.html:5 cms/templates/pybb/add_post.html:32
+msgid "New reply"
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:6
+msgid "Add attachments"
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:14
+msgid ""
+"If you need to upload larger files, please use an external storage website."
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:14
+#, python-format
+msgid "(max size: %(max_size)s)"
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:20
+msgid "Reference to your file"
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:20
+msgid "Ref"
+msgstr ""
+
+#. Translators: This is the default suffix added to form field labels
+#: cms/templates/pybb/attachments_formset.html:20
+#: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:5
+#: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:6
+#: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:9
+#: cms/templates/pybb/mail_templates/subscription_email_body.html:4
+#: cms/templates/pybb/mail_templates/subscription_email_body.html:5
+#: cms/templates/pybb/topic.html:88 cms/templates/pybb/topic_list.html:32
+#: diggers_venv/lib/python3.5/site-packages/django/forms/forms.py:87
+msgid ":"
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:22
+msgid "link"
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:22
+msgid "Insert a link to your file inside your post."
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:23
+msgid "image"
+msgstr ""
+
+#: cms/templates/pybb/attachments_formset.html:23
+msgid "Insert your image inside your post."
+msgstr ""
+
+#: cms/templates/pybb/base.html:10
+msgid "Latest posts on forum"
+msgstr ""
+
+#: cms/templates/pybb/base.html:11
+msgid "Latest topics on forum"
+msgstr ""
+
+#: cms/templates/pybb/category.html:4 cms/templates/pybb/forum_list.html:26
+msgid "Hidden"
+msgstr ""
+
+#: cms/templates/pybb/delete_post.html:5
+msgid "Are you sure you want to delete this message?"
+msgstr ""
+
+#: cms/templates/pybb/delete_post.html:12
+msgid "No, take me back"
+msgstr ""
+
+#: cms/templates/pybb/delete_post.html:13
+msgid "Yes, I am sure"
+msgstr ""
+
+#: cms/templates/pybb/edit_post.html:4 cms/templates/pybb/edit_post.html:17
+msgid "Editing the post"
+msgstr ""
+
+#: cms/templates/pybb/edit_privileges.html:5
+#: cms/templates/pybb/edit_privileges.html:8
+msgid "Grant moderator privileges"
+msgstr ""
+
+#: cms/templates/pybb/edit_profile.html:5
+#: cms/templates/pybb/edit_profile.html:8
+msgid "Profile editing"
+msgstr ""
+
+#: cms/templates/pybb/edit_profile.html:20
+#: cms/templates/registration/profile.html:182
+msgid "Subscriptions on topics"
+msgstr ""
+
+#: cms/templates/pybb/forum_list.html:11 cms/templates/pybb/user_topics.html:7
+msgid "Topics"
+msgstr ""
+
+#: cms/templates/pybb/forum_list.html:17
+msgid "Last posts"
+msgstr ""
+
+#: cms/templates/pybb/forum_list.html:43
+msgid "No forums created"
+msgstr ""
+
+#: cms/templates/pybb/forum_list.html:44
+msgid "Add forum now"
+msgstr ""
+
+#: cms/templates/pybb/forum_subscription.html:4
+#, python-format
+msgctxt "page title"
+msgid "%(forum)s - Subscription"
+msgstr ""
+
+#: cms/templates/pybb/forum_subscription.html:14
+#, python-format
+msgctxt "content heading"
+msgid "%(forum)s - Subscription"
+msgstr ""
+
+#: cms/templates/pybb/forum_subscription.html:32
+#: cms/templates/pybb/move_post.html:31
+msgid "Cancel"
+msgstr ""
+
+#: cms/templates/pybb/index.html:17
+msgid "Forum categories are not created"
+msgstr ""
+
+#: cms/templates/pybb/index.html:18
+msgid "Add a category now"
+msgstr ""
+
+#: cms/templates/pybb/index.html:22 cms/templates/pybb/latest_topics.html:5
+#: cms/templates/pybb/latest_topics.html:8
+#: cms/templates/pybb/latest_topics.html:15
+msgid "Last updates in topics"
+msgstr ""
+
+#: cms/templates/pybb/index.html:23
+msgid "Mark all forums as read"
+msgstr ""
+
+#: cms/templates/pybb/latest_topics.html:31
+msgid "Mark all topics as read"
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:4
+#, python-format
+msgid ""
+"User %(username)s post a new topic in forum to which you are subscribed "
+"(%(forum_name)s)."
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:5
+#: cms/templates/pybb/mail_templates/subscription_email_body.html:5
+msgid "Link to topic"
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:6
+msgid "Link to forum"
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:9
+msgid ""
+"If you don't want to receive notifications on new topics in this forum visit "
+"following link"
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/forum_subscription_email_subject.html:2
+msgid "New topic in forum that you subscribed."
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/subscription_email_body-html.html:7
+#: cms/templates/pybb/mail_templates/subscription_email_body.html:3
+#, python-format
+msgid "User %(username)s replied in topic to which you are subscribed."
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/subscription_email_body-html.html:10
+#, python-format
+msgid ""
+"Follow %(link_post_start)sthis link%(link_end)s to see the new post on the "
+"topic %(link_topic_start)s%(topic_name)s%(link_end)s."
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/subscription_email_body-html.html:14
+#, python-format
+msgid ""
+"If you don't want to receive notifications on new posts in this topic visit "
+"%(link_start)sthis link%(link_end)s."
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/subscription_email_body.html:4
+msgid "Link to post"
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/subscription_email_body.html:8
+#, python-format
+msgid ""
+"If you don't want to receive notifications on new messages in this topic "
+"visit following link: %(delete_url_full)s"
+msgstr ""
+
+#: cms/templates/pybb/mail_templates/subscription_email_subject.html:2
+msgid "New answer in topic that you subscribed."
+msgstr ""
+
+#: cms/templates/pybb/markup/bbcode_widget.html:22
+#: cms/templates/pybb/markup/markdown_widget.html:33
+msgid "Your text to link here..."
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:17
+msgid "First Level Heading"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:17
+#: cms/templates/pybb/markup/markdown_widget.html:18
+#: cms/templates/pybb/markup/markdown_widget.html:19
+#: cms/templates/pybb/markup/markdown_widget.html:20
+#: cms/templates/pybb/markup/markdown_widget.html:21
+#: cms/templates/pybb/markup/markdown_widget.html:22
+msgid "Your title here..."
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:18
+msgid "Second Level Heading"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:19
+msgid "Heading 3"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:20
+msgid "Heading 4"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:21
+msgid "Heading 5"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:22
+msgid "Heading 6"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:27
+msgid "Bulleted List"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:28
+msgid "Numeric List"
+msgstr ""
+
+#: cms/templates/pybb/markup/markdown_widget.html:36
+msgid "Code Block / Code"
+msgstr ""
+
+#: cms/templates/pybb/move_post.html:7
+#, python-format
+msgid "Move topic \"%(topic)s\""
+msgstr ""
+
+#: cms/templates/pybb/move_post.html:9
+#, python-format
+msgid "Split posts from topic \"%(topic)s\""
+msgstr ""
+
+#: cms/templates/pybb/move_post.html:17
+#, python-format
+msgid "Starting post by %(author_name)s"
+msgstr ""
+
+#: cms/templates/pybb/move_post.html:32
+msgid "Move this topic"
+msgstr ""
+
+#: cms/templates/pybb/move_post.html:32
+msgid "Split posts"
+msgstr ""
+
+#: cms/templates/pybb/pagination.html:7
+msgid "previous page"
+msgstr ""
+
+#: cms/templates/pybb/pagination.html:21
+msgid "next page"
+msgstr ""
+
+#: cms/templates/pybb/poll.html:4
+msgid "Poll"
+msgstr ""
+
+#: cms/templates/pybb/poll.html:36
+msgid "Cancel my poll vote"
+msgstr ""
+
+#: cms/templates/pybb/poll_edit_form.html:7
+msgid "Poll answers"
+msgstr ""
+
+#: cms/templates/pybb/poll_edit_form.html:20
+msgid "remove answer"
+msgstr ""
+
+#: cms/templates/pybb/poll_edit_form.html:21
+msgid "add answer"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:22
+#, python-format
+msgid "Rank: %(rank)s"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:41
+msgid "Edited"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:82
+msgid "Approve post"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:85
+msgid "Move"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:85
+msgid "Split"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:89 cms/templates/pybb/topic.html:62
+msgid "Admin"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:94
+msgid "quote"
+msgstr ""
+
+#: cms/templates/pybb/post_template.html:95
+msgid "quote selected"
+msgstr ""
+
+#: cms/templates/pybb/topic.html:51
+msgid "Unstick topic"
+msgstr ""
+
+#: cms/templates/pybb/topic.html:53
+msgid "Stick topic"
+msgstr ""
+
+#: cms/templates/pybb/topic.html:57
+msgid "Open topic"
+msgstr ""
+
+#: cms/templates/pybb/topic.html:59
+msgid "Close topic"
+msgstr ""
+
+#: cms/templates/pybb/topic.html:70
+msgid "Unsubscribe"
+msgstr ""
+
+#: cms/templates/pybb/topic.html:88
+msgid "Subscribers"
+msgstr ""
+
+#: cms/templates/pybb/topic_list.html:7
+msgid "Topic"
+msgstr ""
+
+#: cms/templates/pybb/topic_list.html:13
+msgid "Views"
+msgstr ""
+
+#: cms/templates/pybb/topic_list.html:16
+msgid "Last post"
+msgstr ""
+
+#: cms/templates/pybb/topic_list.html:26
+msgid "Go to first unread post"
+msgstr ""
+
+#: cms/templates/pybb/topic_list.html:27
+msgid "Sticky"
+msgstr ""
+
+#: cms/templates/pybb/topic_list.html:28
+msgid "Closed"
+msgstr ""
+
+#: cms/templates/pybb/topic_list.html:32
+msgid "pages"
+msgstr ""
+
+#: cms/templates/pybb/user.html:19
+#, python-format
+msgid "Number of topics: %(count)s"
+msgstr ""
+
+#: cms/templates/pybb/user.html:24
+#, python-format
+msgid "Number of posts: %(count)s"
+msgstr ""
+
+#: cms/templates/pybb/user.html:29
+#, python-format
+msgid "Date of registration: %(date_joined)s "
+msgstr ""
+
+#: cms/templates/pybb/user.html:36 cms/templates/registration/profile.html:161
+msgid "Moderator"
+msgstr ""
+
+#: cms/templates/pybb/user.html:41 cms/templates/registration/profile.html:168
+msgid "Block"
+msgstr ""
+
+#: cms/templates/pybb/user.html:42 cms/templates/registration/profile.html:169
+msgid "Block and delete all messages"
+msgstr ""
+
+#: cms/templates/pybb/user.html:46 cms/templates/registration/profile.html:174
+msgid "Unblock"
+msgstr ""
+
+#: cms/templates/pybb/user_posts.html:12 cms/templates/pybb/user_posts.html:17
+msgid "All posts created by"
+msgstr ""
+
+#: cms/templates/pybb/user_topics.html:12
+#: cms/templates/pybb/user_topics.html:17
+msgid "All topics created by"
+msgstr ""
+
+#: cms/templates/pybb/users.html:8 cms/templates/pybb/users.html:24
+msgid "Users"
+msgstr ""
+
+#: cms/templates/pybb/users.html:12
+msgid "Search"
+msgstr ""
+
+#: cms/templates/registration/activation_complete.html:5
+#: cms/templates/registration/activation_complete.html:9
+#: cms/templates/registration/activation_complete.html:13
+#: cms/templates/registration/activation_failed.html:5
+#: cms/templates/registration/activation_failed.html:9
+msgid "Account activation"
+msgstr ""
+
+#: cms/templates/registration/activation_complete.html:16
+#, python-format
+msgid ""
+"\n"
+"        <p>Account activated. Now you can <a href=\"%(auth_url)s\">login</a>."
+"</p>\n"
+"    "
+msgstr ""
+
+#: cms/templates/registration/activation_email.html:2
+#, python-format
+msgid ""
+"\n"
+"    You have registered at %(site_name)s as %(user)s.\n"
+"    To activate your account, click on the link below.\n"
+msgstr ""
+
+#: cms/templates/registration/activation_email.html:9
+#, python-format
+msgid ""
+"\n"
+"    The link will be active %(expiration_days)s days.\n"
+"\n"
+"    If you have not registered on the site - just ignore this email.\n"
+msgstr ""
+
+#: cms/templates/registration/activation_email_subject.txt:1
+msgid "Account activation on diggers.kiev.ua"
+msgstr ""
+
+#: cms/templates/registration/activation_failed.html:13
+msgid "Activation"
+msgstr ""
+
+#: cms/templates/registration/activation_failed.html:14
+msgid "The link you clicked on is not correct. Account activation failed."
+msgstr ""
+
+#: cms/templates/registration/email_change_confirm.html:5
+#: cms/templates/registration/email_change_confirm.html:9
+#: cms/templates/registration/email_change_confirm.html:13
+#: cms/templates/registration/email_change_done.html:5
+#: cms/templates/registration/email_change_done.html:9
+#: cms/templates/registration/email_change_done.html:13
+#: cms/templates/registration/email_change_form.html:5
+#: cms/templates/registration/email_change_form.html:9
+#: cms/templates/registration/email_change_form.html:13
+#: cms/templates/registration/email_change_form.html:41
+#: cms/templates/registration/profile.html:24
+msgid "Change email"
+msgstr ""
+
+#: cms/templates/registration/email_change_confirm.html:16
+msgid "Email has been changed"
+msgstr ""
+
+#: cms/templates/registration/email_change_confirm.html:18
+msgid "The link you clicked on is not correct. Change email failed."
+msgstr ""
+
+#: cms/templates/registration/email_change_done.html:14
+msgid ""
+"An email with instructions on how to change the email has been sent to the "
+"specified email address."
+msgstr ""
+
+#: cms/templates/registration/email_change_email.html:3
+#, python-format
+msgid ""
+"\n"
+"    You have requested to change the email address %(site_name)s to this "
+"address.\n"
+"    To complete the procedure, click on the link.\n"
+"\n"
+"    If you did not request a change in email, just ignore this email.\n"
+msgstr ""
+
+#: cms/templates/registration/email_change_subject.txt:1
+msgid "Change email on diggers.kiev.ua"
+msgstr ""
+
+#: cms/templates/registration/login.html:41
+msgid "Forgot password?"
+msgstr ""
+
+#: cms/templates/registration/logout.html:15
+msgid "Successful logout from the site."
+msgstr ""
+
+#: cms/templates/registration/password_change_done.html:5
+#: cms/templates/registration/password_change_done.html:9
+#: cms/templates/registration/password_change_done.html:13
+#: cms/templates/registration/password_change_form.html:5
+#: cms/templates/registration/password_change_form.html:9
+#: cms/templates/registration/password_change_form.html:13
+#: cms/templates/registration/password_change_form.html:42
+#: cms/templates/registration/profile.html:23
+msgid "Change password"
+msgstr ""
+
+#: cms/templates/registration/password_change_done.html:14
+msgid "Password successfully changed"
+msgstr ""
+
+#: cms/templates/registration/password_reset_complete.html:5
+#: cms/templates/registration/password_reset_complete.html:9
+#: cms/templates/registration/password_reset_complete.html:13
+#: cms/templates/registration/password_reset_confirm.html:5
+#: cms/templates/registration/password_reset_confirm.html:9
+#: cms/templates/registration/password_reset_confirm.html:13
+#: cms/templates/registration/password_reset_done.html:5
+#: cms/templates/registration/password_reset_done.html:9
+#: cms/templates/registration/password_reset_done.html:13
+#: cms/templates/registration/password_reset_form.html:5
+#: cms/templates/registration/password_reset_form.html:9
+#: cms/templates/registration/password_reset_form.html:13
+msgid "Password recovery"
+msgstr ""
+
+#: cms/templates/registration/password_reset_complete.html:15
+msgid "Password successfully reset"
+msgstr ""
+
+#: cms/templates/registration/password_reset_confirm.html:23
+msgid "The link you clicked on is not correct. Password recovery failed."
+msgstr ""
+
+#: cms/templates/registration/password_reset_done.html:14
+msgid ""
+"A letter with instructions for password recovery has been sent to your e-"
+"mail address."
+msgstr ""
+
+#: cms/templates/registration/password_reset_email.html:3
+#, python-format
+msgid ""
+"\n"
+"    You requested password recovery on site %(site_name)s.\n"
+"    To complete the procedure, click on the link.\n"
+"\n"
+"    If you did not request a password reset, simply ignore this email.\n"
+msgstr ""
+
+#: cms/templates/registration/password_reset_subject.txt:1
+msgid "Password recovery on diggers.kiev.ua"
+msgstr ""
+
+#: cms/templates/registration/profile.html:8
+#: cms/templates/registration/profile.html:12
+#: cms/templates/registration/profile.html:16
+msgid "User profile "
+msgstr ""
+
+#: cms/templates/registration/profile.html:44
+#: cms/templates/registration/profile_edit.html:21
+msgid "Basic"
+msgstr ""
+
+#: cms/templates/registration/profile.html:46
+msgid "Name:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:49
+msgid "E-mail:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:51
+msgid "Registration date:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:56
+msgid "Last login:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:60
+msgid "Last online:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:63
+msgid "Activity:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:68
+msgid "Aditional"
+msgstr ""
+
+#: cms/templates/registration/profile.html:71
+msgid "Birth date:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:75
+msgid "Location:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:79
+msgid "Site:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:83
+#: cms/templates/registration/profile.html:111
+#: cms/templates/registration/profile.html:131
+msgid "Information not specified"
+msgstr ""
+
+#: cms/templates/registration/profile.html:88
+#: cms/templates/registration/profile_edit.html:70
+msgid "Social"
+msgstr ""
+
+#: cms/templates/registration/profile.html:91
+msgid "Facebook:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:95
+msgid "Vkontakte:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:99
+msgid "Instagram:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:103
+msgid "Twitter:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:107
+msgid "Youtube:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:116
+#: cms/templates/registration/profile_edit.html:66
+msgid "Contact"
+msgstr ""
+
+#: cms/templates/registration/profile.html:119
+msgid "Telegram:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:123
+msgid "Skype:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:127
+msgid "Jabber:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:138
+msgid "Number of topics:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:141
+#: cms/templates/registration/profile.html:148
+#: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:699
+msgid "No"
+msgstr ""
+
+#: cms/templates/registration/profile.html:145
+msgid "Number of posts:"
+msgstr ""
+
+#: cms/templates/registration/profile.html:153
+msgid "Signature: "
+msgstr ""
+
+#: cms/templates/registration/profile_edit.html:5
+#: cms/templates/registration/profile_edit.html:9
+msgid "Edit profile"
+msgstr ""
+
+#: cms/templates/registration/profile_edit.html:13
+msgid "Edit user profile "
+msgstr ""
+
+#: cms/templates/registration/profile_edit.html:46
+msgid "User profile"
+msgstr ""
+
+#: cms/templates/registration/registration_closed.html:5
+#: cms/templates/registration/registration_closed.html:9
+#: cms/templates/registration/registration_closed.html:13
+#: cms/templates/registration/registration_complete.html:5
+#: cms/templates/registration/registration_complete.html:9
+#: cms/templates/registration/registration_form.html:5
+#: cms/templates/registration/registration_form.html:9
+#: cms/templates/registration/registration_rules.html:5
+#: cms/templates/registration/registration_rules.html:9
+msgid "Registration"
+msgstr ""
+
+#: cms/templates/registration/registration_closed.html:14
+msgid "Currently, the registration of new users is disabled."
+msgstr ""
+
+#: cms/templates/registration/registration_complete.html:13
+msgid "Registration completed"
+msgstr ""
+
+#: cms/templates/registration/registration_complete.html:14
+msgid ""
+"A confirmation code has been sent to this e-mail. To complete the "
+"registration, click on the link in the letter."
+msgstr ""
+
+#: cms/templates/registration/registration_form.html:13
+#: cms/templates/registration/registration_rules.html:13
+msgid "Account registration"
+msgstr ""
+
+#: cms/templates/registration/registration_rules.html:14
+msgid "To register, you must read and agree to the rules below."
+msgstr ""
+
+#: cms/templates/registration/registration_rules.html:16
+msgid "Site rules"
+msgstr ""
+
+#: cms/templates/registration/registration_rules.html:26
+msgid "I agree with the above rules"
+msgstr ""
+
+#: cms/templates/registration/registration_rules.html:30
+msgid "Next"
+msgstr ""
+
+#: cms/templates/wiki/base.html:8
+msgid "To site"
+msgstr ""
+
+#: cms/validators.py:192
+msgid "Registration email of this mail service is prohibited."
+msgstr ""
+
+#: cms/validators.py:205
+msgid "This username is reserved."
+msgstr ""
+
+#: cms/validators.py:220
+msgid "This username cannot be registered."
+msgstr ""
+
+#: cms/validators.py:239
+msgid "This email cannot be registered."
+msgstr ""
+
+#: cms/views/post.py:84
+msgid "All posts"
+msgstr ""
+
+#: cms/views/post.py:86
+#, python-format
+msgid "Posts of user: %s"
+msgstr ""
+
+#: cms/views/post.py:96
+#, python-format
+msgid "%s by tags"
+msgstr ""
+
+#: cms/views/post.py:98
+#, python-format
+msgid "%(title)s #%(tag)s"
+msgstr ""
+
+#: cms/views/rss.py:8
+msgid "Posts feed"
+msgstr ""
+
+#: cms/views/rss.py:10
+msgid "Last site posts"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/captcha/fields.py:18
+msgid "Incorrect, please try again."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/captcha/fields.py:19
+msgid "Error verifying input, please try again."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/contrib/messages/apps.py:7
+msgid "Messages"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/contrib/sitemaps/apps.py:7
+msgid "Site Maps"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/contrib/staticfiles/apps.py:7
+msgid "Static Files"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/contrib/syndication/apps.py:7
+msgid "Syndication"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/paginator.py:43
+msgid "That page number is not an integer"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/paginator.py:45
+msgid "That page number is less than 1"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/paginator.py:50
+msgid "That page contains no results"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:34
+msgid "Enter a valid value."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:107
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:668
+msgid "Enter a valid URL."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:160
+msgid "Enter a valid integer."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:171
+msgid "Enter a valid email address."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:245
+msgid ""
+"Enter a valid 'slug' consisting of letters, numbers, underscores or hyphens."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:252
+msgid ""
+"Enter a valid 'slug' consisting of Unicode letters, numbers, underscores, or "
+"hyphens."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:257
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:277
+msgid "Enter a valid IPv4 address."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:262
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:278
+msgid "Enter a valid IPv6 address."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:272
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:276
+msgid "Enter a valid IPv4 or IPv6 address."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:308
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1131
+msgid "Enter only digits separated by commas."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:314
+#, python-format
+msgid "Ensure this value is %(limit_value)s (it is %(show_value)s)."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:345
+#, python-format
+msgid "Ensure this value is less than or equal to %(limit_value)s."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:354
+#, python-format
+msgid "Ensure this value is greater than or equal to %(limit_value)s."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:364
+#, python-format
+msgid ""
+"Ensure this value has at least %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at least %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:379
+#, python-format
+msgid ""
+"Ensure this value has at most %(limit_value)d character (it has "
+"%(show_value)d)."
+msgid_plural ""
+"Ensure this value has at most %(limit_value)d characters (it has "
+"%(show_value)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:399
+#, python-format
+msgid "Ensure that there are no more than %(max)s digit in total."
+msgid_plural "Ensure that there are no more than %(max)s digits in total."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:404
+#, python-format
+msgid "Ensure that there are no more than %(max)s decimal place."
+msgid_plural "Ensure that there are no more than %(max)s decimal places."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:409
+#, python-format
+msgid ""
+"Ensure that there are no more than %(max)s digit before the decimal point."
+msgid_plural ""
+"Ensure that there are no more than %(max)s digits before the decimal point."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/core/validators.py:463
+#, python-format
+msgid ""
+"File extension '%(extension)s' is not allowed. Allowed extensions are: "
+"'%(allowed_extensions)s'."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/base.py:1208
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:744
+msgid "and"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/base.py:1210
+#, python-format
+msgid "%(model_name)s with this %(field_labels)s already exists."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:116
+#, python-format
+msgid "Value %(value)r is not a valid choice."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:117
+msgid "This field cannot be null."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:118
+msgid "This field cannot be blank."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:119
+#, python-format
+msgid "%(model_name)s with this %(field_label)s already exists."
+msgstr ""
+
+#. Translators: The 'lookup_type' is one of 'date', 'year' or 'month'.
+#. Eg: "Title must be unique for pub_date year"
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:123
+#, python-format
+msgid ""
+"%(field_label)s must be unique for %(date_field_label)s %(lookup_type)s."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:140
+#, python-format
+msgid "Field of type: %(field_type)s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:901
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1809
+msgid "Integer"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:905
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1807
+#, python-format
+msgid "'%(value)s' value must be an integer."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:978
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1878
+msgid "Big (8 byte) integer"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:990
+#, python-format
+msgid "'%(value)s' value must be either True or False."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:992
+msgid "Boolean (Either True or False)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1058
+#, python-format
+msgid "String (up to %(max_length)s)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1115
+msgid "Comma-separated integers"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1172
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid date format. It must be in YYYY-MM-DD "
+"format."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1174
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1319
+#, python-format
+msgid ""
+"'%(value)s' value has the correct format (YYYY-MM-DD) but it is an invalid "
+"date."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1177
+msgid "Date (without time)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1317
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid format. It must be in YYYY-MM-DD HH:MM[:ss[."
+"uuuuuu]][TZ] format."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1321
+#, python-format
+msgid ""
+"'%(value)s' value has the correct format (YYYY-MM-DD HH:MM[:ss[.uuuuuu]]"
+"[TZ]) but it is an invalid date/time."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1325
+msgid "Date (with time)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1475
+#, python-format
+msgid "'%(value)s' value must be a decimal number."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1477
+msgid "Decimal number"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1628
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid format. It must be in [DD] [HH:[MM:]]ss[."
+"uuuuuu] format."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1631
+msgid "Duration"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1683
+msgid "Email address"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1707
+msgid "File path"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1773
+#, python-format
+msgid "'%(value)s' value must be a float."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1775
+msgid "Floating point number"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1893
+msgid "IPv4 address"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:1924
+msgid "IP address"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2006
+#, python-format
+msgid "'%(value)s' value must be either None, True or False."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2008
+msgid "Boolean (Either True, False or None)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2071
+msgid "Positive integer"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2083
+msgid "Positive small integer"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2096
+#, python-format
+msgid "Slug (up to %(max_length)s)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2130
+msgid "Small integer"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2163
+#, python-format
+msgid ""
+"'%(value)s' value has an invalid format. It must be in HH:MM[:ss[.uuuuuu]] "
+"format."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2165
+#, python-format
+msgid ""
+"'%(value)s' value has the correct format (HH:MM[:ss[.uuuuuu]]) but it is an "
+"invalid time."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2168
+msgid "Time"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2296
+msgid "URL"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2319
+msgid "Raw binary data"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2366
+#, python-format
+msgid "'%(value)s' is not a valid UUID."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/files.py:391
+msgid "Image"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/related.py:788
+#, python-format
+msgid "%(model)s instance with %(field)s %(value)r does not exist."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/related.py:790
+msgid "Foreign Key (type determined by related field)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/related.py:1029
+msgid "One-to-one relationship"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/related.py:1104
+#, python-format
+msgid "%(from)s-%(to)s relationship"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/related.py:1105
+#, python-format
+msgid "%(from)s-%(to)s relationships"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/related.py:1147
+msgid "Many-to-many relationship"
+msgstr ""
+
+#. Translators: If found as last label character, these punctuation
+#. characters will prevent the default label_suffix to be appended to the label
+#: diggers_venv/lib/python3.5/site-packages/django/forms/boundfield.py:181
+msgid ":?.!"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:56
+msgid "This field is required."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:257
+msgid "Enter a whole number."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:302
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:339
+msgid "Enter a number."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:417
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:1140
+msgid "Enter a valid date."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:441
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:1141
+msgid "Enter a valid time."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:463
+msgid "Enter a valid date/time."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:492
+msgid "Enter a valid duration."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:546
+msgid "No file was submitted. Check the encoding type on the form."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:547
+msgid "No file was submitted."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:548
+msgid "The submitted file is empty."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:550
+#, python-format
+msgid "Ensure this filename has at most %(max)d character (it has %(length)d)."
+msgid_plural ""
+"Ensure this filename has at most %(max)d characters (it has %(length)d)."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:553
+msgid "Please either submit a file or check the clear checkbox, not both."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:616
+#: diggers_venv/lib/python3.5/site-packages/sorl/thumbnail/fields.py:45
+msgid ""
+"Upload a valid image. The file you uploaded was either not an image or a "
+"corrupted image."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:771
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:867
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:1258
+#, python-format
+msgid "Select a valid choice. %(value)s is not one of the available choices."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:868
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:983
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:1257
+msgid "Enter a list of values."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:984
+msgid "Enter a complete value."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/fields.py:1199
+msgid "Enter a valid UUID."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/forms.py:213
+#, python-format
+msgid "(Hidden field %(name)s) %(error)s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/formsets.py:97
+msgid "ManagementForm data is missing or has been tampered with"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/formsets.py:355
+#, python-format
+msgid "Please submit %d or fewer forms."
+msgid_plural "Please submit %d or fewer forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/formsets.py:362
+#, python-format
+msgid "Please submit %d or more forms."
+msgid_plural "Please submit %d or more forms."
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/formsets.py:390
+#: diggers_venv/lib/python3.5/site-packages/django/forms/formsets.py:392
+msgid "Order"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:739
+#, python-format
+msgid "Please correct the duplicate data for %(field)s."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:743
+#, python-format
+msgid "Please correct the duplicate data for %(field)s, which must be unique."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:749
+#, python-format
+msgid ""
+"Please correct the duplicate data for %(field_name)s which must be unique "
+"for the %(lookup)s in %(date_field)s."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:758
+msgid "Please correct the duplicate values below."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:1088
+msgid "The inline foreign key did not match the parent instance primary key."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:1149
+msgid "Select a valid choice. That choice is not one of the available choices."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/models.py:1260
+#, python-format
+msgid "\"%(pk)s\" is not a valid value for a primary key."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/utils.py:172
+#, python-format
+msgid ""
+"%(datetime)s couldn't be interpreted in time zone %(current_timezone)s; it "
+"may be ambiguous or it may not exist."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:377
+msgid "Clear"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:378
+msgid "Currently"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:379
+msgid "Change"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:698
+msgid "Yes"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:849
+msgid "yes,no,maybe"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:878
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:895
+#, python-format
+msgid "%(size)d byte"
+msgid_plural "%(size)d bytes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:897
+#, python-format
+msgid "%s KB"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:899
+#, python-format
+msgid "%s MB"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:901
+#, python-format
+msgid "%s GB"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:903
+#, python-format
+msgid "%s TB"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/template/defaultfilters.py:905
+#, python-format
+msgid "%s PB"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dateformat.py:66
+msgid "p.m."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dateformat.py:67
+msgid "a.m."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dateformat.py:73
+msgid "AM"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dateformat.py:158
+msgid "midnight"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dateformat.py:160
+msgid "noon"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:6
+msgid "Monday"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:6
+msgid "Tuesday"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:6
+msgid "Wednesday"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:6
+msgid "Thursday"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:6
+msgid "Friday"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:7
+msgid "Saturday"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:7
+msgid "Sunday"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:10
+msgid "Mon"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:10
+msgid "Tue"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:10
+msgid "Wed"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:10
+msgid "Thu"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:10
+msgid "Fri"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:11
+msgid "Sat"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:11
+msgid "Sun"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:18
+msgid "January"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:18
+msgid "February"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:18
+msgid "March"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:18
+msgid "April"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:18
+msgid "May"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:18
+msgid "June"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:19
+msgid "July"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:19
+msgid "August"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:19
+msgid "September"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:19
+msgid "October"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:19
+msgid "November"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:20
+msgid "December"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:23
+msgid "jan"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:23
+msgid "feb"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:23
+msgid "mar"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:23
+msgid "apr"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:23
+msgid "may"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:23
+msgid "jun"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:24
+msgid "jul"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:24
+msgid "aug"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:24
+msgid "sep"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:24
+msgid "oct"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:24
+msgid "nov"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:24
+msgid "dec"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:31
+msgctxt "abbrev. month"
+msgid "Jan."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:32
+msgctxt "abbrev. month"
+msgid "Feb."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:33
+msgctxt "abbrev. month"
+msgid "March"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:34
+msgctxt "abbrev. month"
+msgid "April"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:35
+msgctxt "abbrev. month"
+msgid "May"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:36
+msgctxt "abbrev. month"
+msgid "June"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:37
+msgctxt "abbrev. month"
+msgid "July"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:38
+msgctxt "abbrev. month"
+msgid "Aug."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:39
+msgctxt "abbrev. month"
+msgid "Sept."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:40
+msgctxt "abbrev. month"
+msgid "Oct."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:41
+msgctxt "abbrev. month"
+msgid "Nov."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:42
+msgctxt "abbrev. month"
+msgid "Dec."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:45
+msgctxt "alt. month"
+msgid "January"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:46
+msgctxt "alt. month"
+msgid "February"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:47
+msgctxt "alt. month"
+msgid "March"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:48
+msgctxt "alt. month"
+msgid "April"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:49
+msgctxt "alt. month"
+msgid "May"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:50
+msgctxt "alt. month"
+msgid "June"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:51
+msgctxt "alt. month"
+msgid "July"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:52
+msgctxt "alt. month"
+msgid "August"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:53
+msgctxt "alt. month"
+msgid "September"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:54
+msgctxt "alt. month"
+msgid "October"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:55
+msgctxt "alt. month"
+msgid "November"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/dates.py:56
+msgctxt "alt. month"
+msgid "December"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/ipv6.py:12
+msgid "This is not a valid IPv6 address."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/text.py:81
+#, python-format
+msgctxt "String to return when truncating text"
+msgid "%(truncated_text)s..."
+msgstr ""
+
+#. Translators: This string is used as a separator between list elements
+#: diggers_venv/lib/python3.5/site-packages/django/utils/text.py:270
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:71
+msgid ", "
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:11
+#, python-format
+msgid "%d year"
+msgid_plural "%d years"
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:12
+#, python-format
+msgid "%d month"
+msgid_plural "%d months"
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:13
+#, python-format
+msgid "%d week"
+msgid_plural "%d weeks"
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:14
+#, python-format
+msgid "%d day"
+msgid_plural "%d days"
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:15
+#, python-format
+msgid "%d hour"
+msgid_plural "%d hours"
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:16
+#, python-format
+msgid "%d minute"
+msgid_plural "%d minutes"
+msgstr[0] ""
+msgstr[1] ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/utils/timesince.py:60
+msgid "0 minutes"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/csrf.py:109
+msgid "Forbidden"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/csrf.py:110
+msgid "CSRF verification failed. Request aborted."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/csrf.py:114
+msgid ""
+"You are seeing this message because this HTTPS site requires a 'Referer "
+"header' to be sent by your Web browser, but none was sent. This header is "
+"required for security reasons, to ensure that your browser is not being "
+"hijacked by third parties."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/csrf.py:119
+msgid ""
+"If you have configured your browser to disable 'Referer' headers, please re-"
+"enable them, at least for this site, or for HTTPS connections, or for 'same-"
+"origin' requests."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/csrf.py:124
+msgid ""
+"You are seeing this message because this site requires a CSRF cookie when "
+"submitting forms. This cookie is required for security reasons, to ensure "
+"that your browser is not being hijacked by third parties."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/csrf.py:129
+msgid ""
+"If you have configured your browser to disable cookies, please re-enable "
+"them, at least for this site, or for 'same-origin' requests."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/csrf.py:134
+msgid "More information is available with DEBUG=True."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/debug.py:520
+msgid "Welcome to Django"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/debug.py:521
+msgid "It worked!"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/debug.py:522
+msgid "Congratulations on your first Django-powered page."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/debug.py:524
+msgid ""
+"Next, start your first app by running <code>python manage.py startapp "
+"[app_label]</code>."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/debug.py:527
+msgid ""
+"You're seeing this message because you have <code>DEBUG = True</code> in "
+"your Django settings file and you haven't configured any URLs. Get to work!"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:48
+msgid "No year specified"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:72
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:132
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:249
+msgid "Date out of range"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:107
+msgid "No month specified"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:169
+msgid "No day specified"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:225
+msgid "No week specified"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:387
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:415
+#, python-format
+msgid "No %(verbose_name_plural)s available"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:669
+#, python-format
+msgid ""
+"Future %(verbose_name_plural)s not available because %(class_name)s."
+"allow_future is False."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/dates.py:703
+#, python-format
+msgid "Invalid date string '%(datestr)s' given format '%(format)s'"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/detail.py:55
+#, python-format
+msgid "No %(verbose_name)s found matching the query"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/list.py:77
+msgid "Page is not 'last', nor can it be converted to an int."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/list.py:82
+#, python-format
+msgid "Invalid page (%(page_number)s): %(message)s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/generic/list.py:172
+#, python-format
+msgid "Empty list and '%(class_name)s.allow_empty' is False."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/static.py:44
+msgid "Directory indexes are not allowed here."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/static.py:46
+#, python-format
+msgid "\"%(path)s\" does not exist"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django/views/static.py:86
+#, python-format
+msgid "Index of %(directory)s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/admin.py:21
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:82
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:217
+msgid "user"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/admin.py:25
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:88
+msgid "interval"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/apps.py:9
+msgid "Django Nyt"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:28
+msgid "unique key"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:35
+msgid "optional label"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:52
+msgid "type"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:53
+msgid "types"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:94
+msgid "Default for new subscriptions"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:98
+#, python-format
+msgid "Settings for %s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:104
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:105
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:155
+msgid "settings"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:115
+msgid "At minimum one default setting must exist for the user"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:161
+msgid "notification type"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:169
+msgid "Leave this blank to subscribe to any kind of object"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:170
+msgid "object ID"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:175
+msgid "send emails"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:183
+msgid "latest notification"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:188
+#, python-format
+msgid "Subscription for: %s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:194
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:207
+msgid "subscription"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:195
+msgid "subscriptions"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:225
+msgid "link for notification"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:241
+msgid "occurrences"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:243
+msgid ""
+"If the same notification was fired multiple times with no intermediate "
+"notifications"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:325
+msgid "notification"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/models.py:326
+msgid "notifications"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/settings.py:23
+msgid "You have new notifications"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/settings.py:46
+msgid "instantly"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/settings.py:47
+msgid "daily"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/settings.py:48
+msgid "weekly"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/utils.py:44
+msgid "You supplied a target_object that's not an instance of a django Model."
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/django_nyt/views.py:69
+#, python-format
+msgid "%d times"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:313
+msgid "usage: "
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:821
+msgid ".__call__() not defined"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1105
+#, python-format
+msgid "unknown parser %r (choices: %s)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1146
+#, python-format
+msgid "argument \"-\" with mode %r"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1349
+#, python-format
+msgid "cannot merge actions - two groups are named %r"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1387
+msgid "'required' is an invalid argument for positionals"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1407
+#, python-format
+msgid "invalid option string %r: must start with a character %r"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1428
+#, python-format
+msgid "dest= is required for options like %r"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1445
+#, python-format
+msgid "invalid conflict_resolution value: %r"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1463
+#, python-format
+msgid "conflicting option string(s): %s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1526
+msgid "mutually exclusive arguments must be optional"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1596
+msgid "positional arguments"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1597
+msgid "optional arguments"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1615
+msgid "show this help message and exit"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1621
+msgid "show program's version number and exit"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1653
+msgid "cannot have multiple subparser arguments"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1705
+#, python-format
+msgid "unrecognized arguments: %s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1802
+#, python-format
+msgid "not allowed with argument %s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1848
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1862
+#, python-format
+msgid "ignored explicit argument %r"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1952
+msgid "too few arguments"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1959
+#, python-format
+msgid "argument %s is required"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:1973
+#, python-format
+msgid "one of the arguments %s is required"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2019
+msgid "expected one argument"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2020
+msgid "expected at most one argument"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2021
+msgid "expected at least one argument"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2023
+#, python-format
+msgid "expected %s argument(s)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2080
+#, python-format
+msgid "ambiguous option: %s could match %s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2142
+#, python-format
+msgid "unexpected option string: %s"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2243
+#, python-format
+msgid "%r is not callable"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2259
+#, python-format
+msgid "invalid %s value: %r"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2269
+#, python-format
+msgid "invalid choice: %r (choose from %s)"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/gunicorn/argparse_compat.py:2362
+#, python-format
+msgid "%s: error: %s\n"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/ipware/apps.py:10
+msgid "ipware app"
+msgstr ""
+
+#: diggers_venv/lib/python3.5/site-packages/tracking_analyzer/apps.py:9
+msgid "Django Tracking Analyzer"
+msgstr ""

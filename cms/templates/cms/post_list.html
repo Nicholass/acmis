@@ -194,7 +194,7 @@
               {% endif %}
               {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
               {% if perms.cms.delete_cmspost and is_post_owner %}
-                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Are you sure you want to delete the post? Cancel this action will be impossible." %}')"><i class="fa fa-trash"></i>{% trans " Удалить" %}</a>
+                <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Are you sure you want to delete the post? Cancel this action will be impossible." %}')"><i class="fa fa-trash"></i>{% trans " Delete" %}</a>
               {% endif %}
               {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
               {% if perms.cms.publish_cmspost and is_post_owner %}
