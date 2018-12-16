@@ -296,6 +296,7 @@ PREMODERATION_GROUPS = ['Users', 'Users with aditional access']
 SESSION_SAVE_EVERY_REQUEST = True
 
 ALLOWED_HOSTS = [
+    'www.diggers.kiev.ua',
     'diggers.kiev.ua',
     '159.65.127.90',
     '127.0.0.1',
