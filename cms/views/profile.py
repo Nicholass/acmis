@@ -37,7 +37,8 @@ def owner_profile(request):
     context = {
         'profile_user': user,
         'is_owner': True,
-        'is_moderator': False
+        'is_moderator': False,
+        'base_path': settings.BASE_DIR
     }
 
     return render(request, 'registration/profile.html', context)
