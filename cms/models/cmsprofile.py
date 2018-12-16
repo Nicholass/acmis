@@ -5,6 +5,7 @@ from django.db.models.signals import post_save
 from django.utils.encoding import force_text
 from django.dispatch import receiver
 from django.conf import settings
+from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User, Group
 from pybb.profiles import PybbProfile
@@ -50,6 +51,9 @@ class CmsProfile(PybbProfile):
                 return self.user.get_username()
         except Exception:
             return force_text(self)
+
+    def get_absolute_url(self):
+        return reverse('another_profile', kwargs={'username': self.user.username})
 
     '''
     @receiver(post_save, sender=User)

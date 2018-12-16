@@ -592,6 +592,7 @@ msgstr "Письменство"
 #: cms/templates/cms/menu.html:21 cms/templates/pybb/forum_list.html:8
 #: cms/templates/registration/profile.html:136
 #: cms/templates/registration/profile_edit.html:74
+#: cms/templates/pybb/breadcrumb.html:4
 msgid "Forum"
 msgstr "Форум"
 

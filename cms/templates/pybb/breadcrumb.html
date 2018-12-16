@@ -1,7 +1,7 @@
 {% load i18n pybb_tags %}
 {% include "pybb/breadcrumb_top_extra_crumb.html" %}
 {% if object or extra_crumb %}
-<li><a href="{% url 'pybb:index' %}">{% trans 'Home' %}</a></li>
+<li><a href="{% url 'pybb:index' %}">{% trans 'Forum' %}</a></li>
 {% else %}
 <li class="current">{% trans 'Home' %}</li>
 {% endif %}
@@ -12,7 +12,7 @@
         {% endfor %}
     {% endif %}
     {% if extra_crumb %}
-        <li>{% pybb_link object %}</li>
+        <li>{% pybb_link object anchor=object.get_display_name %}</li>
     {% else %}
         <li class="current">{{ object }}</li>
     {% endif %}
