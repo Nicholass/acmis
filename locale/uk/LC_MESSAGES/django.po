@@ -62,8 +62,8 @@ msgid "Avatar dimensions greater than %(x)s x %(y)s px"
 msgstr "Розміри аватара більше за %(x)s x %(y)s пкс"
 
 #: cms/forms/profile.py:112
-msgid "Формат аватара не JPEG, GIF чи PNG"
-msgstr ""
+msgid "Avatar format is not JPEG, GIF or PNG"
+msgstr "Аватар не зображення в форматі JPEG, GIF чи PNG"
 
 #: cms/forms/profile.py:116
 #, python-format
@@ -1597,11 +1597,16 @@ msgstr ""
 #, python-format
 msgid ""
 "\n"
+"    You requested password recovery on site %(site_name)s.\n"
+"    To complete the procedure, click on the link.\n"
+"\n"
+"    If you did not request a password reset, simply ignore this e-mail.\n"
+msgstr ""
+"\n"
 "    Ви запросили відновлення паролю на сайті %(site_name)s.\n"
 "    Для завершення процедури перейдіть за посиланням.\n"
 "\n"
 "    Якщо ви не змінювали пароль, просто проігноруйте цей лист.\n"
-msgstr ""
 
 #: cms/templates/registration/password_reset_subject.txt:1
 msgid "Password recovery on diggers.kiev.ua"
