@@ -166,6 +166,10 @@ msgstr "Заголовок"
 msgid "Tags"
 msgstr "Теги"
 
+#: taggit below tags box
+msgid "A comma-separated list of tags."
+msgstr "Список тегів через кому."
+
 #: cms/models/cmspost.py:31
 msgid "Creation date"
 msgstr "Дата створення"
