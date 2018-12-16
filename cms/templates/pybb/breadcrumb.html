@@ -3,7 +3,7 @@
 {% if object or extra_crumb %}
 <li><a href="{% url 'pybb:index' %}">{% trans 'Forum' %}</a></li>
 {% else %}
-<li class="current">{% trans 'Home' %}</li>
+<li class="current">{% trans 'Forum' %}</li>
 {% endif %}
 {% if object %}
     {% if object.get_parents %}
