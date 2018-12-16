@@ -2,19 +2,19 @@
 {% load i18n %}
 
 {% block title %}
-{% trans "Change email" %}
+{% trans "Change e-mail" %}
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="current">{% trans "Change email" %}</li>
+    <li class="current">{% trans "Change e-mail" %}</li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Change email" %}</h1>
+    <h1>{% trans "Change e-mail" %}</h1>
 
     {% if validlink %}
-      <p>{% trans "Email has been changed" %}</p>
+      <p>{% trans "E-mail has been changed" %}</p>
     {% else %}
-      <p>{% trans "The link you clicked on is not correct. Change email failed." %}</p>
+      <p>{% trans "The link you clicked on is not correct. Change e-mail failed." %}</p>
     {% endif %}
 {% endblock %}

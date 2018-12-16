@@ -133,7 +133,7 @@
                     {{ comm_count }}
                     {% if comm_count|plural_type == 1 %}{% trans "comment" %}{% endif %}
                     {% if comm_count|plural_type == 2  %}{% trans "comments" %}{% endif %}
-                    {% if comm_count|plural_type == 3  %}{% trans "comments" %}{% endif %}
+                    {% if comm_count|plural_type == 3  %}{% trans "comments " %}{% endif %}
                 {% else %}
                     {% trans "Comment" %}
                 {% endif %}

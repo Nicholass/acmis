@@ -21,29 +21,29 @@ msgstr ""
 
 #: cms/admin/__init__.py:46
 msgid "Activation codes sended to selected accounts"
-msgstr ""
+msgstr "Код активації відправлено обранним аккаунтам"
 
 #: cms/admin/__init__.py:49
 msgid "Send activation code"
-msgstr ""
+msgstr "Відправити код активації"
 
 #: cms/admin/__init__.py:56 cms/models/cmsprofile.py:66
 msgid "Profile"
-msgstr ""
+msgstr "Профіль"
 
 #: cms/admin/__init__.py:81 cms/models/forum_groups.py:25
 msgid "Forum groups"
-msgstr ""
+msgstr "Группи форума"
 
 #: cms/admin/comment.py:51 cms/models/comment.py:30
 #: cms/templates/cms/post_list.html:138
 msgid "Comment"
-msgstr ""
+msgstr "Коментар"
 
 #: cms/admin/comment.py:52 cms/admin/post.py:63 cms/models/cmscategory.py:12
 #: cms/models/cmspost.py:50 cms/models/comment.py:10
 msgid "Post"
-msgstr ""
+msgstr "Пост"
 
 #: cms/forms/profile.py:23
 #, python-format
@@ -52,182 +52,190 @@ msgid ""
 "li><li>Avatar should be in format JPEG, GIF or PNG</li><li>Avatar size "
 "should be less than %(size)s Kb</li></ul>"
 msgstr ""
+"<ul><li>Розміри аватара повинні бути менше %(x)s x %(y)s пкс.</"
+"li><li>Аватар повинен бути у форматі JPEG, GIF чи PNG</li><li>Об'єм аватара "
+"повинен бути менше %(size)s Кб</li></ul>"
 
 #: cms/forms/profile.py:106
 #, python-format
 msgid "Avatar dimensions greater than %(x)s x %(y)s px"
-msgstr ""
+msgstr "Розміри аватара більше за %(x)s x %(y)s пкс"
 
 #: cms/forms/profile.py:112
-msgid "Avatar format is not JPEG, GIF or PNG"
+msgid "Формат аватара не JPEG, GIF чи PNG"
 msgstr ""
 
 #: cms/forms/profile.py:116
 #, python-format
 msgid "Avatar size greater than %s Kb"
-msgstr ""
+msgstr "Об'єм аватара більше за %s Kб"
 
 #: cms/forms/registration.py:21
 msgid "Captcha"
-msgstr ""
+msgstr "Капча"
 
 #: cms/forms/registration.py:30
-msgid "User with this email already exists"
-msgstr ""
+msgid "User with this e-mail already exists"
+msgstr "Користувач за таким e-mail вже існує"
 
 #: cms/forms/registration.py:36
 msgid "Remember me"
-msgstr ""
+msgstr "Запам'ятати мене"
 
 #: cms/models/cmscategory.py:11 cms/models/cmspost.py:79
 #: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/files.py:228
 msgid "File"
-msgstr ""
+msgstr "Файл"
 
 #: cms/models/cmscategory.py:13
 #: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:697
 msgid "Unknown"
-msgstr ""
+msgstr "Не визначено"
 
 #: cms/models/cmscategory.py:32
 msgid ""
 "<font color=\"red\">Attention! Changing this field in existing categories "
 "may affect the display of objects!</font>"
 msgstr ""
+"<font color=\"red\">Увага! Зміна цього поля для існуючих категорій "
+"може вплинути на відображення об'єктів!</font>"
 
 #: cms/models/cmscategory.py:33
 msgid "Type"
-msgstr ""
+msgstr "Тип"
 
 #: cms/models/cmscategory.py:35
 msgid "Name"
-msgstr ""
+msgstr "Назва"
 
 #: cms/models/cmscategory.py:36
 msgid "i18n name"
-msgstr ""
+msgstr "Переклад назви"
 
 #: cms/models/cmscategory.py:37
 msgid "i18n name plural"
-msgstr ""
+msgstr "Переклад назви и множинному числі"
 
 #: cms/models/cmscategory.py:40
 msgid "Route"
-msgstr ""
+msgstr "Шлях URL"
 
 #: cms/models/cmscategory.py:41
 msgid ""
 "<font color=\"red\">Attention! Changing this field in existing categories "
 "may affect the logic!</font>"
 msgstr ""
+"<font color=\"red\">Увага! Зміна цього поля для існуючих категорій "
+"може вплинути на логіку роботи!</font>"
 
 #: cms/models/cmscategory.py:43
 msgid "Groups with access"
-msgstr ""
+msgstr "Группи, що мають доступ"
 
 #: cms/models/cmscategory.py:46
 msgid "Full access"
-msgstr ""
+msgstr "Повний доступ"
 
 #: cms/models/cmscategory.py:47
 msgid ""
 "Setting this checkbox disables access control to categories by user group."
 msgstr ""
+"Встановлення цієї галочки відключає контроль доступа за группами користувачів"
 
 #: cms/models/cmscategory.py:68 cms/models/cmspost.py:28
 msgid "Category"
-msgstr ""
+msgstr "Категорія"
 
 #: cms/models/cmscategory.py:69
 msgid "Categories"
-msgstr ""
+msgstr "Категорії"
 
 #: cms/models/cmspost.py:26 cms/models/comment.py:11
 msgid "Author"
-msgstr ""
+msgstr "Автор"
 
 #: cms/models/cmspost.py:27
 msgid "Title"
-msgstr ""
+msgstr "Заголовок"
 
 #: cms/models/cmspost.py:30 cms/templates/cms/blog_sidebar.html:7
 msgid "Tags"
-msgstr ""
+msgstr "Теги"
 
 #: cms/models/cmspost.py:31
 msgid "Creation date"
-msgstr ""
+msgstr "Дата створення"
 
 #: cms/models/cmspost.py:33
 msgid "Published"
-msgstr ""
+msgstr "Оприлюднено"
 
 #: cms/models/cmspost.py:34 cms/models/comment.py:16
 msgid "Approved"
-msgstr ""
+msgstr "Схвалено"
 
 #: cms/models/cmspost.py:51 cms/templates/pybb/forum_list.html:14
 #: cms/templates/pybb/topic.html:42 cms/templates/pybb/topic_list.html:10
 #: cms/templates/pybb/user_posts.html:7 cms/views/post.py:93
 msgid "Posts"
-msgstr ""
+msgstr "Пости"
 
 #: cms/models/cmspost.py:53
 msgid "Moderate posts"
-msgstr ""
+msgstr "Модерація постів"
 
 #: cms/models/cmspost.py:54
 msgid "Publish posts"
-msgstr ""
+msgstr "Оприлюднення постів"
 
 #: cms/models/cmspost.py:59 cms/models/comment.py:12
 #: diggers_venv/lib/python3.5/site-packages/django/db/models/fields/__init__.py:2137
 msgid "Text"
-msgstr ""
+msgstr "Текст"
 
 #: cms/models/cmspost.py:66
 msgid "Text post"
-msgstr ""
+msgstr "Текстовий пост"
 
 #: cms/models/cmspost.py:67
 msgid "Text posts"
-msgstr ""
+msgstr "Текстові пости"
 
 #: cms/models/cmspost.py:69
 msgid "Moderate text post"
-msgstr ""
+msgstr "Модерація текстових постів"
 
 #: cms/models/cmspost.py:82
 msgid "Description"
-msgstr ""
+msgstr "Опис"
 
 #: cms/models/cmspost.py:85
 msgid "Image post"
-msgstr ""
+msgstr "Зображення"
 
 #: cms/models/cmspost.py:86
 msgid "Images posts"
-msgstr ""
+msgstr "Зображеняя"
 
 #: cms/models/cmspost.py:88
 msgid "Moderate images posts"
-msgstr ""
+msgstr "Модерація зображень"
 
 #: cms/models/cmsprofile.py:15
 msgid "Avatar"
-msgstr ""
+msgstr "Аватар"
 
 #: cms/models/cmsprofile.py:16
 msgid "Birth date"
-msgstr ""
+msgstr "Дата народження"
 
 #: cms/models/cmsprofile.py:17
 msgid "Location"
-msgstr ""
+msgstr "Місцезнаходження"
 
 #: cms/models/cmsprofile.py:18
 msgid "Site"
-msgstr ""
+msgstr "Сайт"
 
 #: cms/models/cmsprofile.py:20
 msgid "Facebook"
@@ -263,111 +271,111 @@ msgstr ""
 
 #: cms/models/cmsprofile.py:29
 msgid "Last online"
-msgstr ""
+msgstr "Був онлайн"
 
 #: cms/models/cmsprofile.py:67
 msgid "Profiles"
-msgstr ""
+msgstr "Профілі"
 
 #: cms/models/cmsprofile.py:69
 msgid "Moderate profiles"
-msgstr ""
+msgstr "Модерація профілів"
 
 #: cms/models/comment.py:14
 msgid "Reply to"
-msgstr ""
+msgstr "Відповідь на"
 
 #: cms/models/comment.py:17
 msgid "Deleted"
-msgstr ""
+msgstr "Видалено"
 
 #: cms/models/comment.py:19
 msgid "Date created"
-msgstr ""
+msgstr "Дата створення"
 
 #: cms/models/comment.py:20
 msgid "Dete edited"
-msgstr ""
+msgstr "Дата редагування"
 
 #: cms/models/comment.py:31
 msgid "Comments"
-msgstr ""
+msgstr "Коментарі"
 
 #: cms/models/comment.py:33
 msgid "Moderate comments"
-msgstr ""
+msgstr "Модерація коментарів"
 
 #: cms/models/email.py:7
 msgid "Confirmation code"
-msgstr ""
+msgstr "Код підтвердження"
 
 #: cms/models/email.py:8
 msgid "User"
-msgstr ""
+msgstr "Користувач"
 
 #: cms/models/email.py:9
-msgid "New email"
-msgstr ""
+msgid "New e-mail"
+msgstr "Новий e-mail"
 
 #: cms/models/forum_groups.py:12
 msgid "Groups with aditional access to forum"
-msgstr ""
+msgstr "Групи з доступом до прихованих розділів форума"
 
 #: cms/models/forum_groups.py:24
 msgid "Forum group"
-msgstr ""
+msgstr "Групи форума"
 
 #: cms/models/forum_groups.py:27
 msgid "Change aditional access to forum"
-msgstr ""
+msgstr "Зміна доступа до прихованих розділів форума "
 
 #: cms/templates/400.html:5 cms/templates/400.html:9
 msgid "Error 400"
-msgstr ""
+msgstr "Помилка 400"
 
 #: cms/templates/400.html:13
 msgid "Error 400 - Bad request"
-msgstr ""
+msgstr "Помилка 400 - Неправильниый запит"
 
 #: cms/templates/400.html:15
 msgid "An error occurred while processing the request."
-msgstr ""
+msgstr "При обробці запиту виникла помилка"
 
 #: cms/templates/403.html:5 cms/templates/403.html:9
 msgid "Error 403"
-msgstr ""
+msgstr "Помилка 403"
 
 #: cms/templates/403.html:13
 msgid "Error 403 - Access denine"
-msgstr ""
+msgstr "Помилка 403 - Доступ заборонено"
 
 #: cms/templates/403.html:15
 msgid "You do not have permission to view this page."
-msgstr ""
+msgstr "Ви не маєте прав для перегляду цієї сторінки"
 
 #: cms/templates/404.html:5 cms/templates/404.html:9
 msgid "Error 404"
-msgstr ""
+msgstr "Помилка 404"
 
 #: cms/templates/404.html:13
 msgid "Error 404 - Page not found"
-msgstr ""
+msgstr "Помилка 404 - Сторінки не існує"
 
 #: cms/templates/404.html:15
 msgid "The requested page does not exist."
-msgstr ""
+msgstr "Сторінка, що відповідає запиту не існує"
 
 #: cms/templates/500.html:5 cms/templates/500.html:9
 msgid "Error 500"
-msgstr ""
+msgstr "Помилка 500"
 
 #: cms/templates/500.html:13
 msgid "Error 500 - Internal server error"
-msgstr ""
+msgstr "Помилка 500 - Внутрішня помилка сервера"
 
 #: cms/templates/500.html:15
 msgid "While processing the request an error occurred on the server."
-msgstr ""
+msgstr "При обробці запиту виникла помилка на сервері"
 
 #: cms/templates/ban.html:5
 msgid "Diggers.kiev.ua"
@@ -375,19 +383,19 @@ msgstr ""
 
 #: cms/templates/ban.html:9
 msgid "Your account has been blocked"
-msgstr ""
+msgstr "Ваш аккаунт заблоковано"
 
 #: cms/templates/ban.html:13
 msgid "Your account has been blocked."
-msgstr ""
+msgstr "Ваш аккаунт заблоковано."
 
 #: cms/templates/ban.html:15
 msgid "To remove the block, contact the administration."
-msgstr ""
+msgstr "Для скасування блокування зверніться до адміністрації."
 
 #: cms/templates/cms/base.html:53
 msgid "You logged in as: "
-msgstr ""
+msgstr "Ви увийшли як: "
 
 #: cms/templates/cms/base.html:55 cms/templates/registration/login.html:4
 #: cms/templates/registration/login.html:7
@@ -395,15 +403,15 @@ msgstr ""
 #: cms/templates/registration/login.html:36
 #: cms/templates/registration/password_reset_complete.html:16
 msgid "Login"
-msgstr ""
+msgstr "Увійдіть"
 
 #: cms/templates/cms/base.html:55
 msgid " or "
-msgstr ""
+msgstr " або "
 
 #: cms/templates/cms/base.html:56
 msgid "register"
-msgstr ""
+msgstr "зареєструйтесь"
 
 #: cms/templates/cms/base.html:64
 #, python-format
@@ -413,6 +421,10 @@ msgid ""
 "messages</a>\n"
 "                "
 msgstr ""
+"\n"
+"                    Ви маєте <a href=\"%(pm_url)s\">%(pm_cout)s особистикх "
+"повідомлень</a>\n"
+"                "
 
 #: cms/templates/cms/base.html:72
 #, python-format
@@ -421,6 +433,10 @@ msgid ""
 "                        <p>You received %(pm_cout)s personal messages</p>\n"
 "                    "
 msgstr ""
+"\n"
+"                    Ви маєте <a href=\"%(pm_url)s\">%(pm_cout)s особистих "
+"повідомлень</a>\n"
+"                "
 
 #: cms/templates/cms/base.html:75
 #, python-format
@@ -430,48 +446,52 @@ msgid ""
 "a></p>\n"
 "                    "
 msgstr ""
+"\n"
+"                        <p>Для перегляду перейдіть за <a href=\"%(pm_url)s\">посиланням</"
+"a></p>\n"
+"                    "
 
 #: cms/templates/cms/base.html:92 cms/templates/cms/base.html:94
 #: cms/templates/pybb/breadcrumb.html:4 cms/templates/pybb/breadcrumb.html:6
 msgid "Home"
-msgstr ""
+msgstr "Головна"
 
 #: cms/templates/cms/base.html:123 cms/templates/pybb/user.html:16
 msgid "Statistics"
-msgstr ""
+msgstr "Статистика"
 
 #: cms/templates/cms/base.html:125
 msgid "Users online:"
-msgstr ""
+msgstr "Користувачів онлайн:"
 
 #: cms/templates/cms/base.html:126
 msgid "Guests online:"
-msgstr ""
+msgstr "Гостей онлайн:"
 
 #: cms/templates/cms/base.html:128
 msgid "Online now:"
-msgstr ""
+msgstr "Зараз на сайті:"
 
 #: cms/templates/cms/blog_sidebar.html:17
 msgid "New on forum"
-msgstr ""
+msgstr "Нове на форумі"
 
 #: cms/templates/cms/blog_sidebar.html:24
 msgid "Last comments"
-msgstr ""
+msgstr "Останні коментарі"
 
 #: cms/templates/cms/comment_edit.html:6 cms/templates/cms/comment_edit.html:16
 #: cms/templates/cms/comment_edit.html:26
 msgid "Edit comment"
-msgstr ""
+msgstr "Редагувати коментар"
 
 #: cms/templates/cms/comment_edit.html:8 cms/templates/cms/comment_edit.html:18
 msgid "Reply to comment"
-msgstr ""
+msgstr "Відповідь на коментар"
 
 #: cms/templates/cms/comment_edit.html:28
 msgid "Reply to comment: "
-msgstr ""
+msgstr "Відповідь на коментар: "
 
 #: cms/templates/cms/comment_edit.html:35 cms/templates/cms/comment_form.html:6
 #: cms/templates/cms/post_edit.html:62
@@ -479,191 +499,195 @@ msgstr ""
 #: cms/templates/registration/password_reset_confirm.html:20
 #: cms/templates/registration/password_reset_form.html:40
 msgid "Send"
-msgstr ""
+msgstr "Надіслати"
 
 #: cms/templates/cms/comment_list.html:25
 #: cms/templates/pybb/post_template.html:30
 #: diggers_venv/lib/python3.5/site-packages/django/utils/dateformat.py:72
 msgid "PM"
-msgstr ""
+msgstr "ОП"
 
 #: cms/templates/cms/comment_list.html:37
 msgid "Edited "
-msgstr ""
+msgstr "Відредаговано "
 
 #: cms/templates/cms/comment_list.html:46
 #: cms/templates/django_messages/new_message.html:11
 #: cms/templates/django_messages/view.html:25
 msgid "Reply"
-msgstr ""
+msgstr "Відповідь"
 
 #: cms/templates/cms/comment_list.html:52
 #: cms/templates/pybb/post_template.html:76 cms/templates/pybb/user.html:51
 #: cms/templates/registration/profile.html:22
 #: cms/templates/registration/profile.html:26
 msgid "Edit"
-msgstr ""
+msgstr "Редагувати"
 
 #: cms/templates/cms/comment_list.html:56
 msgid ""
 "Are you sure you want to delete the comment? Cancel this action will be "
 "impossible."
 msgstr ""
+"Ви впевнені, що бажаєте видалити коментар? Скасувати цю дію буде "
+"неможливо."
 
 #: cms/templates/cms/comment_list.html:58
 #: cms/templates/django_messages/view.html:27
 #: cms/templates/pybb/post_template.html:79
 #: diggers_venv/lib/python3.5/site-packages/django/forms/formsets.py:394
 msgid "Delete"
-msgstr ""
+msgstr "Видалити"
 
 #: cms/templates/cms/comment_list.html:64 cms/templates/pybb/_markitup.html:31
 #: cms/templates/pybb/markup/bbcode_widget.html:22
 #: cms/templates/pybb/markup/markdown_widget.html:33
 msgid "Link"
-msgstr ""
+msgstr "Посилання"
 
 #: cms/templates/cms/last_comments.html:12
 msgid "There are no new comments"
-msgstr ""
+msgstr "Нових коментарів немає"
 
 #: cms/templates/cms/menu.html:12
 msgid "News"
-msgstr ""
+msgstr "Новини"
 
 #: cms/templates/cms/menu.html:14
 msgid "Reports"
-msgstr ""
+msgstr "Звіти"
 
 #: cms/templates/cms/menu.html:15
 msgid "Restricted reports"
-msgstr ""
+msgstr "Приховані звіти"
 
 #: cms/templates/cms/menu.html:16
 msgid "Photo"
-msgstr ""
+msgstr "Фото"
 
 #: cms/templates/cms/menu.html:17
 msgid "Maps"
-msgstr ""
+msgstr "Мапи"
 
 #: cms/templates/cms/menu.html:18
 msgid "Graphics"
-msgstr ""
+msgstr "Графіка"
 
 #: cms/templates/cms/menu.html:19
 msgid "Writing"
-msgstr ""
+msgstr "Письменство"
 
 #: cms/templates/cms/menu.html:21 cms/templates/pybb/forum_list.html:8
 #: cms/templates/registration/profile.html:136
 #: cms/templates/registration/profile_edit.html:74
 msgid "Forum"
-msgstr ""
+msgstr "Форум"
 
 #: cms/templates/cms/menu.html:22
 msgid "Wiki"
-msgstr ""
+msgstr "Вікі"
 
 #: cms/templates/cms/menu.html:25
 msgid "Control panel"
-msgstr ""
+msgstr "Управління"
 
 #: cms/templates/cms/menu.html:29 cms/templates/registration/logout.html:5
 #: cms/templates/registration/logout.html:9
 #: cms/templates/registration/logout.html:13
 msgid "Logout"
-msgstr ""
+msgstr "Вихід"
 
 #: cms/templates/cms/post_detail.html:52 cms/templates/cms/post_list.html:193
 msgid " Edit"
-msgstr ""
+msgstr " Редагувати"
 
 #: cms/templates/cms/post_detail.html:56 cms/templates/cms/post_list.html:197
 msgid ""
 "Are you sure you want to delete the post? Cancel this action will be "
 "impossible."
 msgstr ""
+"Ви впевнені, що бажаєте видалити пост? Скасувати цю дію буде "
+"неможливо."
 
 #: cms/templates/cms/post_detail.html:56 cms/templates/cms/post_list.html:197
 msgid " Delete"
-msgstr ""
+msgstr " Видалити"
 
 #: cms/templates/cms/post_detail.html:61 cms/templates/cms/post_list.html:202
 msgid " Hide"
-msgstr ""
+msgstr " Приховати"
 
 #: cms/templates/cms/post_detail.html:63 cms/templates/cms/post_list.html:204
 msgid " Publish"
-msgstr ""
+msgstr " Оприлюднити"
 
 #: cms/templates/cms/post_detail.html:69 cms/templates/cms/post_list.html:210
 msgid " Approve"
-msgstr ""
+msgstr " Схвалити"
 
 #: cms/templates/cms/post_detail.html:105
 msgid " Previous"
-msgstr ""
+msgstr " Попередній пост"
 
 #: cms/templates/cms/post_detail.html:108
 msgid "Next "
-msgstr ""
+msgstr " Наступний пост"
 
 #: cms/templates/cms/post_detail.html:116
 msgid "Comments:"
-msgstr ""
+msgstr "Коментарі:"
 
 #: cms/templates/cms/post_edit.html:8 cms/templates/cms/post_edit.html:37
 #: cms/templates/cms/post_edit.html:48
 msgid "Edit "
-msgstr ""
+msgstr "Редагувати "
 
 #: cms/templates/cms/post_edit.html:10 cms/templates/cms/post_edit.html:39
 #: cms/templates/cms/post_edit.html:50 cms/templates/cms/post_list.html:49
 msgid "Add "
-msgstr ""
+msgstr "Додати "
 
 #: cms/templates/cms/post_edit.html:16
 msgid "picture"
-msgstr ""
+msgstr "зображення"
 
 #: cms/templates/cms/post_edit.html:18
 msgid "map"
-msgstr ""
+msgstr "карту"
 
 #: cms/templates/cms/post_edit.html:20
 msgid "news"
-msgstr ""
+msgstr "новину"
 
 #: cms/templates/cms/post_edit.html:22
 msgid "photo"
-msgstr ""
+msgstr "фото"
 
 #: cms/templates/cms/post_edit.html:24
 msgid "text"
-msgstr ""
+msgstr "текст"
 
 #: cms/templates/cms/post_edit.html:26
 msgid "report"
-msgstr ""
+msgstr "звіт"
 
 #: cms/templates/cms/post_list.html:39
 #: cms/templates/cms/post_moderation.html:10
 msgid "Pre-moderation"
-msgstr ""
+msgstr "Премодерація"
 
 #: cms/templates/cms/post_list.html:56
 msgid "Waiting for moderation "
-msgstr ""
+msgstr "Очікують премодерації"
 
 #: cms/templates/cms/post_list.html:71
 msgid ""
 "The site has no materials yet. To add a new material, go to the category."
-msgstr ""
+msgstr "На сайті поки немає матеріалів. Щоб додати матеріал, перейдіть до категорії."
 
 #: cms/templates/cms/post_list.html:73
 msgid "There are no materials in the category yet."
-msgstr ""
+msgstr "В категорії поки немає матеріалів."
 
 #: cms/templates/cms/post_list.html:76
 #, python-format
@@ -673,40 +697,50 @@ msgid ""
 "href=\"%(post_new_url)s\">add</a> first.\n"
 "                    "
 msgstr ""
+"\n"
+"                    В категорії поки немає матеріалів. Ви можете <a "
+"href=\"%(post_new_url)s\">додати</a> першим.\n"
+"                    "
 
 #: cms/templates/cms/post_list.html:82
 msgid "In the category there are no posts waiting for moderation."
-msgstr ""
+msgstr "В категорії немає постів, що потребують премодерації"
 
 #: cms/templates/cms/post_list.html:134
 msgid "comment"
-msgstr ""
+msgstr "коментар"
 
-#: cms/templates/cms/post_list.html:135 cms/templates/cms/post_list.html:136
+#: cms/templates/cms/post_list.html:135
 msgid "comments"
-msgstr ""
+msgstr "коментаря"
+
+#: cms/templates/cms/post_list.html:135
+msgid "comments "
+msgstr "коментарів"
 
 #: cms/templates/cms/post_moderation.html:5
 msgid "premoderation"
-msgstr ""
+msgstr "премодерація"
 
 #: cms/templates/cms/post_moderation.html:14
 msgid "Your post has been sent for pre-moderation."
-msgstr ""
+msgstr "Ваш пост було відправлено на премодерацію"
 
 #: cms/templates/cms/post_moderation.html:16
 msgid ""
 "Publication of posts in this category require moderation. After checking "
 "your post will be published."
 msgstr ""
+"Додання постів у ції категорії потребує премодерації. Після перевірки "
+"Ваш пост будет оприлюднено."
 
 #: cms/templates/cms/post_moderation.html:18
 msgid "Return to category"
-msgstr ""
+msgstr "Повернутися до категорії"
 
 #: cms/templates/cms/pybb_last_posts.html:12
 msgid "There are no new posts on the forum."
-msgstr ""
+msgstr "Немає нових повідомлень на форумі"
 
 #: cms/templates/django_messages/base.html:9
 #: cms/templates/django_messages/inbox.html:5
@@ -714,55 +748,48 @@ msgstr ""
 #: cms/templates/django_messages/inbox.html:13
 #: cms/templates/django_messages/new_message.html:10
 msgid "Inbox"
-msgstr ""
+msgstr "Вхідні"
 
 #: cms/templates/django_messages/base.html:10
 msgid "Outbox"
-msgstr ""
+msgstr "Вихідні"
 
 #: cms/templates/django_messages/base.html:11
 msgid "New message"
-msgstr ""
+msgstr "Нове повідомлення"
 
 #: cms/templates/django_messages/base.html:12
 msgid "Trash"
-msgstr ""
+msgstr "Корзина"
 
 #: cms/templates/django_messages/compose.html:5
 #: cms/templates/django_messages/compose.html:9
 #: cms/templates/django_messages/compose.html:13
 msgid "Compose Message"
-msgstr ""
+msgstr "Створити повідомлення"
 
 #: cms/templates/django_messages/inbox.html:17
 #: cms/templates/django_messages/trash.html:17
 #: cms/templates/django_messages/view.html:13
 msgid "Sender"
-msgstr ""
+msgstr "Видправник"
 
 #: cms/templates/django_messages/inbox.html:17
 #: cms/templates/django_messages/outbox.html:17
 #: cms/templates/django_messages/trash.html:17
 #: cms/templates/django_messages/view.html:11
 msgid "Subject"
-msgstr ""
+msgstr "Тема"
 
 #: cms/templates/django_messages/inbox.html:17
 msgid "Received"
-msgstr ""
+msgstr "Отримано"
 
 #: cms/templates/django_messages/inbox.html:17
 #: cms/templates/django_messages/outbox.html:17
 #: cms/templates/django_messages/trash.html:17
 msgid "Action"
-msgstr ""
-
-#: cms/templates/django_messages/inbox.html:29
-#: cms/templates/django_messages/outbox.html:26
-#: cms/templates/django_messages/trash.html:26
-#: cms/templates/django_messages/view.html:16
-msgid "DATETIME_FORMAT"
-msgstr ""
+msgstr "Дії"
 
 #: cms/templates/django_messages/inbox.html:30
 #: cms/templates/django_messages/outbox.html:27
@@ -770,13 +797,13 @@ msgstr ""
 #: cms/templates/pybb/edit_profile.html:27
 #: cms/templates/registration/profile.html:189
 msgid "delete"
-msgstr ""
+msgstr "видалити"
 
 #: cms/templates/django_messages/inbox.html:36
 #: cms/templates/django_messages/outbox.html:33
 #: cms/templates/django_messages/trash.html:33
 msgid "No messages."
-msgstr ""
+msgstr "Немає повідомлень."
 
 #: cms/templates/django_messages/new_message.html:3
 #, python-format
@@ -785,186 +812,192 @@ msgid ""
 "You have received a personal message from %(sender)s with the following "
 "content:"
 msgstr ""
+"Доброго дня, %(recipient)s.\n"
+"Ви отримали особисте повідомлення від %(sender)s з таким "
+"змістом:"
 
 #: cms/templates/django_messages/new_message.html:9
 #, python-format
 msgid "Sent from %(site_url)s"
-msgstr ""
+msgstr "Відправлено з %(site_url)s"
 
 #: cms/templates/django_messages/outbox.html:5
 #: cms/templates/django_messages/outbox.html:9
 #: cms/templates/django_messages/outbox.html:13
 msgid "Sent Messages"
-msgstr ""
+msgstr "Відправлені повідомлення"
 
 #: cms/templates/django_messages/outbox.html:17
 #: cms/templates/django_messages/view.html:17
 msgid "Recipient"
-msgstr ""
+msgstr "Отримувач"
 
 #: cms/templates/django_messages/outbox.html:17
 msgid "Sent"
-msgstr ""
+msgstr "Відправлено"
 
 #: cms/templates/django_messages/trash.html:5
 #: cms/templates/django_messages/trash.html:9
 #: cms/templates/django_messages/trash.html:13
 msgid "Deleted Messages"
-msgstr ""
+msgstr "Видалені повідомлення"
 
 #: cms/templates/django_messages/trash.html:17
 #: cms/templates/django_messages/view.html:15
 msgid "Date"
-msgstr ""
+msgstr "Дата"
 
 #: cms/templates/django_messages/trash.html:27
 msgid "undelete"
-msgstr ""
+msgstr "відновити"
 
 #: cms/templates/django_messages/trash.html:36
 msgid ""
 "Deleted Messages are removed from the trash at unregular intervals, don't "
 "rely on this feature for long-time storage."
 msgstr ""
+"Видалены повідомлення видаляються з корзини з нерегулярними інтервалами, не "
+"використовуйте корзину для довгострокового зберігання."
 
 #: cms/templates/django_messages/view.html:5
 #: cms/templates/django_messages/view.html:9
 msgid "View Message"
-msgstr ""
+msgstr "Перегляд повідомлення"
 
 #: cms/templates/pybb/_button_forum_subscription.html:1
 msgid "Manage subscription"
-msgstr ""
+msgstr "Керування підпискою"
 
 #: cms/templates/pybb/_button_forum_subscription.html:1
 #: cms/templates/pybb/topic.html:72
 msgid "Subscribe"
-msgstr ""
+msgstr "Підписатись"
 
 #: cms/templates/pybb/_button_new_topic.html:1
 #: cms/templates/pybb/add_post.html:5 cms/templates/pybb/add_post.html:32
 msgid "New topic"
-msgstr ""
+msgstr "Нова тема"
 
 #: cms/templates/pybb/_button_save.html:1
 #: cms/templates/registration/profile_edit.html:83
 msgid "Save"
-msgstr ""
+msgstr "Зберегти"
 
 #: cms/templates/pybb/_button_submit.html:1
 #: cms/templates/pybb/forum_subscription.html:33
 msgid "Submit"
-msgstr ""
+msgstr "Відправити"
 
 #: cms/templates/pybb/_markitup.html:25
 #: cms/templates/pybb/markup/bbcode_widget.html:16
 #: cms/templates/pybb/markup/markdown_widget.html:24
 msgid "Bold"
-msgstr ""
+msgstr "Жирний"
 
 #: cms/templates/pybb/_markitup.html:26
 #: cms/templates/pybb/markup/bbcode_widget.html:17
 #: cms/templates/pybb/markup/markdown_widget.html:25
 msgid "Italic"
-msgstr ""
+msgstr "Курсив"
 
 #: cms/templates/pybb/_markitup.html:27
 #: cms/templates/pybb/markup/bbcode_widget.html:18
 msgid "Underline"
-msgstr ""
+msgstr "Підкреслений"
 
 #: cms/templates/pybb/_markitup.html:28
 #: cms/templates/pybb/markup/bbcode_widget.html:19
 msgid "Stroke"
-msgstr ""
+msgstr "Закреслений"
 
 #: cms/templates/pybb/_markitup.html:30
 #: cms/templates/pybb/markup/bbcode_widget.html:21
 #: cms/templates/pybb/markup/markdown_widget.html:32
 msgid "Picture"
-msgstr ""
+msgstr "Зображення"
 
 #: cms/templates/pybb/_markitup.html:33
 #: cms/templates/pybb/markup/bbcode_widget.html:24
 msgid "Bulleted list"
-msgstr ""
+msgstr "Маркованний список"
 
 #: cms/templates/pybb/_markitup.html:34
 #: cms/templates/pybb/markup/bbcode_widget.html:25
 msgid "Numeric list"
-msgstr ""
+msgstr "Нумерованний список"
 
 #: cms/templates/pybb/_markitup.html:35
 #: cms/templates/pybb/markup/bbcode_widget.html:26
 msgid "List item"
-msgstr ""
+msgstr "Елемент списку"
 
 #: cms/templates/pybb/_markitup.html:37
 #: cms/templates/pybb/markup/bbcode_widget.html:28
 #: cms/templates/pybb/markup/markdown_widget.html:35
 msgid "Quotes"
-msgstr ""
+msgstr "Цитата"
 
 #: cms/templates/pybb/_markitup.html:38
 #: cms/templates/pybb/markup/bbcode_widget.html:29
 msgid "Code"
-msgstr ""
+msgstr "Код"
 
 #: cms/templates/pybb/_markitup.html:40
 #: cms/templates/pybb/markup/bbcode_widget.html:31
 msgid "Clean"
-msgstr ""
+msgstr "Очистити"
 
 #: cms/templates/pybb/_markitup.html:41
 #: cms/templates/pybb/markup/bbcode_widget.html:32
 #: cms/templates/pybb/markup/markdown_widget.html:38
 msgid "Preview"
-msgstr ""
+msgstr "Перегляд"
 
 #: cms/templates/pybb/_need_to_login_message.html:2
 #: cms/templates/registration/login.html:42
 #: cms/templates/registration/registration_form.html:42
 msgid "Register"
-msgstr ""
+msgstr "Зареєструйтесь"
 
 #: cms/templates/pybb/_need_to_login_message.html:2
 #: diggers_venv/lib/python3.5/site-packages/django/utils/text.py:251
 msgid "or"
-msgstr ""
+msgstr "або"
 
 #: cms/templates/pybb/_need_to_login_message.html:2
 msgid "login"
-msgstr ""
+msgstr "увійдіть"
 
 #: cms/templates/pybb/_need_to_login_message.html:2
 msgid "to create to post a reply"
-msgstr ""
+msgstr "що б відповісти на пост"
 
 #: cms/templates/pybb/add_post.html:5 cms/templates/pybb/add_post.html:32
 msgid "New reply"
-msgstr ""
+msgstr "Відповідь"
 
 #: cms/templates/pybb/attachments_formset.html:6
 msgid "Add attachments"
-msgstr ""
+msgstr "Додати вкладення"
 
 #: cms/templates/pybb/attachments_formset.html:14
 msgid ""
 "If you need to upload larger files, please use an external storage website."
 msgstr ""
+"Якщо вам потрібно завантажити файли великого об'єму, використовуйте зовнішні сховища"
 
 #: cms/templates/pybb/attachments_formset.html:14
 #, python-format
 msgid "(max size: %(max_size)s)"
-msgstr ""
+msgstr "(максимальный объем: %(max_size)s)"
 
 #: cms/templates/pybb/attachments_formset.html:20
 msgid "Reference to your file"
-msgstr ""
+msgstr "Посилання на Ваш файл"
 
 #: cms/templates/pybb/attachments_formset.html:20
 msgid "Ref"
-msgstr ""
+msgstr "Посилання"
 
 #. Translators: This is the default suffix added to form field labels
 #: cms/templates/pybb/attachments_formset.html:20
@@ -980,117 +1013,117 @@ msgstr ""
 
 #: cms/templates/pybb/attachments_formset.html:22
 msgid "link"
-msgstr ""
+msgstr "посилання"
 
 #: cms/templates/pybb/attachments_formset.html:22
 msgid "Insert a link to your file inside your post."
-msgstr ""
+msgstr "Вставьте посилання на файл всередені поста"
 
 #: cms/templates/pybb/attachments_formset.html:23
 msgid "image"
-msgstr ""
+msgstr "зображення"
 
 #: cms/templates/pybb/attachments_formset.html:23
 msgid "Insert your image inside your post."
-msgstr ""
+msgstr "Вставьте зображення всередені поста"
 
 #: cms/templates/pybb/base.html:10
 msgid "Latest posts on forum"
-msgstr ""
+msgstr "Останні повідомлення на форумі"
 
 #: cms/templates/pybb/base.html:11
 msgid "Latest topics on forum"
-msgstr ""
+msgstr "Останні теми на форумі"
 
 #: cms/templates/pybb/category.html:4 cms/templates/pybb/forum_list.html:26
 msgid "Hidden"
-msgstr ""
+msgstr "Прихований"
 
 #: cms/templates/pybb/delete_post.html:5
 msgid "Are you sure you want to delete this message?"
-msgstr ""
+msgstr "Ви впевнені, що бажаєте видалити це повідомлення?"
 
 #: cms/templates/pybb/delete_post.html:12
 msgid "No, take me back"
-msgstr ""
+msgstr "Ні"
 
 #: cms/templates/pybb/delete_post.html:13
 msgid "Yes, I am sure"
-msgstr ""
+msgstr "Так"
 
 #: cms/templates/pybb/edit_post.html:4 cms/templates/pybb/edit_post.html:17
 msgid "Editing the post"
-msgstr ""
+msgstr "Редагування поста"
 
 #: cms/templates/pybb/edit_privileges.html:5
 #: cms/templates/pybb/edit_privileges.html:8
 msgid "Grant moderator privileges"
-msgstr ""
+msgstr "Встановлення привілеїв модератора"
 
 #: cms/templates/pybb/edit_profile.html:5
 #: cms/templates/pybb/edit_profile.html:8
 msgid "Profile editing"
-msgstr ""
+msgstr "Редагування профіля"
 
 #: cms/templates/pybb/edit_profile.html:20
 #: cms/templates/registration/profile.html:182
 msgid "Subscriptions on topics"
-msgstr ""
+msgstr "Піписка на теми"
 
 #: cms/templates/pybb/forum_list.html:11 cms/templates/pybb/user_topics.html:7
 msgid "Topics"
-msgstr ""
+msgstr "Теми"
 
 #: cms/templates/pybb/forum_list.html:17
 msgid "Last posts"
-msgstr ""
+msgstr "Останні повідомлення"
 
 #: cms/templates/pybb/forum_list.html:43
 msgid "No forums created"
-msgstr ""
+msgstr "Немає створенних форумів"
 
 #: cms/templates/pybb/forum_list.html:44
 msgid "Add forum now"
-msgstr ""
+msgstr "Додоати форум"
 
 #: cms/templates/pybb/forum_subscription.html:4
 #, python-format
 msgctxt "page title"
 msgid "%(forum)s - Subscription"
-msgstr ""
+msgstr "%(forum)s - Підписка"
 
 #: cms/templates/pybb/forum_subscription.html:14
 #, python-format
 msgctxt "content heading"
 msgid "%(forum)s - Subscription"
-msgstr ""
+msgstr "%(forum)s - Підписка"
 
 #: cms/templates/pybb/forum_subscription.html:32
 #: cms/templates/pybb/move_post.html:31
 msgid "Cancel"
-msgstr ""
+msgstr "Відхилити"
 
 #: cms/templates/pybb/index.html:17
 msgid "Forum categories are not created"
-msgstr ""
+msgstr "Категорії форуму не створено"
 
 #: cms/templates/pybb/index.html:18
 msgid "Add a category now"
-msgstr ""
+msgstr "Додати категорію"
 
 #: cms/templates/pybb/index.html:22 cms/templates/pybb/latest_topics.html:5
 #: cms/templates/pybb/latest_topics.html:8
 #: cms/templates/pybb/latest_topics.html:15
 msgid "Last updates in topics"
-msgstr ""
+msgstr "Останні оновлення у темах"
 
 #: cms/templates/pybb/index.html:23
 msgid "Mark all forums as read"
-msgstr ""
+msgstr "Помітити всі теми як прочитані"
 
 #: cms/templates/pybb/latest_topics.html:31
 msgid "Mark all topics as read"
-msgstr ""
+msgstr "Помітити всі теми як прочитані"
 
 #: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:4
 #, python-format
@@ -1098,31 +1131,35 @@ msgid ""
 "User %(username)s post a new topic in forum to which you are subscribed "
 "(%(forum_name)s)."
 msgstr ""
+"Користувач %(username)s створив нову тему у форумы на який Ви підписані"
+"(%(forum_name)s)."
 
 #: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:5
 #: cms/templates/pybb/mail_templates/subscription_email_body.html:5
 msgid "Link to topic"
-msgstr ""
+msgstr "Посилання на тему"
 
 #: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:6
 msgid "Link to forum"
-msgstr ""
+msgstr "Посилання на форум"
 
 #: cms/templates/pybb/mail_templates/forum_subscription_email_body.html:9
 msgid ""
 "If you don't want to receive notifications on new topics in this forum visit "
 "following link"
 msgstr ""
+"Якщо ви не бажаєте отримувати повідомлення про нові теми на цьому форумі перейдіть "
+"за данним посиланням"
 
 #: cms/templates/pybb/mail_templates/forum_subscription_email_subject.html:2
 msgid "New topic in forum that you subscribed."
-msgstr ""
+msgstr "Нові теми на форумі на який ви підписані."
 
 #: cms/templates/pybb/mail_templates/subscription_email_body-html.html:7
 #: cms/templates/pybb/mail_templates/subscription_email_body.html:3
 #, python-format
 msgid "User %(username)s replied in topic to which you are subscribed."
-msgstr ""
+msgstr "Користувач %(username)s відповів на тему на яку ви підписані."
 
 #: cms/templates/pybb/mail_templates/subscription_email_body-html.html:10
 #, python-format
@@ -1130,6 +1167,8 @@ msgid ""
 "Follow %(link_post_start)sthis link%(link_end)s to see the new post on the "
 "topic %(link_topic_start)s%(topic_name)s%(link_end)s."
 msgstr ""
+"Перейдіть за %(link_post_start)sцим посиланням%(link_end)s щоб побачити нове повідомлення в "
+"темі %(link_topic_start)s%(topic_name)s%(link_end)s."
 
 #: cms/templates/pybb/mail_templates/subscription_email_body-html.html:14
 #, python-format
@@ -1137,10 +1176,12 @@ msgid ""
 "If you don't want to receive notifications on new posts in this topic visit "
 "%(link_start)sthis link%(link_end)s."
 msgstr ""
+"Якщо ви не бажаєте отримувати повідомлення про нові повідомлення в цій теми перейдіть за "
+"%(link_start)sцим посиланням%(link_end)s."
 
 #: cms/templates/pybb/mail_templates/subscription_email_body.html:4
 msgid "Link to post"
-msgstr ""
+msgstr "Посилання на повідомлення"
 
 #: cms/templates/pybb/mail_templates/subscription_email_body.html:8
 #, python-format
@@ -1148,19 +1189,21 @@ msgid ""
 "If you don't want to receive notifications on new messages in this topic "
 "visit following link: %(delete_url_full)s"
 msgstr ""
+"Якщо ви не бажаєте отримувати повідомлення про нові повідомлення в цій темі "
+"перейдіть за посиланням: %(delete_url_full)s"
 
 #: cms/templates/pybb/mail_templates/subscription_email_subject.html:2
 msgid "New answer in topic that you subscribed."
-msgstr ""
+msgstr "Нове повідомлення в темі на яку ви підписані"
 
 #: cms/templates/pybb/markup/bbcode_widget.html:22
 #: cms/templates/pybb/markup/markdown_widget.html:33
 msgid "Your text to link here..."
-msgstr ""
+msgstr "Текст до посилання тут..."
 
 #: cms/templates/pybb/markup/markdown_widget.html:17
 msgid "First Level Heading"
-msgstr ""
+msgstr "Заголовок першого рівня"
 
 #: cms/templates/pybb/markup/markdown_widget.html:17
 #: cms/templates/pybb/markup/markdown_widget.html:18
@@ -1169,223 +1212,223 @@ msgstr ""
 #: cms/templates/pybb/markup/markdown_widget.html:21
 #: cms/templates/pybb/markup/markdown_widget.html:22
 msgid "Your title here..."
-msgstr ""
+msgstr "Заголовок тут..."
 
 #: cms/templates/pybb/markup/markdown_widget.html:18
 msgid "Second Level Heading"
-msgstr ""
+msgstr "Заголовок другого рівня"
 
 #: cms/templates/pybb/markup/markdown_widget.html:19
 msgid "Heading 3"
-msgstr ""
+msgstr "Заголовок 3"
 
 #: cms/templates/pybb/markup/markdown_widget.html:20
 msgid "Heading 4"
-msgstr ""
+msgstr "Заголовок 4"
 
 #: cms/templates/pybb/markup/markdown_widget.html:21
 msgid "Heading 5"
-msgstr ""
+msgstr "Заголовок 5"
 
 #: cms/templates/pybb/markup/markdown_widget.html:22
 msgid "Heading 6"
-msgstr ""
+msgstr "Заголовок 6"
 
 #: cms/templates/pybb/markup/markdown_widget.html:27
 msgid "Bulleted List"
-msgstr ""
+msgstr "Маркований список"
 
 #: cms/templates/pybb/markup/markdown_widget.html:28
 msgid "Numeric List"
-msgstr ""
+msgstr "Нумерований список"
 
 #: cms/templates/pybb/markup/markdown_widget.html:36
 msgid "Code Block / Code"
-msgstr ""
+msgstr "Блок коду / Код"
 
 #: cms/templates/pybb/move_post.html:7
 #, python-format
 msgid "Move topic \"%(topic)s\""
-msgstr ""
+msgstr "Перемістити тему \"%(topic)s\""
 
 #: cms/templates/pybb/move_post.html:9
 #, python-format
 msgid "Split posts from topic \"%(topic)s\""
-msgstr ""
+msgstr "Розділити повідомлення з теми \"%(topic)s\""
 
 #: cms/templates/pybb/move_post.html:17
 #, python-format
 msgid "Starting post by %(author_name)s"
-msgstr ""
+msgstr "Початковий пост автора %(author_name)s"
 
 #: cms/templates/pybb/move_post.html:32
 msgid "Move this topic"
-msgstr ""
+msgstr "Перемістити цю тему"
 
 #: cms/templates/pybb/move_post.html:32
 msgid "Split posts"
-msgstr ""
+msgstr "Розділити повідомлення"
 
 #: cms/templates/pybb/pagination.html:7
 msgid "previous page"
-msgstr ""
+msgstr "попередня сторінка"
 
 #: cms/templates/pybb/pagination.html:21
 msgid "next page"
-msgstr ""
+msgstr "наступна сторінка"
 
 #: cms/templates/pybb/poll.html:4
 msgid "Poll"
-msgstr ""
+msgstr "Опитування"
 
 #: cms/templates/pybb/poll.html:36
 msgid "Cancel my poll vote"
-msgstr ""
+msgstr "Скасуваті мій голос"
 
 #: cms/templates/pybb/poll_edit_form.html:7
 msgid "Poll answers"
-msgstr ""
+msgstr "Варіанти відповідей"
 
 #: cms/templates/pybb/poll_edit_form.html:20
 msgid "remove answer"
-msgstr ""
+msgstr "видалити відповідь"
 
 #: cms/templates/pybb/poll_edit_form.html:21
 msgid "add answer"
-msgstr ""
+msgstr "додати відповідь"
 
 #: cms/templates/pybb/post_template.html:22
 #, python-format
 msgid "Rank: %(rank)s"
-msgstr ""
+msgstr "Ранг: %(rank)s"
 
 #: cms/templates/pybb/post_template.html:41
 msgid "Edited"
-msgstr ""
+msgstr "Відредаговано"
 
 #: cms/templates/pybb/post_template.html:82
 msgid "Approve post"
-msgstr ""
+msgstr "Схвалити пост"
 
 #: cms/templates/pybb/post_template.html:85
 msgid "Move"
-msgstr ""
+msgstr "Перемістити"
 
 #: cms/templates/pybb/post_template.html:85
 msgid "Split"
-msgstr ""
+msgstr "Розділити"
 
 #: cms/templates/pybb/post_template.html:89 cms/templates/pybb/topic.html:62
 msgid "Admin"
-msgstr ""
+msgstr "Адміністрування"
 
 #: cms/templates/pybb/post_template.html:94
 msgid "quote"
-msgstr ""
+msgstr "цитувати"
 
 #: cms/templates/pybb/post_template.html:95
 msgid "quote selected"
-msgstr ""
+msgstr "цитувати виділене"
 
 #: cms/templates/pybb/topic.html:51
 msgid "Unstick topic"
-msgstr ""
+msgstr "Відкріпити тему"
 
 #: cms/templates/pybb/topic.html:53
 msgid "Stick topic"
-msgstr ""
+msgstr "Закріпити тему"
 
 #: cms/templates/pybb/topic.html:57
 msgid "Open topic"
-msgstr ""
+msgstr "Відкрити тему"
 
 #: cms/templates/pybb/topic.html:59
 msgid "Close topic"
-msgstr ""
+msgstr "Закрити тему"
 
 #: cms/templates/pybb/topic.html:70
 msgid "Unsubscribe"
-msgstr ""
+msgstr "Відписатися"
 
 #: cms/templates/pybb/topic.html:88
 msgid "Subscribers"
-msgstr ""
+msgstr "Підписники"
 
 #: cms/templates/pybb/topic_list.html:7
 msgid "Topic"
-msgstr ""
+msgstr "Тема"
 
 #: cms/templates/pybb/topic_list.html:13
 msgid "Views"
-msgstr ""
+msgstr "Переглядів"
 
 #: cms/templates/pybb/topic_list.html:16
 msgid "Last post"
-msgstr ""
+msgstr "Останнє повідомлення"
 
 #: cms/templates/pybb/topic_list.html:26
 msgid "Go to first unread post"
-msgstr ""
+msgstr "До першного непрочитанного повідомлення"
 
 #: cms/templates/pybb/topic_list.html:27
 msgid "Sticky"
-msgstr ""
+msgstr "Закріплена"
 
 #: cms/templates/pybb/topic_list.html:28
 msgid "Closed"
-msgstr ""
+msgstr "Закрита"
 
 #: cms/templates/pybb/topic_list.html:32
 msgid "pages"
-msgstr ""
+msgstr "сторінки"
 
 #: cms/templates/pybb/user.html:19
 #, python-format
 msgid "Number of topics: %(count)s"
-msgstr ""
+msgstr "К-сть тем на форумі: %(count)s"
 
 #: cms/templates/pybb/user.html:24
 #, python-format
 msgid "Number of posts: %(count)s"
-msgstr ""
+msgstr "К-сть повідомлень на форумі: %(count)s"
 
 #: cms/templates/pybb/user.html:29
 #, python-format
 msgid "Date of registration: %(date_joined)s "
-msgstr ""
+msgstr "Дата реєстрації: %(date_joined)s "
 
 #: cms/templates/pybb/user.html:36 cms/templates/registration/profile.html:161
 msgid "Moderator"
-msgstr ""
+msgstr "Зробити модератором"
 
 #: cms/templates/pybb/user.html:41 cms/templates/registration/profile.html:168
 msgid "Block"
-msgstr ""
+msgstr "Заблокувати"
 
 #: cms/templates/pybb/user.html:42 cms/templates/registration/profile.html:169
 msgid "Block and delete all messages"
-msgstr ""
+msgstr "Заблокувати та видалити всі повідомлення"
 
 #: cms/templates/pybb/user.html:46 cms/templates/registration/profile.html:174
 msgid "Unblock"
-msgstr ""
+msgstr "Разблокувати"
 
 #: cms/templates/pybb/user_posts.html:12 cms/templates/pybb/user_posts.html:17
 msgid "All posts created by"
-msgstr ""
+msgstr "Всі пости створені"
 
 #: cms/templates/pybb/user_topics.html:12
 #: cms/templates/pybb/user_topics.html:17
 msgid "All topics created by"
-msgstr ""
+msgstr "Всі теми створені"
 
 #: cms/templates/pybb/users.html:8 cms/templates/pybb/users.html:24
 msgid "Users"
-msgstr ""
+msgstr "Користувачі"
 
 #: cms/templates/pybb/users.html:12
 msgid "Search"
-msgstr ""
+msgstr "Пошук"
 
 #: cms/templates/registration/activation_complete.html:5
 #: cms/templates/registration/activation_complete.html:9
@@ -1393,7 +1436,7 @@ msgstr ""
 #: cms/templates/registration/activation_failed.html:5
 #: cms/templates/registration/activation_failed.html:9
 msgid "Account activation"
-msgstr ""
+msgstr "Активація аккаунта"
 
 #: cms/templates/registration/activation_complete.html:16
 #, python-format
@@ -1403,6 +1446,11 @@ msgid ""
 "</p>\n"
 "    "
 msgstr ""
+"\n"
+"        <p>Аккаунт активовано. Тепер ви можете <a href=\"%(auth_url)s\">увійти</a>."
+"</p>\n"
+"    "
+
 
 #: cms/templates/registration/activation_email.html:2
 #, python-format
@@ -1411,6 +1459,9 @@ msgid ""
 "    You have registered at %(site_name)s as %(user)s.\n"
 "    To activate your account, click on the link below.\n"
 msgstr ""
+"\n"
+"    Ви зареєструвалися на сайті %(site_name)s як %(user)s.\n"
+"    Для активації аккаунта перейдіть за посиланням нижче.\n"
 
 #: cms/templates/registration/activation_email.html:9
 #, python-format
@@ -1418,20 +1469,24 @@ msgid ""
 "\n"
 "    The link will be active %(expiration_days)s days.\n"
 "\n"
-"    If you have not registered on the site - just ignore this email.\n"
+"    If you have not registered on the site - just ignore this e-mail.\n"
 msgstr ""
+"\n"
+"    Посилання буде активне протягом %(expiration_days)s днів.\n"
+"\n"
+"    Якщо ви не реєструвалися на сайті, просто проігноруйте цей лист.\n"
 
 #: cms/templates/registration/activation_email_subject.txt:1
 msgid "Account activation on diggers.kiev.ua"
-msgstr ""
+msgstr "Активація аккауна на diggers.kiev.ua"
 
 #: cms/templates/registration/activation_failed.html:13
 msgid "Activation"
-msgstr ""
+msgstr "Активація"
 
 #: cms/templates/registration/activation_failed.html:14
 msgid "The link you clicked on is not correct. Account activation failed."
-msgstr ""
+msgstr "Терін дії посилання за яким ви перейшли закінчився або посилання не корректне. Активація аккаунта не вдалась."
 
 #: cms/templates/registration/email_change_confirm.html:5
 #: cms/templates/registration/email_change_confirm.html:9
@@ -1444,45 +1499,53 @@ msgstr ""
 #: cms/templates/registration/email_change_form.html:13
 #: cms/templates/registration/email_change_form.html:41
 #: cms/templates/registration/profile.html:24
-msgid "Change email"
-msgstr ""
+msgid "Change e-mail"
+msgstr "Зміна e-mail"
 
 #: cms/templates/registration/email_change_confirm.html:16
-msgid "Email has been changed"
-msgstr ""
+msgid "E-mail has been changed"
+msgstr "E-mail змінено"
 
 #: cms/templates/registration/email_change_confirm.html:18
-msgid "The link you clicked on is not correct. Change email failed."
-msgstr ""
+msgid "The link you clicked on is not correct. Change e-mail failed."
+msgstr "Терін дії посилання за яким ви перейшли закінчився або посилання не корректне. Зміна e-mail не вдалась."
 
 #: cms/templates/registration/email_change_done.html:14
 msgid ""
-"An email with instructions on how to change the email has been sent to the "
-"specified email address."
+"An e-mail with instructions on how to change the e-mail has been sent to the "
+"specified e-mail address."
 msgstr ""
+"Лист з інструкціями щодо зміни e-mail відправлено на "
+"вказану e-mail адресу."
 
 #: cms/templates/registration/email_change_email.html:3
 #, python-format
 msgid ""
 "\n"
-"    You have requested to change the email address %(site_name)s to this "
+"    You have requested to change the e-mail address %(site_name)s to this "
 "address.\n"
 "    To complete the procedure, click on the link.\n"
 "\n"
-"    If you did not request a change in email, just ignore this email.\n"
+"    If you did not request a change in e-mail, just ignore this e-mail.\n"
 msgstr ""
+"\n"
+"    Ви запросили зміну e-mail на сайті %(site_name)s на цю "
+"адресу.\n"
+"    Для завершення процедури перейдіть за посиланням.\n"
+"\n"
+"    Якщо ви не змінювали адресу, просто проігноруйте цей лист.\n"
 
 #: cms/templates/registration/email_change_subject.txt:1
-msgid "Change email on diggers.kiev.ua"
+msgid "Зміна e-mail на diggers.kiev.ua"
 msgstr ""
 
 #: cms/templates/registration/login.html:41
 msgid "Forgot password?"
-msgstr ""
+msgstr "Забули пароль?"
 
 #: cms/templates/registration/logout.html:15
 msgid "Successful logout from the site."
-msgstr ""
+msgstr "Успішний вихід з сайту."
 
 #: cms/templates/registration/password_change_done.html:5
 #: cms/templates/registration/password_change_done.html:9
@@ -1493,11 +1556,11 @@ msgstr ""
 #: cms/templates/registration/password_change_form.html:42
 #: cms/templates/registration/profile.html:23
 msgid "Change password"
-msgstr ""
+msgstr "Зміна паролю"
 
 #: cms/templates/registration/password_change_done.html:14
 msgid "Password successfully changed"
-msgstr ""
+msgstr "Пароль успішно змінено"
 
 #: cms/templates/registration/password_reset_complete.html:5
 #: cms/templates/registration/password_reset_complete.html:9
@@ -1512,50 +1575,52 @@ msgstr ""
 #: cms/templates/registration/password_reset_form.html:9
 #: cms/templates/registration/password_reset_form.html:13
 msgid "Password recovery"
-msgstr ""
+msgstr "Відновлення паролю"
 
 #: cms/templates/registration/password_reset_complete.html:15
 msgid "Password successfully reset"
-msgstr ""
+msgstr "Пароль успішно змінено"
 
 #: cms/templates/registration/password_reset_confirm.html:23
 msgid "The link you clicked on is not correct. Password recovery failed."
-msgstr ""
+msgstr "Терін дії посилання за яким ви перейшли закінчився або посилання не корректне. Спроба зміни паролю не вдалась."
 
 #: cms/templates/registration/password_reset_done.html:14
 msgid ""
 "A letter with instructions for password recovery has been sent to your e-"
 "mail address."
 msgstr ""
+"Лист з інструкціями щодо зміни паролю відправленро на вашу e-"
+"mail адресу."
 
 #: cms/templates/registration/password_reset_email.html:3
 #, python-format
 msgid ""
 "\n"
-"    You requested password recovery on site %(site_name)s.\n"
-"    To complete the procedure, click on the link.\n"
+"    Ви запросили відновлення паролю на сайті %(site_name)s.\n"
+"    Для завершення процедури перейдіть за посиланням.\n"
 "\n"
-"    If you did not request a password reset, simply ignore this email.\n"
+"    Якщо ви не змінювали пароль, просто проігноруйте цей лист.\n"
 msgstr ""
 
 #: cms/templates/registration/password_reset_subject.txt:1
 msgid "Password recovery on diggers.kiev.ua"
-msgstr ""
+msgstr "Відновлення паролю на diggers.kiev.ua"
 
 #: cms/templates/registration/profile.html:8
 #: cms/templates/registration/profile.html:12
 #: cms/templates/registration/profile.html:16
 msgid "User profile "
-msgstr ""
+msgstr "Профіль користувача"
 
 #: cms/templates/registration/profile.html:44
 #: cms/templates/registration/profile_edit.html:21
 msgid "Basic"
-msgstr ""
+msgstr "Базова інформація"
 
 #: cms/templates/registration/profile.html:46
 msgid "Name:"
-msgstr ""
+msgstr "Ім'я:"
 
 #: cms/templates/registration/profile.html:49
 msgid "E-mail:"
@@ -1563,46 +1628,46 @@ msgstr ""
 
 #: cms/templates/registration/profile.html:51
 msgid "Registration date:"
-msgstr ""
+msgstr "Дата реєстрації:"
 
 #: cms/templates/registration/profile.html:56
 msgid "Last login:"
-msgstr ""
+msgstr "Останній вхід:"
 
 #: cms/templates/registration/profile.html:60
 msgid "Last online:"
-msgstr ""
+msgstr "Був онлайн:"
 
 #: cms/templates/registration/profile.html:63
 msgid "Activity:"
-msgstr ""
+msgstr "Активність:"
 
 #: cms/templates/registration/profile.html:68
 msgid "Aditional"
-msgstr ""
+msgstr "Додаткова інформація"
 
 #: cms/templates/registration/profile.html:71
 msgid "Birth date:"
-msgstr ""
+msgstr "Дата народження:"
 
 #: cms/templates/registration/profile.html:75
 msgid "Location:"
-msgstr ""
+msgstr "Місцезнаходження:"
 
 #: cms/templates/registration/profile.html:79
 msgid "Site:"
-msgstr ""
+msgstr "Сайт:"
 
 #: cms/templates/registration/profile.html:83
 #: cms/templates/registration/profile.html:111
 #: cms/templates/registration/profile.html:131
 msgid "Information not specified"
-msgstr ""
+msgstr "Інформація не вказана"
 
 #: cms/templates/registration/profile.html:88
 #: cms/templates/registration/profile_edit.html:70
 msgid "Social"
-msgstr ""
+msgstr "Соціальні мережі"
 
 #: cms/templates/registration/profile.html:91
 msgid "Facebook:"
@@ -1627,7 +1692,7 @@ msgstr ""
 #: cms/templates/registration/profile.html:116
 #: cms/templates/registration/profile_edit.html:66
 msgid "Contact"
-msgstr ""
+msgstr "Контакти"
 
 #: cms/templates/registration/profile.html:119
 msgid "Telegram:"
@@ -1643,34 +1708,34 @@ msgstr ""
 
 #: cms/templates/registration/profile.html:138
 msgid "Number of topics:"
-msgstr ""
+msgstr "К-сть тем на форумі:"
 
 #: cms/templates/registration/profile.html:141
 #: cms/templates/registration/profile.html:148
 #: diggers_venv/lib/python3.5/site-packages/django/forms/widgets.py:699
 msgid "No"
-msgstr ""
+msgstr "Немає"
 
 #: cms/templates/registration/profile.html:145
 msgid "Number of posts:"
-msgstr ""
+msgstr "К-сть повідомлень на форумі:"
 
 #: cms/templates/registration/profile.html:153
 msgid "Signature: "
-msgstr ""
+msgstr "Підпис:"
 
 #: cms/templates/registration/profile_edit.html:5
 #: cms/templates/registration/profile_edit.html:9
 msgid "Edit profile"
-msgstr ""
+msgstr "Редагування профілю"
 
 #: cms/templates/registration/profile_edit.html:13
 msgid "Edit user profile "
-msgstr ""
+msgstr "Редагування профілю користувача "
 
 #: cms/templates/registration/profile_edit.html:46
 msgid "User profile"
-msgstr ""
+msgstr "Профіль користувача"
 
 #: cms/templates/registration/registration_closed.html:5
 #: cms/templates/registration/registration_closed.html:9
@@ -1682,76 +1747,78 @@ msgstr ""
 #: cms/templates/registration/registration_rules.html:5
 #: cms/templates/registration/registration_rules.html:9
 msgid "Registration"
-msgstr ""
+msgstr "Реєстрація"
 
 #: cms/templates/registration/registration_closed.html:14
 msgid "Currently, the registration of new users is disabled."
-msgstr ""
+msgstr "На данний час реєстрацію нових користувачів вимкнуто."
 
 #: cms/templates/registration/registration_complete.html:13
 msgid "Registration completed"
-msgstr ""
+msgstr "Реєстрація завершена"
 
 #: cms/templates/registration/registration_complete.html:14
 msgid ""
 "A confirmation code has been sent to this e-mail. To complete the "
 "registration, click on the link in the letter."
 msgstr ""
+"Код підтведження надіслано на вказанний e-mail. Для завершення "
+"реєстрації, перейдіть за посиланням у листі."
 
 #: cms/templates/registration/registration_form.html:13
 #: cms/templates/registration/registration_rules.html:13
 msgid "Account registration"
-msgstr ""
+msgstr "Реєстрація аккаунта"
 
 #: cms/templates/registration/registration_rules.html:14
 msgid "To register, you must read and agree to the rules below."
-msgstr ""
+msgstr "Для реєстрації аккаунта ви повинні прочитати та погодитись з правилами нижче."
 
 #: cms/templates/registration/registration_rules.html:16
 msgid "Site rules"
-msgstr ""
+msgstr "Правила сайта"
 
 #: cms/templates/registration/registration_rules.html:26
 msgid "I agree with the above rules"
-msgstr ""
+msgstr "Я погоджуюсь з правилами"
 
 #: cms/templates/registration/registration_rules.html:30
 msgid "Next"
-msgstr ""
+msgstr "Далі"
 
 #: cms/templates/wiki/base.html:8
 msgid "To site"
-msgstr ""
+msgstr "До сайту"
 
 #: cms/validators.py:192
-msgid "Registration email of this mail service is prohibited."
-msgstr ""
+msgid "Registration e-mail of this mail service is prohibited."
+msgstr "Реєстрація e-mail на данному поштовому сервісі заборонена."
 
 #: cms/validators.py:205
 msgid "This username is reserved."
-msgstr ""
+msgstr "Ім'я користувача зарезервовано."
 
 #: cms/validators.py:220
 msgid "This username cannot be registered."
-msgstr ""
+msgstr "Данне ім'я користувача не може бути зареєстровано."
 
 #: cms/validators.py:239
-msgid "This email cannot be registered."
-msgstr ""
+msgid "This e-mail cannot be registered."
+msgstr "Данний e-mail не може бути зареєстрований."
 
 #: cms/views/post.py:84
 msgid "All posts"
-msgstr ""
+msgstr "Всі пости"
 
 #: cms/views/post.py:86
 #, python-format
 msgid "Posts of user: %s"
-msgstr ""
+msgstr "Пости користувача: %s"
 
 #: cms/views/post.py:96
 #, python-format
 msgid "%s by tags"
-msgstr ""
+msgstr "%s за тегами"
 
 #: cms/views/post.py:98
 #, python-format
@@ -1760,27 +1827,27 @@ msgstr ""
 
 #: cms/views/rss.py:8
 msgid "Posts feed"
-msgstr ""
+msgstr "Стрічка постів"
 
 #: cms/views/rss.py:10
 msgid "Last site posts"
-msgstr ""
+msgstr "Останні пости на сайті"
 
 #: diggers_venv/lib/python3.5/site-packages/captcha/fields.py:18
 msgid "Incorrect, please try again."
-msgstr ""
+msgstr "Капча не правильна, спробуйте ще раз."
 
 #: diggers_venv/lib/python3.5/site-packages/captcha/fields.py:19
 msgid "Error verifying input, please try again."
-msgstr ""
+msgstr "Помилка перевірки ввода, спробуйте ще раз."
 
 #: diggers_venv/lib/python3.5/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
-msgstr ""
+msgstr "Повідомлення"
 
 #: diggers_venv/lib/python3.5/site-packages/django/contrib/sitemaps/apps.py:7
 msgid "Site Maps"
-msgstr ""
+msgstr "Мапа сайту"
 
 #: diggers_venv/lib/python3.5/site-packages/django/contrib/staticfiles/apps.py:7
 msgid "Static Files"

@@ -2,15 +2,15 @@
 {% load i18n %}
 
 {% block title %}
-  {% trans "Change email" %}
+  {% trans "Change e-mail" %}
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li class="current">{% trans "Change email" %}</li>
+    <li class="current">{% trans "Change e-mail" %}</li>
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Change email" %}</h1>
+    <h1>{% trans "Change e-mail" %}</h1>
 
     <form method="post" action=".">
       {% csrf_token %}
@@ -38,7 +38,7 @@
       <input type="hidden" name="next" value="{{ next }}" />
 
       <p>
-        <button type="submit">{% trans "Change email" %}</button>
+        <button type="submit">{% trans "Change e-mail" %}</button>
       </p>
     </form>
 {% endblock %}

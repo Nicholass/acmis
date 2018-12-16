@@ -189,7 +189,7 @@ def free_email(value):
     email_domain = value.split('@')[1]
 
     if email_domain.lower() in BAD_EMAIL_DOMAINS:
-      raise ValidationError(_("Registration email of this mail service is prohibited."))
+      raise ValidationError(_("Registration e-mail of this mail service is prohibited."))
   except IndexError:
     pass
 
@@ -236,4 +236,4 @@ def validate_confusables_email(value):
     local_part, domain = value.split('@')
     if confusables.is_dangerous(local_part) or \
       confusables.is_dangerous(domain):
-       raise ValidationError(_("This email cannot be registered."))
+       raise ValidationError(_("This e-mail cannot be registered."))
