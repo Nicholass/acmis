@@ -46,6 +46,10 @@ msgstr "Комментарий"
 msgid "Post"
 msgstr "Пост"
 
+#: cms/templates/cms/comment_list.html:70
+msgid "The comment has been deleted."
+msgstr "Коментар було видалено."
+
 #: cms/forms/profile.py:23
 #, python-format
 msgid ""
@@ -398,6 +402,10 @@ msgstr "Для снятия блокировки обратитесь к адм�
 msgid "You logged in as: "
 msgstr "Вы вошли как: "
 
+# cms/templates/cms/base.html:50
+msgid "Site of Kiev Diggers"
+msgstr "Сайт диггеров Киева"
+
 #: cms/templates/cms/base.html:55 cms/templates/registration/login.html:4
 #: cms/templates/registration/login.html:7
 #: cms/templates/registration/login.html:11
@@ -698,6 +706,7 @@ msgid ""
 "href=\"%(post_new_url)s\">add</a> first.\n"
 "                    "
 msgstr ""
+"\n"
 "                    В категории пока нет материалов. Вы можете <a "
 "href=\"%(post_new_url)s\">добавить</a> первым.\n"
 "                    "
@@ -715,7 +724,7 @@ msgid "comments"
 msgstr "комментария"
 
 # cms/templates/cms/post_list.html:136
-msgid "comments"
+msgid "comments "
 msgstr "комментариев"
 
 #: cms/templates/cms/post_moderation.html:5
@@ -1095,7 +1104,7 @@ msgstr "%(forum)s - Подписки"
 #: cms/templates/pybb/forum_subscription.html:14
 #, python-format
 msgctxt "content heading"
-msgid "{{ forum }} - Subscription"
+msgid "%(forum)s - Subscription"
 msgstr "%(forum)s - Подписки"
 
 #: cms/templates/pybb/forum_subscription.html:32

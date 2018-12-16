@@ -47,7 +47,7 @@
             <div id="logo-rt">&nbsp;</div>
         </div>
         <span id="logo"><a href="{{ request.scheme }}://{{ request.site }}/">Diggers.kiev.ua</a></span>
-        <span id="slogan">Site of Kiev Diggers</span>
+        <span id="slogan">{% trans 'Site of Kiev Diggers' %}</span>
         <span id="greeting">
             {% if user.is_authenticated %}
                 {% trans "You logged in as: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong>

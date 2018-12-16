@@ -23,6 +23,7 @@ class Command(BaseCommand):
             self.stdout.write('Created geoip dir "%s"' % geoip_dir)
 
         subprocess.call(['python', './manage.py', 'install_geoip_dataset'])
+        subprocess.call(['django-admin', 'compilemessages'])
         subprocess.call(['python', './manage.py', 'makemigrations'])
         subprocess.call(['python', './manage.py', 'migrate'])
 
