@@ -118,7 +118,7 @@ msgstr "Переклад назви"
 
 #: cms/models/cmscategory.py:37
 msgid "i18n name plural"
-msgstr "Переклад назви и множинному числі"
+msgstr "Переклад назви у множинному числі"
 
 #: cms/models/cmscategory.py:40
 msgid "Route"
