@@ -61,7 +61,7 @@
                 <p>{{ profile_user.profile.last_activity|date:"d.m.Y H:i" }}</p>
             {% endif %}
             <p>{% trans "Activity:" %}</p>
-            <p><a href="{% url 'author_list' author=profile_user.username %}">User publications</a></p>
+            <p><a href="{% url 'author_list' author=profile_user.username %}">{% trans "User publications" %}</a></p>
         </div>
 
         <div>
