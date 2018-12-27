@@ -919,6 +919,17 @@ ul.pagination a:hover {
 	list-style:circle;
 }
 
+ol {
+  counter-reset: item
+}
+ol li {
+  display: block
+}
+ol:before {
+  content: counters(item, ".") " ";
+  counter-increment: item
+}
+
 .clearfix:before,
 .clearfix:after {
    content: "";
