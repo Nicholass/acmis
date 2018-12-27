@@ -227,7 +227,7 @@ EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
-DEFAULT_FROM_EMAIL = 'info@diggers.kiev.ua'
+DEFAULT_FROM_EMAIL = 'noreply@diggers.kiev.ua'
 
 #HOME_CATEGORY_ROUTE = 'news'
 MAPS_CATEGORY_ROUTE = 'map'
