@@ -1631,6 +1631,10 @@ msgstr "Відновлення паролю на diggers.kiev.ua"
 msgid "User profile "
 msgstr "Профіль користувача "
 
+#: cms/templates/registration/profile.html:64
+msgid "User publications"
+msgstr "Пости користувача"
+
 #: cms/templates/registration/profile.html:44
 #: cms/templates/registration/profile_edit.html:21
 msgid "Basic"

@@ -52,7 +52,7 @@
             {% if user.is_authenticated %}
                 {% trans "You logged in as: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong>
             {% else %}
-                <strong><a href="{% url 'auth_login' %}">{% trans "Login" %}</a></strong>{% trans " or " %}
+                <strong><a href="{% url 'auth_login' %}">{% trans "Login " %}</a></strong>{% trans " or " %}
                 <strong><a href="{% url 'registration_register' %}">{% trans "register" %}</a></strong>
             {% endif %}
         </span>

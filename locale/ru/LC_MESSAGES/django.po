@@ -406,13 +406,17 @@ msgstr "Вы вошли как: "
 msgid "Site of Kiev Diggers"
 msgstr "Сайт диггеров Киева"
 
-#: cms/templates/cms/base.html:55 cms/templates/registration/login.html:4
+# cms/templates/cms/base.html:55
+msgid "Login "
+msgstr "Войдите"
+
+#: cms/templates/registration/login.html:4
 #: cms/templates/registration/login.html:7
 #: cms/templates/registration/login.html:11
 #: cms/templates/registration/login.html:36
 #: cms/templates/registration/password_reset_complete.html:16
 msgid "Login"
-msgstr "Войдите"
+msgstr "Вход"
 
 #: cms/templates/cms/base.html:55
 msgid " or "
@@ -1626,6 +1630,10 @@ msgstr "Восстановление пароля на diggers.kiev.ua"
 #: cms/templates/registration/profile.html:16
 msgid "User profile "
 msgstr "Профиль пользователя "
+
+#: cms/templates/registration/profile.html:64
+msgid "User publications"
+msgstr "Публикации пользователя"
 
 #: cms/templates/registration/profile.html:44
 #: cms/templates/registration/profile_edit.html:21
