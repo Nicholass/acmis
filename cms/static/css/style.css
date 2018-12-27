@@ -687,6 +687,9 @@ form .help {
 .login-form {
 	margin-bottom: 10px;
 }
+.registration-rules ul{
+	list-style: none;
+}
 .login-form label[for=id_remember],
 .registration-rules-form label,
 .post-form label[for=id_is_public],
@@ -918,16 +921,8 @@ ul.pagination a:hover {
 .ul-circle {
 	list-style:circle;
 }
-
-ol {
-  counter-reset: item
-}
-ol li {
-  display: block
-}
-ol:before {
-  content: counters(item, ".") " ";
-  counter-increment: item
+.ul-none {
+	list-style:none;
 }
 
 .clearfix:before,
