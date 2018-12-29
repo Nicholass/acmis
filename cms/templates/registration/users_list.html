@@ -1,0 +1,55 @@
+{% extends 'cms/base.html' %}
+{% load i18n %}
+{% load auth %}
+{% load staticfiles %}
+{% load hitcount_tags %}
+
+{% block title %}{% trans "Users list" %}{% endblock %}
+
+{% block breadcrumbs %}
+  <li class="current">{% trans "Users list" %}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Users list" %}</h1>
+
+    <div class="userlist">
+
+      {% for user in users %}
+        <div class="user">
+            <p>{{ user.username }}</p>
+            <p>
+                <a href="{% url 'another_profile' username=user.username %}">{% trans "Profile" %}</a>
+                <a href="{% url 'messages_compose_to' recipient=user.username %}">{% trans "PM" %}</a>
+            </p>
+        </div>
+      {% endfor %}
+
+    </div>
+
+    {% if users.has_other_pages %}
+      <ul class="pagination">
+        {% if users.has_previous %}
+          <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&laquo;</span></li>
+        {% endif %}
+        {% for i in users.paginator.page_range %}
+          {% if users.number == i %}
+            <li class="active"><span>{{ i }}</span></li>
+          {% else %}
+            <li><a href="?page={{ i }}">{{ i }}</a></li>
+          {% endif %}
+        {% endfor %}
+        {% if users.has_next %}
+          <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+        {% else %}
+          <li class="disabled"><span>&raquo;</span></li>
+        {% endif %}
+      </ul>
+    {% endif %}
+{% endblock %}
+
+{% block sidebar %}
+    {% include "cms/blog_sidebar.html" %}
+{% endblock %}

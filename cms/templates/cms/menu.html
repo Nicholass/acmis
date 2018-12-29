@@ -20,6 +20,7 @@
 
     <li><a href='/forum/'>{% trans "Forum" %}</a></li>
     <li><a href='/wiki/'>{% trans "Wiki" %}</a></li>
+    <li><a href='{% url 'users_list' %}'>{% trans "Users" %}</a></li>
 
     {% if user.is_staff %}
     <li><a href='/admin/'>{% trans "Control panel" %}</a></li>

@@ -89,6 +89,7 @@ urlpatterns = [
   url(r'^accounts/email/change/$', views.edit_email, name='auth_email_change'),
   url(r'^accounts/email/change/done/(?P<uidb64>[0-9A-Za-z_\-]+)/'
       r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.edit_email_done, name='auth_email_change_done'),
+  url(r'^accounts/userlist/$', views.userlist, name='users_list'),
   url(r'^upload/', upload, name='ckeditor_upload'),
   url(r'^browse/', never_cache(browse), name='ckeditor_browse'),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),

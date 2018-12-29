@@ -434,11 +434,13 @@ a.feed:hover{
 .posts.list .post {
 	display: grid;
 	grid-template-columns: 9fr auto;
-	padding: 5px 0 0px 0;
-	border-bottom: 1px solid #0D0D0D;
+	padding: 5px;
 }
-.posts.list .post:first-child {
-	border-top: 1px solid #0D0D0D;
+.posts.list .post:nth-child(odd){
+	background: #000;
+}
+.posts.list .post:nth-child(even){
+	background: #0A0A0A
 }
 .posts .post .post-content {
 	padding: 5px 0;
@@ -673,6 +675,30 @@ form fieldset {
 }
 .profile .subscriprion ul li {
 	color: #ABABAB;
+}
+.userlist .user{
+	display: flex;
+}
+.userlist .user:nth-child(odd){
+	background: #000;
+}
+.userlist .user:nth-child(even){
+	background: #222;
+}
+.userlist .user p{
+    padding: 2px 10px;
+}
+.userlist .user p:first-child{
+	width: 80%;
+    text-align: left;
+}
+.userlist .user p:last-child{
+	width: 20%;
+	text-align: right;
+}
+.userlist .user p:last-child a{
+	margin-left: 10px;
+    display: inline-block;
 }
 
 /* forms */

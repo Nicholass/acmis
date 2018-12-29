@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.core.exceptions import PermissionDenied
@@ -73,4 +74,20 @@ def profile_edit(request, username=None):
         'user': user,
         'user_form': user_form,
         'profile_form': profile_form
+    })
+
+def userlist(request):
+    users_list = User.objects.all().order_by('username')
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(users_list, getattr(settings, 'PAGINATION_USERS_COUNT', 25))
+    try:
+        users = paginator.page(page)
+    except PageNotAnInteger:
+        users = paginator.page(1)
+    except EmptyPage:
+        users = paginator.page(paginator.num_pages)
+
+    return render(request, 'registration/users_list.html', {
+      'users': users
     })

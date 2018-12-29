@@ -1759,6 +1759,12 @@ msgstr "Редагування профілю користувача "
 msgid "User profile"
 msgstr "Профіль користувача"
 
+#: cmd/templates/registration/users_list.html:7
+#: cmd/templates/registration/users_list.html:10
+#: cmd/templates/registration/users_list.html:14
+msgid "Users list"
+msgstr "Список користувачів"
+
 #: cms/templates/registration/registration_closed.html:5
 #: cms/templates/registration/registration_closed.html:9
 #: cms/templates/registration/registration_closed.html:13
