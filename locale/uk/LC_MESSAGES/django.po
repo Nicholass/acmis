@@ -1652,6 +1652,14 @@ msgstr ""
 msgid "Registration date:"
 msgstr "Дата реєстрації:"
 
+#: cms/templates/registration/profile.html:52
+msgid "Send message"
+msgstr "Відправити повідомлення"
+
+#: cms/templates/registration/profile.html:24
+msgid "Change email"
+msgstr "Змінити e-mail"
+
 #: cms/templates/registration/profile.html:56
 msgid "Last login:"
 msgstr "Останній вхід:"
@@ -1659,6 +1667,18 @@ msgstr "Останній вхід:"
 #: cms/templates/registration/profile.html:60
 msgid "Last online:"
 msgstr "Був онлайн:"
+
+#: cms/templates/registration/profile.html:59
+msgid "Online:"
+msgstr "Онлайн:"
+
+#: cms/templates/registration/profile.html:60
+msgid "Yes "
+msgstr "Так"
+
+#: cms/templates/registration/profile.html:60
+msgid "No "
+msgstr "Ні"
 
 #: cms/templates/registration/profile.html:63
 msgid "Activity:"
@@ -1745,6 +1765,10 @@ msgstr "К-сть повідомлень на форумі:"
 #: cms/templates/registration/profile.html:153
 msgid "Signature: "
 msgstr "Підпис:"
+
+#: cms/models/cmsprofile.py:32
+msgid "Hide e-mail"
+msgstr "Приховати e-mail"
 
 #: cms/templates/registration/profile_edit.html:5
 #: cms/templates/registration/profile_edit.html:9

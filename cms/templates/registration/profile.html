@@ -46,12 +46,16 @@
                 <p>{% trans "Name:" %}</p>
                 <p>{{ profile_user.first_name }} {{ profile_user.last_name }}</p>
             {% endif %}
-            <p>{% trans "E-mail:" %}</p>
-            <p><a href="mailto:{{ profile_user.email }}">{{ profile_user.email }}</a></p>
+
+            {% if not profile_user.profile.hide_email %}
+                <p>{% trans "E-mail:" %}</p>
+                <p><a href="mailto:{{ profile_user.email }}">{{ profile_user.email }}</a></p>
+            {% endif %}
+
             <p>{% trans "Registration date:" %}</p>
             <p>{{ profile_user.date_joined|date:"d.m.Y" }}</p>
-            <p>Online:</p>
-            <p>{% if profile_user.profile.online %}Yes{% else %}No{% endif %}</p>
+            <p>{% trans "Online:" %}</p>
+            <p>{% if profile_user.profile.online %}{% trans "Yes " %}{% else %}{% trans "No " %}{% endif %}</p>
             {% if profile_user.last_login %}
                 <p>{% trans "Last login:" %}</p>
                 <p>{{ profile_user.last_login|date:"d.m.Y H:i" }}</p>

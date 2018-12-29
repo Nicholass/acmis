@@ -29,6 +29,8 @@ class CmsProfile(PybbProfile):
     skype = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Skype"))
     last_activity = models.DateTimeField(null=True, blank=True, verbose_name=_("Last online"))
 
+    hide_email = models.BooleanField(default=True, verbose_name=_("Hide e-mail"))
+
     @property
     def avatar_url(self):
         try:

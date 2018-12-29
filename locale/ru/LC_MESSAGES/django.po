@@ -1652,6 +1652,14 @@ msgstr ""
 msgid "Registration date:"
 msgstr "Дата регистрации:"
 
+#: cms/templates/registration/profile.html:52
+msgid "Send message"
+msgstr "Отправить сообщение"
+
+#: cms/templates/registration/profile.html:24
+msgid "Change email"
+msgstr "Изменить e-mail"
+
 #: cms/templates/registration/profile.html:56
 msgid "Last login:"
 msgstr "Последний вход:"
@@ -1659,6 +1667,18 @@ msgstr "Последний вход:"
 #: cms/templates/registration/profile.html:60
 msgid "Last online:"
 msgstr "Последний визит:"
+
+#: cms/templates/registration/profile.html:59
+msgid "Online:"
+msgstr "В сети:"
+
+#: cms/templates/registration/profile.html:60
+msgid "Yes "
+msgstr "Да"
+
+#: cms/templates/registration/profile.html:60
+msgid "No "
+msgstr "Нет"
 
 #: cms/templates/registration/profile.html:63
 msgid "Activity:"
@@ -1745,6 +1765,10 @@ msgstr "Кол-во постов на форуме:"
 #: cms/templates/registration/profile.html:153
 msgid "Signature: "
 msgstr "Подпись:"
+
+#: cms/models/cmsprofile.py:32
+msgid "Hide e-mail"
+msgstr "Скрыть e-mail"
 
 #: cms/templates/registration/profile_edit.html:5
 #: cms/templates/registration/profile_edit.html:9

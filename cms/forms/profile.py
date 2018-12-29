@@ -25,7 +25,7 @@ class ProfileForm(forms.ModelForm):
 
   class Meta:
     model = CmsProfile
-    fields = ('avatar', 'birth_date', 'location', 'site',  'skype', 'telegram', 'jabber', 'facebook', 'vk', 'instagram', 'twitter', 'youtube', 'signature', 'time_zone', 'language', 'show_signatures')
+    fields = ('avatar', 'birth_date', 'location', 'site',  'skype', 'telegram', 'jabber', 'facebook', 'vk', 'instagram', 'twitter', 'youtube', 'signature', 'time_zone', 'language', 'show_signatures', 'hide_email')
     widgets = {
       'birth_date': DateInput()
     }
