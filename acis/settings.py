@@ -31,7 +31,7 @@ LOCALE_PATHS = (
 SECRET_KEY = 'y+cz5bss=pao3ehe*v$5u+5d8yoo99)9&bm1+&=fnzxfznbg=r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', True)
+DEBUG = os.getenv('DEBUG', True) == 'True'
 
 # Application definition
 INSTALLED_APPS = [
@@ -226,7 +226,7 @@ EMAIL_HOST = os.getenv('EMAIL_HOST', 'localhost')
 EMAIL_PORT = os.getenv('EMAIL_PORT', 25)
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
-EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False)
+EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False) == 'True'
 DEFAULT_FROM_EMAIL = 'noreply@diggers.kiev.ua'
 
 #HOME_CATEGORY_ROUTE = 'news'
@@ -344,7 +344,7 @@ THUMBNAIL_REDIS_PORT = os.getenv('THUMBNAIL_REDIS_PORT', 6379)
 THUMBNAIL_REDIS_PASSWORD = os.getenv('THUMBNAIL_REDIS_PASSWORD', '')
 THUMBNAIL_REDIS_DB = os.getenv('THUMBNAIL_REDIS_DB', 0)
 THUMBNAIL_UPSCALE = False
-THUMBNAIL_DEBUG = os.getenv('DEBUG', False)
+THUMBNAIL_DEBUG = os.getenv('DEBUG', False) == 'True'
 
 OPENGRAPH_CONFIG = {
     'FB_ADMINS': '',
