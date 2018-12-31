@@ -31,7 +31,7 @@ LOCALE_PATHS = (
 SECRET_KEY = 'y+cz5bss=pao3ehe*v$5u+5d8yoo99)9&bm1+&=fnzxfznbg=r'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', True)
 
 # Application definition
 INSTALLED_APPS = [
