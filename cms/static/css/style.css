@@ -514,6 +514,9 @@ a.feed:hover{
 	max-width: 100%;
 	height:auto!important;
 }
+.post-content p {
+	margin: 1em 0;
+}
 figure {
 	display: inline-block;
 }
