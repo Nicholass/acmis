@@ -379,6 +379,9 @@ TRACK_IGNORE_URLS = (
 
 CKEDITOR_CONFIGS = {
     'default': {
+        'filebrowserBrowseUrl': '',
+        'filebrowserImageBrowseUrl': '',
+        'filebrowserFlashBrowseUrl': '',
         'toolbar': 'Custom',
         'toolbar_Custom': [
             ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
