@@ -121,7 +121,7 @@
              {% if profile_user.profile.telegram or profile_user.profile.skype or profile_user.profile.jabber %}
                  {% if profile_user.profile.telegram %}
                      <p>{% trans "Telegram:" %}</p>
-                     <p><a href="http://t.me/@{{ profile_user.profile.telegram }}">{{ profile_user.profile.telegram }}</a></p>
+                     <p><a href="http://t.me/{{ profile_user.profile.telegram }}">{{ profile_user.profile.telegram }}</a></p>
                  {% endif %}
                  {% if profile_user.profile.skype %}
                      <p>{% trans "Skype:" %}</p>
