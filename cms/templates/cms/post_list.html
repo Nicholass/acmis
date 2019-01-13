@@ -70,12 +70,13 @@
               {% if not category %}
                   {% trans "There are no materials for this request yet. To add a new material, go to the category." %}
               {% else %}
-                  {% trans "There are no materials in the category yet." %}
                   {% if perms.cms.add_cmspost %}
                     {% url 'post_new' category=category.route as post_new_url %}
                     {% blocktrans with post_new_url=post_new_url %}
                     There are no materials in the category yet. You can <a href="{{ post_new_url }}">add</a> first.
                     {% endblocktrans %}
+                  {% else %}
+                    {% trans "There are no materials in the category yet." %}
                   {% endif %}
               {% endif %}
           {% else %}

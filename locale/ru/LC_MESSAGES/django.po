@@ -701,7 +701,7 @@ msgstr ""
 
 #: cms/templates/cms/post_list.html:73
 msgid "There are no materials in the category yet."
-msgstr "В категории пока нет материалов"
+msgstr "В категории пока нет материалов."
 
 #: cms/templates/cms/post_list.html:76
 #, python-format
