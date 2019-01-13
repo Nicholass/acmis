@@ -67,7 +67,7 @@
       {% if not posts %}
         <p class="nocontent">
           {% if not is_disapproved %}
-              {% if is_home %}
+              {% if not category %}
                   {% trans "The site has no materials yet. To add a new material, go to the category." %}
               {% else %}
                   {% trans "There are no materials in the category yet." %}
