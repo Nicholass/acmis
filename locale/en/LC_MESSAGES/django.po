@@ -665,7 +665,7 @@ msgstr ""
 
 #: cms/templates/cms/post_list.html:71
 msgid ""
-"The site has no materials yet. To add a new material, go to the category."
+"There are no materials for this request yet. To add a new material, go to the category."
 msgstr ""
 
 #: cms/templates/cms/post_list.html:73

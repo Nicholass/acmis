@@ -695,8 +695,9 @@ msgstr "Очікують премодерації"
 
 #: cms/templates/cms/post_list.html:71
 msgid ""
-"The site has no materials yet. To add a new material, go to the category."
-msgstr "На сайті поки немає матеріалів. Щоб додати матеріал, перейдіть до категорії."
+"There are no materials for this request yet. To add a new material, go to the category."
+msgstr ""
+"Поки немає матеріалів за таким запитом. Щоб додати матеріал, перейдіть до категорії."
 
 #: cms/templates/cms/post_list.html:73
 msgid "There are no materials in the category yet."
