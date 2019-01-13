@@ -2,7 +2,7 @@ from ..shortcuts import get_permited_object_or_403, is_owner_or_403, is_moderato
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.conf import settings
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.http import Http404
 from django.contrib.auth.decorators import login_required, permission_required
 from hashlib import md5
@@ -17,6 +17,7 @@ from ..forms import TextPostForm, BinaryPostForm, PostForm
 from ..models import CmsPost, CmsCategory
 from hitcount.models import HitCount
 from tracking_analyzer.models import Tracker
+from django.contrib.auth.models import User
 
 
 def post_list(request, tags=None, category=None, author=None):
@@ -40,6 +41,9 @@ def post_list(request, tags=None, category=None, author=None):
 
   if tags:
     t = tags.split(",")
+
+  if author:
+    get_object_or_404(User, username=author)
 
   query = {
     'tags__name__in': t,
