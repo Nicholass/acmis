@@ -446,9 +446,8 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                    Ви отримали <a href=\"%(pm_cout)s\">%(pm_cout)s особистих "
-"повідомлень</a>\n"
-"                "
+"                        <p>Ви отримали %(pm_cout)s особистих повідомлень</p>\n"
+"                    "
 
 #: cms/templates/cms/base.html:75
 #, python-format
