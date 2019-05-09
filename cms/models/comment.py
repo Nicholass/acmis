@@ -13,7 +13,7 @@ class Comment(MPTTModel):
 
   parent = TreeForeignKey('self', null=True, blank=True, related_name='children', db_index=True, verbose_name=_("Reply to"))
 
-  is_moderated = models.BooleanField(default=True, verbose_name=_("Approved"))
+  is_moderated = models.BooleanField(default=True, verbose_name=_("Approved"), help_text=_("If not сhecked, then the comment will not be displayed"))
   is_deleted = models.BooleanField(default=False, verbose_name=_("Deleted"))
 
   created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Date created"), unique=True)

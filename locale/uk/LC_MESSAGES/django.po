@@ -176,11 +176,23 @@ msgstr "Дата створення"
 
 #: cms/models/cmspost.py:33
 msgid "Published"
-msgstr "Оприлюднено"
+msgstr "Оприлюднити"
 
 #: cms/models/cmspost.py:34 cms/models/comment.py:16
 msgid "Approved"
-msgstr "Схвалено"
+msgstr "Підтвердити оприлюднення"
+
+#: cms/models/cmspost.py:33
+msgid "If not сhecked, the post will be saved as a draft"
+msgstr "Якщо не відмічено, то пост буде збережено як чернетка"
+
+#: cms/models/cmspost.py:34
+msgid "If not сhecked, then the post will not be displayed"
+msgstr "Якщо не відмічено, то пост не буде відображатися"
+
+#: cms/models/comment.py:16
+msgid "If not сhecked, then the comment will not be displayed"
+msgstr "Якщо не відмічено, то комментар не буде відображатися"
 
 #: cms/models/cmspost.py:51 cms/templates/pybb/forum_list.html:14
 #: cms/templates/pybb/topic.html:42 cms/templates/pybb/topic_list.html:10
