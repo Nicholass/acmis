@@ -95,7 +95,7 @@ class ProfileForm(forms.ModelForm):
     avatar = self.cleaned_data['avatar']
 
     if not avatar:
-      return None
+      return False
 
     try:
       w, h = get_image_dimensions(avatar)

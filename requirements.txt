@@ -24,3 +24,4 @@ django-tracking2==0.4.0
 django-simplemde==0.1.2
 python-dotenv==0.9.1
 django-csp==3.4
+uuid==1.30
