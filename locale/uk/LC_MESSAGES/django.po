@@ -403,7 +403,7 @@ msgstr "Для скасування блокування зверніться д
 
 #: cms/templates/cms/base.html:53
 msgid "You logged in as: "
-msgstr "Ви увийшли як: "
+msgstr "Ви увійшли як: "
 
 # cms/templates/cms/base.html:50
 msgid "Site of Kiev Diggers"
@@ -414,7 +414,7 @@ msgstr "Сайт дигерів Києва"
 #: cms/templates/registration/login.html:11
 #: cms/templates/registration/login.html:36
 #: cms/templates/registration/password_reset_complete.html:16
-msgid "Login"
+msgid "Login "
 msgstr "Увійдіть"
 
 #: cms/templates/cms/base.html:55
@@ -434,7 +434,7 @@ msgid ""
 "                "
 msgstr ""
 "\n"
-"                    Ви маєте <a href=\"%(pm_url)s\">%(pm_cout)s особистикх "
+"                    Ви маєте <a href=\"%(pm_url)s\">%(pm_cout)s особистих "
 "повідомлень</a>\n"
 "                "
 
@@ -446,9 +446,8 @@ msgid ""
 "                    "
 msgstr ""
 "\n"
-"                    Ви отримали <a href=\"%(pm_cout)s\">%(pm_cout)s особистих "
-"повідомлень</a>\n"
-"                "
+"                        <p>Ви отримали %(pm_cout)s особистих повідомлень</p>\n"
+"                    "
 
 #: cms/templates/cms/base.html:75
 #, python-format
@@ -774,7 +773,7 @@ msgstr "Нове повідомлення"
 
 #: cms/templates/django_messages/base.html:12
 msgid "Trash"
-msgstr "Корзина"
+msgstr "Видалені"
 
 #: cms/templates/django_messages/compose.html:5
 #: cms/templates/django_messages/compose.html:9
@@ -786,7 +785,7 @@ msgstr "Створити повідомлення"
 #: cms/templates/django_messages/trash.html:17
 #: cms/templates/django_messages/view.html:13
 msgid "Sender"
-msgstr "Видправник"
+msgstr "Відправник"
 
 #: cms/templates/django_messages/inbox.html:17
 #: cms/templates/django_messages/outbox.html:17
