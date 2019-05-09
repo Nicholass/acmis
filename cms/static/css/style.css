@@ -869,6 +869,10 @@ form .help {
 	justify-content: space-between;
     flex-direction: column;
 }
+.comment .text .comment-message {
+	word-break: break-word;
+}
+
 .comment .actions a {
 	color: #CACACA
 }
