@@ -409,13 +409,17 @@ msgstr "Ви увійшли як: "
 msgid "Site of Kiev Diggers"
 msgstr "Сайт дигерів Києва"
 
-#: cms/templates/cms/base.html:55 cms/templates/registration/login.html:4
+# cms/templates/cms/base.html:55
+msgid "Login "
+msgstr "Увійдіть"
+
+#: cms/templates/registration/login.html:4
 #: cms/templates/registration/login.html:7
 #: cms/templates/registration/login.html:11
 #: cms/templates/registration/login.html:36
 #: cms/templates/registration/password_reset_complete.html:16
-msgid "Login "
-msgstr "Увійдіть"
+msgid "Login"
+msgstr "Увійти"
 
 #: cms/templates/cms/base.html:55
 msgid " or "
