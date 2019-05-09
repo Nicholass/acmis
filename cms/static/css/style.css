@@ -632,6 +632,9 @@ figcaption {
     margin-bottom: 5px;
     border-bottom: 1px solid #0D0D0D;
 }
+.post-form .helptext {
+	display: block;
+}
 .poll-form ul {
 	margin-left: 0;
 	padding: 0;
