@@ -9,11 +9,12 @@ from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User, Group
 from pybb.profiles import PybbProfile
+from cms.utils import path_and_rename
 
 class CmsProfile(PybbProfile):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
-    avatar = models.ImageField(upload_to='avatars/', blank=True, null=True, verbose_name=_("Avatar"))
+    avatar = models.ImageField(upload_to=path_and_rename('avatars/'), blank=True, null=True, verbose_name=_("Avatar"))
     birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Birth date"))
     location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Location"))
     site = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Site"))

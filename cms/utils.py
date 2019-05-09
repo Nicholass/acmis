@@ -1,4 +1,6 @@
 import re
+import os
+from uuid import uuid4
 from django.db.models import Q
 from django.db.models.sql.query import get_order_dir
 from django.utils.translation import get_language
@@ -16,8 +18,6 @@ def i18n_grep(text):
             return translation[1]
 
     return text
-
-
 
 def hide_first_item(text):
     items = re.search('(<p>)?((<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>))(</p>)?', text)
@@ -89,3 +89,17 @@ def get_next_or_previous(qs, item, next=True):
         return qs[0]
     except IndexError:
         return None
+
+def path_and_rename(path):
+    def wrapper(instance, filename):
+        ext = filename.split('.')[-1]
+        # get filename
+        if instance.pk:
+            filename = '{}.{}'.format(instance.pk, ext)
+        else:
+            # set filename as random string
+            filename = '{}.{}'.format(uuid4().hex, ext)
+        # return the whole path to the file
+        return os.path.join(path, filename)
+
+    return wrapper

@@ -173,11 +173,23 @@ msgstr "Дата создания"
 
 #: cms/models/cmspost.py:33
 msgid "Published"
-msgstr "Опубликован"
+msgstr "Опубликовать"
+
+#: cms/models/cmspost.py:33
+msgid "If not сhecked, the post will be saved as a draft"
+msgstr "Если галочка не установлена, то пост будет сохранен как черновик"
 
 #: cms/models/cmspost.py:34 cms/models/comment.py:16
 msgid "Approved"
-msgstr "Одобрен"
+msgstr "Подтвердить публикацию"
+
+#: cms/models/cmspost.py:34
+msgid "If not сhecked, then the post will not be displayed"
+msgstr "Если галочка не установлена, то пост не будет отображаться"
+
+#: cms/models/comment.py:16
+msgid "If not сhecked, then the comment will not be displayed"
+msgstr "Если галочка не установлена, то комментарий не будет отображаться"
 
 #: cms/models/cmspost.py:51 cms/templates/pybb/forum_list.html:14
 #: cms/templates/pybb/topic.html:42 cms/templates/pybb/topic_list.html:10
