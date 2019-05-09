@@ -1285,7 +1285,7 @@ msgstr "Разделить посты"
 
 #: cms/templates/pybb/pagination.html:7
 msgid "previous page"
-msgstr "прудыдущая страница"
+msgstr "предыдущая страница"
 
 #: cms/templates/pybb/pagination.html:21
 msgid "next page"
