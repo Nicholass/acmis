@@ -3,6 +3,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.conf import settings
 from django.shortcuts import render, redirect
+from django.utils import timezone
 from django.http import Http404
 from django.contrib.auth.decorators import login_required, permission_required
 from hashlib import md5
@@ -45,14 +46,15 @@ def post_list(request, tags=None, category=None, author=None):
     'tags__name__in': t,
     'author__username': author,
     'category': c,
-    'is_moderated': True
+    'is_moderated': True,
+    'is_public': True
   }
 
   q = {k: v for k, v in query.items() if v is not None}
   q_groups = { **q, 'category__groups__in': request.user.groups.all() }
   q_anoymous = { **q, 'category__allow_anonymous': True }
 
-  posts_list = CmsPost.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-created_date', 'title')
+  posts_list = CmsPost.objects.filter(Q(**q_anoymous) | Q(**q_groups)).distinct().order_by('-publish_date', 'title')
 
   page = request.GET.get('page', 1)
 
@@ -78,7 +80,12 @@ def post_list(request, tags=None, category=None, author=None):
           post.hash = md5(str(post.pk + random.randint(1, 32)).encode()).hexdigest()
           request.session['map_urls'][post.hash] = post.pk
 
-  posts_disapproved = CmsPost.objects.filter(category=c, is_moderated=False)
+  posts_disapproved_count = CmsPost.objects.filter(category=c, is_moderated=False, is_public=True).count()
+
+  if not request.user.has_perm('cms.moderate_cmspost'):
+    posts_draft_count = CmsPost.objects.filter(category=c, author=request.user, is_public=False).count()
+  else:
+    posts_draft_count = CmsPost.objects.filter(category=c, is_public=False).count()
 
   if is_home:
     page_title = _('All posts')
@@ -102,17 +109,17 @@ def post_list(request, tags=None, category=None, author=None):
     'category': c,
     'tags': t,
     'author': author,
-    'posts_disapproved': len(posts_disapproved),
+    'posts_disapproved': posts_disapproved_count,
+    'posts_draft': posts_draft_count,
     'is_home': is_home,
     'page_title': page_title
   })
-
 
 def post_disapproved(request, category):
   c = get_permited_object_or_403(CmsCategory, request.user, route=category)
   is_moderator_or_403(request.user)
 
-  posts_list = CmsPost.objects.filter(category=c, is_moderated=False)
+  posts_list = CmsPost.objects.filter(category=c, is_moderated=False, is_public=True).order_by('-created_date', 'title')
 
   page = request.GET.get('page', 1)
 
@@ -136,6 +143,36 @@ def post_disapproved(request, category):
     'is_disapproved': True
   })
 
+def post_drafts(request, category):
+  c = get_permited_object_or_403(CmsCategory, request.user, route=category)
+
+  if not request.user.has_perm('cms.moderate_cmspost'):
+    posts_list = CmsPost.objects.filter(category=c, author=request.user, is_public=False).order_by('-created_date', 'title')
+  else:
+    posts_list = CmsPost.objects.filter(category=c, is_public=False).order_by('-created_date', 'title')
+
+  page = request.GET.get('page', 1)
+
+  paginator = Paginator(posts_list, getattr(settings, 'PAGINATION_POSTS_COUNT', 'news'))
+  try:
+    posts = paginator.page(page)
+  except PageNotAnInteger:
+    posts = paginator.page(1)
+  except EmptyPage:
+    posts = paginator.page(paginator.num_pages)
+
+  for post in posts:
+    if post.category == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps') and request.user.is_authenticated():
+      for map_hash, pk in request.session['map_urls'].items():
+        if post.pk == pk:
+          post.hash = map_hash
+
+  return render(request, 'cms/post_list.html', {
+    'posts': posts,
+    'category': c,
+    'id_draft': True
+  })
+
 def post_detail(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
@@ -145,7 +182,10 @@ def post_detail(request, pk):
   hit_count = HitCount.objects.get_for_object(post)
   HitCountMixin.hit_count(request, hit_count)
 
-  posts = CmsPost.objects.filter(category=post.category).order_by('created_date')
+  if post.is_moderated and post.is_public:
+    posts = CmsPost.objects.filter(category=post.category, is_public=True, is_moderated=True).order_by('publish_date')
+  else:
+    posts = CmsPost.objects.filter(category=post.category, is_public=False).order_by('created_date')
 
   Tracker.objects.create_from_request(request, post)
 
@@ -178,12 +218,18 @@ def post_new(request,category):
       if is_premod_cat and is_premod_group:
         post.is_moderated = False
 
+      if post.is_moderated and post.is_public:
+        post.publish_date = timezone.now()
+
       post.save()
       form.save_m2m()
 
       if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
         request.session['map_urls'][md5(str(post.pk).encode()).hexdigest()] = post.pk
         request.session.modified = True
+
+      if not post.is_public:
+        return render(request, 'cms/post_draft.html', {'category': post.category})
 
       if is_premod_cat and is_premod_group:
         return render(request, 'cms/post_moderation.html', {'category':  post.category})
@@ -203,6 +249,9 @@ def post_new(request,category):
 def post_edit(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
 
+  is_premod_cat = post.category.route in getattr(settings, 'PREMODERATION_CATEGORIES', [])
+  is_premod_group = request.user.groups.filter(name__in=getattr(settings, 'PREMODERATION_GROUPS', [])).exists()
+
   is_owner_or_403(request.user, post)
 
   if post.category.kind == '0':
@@ -218,8 +267,17 @@ def post_edit(request, pk):
     if form.is_valid():
       post = form.save(commit=False)
 
+      if post.is_moderated and post.is_public and not post.publish_date:
+        post.publish_date = timezone.now()
+
+      if not post.is_public:
+        post.publish_date = None
+
       post.save()
       form.save_m2m()
+
+      if is_premod_cat and is_premod_group and not post.is_moderated:
+        return render(request, 'cms/post_moderation.html', {'category':  post.category})
 
       if post.category.route == getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'):
         return redirect('category_list', category=getattr(settings, 'MAPS_CATEGORY_ROUTE', 'maps'))
@@ -254,19 +312,17 @@ def post_publish(request, pk):
   post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
   is_owner_or_403(request.user, post)
 
+  is_premod_cat = post.category.route in getattr(settings, 'PREMODERATION_CATEGORIES', [])
+  is_premod_group = request.user.groups.filter(name__in=getattr(settings, 'PREMODERATION_GROUPS', [])).exists()
+
   post.is_public = True
+  if post.is_moderated:
+    post.publish_date = timezone.now()
+
   post.save()
 
-  return redirect('category_list', category=post.category.route)
-
-@login_required
-@permission_required('cms.publish_cmspost', raise_exception=True)
-def post_unpublish(request, pk):
-  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
-  is_owner_or_403(request.user, post)
-
-  post.is_public = False
-  post.save()
+  if is_premod_cat and is_premod_group and not post.is_moderated:
+    return render(request, 'cms/post_moderation.html', {'category': post.category})
 
   return redirect('category_list', category=post.category.route)
 
@@ -277,6 +333,8 @@ def post_approve(request, pk):
   is_moderator_or_403(request.user, post)
 
   post.is_moderated = True
+  post.publish_date = timezone.now()
+
   post.save()
 
   return redirect('category_disapproved', category=post.category.route)

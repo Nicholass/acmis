@@ -57,14 +57,12 @@
                    {% endif %}
                    {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
                    {% if perms.cms.publish_cmspost and is_post_owner %}
-                     {% if post.is_public %}
-                       <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Hide" %}</a>
-                     {% else %}
+                     {% if not post.is_public %}
                        <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Publish" %}</a>
                      {% endif %}
                    {% endif %}
                    {% if perms.cms.moderate_cmspost %}
-                     {% if not post.is_moderated %}
+                     {% if not post.is_moderated and post.is_public %}
                        {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
                        <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Approve" %}</a>
                      {% endif %}
