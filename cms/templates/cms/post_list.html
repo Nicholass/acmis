@@ -29,7 +29,7 @@
     {% if tags or is_disapproved %}
         <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
     {% else %}
-        <li class="current">{{ category }}</li>
+        <li class="current">{{ category.i18n_name|i18n }}</li>
     {% endif %}
   {% endif %}
 
