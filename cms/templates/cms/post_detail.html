@@ -36,7 +36,11 @@
            <div class="info">
                <span>
                    <i class="fa fa-calendar"></i>
-                   {{ post.created_date }}
+                   {% if post.publish_date %}
+                       {{ post.publish_date }}
+                   {% else %}
+                       {{ post.created_date }}
+                   {% endif %}
                </span>
                <span>
                    <i class="fa fa-user"></i>
@@ -94,8 +98,10 @@
                  </div>
              {% endif %}
 
-             {% get_previous posts post as prev %}
-             {% get_next posts post as next %}
+             {% if posts %}
+                {% get_previous posts post as prev %}
+                {% get_next posts post as next %}
+             {% endif %}
 
              {% if prev or next %}
                  <div class="posts_nav">

@@ -82,10 +82,18 @@ def post_list(request, tags=None, category=None, author=None):
 
   posts_disapproved_count = CmsPost.objects.filter(category=c, is_moderated=False, is_public=True).count()
 
+  draft_query = {
+    'category': c,
+    'is_public': False,
+    'author': None
+  }
+
   if not request.user.has_perm('cms.moderate_cmspost'):
-    posts_draft_count = CmsPost.objects.filter(category=c, author=request.user, is_public=False).count()
-  else:
-    posts_draft_count = CmsPost.objects.filter(category=c, is_public=False).count()
+    draft_query['author'] = request.user
+
+  draft_filter = {k: v for k, v in draft_query.items() if v is not None}
+
+  posts_draft_count = CmsPost.objects.filter(**draft_filter).count()
 
   if is_home:
     page_title = _('All posts')
@@ -146,10 +154,18 @@ def post_disapproved(request, category):
 def post_drafts(request, category):
   c = get_permited_object_or_403(CmsCategory, request.user, route=category)
 
+  draft_query = {
+    'category': c,
+    'is_public': False,
+    'author': None
+  }
+
   if not request.user.has_perm('cms.moderate_cmspost'):
-    posts_list = CmsPost.objects.filter(category=c, author=request.user, is_public=False).order_by('-created_date', 'title')
-  else:
-    posts_list = CmsPost.objects.filter(category=c, is_public=False).order_by('-created_date', 'title')
+    draft_query['author'] = request.user
+
+  draft_filter = {k: v for k, v in draft_query.items() if v is not None}
+
+  posts_list = CmsPost.objects.filter(**draft_filter).order_by('-created_date', 'title')
 
   page = request.GET.get('page', 1)
 
@@ -170,7 +186,7 @@ def post_drafts(request, category):
   return render(request, 'cms/post_list.html', {
     'posts': posts,
     'category': c,
-    'id_draft': True
+    'is_draft': True
   })
 
 def post_detail(request, pk):
@@ -182,12 +198,11 @@ def post_detail(request, pk):
   hit_count = HitCount.objects.get_for_object(post)
   HitCountMixin.hit_count(request, hit_count)
 
-  if post.is_moderated and post.is_public:
-    posts = CmsPost.objects.filter(category=post.category, is_public=True, is_moderated=True).order_by('publish_date')
-  else:
-    posts = CmsPost.objects.filter(category=post.category, is_public=False).order_by('created_date')
+  posts = None
 
-  Tracker.objects.create_from_request(request, post)
+  if post.is_public and post.is_moderated:
+    posts = CmsPost.objects.filter(is_public=True, is_moderated=True).order_by('publish_date')
+    Tracker.objects.create_from_request(request, post)
 
   return render(request, 'cms/post_detail.html', {'post': post, 'posts': posts})
 

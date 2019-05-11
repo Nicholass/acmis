@@ -120,7 +120,11 @@
             {% endif %}
             <span>
                 <i class="fa fa-calendar"></i>
-                {{ post.created_date }}
+                {% if post.publish_date %}
+                    {{ post.publish_date }}
+                {% else %}
+                    {{ post.created_date }}
+                {% endif %}
             </span>
             {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
             <span>
