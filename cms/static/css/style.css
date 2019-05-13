@@ -81,7 +81,7 @@ acronym {
   border-bottom: 1px solid #777;
 }
 blockquote {
-	margin: 15px;
+	margin: 0 15px;
  	padding: 10px 0 10px 20px;
   	background: #111;
     border: 1px solid #151515;
