@@ -89,8 +89,11 @@ def post_list(request, tags=None, category=None, author=None):
   draft_query = {
     'category': c,
     'is_public': False,
-    'author': request.user
+    'author': None
   }
+
+  if not request.user.is_anonymous():
+    draft_query['author'] = request.user
 
   draft_filter = {k: v for k, v in draft_query.items() if v is not None}
 
@@ -158,8 +161,11 @@ def post_drafts(request, category):
   draft_query = {
     'category': c,
     'is_public': False,
-    'author': request.user
+    'author': None
   }
+
+  if not request.user.is_anonymous():
+    draft_query['author'] = request.user
 
   draft_filter = {k: v for k, v in draft_query.items() if v is not None}
 
