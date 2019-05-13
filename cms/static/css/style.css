@@ -85,7 +85,10 @@ blockquote {
  	padding: 10px 0 10px 20px;
   	background: #111;
     border: 1px solid #151515;
-    font: bold 1.3em/1.5em 'Trebuchet MS', Sans-serif;
+    font: bold 1.0em/1.2em 'Trebuchet MS', Sans-serif;
+}
+blockquote em {
+	font-weight: bold;
 }
 
 /* form elements */
