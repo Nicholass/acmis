@@ -705,6 +705,14 @@ msgstr "Премодерация"
 msgid "Waiting for moderation "
 msgstr "Ожидают премодерации "
 
+#: cms/templates/cms/post_list.html:41
+msgid "Drafts"
+msgstr "Черновики"
+
+#: cms/templates/cms/post_list.html:65
+msgid "Drafts "
+msgstr "Черновики "
+
 #: cms/templates/cms/post_list.html:71
 msgid ""
 "There are no materials for this request yet. To add a new material, go to the category."
@@ -759,6 +767,20 @@ msgid ""
 msgstr ""
 "Публикация постов в этой категории требует премодерации. После проверки "
 "Ваш пост будет опубликован."
+
+#: cms/templates/cms/post_draft.html:5
+msgid "draft"
+msgstr "черновики"
+
+#: cms/templates/cms/post_draft.html:14
+msgid "Your post has been save as draft."
+msgstr "Ваш пост был сохранен как черновик."
+
+#: cms/templates/cms/post_draft.html:16
+msgid ""
+"After publicate post will be published."
+msgstr ""
+"После публикации пост будет опубликован в категории."
 
 #: cms/templates/cms/post_moderation.html:18
 msgid "Return to category"

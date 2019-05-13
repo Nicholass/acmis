@@ -26,10 +26,10 @@
     {% endif %}
 
   {% elif category %}
-    {% if tags or is_disapproved %}
+    {% if tags or is_disapproved or is_draft %}
         <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
     {% else %}
-        <li class="current">{{ category }}</li>
+        <li class="current">{{ category.i18n_name|i18n }}</li>
     {% endif %}
   {% endif %}
 
@@ -37,6 +37,8 @@
       <li class="current">{% for tag in tags %}{% if not forloop.first %}&nbsp;{% endif %}#{{ tag }}{% endfor %}</li>
   {% elif is_disapproved %}
       <li class="current">{% trans "Pre-moderation" %}</li>
+  {% elif is_draft %}
+      <li class="current">{% trans "Drafts" %}</li>
   {% endif %}
 {% endblock %}
 
@@ -54,6 +56,13 @@
                 <a href="{% url 'category_disapproved' category=category.route %}">
                   <i class="fa fa-check-square"></i>
                   {% trans "Waiting for moderation " %}({{ posts_disapproved }})
+                </a>
+            {% endif %}
+
+            {% if perms.cms.publish_cmspost and posts_draft > 0 %}
+                <a href="{% url 'category_draft' category=category.route %}">
+                  <i class="fa fa-check-square"></i>
+                  {% trans "Drafts " %}({{ posts_draft }})
                 </a>
             {% endif %}
           </div>
@@ -89,7 +98,7 @@
         {% auth_is_owner post as is_post_owner %}
 
         {% if post.is_public or is_post_owner or perms.cms.moderate_cmspost %}
-        <div class="post{% if not post.is_public %} hidden{% endif %}{% if not post.is_moderated %} disaproved{% endif %}" id="{{ post.pk }}">
+        <div class="post{% if not post.is_moderated or not post.is_public %} hidden{% endif %}" id="{{ post.pk }}">
           <h2>
             {% if post.category.route == 'map' %}
                 <a href="{% url 'map_file' map_hash=post.hash %}">{{ post.title }}</a>
@@ -112,7 +121,11 @@
             {% endif %}
             <span>
                 <i class="fa fa-calendar"></i>
-                {{ post.created_date }}
+                {% if post.publish_date %}
+                    {{ post.publish_date }}
+                {% else %}
+                    {{ post.created_date }}
+                {% endif %}
             </span>
             {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
             <span>
@@ -198,15 +211,8 @@
                 <a href="{% url 'post_delete' pk=post.pk %}" onclick="return confirm('{% trans "Are you sure you want to delete the post? Cancel this action will be impossible." %}')"><i class="fa fa-trash"></i>{% trans " Delete" %}</a>
               {% endif %}
               {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
-              {% if perms.cms.publish_cmspost and is_post_owner %}
-                {% if post.is_public %}
-                  <a href="{% url 'post_unpublish' pk=post.pk %}"><i class="fa fa-eye-slash"></i>{% trans " Hide" %}</a>
-                {% else %}
-                  <a href="{% url 'post_publish' pk=post.pk %}"><i class="fa fa-eye"></i>{% trans " Publish" %}</a>
-                {% endif %}
-              {% endif %}
               {% if perms.cms.moderate_cmspost %}
-                {% if not post.is_moderated %}
+                {% if not post.is_moderated and post.is_public %}
                   {% if category.route == 'photo' or category.route == 'drawing' %}<br>{% endif %}
                   <a href="{% url 'post_approve' pk=post.pk %}"><i class="fa fa-check"></i>{% trans " Approve" %}</a>
                 {% endif %}

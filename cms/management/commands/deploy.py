@@ -64,18 +64,58 @@ class Command(BaseCommand):
 
     def create_categories(self):
         categories = [
-            {'name': 'Drawings', 'route': 'drawing'},
-            {'name': 'Maps', 'route': 'map'},
-            {'name': 'News', 'route': 'news'},
-            {'name': 'Photos', 'route': 'photo'},
-            {'name': 'Prose', 'route': 'prose'},
-            {'name': 'Reports', 'route': 'report'},
-            {'name': 'Permited reports', 'route': 'pm_report'}
+            {
+                'name': 'Drawings',
+                'route': 'drawing',
+                'i18n_name': '<!-- en -->Drawings<!-- ru -->Рисунки<!-- uk -->Малюнки',
+                'i18n_name_plural': '<!-- en -->picture<!-- ru -->рисунок<!-- uk -->малюнок'
+            },
+            {
+                'name': 'Maps',
+                'route': 'map',
+                'i18n_name': '<!-- en -->Maps<!-- ru -->Карты<!-- uk -->Карти',
+                'i18n_name_plural': '<!-- en -->map<!-- ru -->карту<!-- uk -->карту'
+            },
+            {
+                'name': 'News',
+                'route': 'news',
+                'i18n_name': '<!-- en -->News<!-- ru -->Новости<!-- uk -->Новини',
+                'i18n_name_plural': '<!-- en -->news<!-- ru -->новость<!-- uk -->новину'
+            },
+            {
+                'name': 'Photos',
+                'route': 'photo',
+                'i18n_name': '<!-- en -->Photos<!-- ru -->Фотографии<!-- uk -->Фотографії',
+                'i18n_name_plural': '<!-- en -->photo<!-- ru -->фотографию<!-- uk -->фотографію'
+            },
+            {
+                'name': 'Prose',
+                'route': 'prose',
+                'i18n_name': '<!-- en -->Prose<!-- ru -->Проза<!-- uk -->Проза',
+                'i18n_name_plural': '<!-- en -->story<!-- ru -->рассказ<!-- uk -->оповідь'
+            },
+            {
+                'name': 'Reports',
+                'route': 'report',
+                'i18n_name': '<!-- en -->Reports<!-- ru -->Отчеты<!-- uk -->Звіти',
+                'i18n_name_plural': '<!-- en -->report<!-- ru -->отчет<!-- uk -->звіт'
+            },
+            {
+                'name': 'Permited reports',
+                'route': 'pm_report',
+                'i18n_name': '<!-- en -->Permited reports<!-- ru -->Закрытые отчеты<!-- uk -->Закриті звіти',
+                'i18n_name_plural': '<!-- en -->report<!-- ru -->отчет<!-- uk -->звіт'
+            }
         ]
 
         for args in categories:
             if not CmsCategory.objects.filter(name=args['name']).exists():
-                category = CmsCategory.objects.create(name=args['name'], route=args['route'])
+                category = CmsCategory.objects.create(
+                    name=args['name'],
+                    route=args['route'],
+                    i18n_name=args['i18n_name'],
+                    i18n_name_plural=args['i18n_name_plural']
+                )
                 category.publish()
                 category.save()
 

@@ -708,6 +708,14 @@ msgstr "Премодерація"
 msgid "Waiting for moderation "
 msgstr "Очікують премодерації"
 
+#: cms/templates/cms/post_list.html:41
+msgid "Drafts"
+msgstr "Чернетки"
+
+#: cms/templates/cms/post_list.html:65
+msgid "Drafts "
+msgstr "Чернетки "
+
 #: cms/templates/cms/post_list.html:71
 msgid ""
 "There are no materials for this request yet. To add a new material, go to the category."
@@ -762,6 +770,20 @@ msgid ""
 msgstr ""
 "Додання постів у ції категорії потребує премодерації. Після перевірки "
 "Ваш пост будет оприлюднено."
+
+#: cms/templates/cms/post_draft.html:5
+msgid "draft"
+msgstr "чернетки"
+
+#: cms/templates/cms/post_draft.html:14
+msgid "Your post has been save as draft."
+msgstr "Ваш пост було збережено як чернетку."
+
+#: cms/templates/cms/post_draft.html:16
+msgid ""
+"After publicate post will be published."
+msgstr ""
+"Після оприлюднення пост буде оприлюднено у категорії."
 
 #: cms/templates/cms/post_moderation.html:18
 msgid "Return to category"

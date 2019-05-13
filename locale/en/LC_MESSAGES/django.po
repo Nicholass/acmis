@@ -663,6 +663,14 @@ msgstr ""
 msgid "Waiting for moderation "
 msgstr ""
 
+#: cms/templates/cms/post_list.html:41
+msgid "Drafts"
+msgstr ""
+
+#: cms/templates/cms/post_list.html:65
+msgid "Drafts "
+msgstr ""
+
 #: cms/templates/cms/post_list.html:71
 msgid ""
 "There are no materials for this request yet. To add a new material, go to the category."
@@ -709,6 +717,19 @@ msgstr ""
 msgid ""
 "Publication of posts in this category require moderation. After checking "
 "your post will be published."
+msgstr ""
+
+#: cms/templates/cms/post_draft.html:5
+msgid "draft"
+msgstr ""
+
+#: cms/templates/cms/post_draft.html:14
+msgid "Your post has been save as draft."
+msgstr ""
+
+#: cms/templates/cms/post_draft.html:16
+msgid ""
+"After publicate post will be published."
 msgstr ""
 
 #: cms/templates/cms/post_moderation.html:18
