@@ -84,20 +84,20 @@ def post_list(request, tags=None, category=None, author=None):
           post.hash = md5(str(post.pk + random.randint(1, 32)).encode()).hexdigest()
           request.session['map_urls'][post.hash] = post.pk
 
-  posts_disapproved_count = CmsPost.objects.filter(category=c, is_moderated=False, is_public=True).count()
+  posts_disapproved_count = 0
+  posts_draft_count = 0
 
-  draft_query = {
-    'category': c,
-    'is_public': False,
-    'author': None
-  }
+  if request.user.is_authenticated():
+    draft_query = {
+      'category': c,
+      'is_public': False,
+      'author': request.user
+    }
 
-  if not request.user.is_anonymous():
-    draft_query['author'] = request.user
+    draft_filter = {k: v for k, v in draft_query.items() if v is not None}
+    posts_draft_count = CmsPost.objects.filter(**draft_filter).count()
 
-  draft_filter = {k: v for k, v in draft_query.items() if v is not None}
-
-  posts_draft_count = CmsPost.objects.filter(**draft_filter).count()
+    posts_disapproved_count = CmsPost.objects.filter(category=c, is_moderated=False, is_public=True).count()
 
   if is_home:
     page_title = _('All posts')
@@ -156,6 +156,9 @@ def post_disapproved(request, category):
   })
 
 def post_drafts(request, category):
+  if not request.user.is_authenticated():
+    raise Http404("Anonymous user doesn'n have drafts.")
+
   c = get_permited_object_or_403(CmsCategory, request.user, route=category)
 
   draft_query = {
@@ -163,9 +166,6 @@ def post_drafts(request, category):
     'is_public': False,
     'author': None
   }
-
-  if not request.user.is_anonymous():
-    draft_query['author'] = request.user
 
   draft_filter = {k: v for k, v in draft_query.items() if v is not None}
 
