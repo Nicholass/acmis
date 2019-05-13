@@ -29,6 +29,7 @@ class CmsPost(PolymorphicModel):
 
   tags = TaggableManager(blank=True, verbose_name=_("Tags"))
   created_date = models.DateTimeField(default=timezone.now, verbose_name=_("Creation date"))
+  publish_date = models.DateTimeField(null=True, blank=True, verbose_name=_("Publication date"))
 
   is_public = models.BooleanField(default=True, verbose_name=_("Published"), help_text=_("If not сhecked, the post will be saved as a draft"))
   is_moderated = models.BooleanField(default=True, verbose_name=_("Approved"), help_text=_("If not сhecked, then the post will not be displayed"))

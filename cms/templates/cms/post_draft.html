@@ -1,0 +1,19 @@
+{% extends 'cms/base.html' %}
+{% load i18n %}
+
+{% block title %}
+    {% trans "draft" %}
+{% endblock %}
+
+{% block breadcrumbs %}
+    <li><a href="{% url 'category_list' category=category.route %}">{{ category }}</a></li>
+    <li class="current">{% trans "Drafts" %}</li>
+{% endblock %}
+
+{% block content %}
+    <h1>{% trans "Your post has been save as draft." %}</h1>
+    <p>
+        {% trans "After publicate post will be published." %}
+    </p>
+    <p><a href="{% url 'category_list' category=category.route %}">{% trans "Return to category" %}</a></p>
+{% endblock %}
