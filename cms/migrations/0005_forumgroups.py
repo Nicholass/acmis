@@ -9,7 +9,7 @@ import django.db.models.deletion
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('pybb', '0008_auto_20180709_2221'),
+#        ('pybb', '0008_auto_20180709_2221'),
         ('auth', '0008_alter_user_username_max_length'),
         ('cms', '0004_cmscategory_i18n_name_plural'),
     ]
@@ -19,7 +19,7 @@ class Migration(migrations.Migration):
             name='ForumGroups',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('forum', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='groups', to='pybb.Forum')),
+#                ('forum', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, related_name='groups', to='pybb.Forum')),
                 ('groups', models.ManyToManyField(blank=True, to='auth.Group', verbose_name='Группы имеющие доступ')),
             ],
             options={

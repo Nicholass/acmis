@@ -52,24 +52,12 @@ INSTALLED_APPS = [
     'django_bleach',
     'ban',
     'djangobower',
-    'pybb',
     'django_messages',
     'captcha',
     'sorl.thumbnail',
     'django.contrib.sitemaps',
     'robots',
     'hitcount',
-
-    # Django-wiki
-    'simplemde',
-    'django.contrib.humanize.apps.HumanizeConfig',
-    'django_nyt.apps.DjangoNytConfig',
-    'sekizai',
-    'wiki.apps.WikiConfig',
-    'wiki.plugins.attachments.apps.AttachmentsConfig',
-    'wiki.plugins.notifications.apps.NotificationsConfig',
-    'wiki.plugins.images.apps.ImagesConfig',
-    'wiki.plugins.macros.apps.MacrosConfig',
 
     'django_user_agents',
     'tracking_analyzer',
@@ -92,9 +80,6 @@ MIDDLEWARE = [
     'cms.midlewares.XForwardedForMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'tracking.middleware.VisitorTrackingMiddleware',
-
-# Conflict with existing i18n switcher
-#    'pybb.middleware.PybbMiddleware'
 ]
 
 ROOT_URLCONF = 'acis.urls'
@@ -111,15 +96,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'django.template.context_processors.media',
-                'pybb.context_processors.processor',
                 'cms.context_processors.export_settings',
-                #Django-wiki
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
-                'sekizai.context_processors.sekizai',
             ],
         },
     },
@@ -283,7 +260,7 @@ BLEACH_ALLOWED_IFRAME_SRC = [
 
 AVATAR_MAX_WIDTH = 80
 AVATAR_MAX_HEIGHT = 80
-AVATAR_DEFAULT = STATIC_URL + 'pybb/img/default_avatar.jpg'
+AVATAR_DEFAULT = STATIC_URL + 'images/no_avatar.png'
 AVATAR_DIMENSIONS = '%sx%s' % (AVATAR_MAX_WIDTH, AVATAR_MAX_HEIGHT,)
 
 DEFAULT_REGISTRATION_GROUP = 'Users'
@@ -302,34 +279,6 @@ ALLOWED_HOSTS = [
     '159.65.127.90',
     '127.0.0.1',
 ]
-
-PYBB_TEMPLATE = 'cms/base.html'
-PYBB_MARKUP = 'bbcode'
-PYBB_DEFAULT_TITLE = 'Форум'
-PYBB_DEFAULT_AUTOSUBSCRIBE = False
-PYBB_AVATAR_WIDTH = AVATAR_MAX_WIDTH
-PYBB_AVATAR_HEIGHT = AVATAR_MAX_HEIGHT
-PYBB_DEFAULT_TIME_ZONE = 2
-PYBB_SIGNATURE_MAX_LENGTH = 400
-PYBB_ATTACHMENT_ENABLE = True
-PYBB_ENABLE_ADMIN_POST_FORM = False
-PYBB_PERMISSION_HANDLER = 'cms.permissions.HiddenForumPermissionHandler'
-PYBB_PROFILE_RELATED_NAME = 'profile'
-PYBB_DEFAULT_AVATAR_URL = AVATAR_DEFAULT
-PYBB_SMILES = {
-    ' &gt;_&lt;': 'angry.png',
-    ' :.(': 'cry.png',
-    ' o_O': 'eyes.png',
-    ' []_[]': 'geek.png',
-    ' 8)': 'glasses.png',
-    ' :D': 'lol.png',
-    ' :(': 'sad.png',
-    ' :O': 'shok.png',
-    ' -_-': 'shy.png',
-    ' :)': 'smile.png',
-    ' :P': 'tongue.png',
-    ' ;)': 'wink.png'
-}
 
 RECAPTCHA_PUBLIC_KEY = '6LegnF0UAAAAAIbP1Xu21W_e6kObQIOYbqFs2VBC'
 RECAPTCHA_PRIVATE_KEY = '6LegnF0UAAAAAONkfdiI5dU1MhqA2BAvQsaGI2bp'
@@ -355,10 +304,6 @@ OPENGRAPH_CONFIG = {
 
 # Number of seconds of inactivity before a user is marked offline
 USER_ONLINE_TIMEOUT = 60 * 15
-
-WIKI_ACCOUNT_HANDLING = False
-WIKI_ACCOUNT_SIGNUP_ALLOWED = False
-WIKI_EDITOR = 'cms.editors.simplemde.SimpleMDE'
 
 GEOIP_PATH = os.path.join(BASE_DIR, 'geoip-data')
 

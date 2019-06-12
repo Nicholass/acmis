@@ -1,14 +1,12 @@
 from django.contrib import admin, messages
 from django.utils.translation import ugettext as _
 from django.contrib.auth.admin import UserAdmin
-from pybb.admin import ForumAdmin
 
 from ..views import send_activation_code
 from ..forms import ProfileForm
 
-from ..models import CmsPost, TextPost, BinaryPost, CmsCategory, Comment, CmsProfile, EmailChange, ForumGroups
+from ..models import CmsPost, TextPost, BinaryPost, CmsCategory, Comment, CmsProfile, EmailChange
 from django.contrib.auth.models import User, Permission
-from pybb.models import Forum
 from tracking.models import Visitor, Pageview
 
 from .comment import CustomMPTTModelAdmin
@@ -73,30 +71,6 @@ class CustomUserAdmin(UserAdmin):
 
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
-
-
-class ForumGroupsInline(admin.StackedInline):
-    model = ForumGroups
-    can_delete = False
-    verbose_name_plural = _('Forum groups')
-    fk_name = 'forum'
-
-
-class CustomForumAdmin(ForumAdmin):
-    inlines = (ForumGroupsInline,)
-
-    def __init__(self, *args, **kwargs):
-        super(CustomForumAdmin, self).__init__(*args, **kwargs)
-
-
-    def get_inline_instances(self, request, obj=None):
-        if not obj:
-            return list()
-        return super(CustomForumAdmin, self).get_inline_instances(request, obj)
-
-
-admin.site.unregister(Forum)
-admin.site.register(Forum, CustomForumAdmin)
 
 class PermissionModel(admin.ModelAdmin):
     model = Permission

@@ -1,5 +1,4 @@
 {% load i18n %}
-{% load pybb_last_posts %}
 {% load last_comments %}
 {% load tags_cloud %}
 
@@ -10,13 +9,6 @@
         {% for tag in cloud %}
             <a href="{% url 'tag_list' tags=tag.name %}" class="tag-size-{{ tag.font_size }}">{{ tag.name }}</a>
         {% endfor %}
-    </div>
-</div>
-
-<div>
-    <h3>{% trans "New on forum" %}</h3>
-    <div class="block list">
-        {% pybb_last_posts 6 %}
     </div>
 </div>
 

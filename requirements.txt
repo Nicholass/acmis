@@ -1,8 +1,8 @@
-Django==1.11.3
+Django==1.11.17
 django-polymorphic==1.3
 django-taggit==0.22.1
 pytz==2017.2
-Pillow==4.3.0
+Pillow==6.0.0
 django-mptt==0.8.7
 # Need for validators
 confusable-homoglyphs~=2.0
@@ -10,18 +10,14 @@ django-ckeditor==5.4.0
 django-bleach==0.3.0
 DjangoBan==1.9.0
 django-bower==5.2.0
-psycopg2-binary==2.7.4
+psycopg2-binary==2.8.2
 gunicorn==19.8.1
-pybbm==0.19.0
-bbcode==1.0.31
 django-recaptcha==1.4.0
 sorl-thumbnail==12.4.1
 redis==2.10.6
 django-robots==3.0
 django-hitcount==1.3.0
-wiki==0.3.1
 django-tracking2==0.4.0
-django-simplemde==0.1.2
 python-dotenv==0.9.1
 django-csp==3.4
 uuid==1.30

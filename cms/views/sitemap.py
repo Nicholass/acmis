@@ -25,8 +25,5 @@ class StaticSitemap(Sitemap):
   priority = 0.6
   changefreq = 'never'
 
-  def items(self):
-    return ['pybb:index']
-
   def location(self, item):
     return reverse(item)

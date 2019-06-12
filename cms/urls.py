@@ -12,9 +12,6 @@ from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 from cms.forms.registration import RememberAuthenticationForm
 
-from django_nyt.urls import get_pattern as get_notify_pattern
-from wiki.urls import get_pattern as get_wiki_pattern
-
 from cms.views.rss import LatestEntriesFeed
 
 sitemaps = {
@@ -93,13 +90,10 @@ urlpatterns = [
   url(r'^upload/', upload, name='ckeditor_upload'),
   url(r'^browse/', never_cache(browse), name='ckeditor_browse'),
   url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),
-  url(r'^forum/', include('pybb.urls', namespace='pybb')),
   url(r'^messages/', include('django_messages.urls')),
   url(r'^sitemap\.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
   url(r'^robots\.txt', include('robots.urls')),
   url(r'^latest/feed/', LatestEntriesFeed(), name="feed_latest"),
-  url(r'^notify/', get_notify_pattern()),
-  url(r'^wiki/', get_wiki_pattern()),
 ]
 
 if settings.ENV == 'development':

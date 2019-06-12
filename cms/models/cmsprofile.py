@@ -8,10 +8,9 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 
 from django.contrib.auth.models import User, Group
-from pybb.profiles import PybbProfile
 from cms.utils import PathAndRename
 
-class CmsProfile(PybbProfile):
+class CmsProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
     avatar = models.ImageField(upload_to=PathAndRename('avatars/'), blank=True, null=True, verbose_name=_("Avatar"))
@@ -37,7 +36,7 @@ class CmsProfile(PybbProfile):
         try:
             return self.avatar.url
         except:
-            return getattr(settings, 'STATIC_URL', '') + 'pybb/img/default_avatar.jpg'
+            return getattr(settings, 'STATIC_URL', '') + 'images/no_avatar.png'
 
     @property
     def online(self):

@@ -1,7 +1,0 @@
-{% load pybb_tags %}
-
-{% if topic.updated %}
-    {% with topic.last_post as last_post %}
-        <a href="{% url "pybb:post" last_post.pk %}">{{ last_post.created|date:"DATETIME_FORMAT" }}</a> - {{ last_post.user }}
-    {% endwith %}
-{% endif %}

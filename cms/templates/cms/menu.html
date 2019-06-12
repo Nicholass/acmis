@@ -18,8 +18,6 @@
     {% if allow_drawing %}<li><a href='{% url 'category_list' category='drawing' %}'>{% trans "Graphics" %}</a></li>{% endif %}
     {% if allow_prose %}<li><a href='{% url 'category_list' category='prose' %}'>{% trans "Writing" %}</a></li>{% endif %}
 
-    <li><a href='/forum/'>{% trans "Forum" %}</a></li>
-    <li><a href='/wiki/'>{% trans "Wiki" %}</a></li>
     <li><a href='{% url 'users_list' %}'>{% trans "Users" %}</a></li>
 
     {% if user.is_staff %}
