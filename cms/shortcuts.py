@@ -1,6 +1,8 @@
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-from .models import CmsPost, CmsCategory, Comment
+from .models.cmspost import CmsPost
+from .models.cmscategory import CmsCategory
+from .models.comment import Comment
 from django.db.models import Q
 
 '''
@@ -15,9 +17,6 @@ def allow_view_category(user, category):
   c = CmsCategory.objects.filter(route=category).first()
   if c is None:
     return False
-
-  if c.allow_anonymous:
-    return True
 
   if user.is_superuser:
     return True
@@ -49,20 +48,6 @@ def get_permited_object_or_404(model, user, **kwargs):
 
 def get_permited_object_or_403(model, user, **kwargs):
   object = get_object_or_404(model, **kwargs)
-
-  if model is CmsCategory:
-    cat = object
-  elif model is CmsPost:
-    cat = object.category
-  elif model is Comment:
-    cat = object.post.category
-
-  if cat.allow_anonymous is not True:
-    category_groups = cat.groups.all()
-    user_groups = user.groups.all()
-
-    if len(set(category_groups) & set(user_groups)) == 0 and user.is_superuser == False:
-      raise PermissionDenied()
 
   return object
 

@@ -1,43 +1,37 @@
 import re
 from django import forms
 
-from ..models import CmsPost, TextPost, BinaryPost
+from ..models.cmspost import CmsPost
 
 
 class PostForm(forms.ModelForm):
 
-  class Meta:
-    model = CmsPost
-    fields = ('title', 'tags', 'is_public')
+    def __init__(self, *args, **kwargs):
+        super(PostForm, self).__init__(*args, **kwargs)
+        # Making location required
+        self.fields['category'].required = True
+        self.fields['text'].required = True
+        self.fields['title'].required = True
 
-  class Media:
-    js = (
-      'jquery.tagsinput/src/jquery.tagsinput.js',
-      'js/PostsForm.js'
-    )
-    css = {
-      'screen': (
-        'jquery.tagsinput/src/jquery.tagsinput.css',
-      ),
-    }
+    class Meta:
+        model = CmsPost
+        fields = ('title', 'text', 'category', 'tags')
 
-  def clean_tags(self):
-    tags = self.cleaned_data.get('tags')
+    class Media:
+        js = (
+            'jquery.tagsinput/src/jquery.tagsinput.js',
+            'js/PostsForm.js'
+        )
+        css = {
+            'screen': (
+                'jquery.tagsinput/src/jquery.tagsinput.css',
+            ),
+        }
 
-    for i, tag in enumerate(tags):
-      tags[i] = re.sub(r'[^\w\s\d\-_,]', '', tag).lower()
+    def clean_tags(self):
+        tags = self.cleaned_data.get('tags')
 
-    return tags
+        for i, tag in enumerate(tags):
+            tags[i] = re.sub(r'[^\w\s\d\-_,]', '', tag).lower()
 
-class TextPostForm(PostForm):
-
-  class Meta(PostForm.Meta):
-    model = TextPost
-    fields = ('title', 'text', 'tags', 'is_public')
-
-
-class BinaryPostForm(PostForm):
-
-  class Meta(PostForm.Meta):
-    model = BinaryPost
-    fields = ('title', 'file', 'description', 'tags', 'is_public')
+        return tags

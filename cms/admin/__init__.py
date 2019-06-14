@@ -2,22 +2,23 @@ from django.contrib import admin, messages
 from django.utils.translation import ugettext as _
 from django.contrib.auth.admin import UserAdmin
 
-from ..views import send_activation_code
-from ..forms import ProfileForm
+from ..views.registration import send_activation_code
+from ..forms.profile import ProfileForm
 
-from ..models import CmsPost, TextPost, BinaryPost, CmsCategory, Comment, CmsProfile, EmailChange
+from ..models.cmspost import CmsPost
+from ..models.cmscategory import CmsCategory
+from ..models.comment import Comment
+from ..models.cmsprofile import CmsProfile
 from django.contrib.auth.models import User, Permission
 from tracking.models import Visitor, Pageview
 
 from .comment import CustomMPTTModelAdmin
-from .post import PostParentAdmin, PostChildAdmin
+from .post import PostAdmin
 from .tracking2 import PageviewCustomAdmin, VisitorCustomAdmin
 
 admin.site.register(Comment, CustomMPTTModelAdmin)
 
-admin.site.register(CmsPost, PostParentAdmin)
-admin.site.register(TextPost, PostChildAdmin)
-admin.site.register(BinaryPost, PostChildAdmin)
+admin.site.register(CmsPost, PostAdmin)
 
 admin.site.unregister(Visitor)
 admin.site.register(Visitor, VisitorCustomAdmin)
@@ -28,9 +29,7 @@ admin.site.register(Pageview, PageviewCustomAdmin)
 
 class CmsCategoryAdmin(admin.ModelAdmin):
     base_model = CmsCategory
-    list_filter = ['kind']
-    filter_horizontal = ('groups', )
-    list_display = ('name', 'route', 'kind', 'allow_anonymous')
+    list_display = ('name', 'route')
     ordering = ('name',)
 
 
@@ -81,13 +80,3 @@ class PermissionModel(admin.ModelAdmin):
 
 
 admin.site.register(Permission, PermissionModel)
-
-
-class EmailChangeModel(admin.ModelAdmin):
-    model = EmailChange
-    list_display = ('new_email', 'user')
-    search_fields = ['user']
-    ordering = ('user',)
-
-
-admin.site.register(EmailChange, EmailChangeModel)

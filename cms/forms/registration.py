@@ -6,8 +6,6 @@ from .. import validators
 
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
-from ..models import EmailChange
-
 
 
 class RegistrationForm(UserCreationForm):
@@ -27,17 +25,10 @@ class RegistrationForm(UserCreationForm):
   def clean_email(self):
     email = self.cleaned_data['email']
     if User.objects.filter(email=email).exists():
-      self.add_error('email', forms.ValidationError(_('User with this e-mail already exists')))
+      self.add_error('email', forms.ValidationError(_('Пользователь с таким e-mail существует')))
 
     return email
 
 
 class RememberAuthenticationForm(AuthenticationForm):
-  remember = forms.BooleanField(label=_('Remember me'), required=False)
-
-
-class EmailChangeForm(forms.ModelForm):
-
-  class Meta:
-    model = EmailChange
-    fields = ('new_email',)
+  remember = forms.BooleanField(label=_('Запомнить меня'), required=False)

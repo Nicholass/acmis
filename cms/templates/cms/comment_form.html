@@ -2,6 +2,7 @@
 
 <form method="POST" action="{% url 'comment_new' pk=post.pk %}">
     {% csrf_token %}
+    {{ form.media }}
     {{ form.as_p }}
     <button type="submit">{% trans "Send" %}</button>
 </form>

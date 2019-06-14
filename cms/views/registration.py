@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 
 from django.contrib.auth.views import login
 from django.contrib.auth.models import User
-from ..models import EmailChange
 
-from ..forms import RegistrationForm, EmailChangeForm
-from django.contrib.auth.decorators import login_required, permission_required
+from ..forms.registration import RegistrationForm
+from ..forms.profile import EmailChangeForm
+from django.contrib.auth.decorators import login_required
 
 from django.conf import settings
 from django.core import signing
@@ -115,7 +115,6 @@ def send_email_confirmation_code(user, token, email, request):
   send_mail(subject, message, getattr(settings, 'DEFAULT_FROM_EMAIL'), [email])
 
 @login_required
-@permission_required('cms.add_emailchange', raise_exception=True)
 def edit_email(request):
   if request.method == 'POST':
     form = EmailChangeForm(request.POST)
@@ -142,22 +141,14 @@ def edit_email_done(request, uidb64, token):
     # urlsafe_base64_decode() decodes to bytestring on Python 3
     uid = force_text(urlsafe_base64_decode(uidb64))
     current_user = User.objects.get(pk=uid)
-    new_email = EmailChange.objects.get(user=current_user, auth_key=token)
-  except (TypeError, ValueError, OverflowError, User.DoesNotExist, EmailChange.DoesNotExist):
-    return render(request, 'registration/email_change_confirm.html', {
-      'validlink': False
-    })
+  except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+    return render(request, 'registration/email_change_reject.html')
 
   if not default_token_generator.check_token(current_user, token):
-    return render(request, 'registration/email_change_confirm.html', {
-      'validlink': False
-    })
+    return render(request, 'registration/email_change_reject.html')
 
-  current_user.email = new_email.new_email
+  current_user.email = current_user.profile.new_email
+  current_user.profile.new_email = None
   current_user.save()
 
-  new_email.delete()
-
-  return render(request, 'registration/email_change_confirm.html', {
-    'validlink': True
-  })
+  return render(request, 'registration/email_change_confirm.html')

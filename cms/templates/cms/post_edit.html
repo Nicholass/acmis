@@ -1,68 +1,28 @@
 {% extends 'cms/base.html' %}
 {% load staticfiles %}
 {% load i18n %}
-{% load i18n_filter %}
 
 {% block title %}
-  {% if post %}
-    {% trans "Edit " %}
-  {% else %}
-    {% trans "Add " %}
-  {% endif %}
-
-  {# TODO: перевод названия категории на уровне модели #}
-
-  {% if category.route == 'drawing' %}
-    {% trans "picture" %}
-  {% elif category.route == 'map' %}
-    {% trans "map" %}
-  {% elif category.route == 'news' %}
-    {% trans "news" %}
-  {% elif category.route == 'photo' %}
-    {% trans "photo" %}
-  {% elif category.route == 'prose' %}
-    {% trans "text" %}
-  {% elif category.route == 'report' %}
-    {% trans "report" %}
-  {% endif %}
-
-{% endblock %}
-
-{% block breadcrumbs %}
-  <li><a href="{% url 'category_list' category=category.route %}">
-      {% if category.i18n_name %}{{ category.i18n_name|i18n }}{% else %}{{ category.name }}{% endif %}
-  </a></li>
-  <li class="current">
     {% if post %}
-      {% trans "Edit " %}
+        {% trans "Edit post" %}
     {% else %}
-      {% trans "Add " %}
+        {% trans "Add post" %}
     {% endif %}
-    {{ category.i18n_name_plural|i18n }}
-  </li>
 {% endblock %}
 
 {% block content %}
     <h1>
-      {% if post %}
-        {% trans "Edit " %}
-      {% else %}
-        {% trans "Add " %}
-      {% endif %}
-
-      {{ category.i18n_name_plural|i18n }}
-
-      {% if post %}: {{ post.short_title }}{% endif %}
+        {% if post %}
+            {% trans "Edit post" %}
+        {% else %}
+            {% trans "Add post" %}
+        {% endif %}
     </h1>
 
     <form method="POST" class="post-form" enctype="multipart/form-data">
-      {% csrf_token %}
-      {{ form.media }}
-      {{ form.as_p }}
-      <button type="submit">{% trans "Send" %}</button>
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <button type="submit">{% trans "Send" %}</button>
     </form>
-{% endblock %}
-
-{% block sidebar %}
-    {% include "cms/blog_sidebar.html" %}
 {% endblock %}

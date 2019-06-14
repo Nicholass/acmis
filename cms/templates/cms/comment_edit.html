@@ -9,23 +9,12 @@
     {% endif %}
 {% endblock %}
 
-{% block breadcrumbs %}
-    <li><a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a></li>
-    <li class="current">
-        {% if not parent %}
-            {% trans "Edit comment" %}
-        {% else %}
-            {% trans "Reply to comment" %}
-        {% endif %}
-    </li>
-{% endblock %}
-
 {% block content %}
     <h2>
         {% if not parent %}
             {% trans "Edit comment" %}
         {% else %}
-            {% trans "Reply to comment: " %} {{ parent.author }}: {{ parent.short_text }}
+            {% trans "Reply to comment: " %} {{ parent.author }}
         {% endif %}
     </h2>
 

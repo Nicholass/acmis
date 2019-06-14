@@ -21,11 +21,11 @@
     {% endblock %}
 
     <link rel="stylesheet" href="{% static 'jquery-ui/themes/base/jquery-ui.min.css' %}">
-    <link rel="stylesheet" href="{% static 'fancybox/dist/jquery.fancybox.min.css' %}" >
-	<link rel="stylesheet" href="{% static 'css/fa/css/fontawesome-all.min.css' %}">
+    <link rel="stylesheet" href="{% static 'fancybox/dist/jquery.fancybox.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/fa/css/fontawesome-all.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
-    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon" />
+    <link rel="icon" href="/favicon.ico" type="image/x-icon"/>
+    <link rel="shortcut icon" href="/favicon.ico" type="image/x-icon"/>
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -50,7 +50,8 @@
         <span id="slogan">{% trans 'Site of Kiev Diggers' %}</span>
         <span id="greeting">
             {% if user.is_authenticated %}
-                {% trans "You logged in as: " %}<strong><a href="{% url 'profile' %}">{{ user.username }}</a></strong>
+                {% trans "You logged in as: " %}
+                <strong><a href="{% url 'profile' username=user.username %}">{{ user.username }}</a></strong>
             {% else %}
                 <strong><a href="{% url 'auth_login' %}">{% trans "Login " %}</a></strong>{% trans " or " %}
                 <strong><a href="{% url 'registration_register' %}">{% trans "register" %}</a></strong>
@@ -88,49 +89,28 @@
 <div id="content-wrap">
     <div class="navbar">
         <ul class="breadcrumbs">
-            {% if is_home %}
-                <li class="current">{% trans "Home" %}</li>
-            {% else %}
-                <li><a href="/">{% trans "Home" %}</a></li>
-            {% endif %}
             {% block breadcrumbs %}{% endblock %}
         </ul>
         <form action="{% url 'set_language' %}" class="langSwitcher" method="post">{% csrf_token %}
             {% get_current_language as LANGUAGE_CODE %}
             {% get_available_languages as LANGUAGES %}
             {% get_language_info_list for LANGUAGES as languages %}
-            <input name="next" type="hidden" value="{{ request.get_full_path }}" />
+            <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
             <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}">
             <ul>
                 {% for language in languages %}
-                <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}" id="{{ language.code }}">
-                    <a href="#" title="{{ language.name_local }} ({{ language.code }})">
-                        <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}" />
-                    </a>
-                </li>
+                    <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}"
+                        id="{{ language.code }}">
+                        <a href="#" title="{{ language.name_local }} ({{ language.code }})">
+                            <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}"/>
+                        </a>
+                    </li>
                 {% endfor %}
             </ul>
         </form>
     </div>
     <div class="content">
-        <div id="main">
-            {% block content %}{% endblock %}
-        </div>
-        <div id="sidebar">
-            {% block sidebar %}{% endblock %}
-
-            <div>
-                <h3>{% trans "Statistics" %}</h3>
-                <div class="block">
-                    <p>{% trans "Users online:" %} {{ request.online_users|length }}</p>
-                    <p>{% trans "Guests online:" %} {{ request.online_guests|length }}</p>
-                    {% if request.online_now %}
-                        <p>{% trans "Online now:" %}</p>
-                        <p>{% for user in request.online_now %}<strong>{{ user }}{% if not forloop.last %}, {% endif %}</strong>{% endfor %}</p>
-                    {% endif %}
-                </div>
-            </div>
-        </div>
+        {% block content %}{% endblock %}
     </div>
 </div>
 <!-- content-wrap ends here -->
@@ -143,8 +123,8 @@
         </div>
         <div>
             <p>
-                Design by Outsiders Diggers<br />
-                Copyright &copy; {% now "Y" %}<br />
+                Design by Outsiders Diggers<br/>
+                Copyright &copy; {% now "Y" %}<br/>
             </p>
         </div>
     </div>

@@ -40,25 +40,20 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'polymorphic',
     'django.contrib.contenttypes',
+    'django.contrib.sitemaps',
     'taggit',
     'mptt',
     'tracking',
     'cms',
     'django.contrib.admin',
     'ckeditor',
-    'ckeditor_uploader',
     'django_bleach',
     'ban',
-    'djangobower',
     'django_messages',
     'captcha',
-    'sorl.thumbnail',
-    'django.contrib.sitemaps',
-    'robots',
     'hitcount',
-
+    'simplemde',
     'django_user_agents',
     'tracking_analyzer',
 ]
@@ -75,8 +70,6 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
-    'cms.midlewares.ActiveUserMiddleware',
-    'cms.midlewares.OnlineUsersMiddleware',
     'cms.midlewares.XForwardedForMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'tracking.middleware.VisitorTrackingMiddleware',
@@ -341,6 +334,16 @@ CKEDITOR_CONFIGS = {
           'image2'
         ])
     }
+}
+
+SIMPLEMDE_OPTIONS = {
+    'placeholder': 'Комментар',
+    'status': False,
+    'autosave': {
+        'enabled': True
+    },
+    'spellChecker': False,
+    'forceSync': True,
 }
 
 '''

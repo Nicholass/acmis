@@ -6,7 +6,7 @@ import random
 
 from ..shortcuts import get_permited_object_or_403
 
-from ..models import CmsPost
+from ..models.cmspost import CmsPost
 
 
 def serve_map_file(request, map_hash):

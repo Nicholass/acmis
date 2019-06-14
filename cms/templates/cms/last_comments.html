@@ -3,12 +3,15 @@
     {% if comments %}
         {% for comment in comments %}
             <li>
-                <a href="{% url 'post_detail' comment.post.pk %}#comment{{ comment.pk }}" title="{{ comment.post|truncatechars:32 }}">{{ comment|truncatechars:24 }}</a>
+                <a href="{% url 'post_detail' comment.post.pk %}#comment{{ comment.pk }}"
+                   title="{{ comment.post|truncatechars:32 }}">{{ comment|truncatechars:24 }}</a>
                 <br>
                 {{ comment.created_date|date:"DATETIME_FORMAT" }} - {{ comment.author }}
             </li>
         {% endfor %}
     {% else %}
-        <ul><li>{% trans "There are no new comments" %}</li></ul>
+        <ul>
+            <li>{% trans "There are no new comments" %}</li>
+        </ul>
     {% endif %}
 </ul>

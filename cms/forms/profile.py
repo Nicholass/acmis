@@ -2,9 +2,10 @@ from django import forms
 from django.utils.translation import ugettext as _
 from django.core.files.images import get_image_dimensions
 from django.conf import settings
-import re
 
-from ..models import CmsProfile
+from ..utils import clean_http
+
+from ..models.cmsprofile import CmsProfile
 from django.contrib.auth.models import User
 
 
@@ -13,8 +14,8 @@ class DateInput(forms.DateInput):
 
 
 class ProfileForm(forms.ModelForm):
-  AVATAR_MAX_WIDTH = getattr(settings, 'AVATAR_MAX_WIDTH', '60')
-  AVATAR_MAX_HEIGHT = getattr(settings, 'AVATAR_MAX_HEIGHT', '60')
+  AVATAR_MAX_WIDTH = getattr(settings, 'AVATAR_MAX_WIDTH', '80')
+  AVATAR_MAX_HEIGHT = getattr(settings, 'AVATAR_MAX_HEIGHT', '80')
   AVATAR_MAX_SIZE = getattr(settings, 'AVATAR_MAX_SIZE', '20')
 
   def __init__(self, *args, **kwargs):
@@ -23,64 +24,30 @@ class ProfileForm(forms.ModelForm):
 
   class Meta:
     model = CmsProfile
-    fields = ('avatar', 'birth_date', 'location', 'site',  'skype', 'telegram', 'jabber', 'facebook', 'vk', 'instagram', 'twitter', 'youtube', 'hide_email')
+    fields = ('avatar', 'birth_date', 'location', 'skype', 'telegram', 'facebook', 'vk', 'instagram', 'twitter', 'youtube')
     widgets = {
       'birth_date': DateInput()
     }
 
-  def clean_site(self):
-    value = self.cleaned_data.get('site')
-    if not value:
-      return None
-    has_http = re.match(r'^(http://|https://)', value)
-    if not has_http:
-      value = "%s%s" % ('http://', value)
-    return value
-
   def clean_facebook(self):
     value = self.cleaned_data.get('facebook')
-    if not value:
-      return None
-    has_http = re.match(r'^(http://|https://)', value)
-    if not has_http:
-      value = "%s%s" % ('https://', value)
-    return value
+    return clean_http(value)
 
   def clean_vk(self):
     value = self.cleaned_data.get('vk')
-    if not value:
-      return None
-    has_http = re.match(r'^(http://|https://)', value)
-    if not has_http:
-      value = "%s%s" % ('https://', value)
-    return value
+    return clean_http(value)
 
   def clean_instagram(self):
     value = self.cleaned_data.get('instagram')
-    if not value:
-      return None
-    has_http = re.match(r'^(http://|https://)', value)
-    if not has_http:
-      value = "%s%s" % ('https://', value)
-    return value
+    return clean_http(value)
 
   def clean_twitter(self):
     value = self.cleaned_data.get('twitter')
-    if not value:
-      return None
-    has_http = re.match(r'^(http://|https://)', value)
-    if not has_http:
-      value = "%s%s" % ('https://', value)
-    return value
+    return clean_http(value)
 
   def clean_youtube(self):
     value = self.cleaned_data.get('youtube')
-    if not value:
-      return None
-    has_http = re.match(r'^(http://|https://)', value)
-    if not has_http:
-      value = "%s%s" % ('https://', value)
-    return value
+    return clean_http(value)
 
   def clean_avatar(self):
     avatar = self.cleaned_data['avatar']
@@ -122,3 +89,9 @@ class UserForm(forms.ModelForm):
   class Meta:
     model = User
     fields = ('first_name', 'last_name')
+
+class EmailChangeForm(forms.ModelForm):
+
+  class Meta:
+    model = CmsProfile
+    fields = ('new_email',)

@@ -13,10 +13,9 @@ from cms.utils import PathAndRename
 class CmsProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
-    avatar = models.ImageField(upload_to=PathAndRename('avatars/'), blank=True, null=True, verbose_name=_("Avatar"))
-    birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Birth date"))
-    location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Location"))
-    site = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Site"))
+    avatar = models.ImageField(upload_to=PathAndRename('avatars/'), blank=True, null=True, verbose_name=_("Аватар"))
+    birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Дата рождения"))
+    location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Местоположение"))
 
     facebook = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Facebook"))
     vk = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Vkontakte"))
@@ -24,12 +23,12 @@ class CmsProfile(models.Model):
     twitter = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Twitter"))
     youtube = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("YouTube"))
 
-    jabber = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Jabber"))
     telegram = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Telegram"))
     skype = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Skype"))
-    last_activity = models.DateTimeField(null=True, blank=True, verbose_name=_("Last online"))
+    last_activity = models.DateTimeField(null=True, blank=True, verbose_name=_("Был в сети"))
 
-    hide_email = models.BooleanField(default=True, verbose_name=_("Hide e-mail"))
+    email_change_token = models.CharField(max_length=42, verbose_name=_("Код подтверждения смены e-mail"))
+    new_email = models.CharField(max_length=256, verbose_name=_("Новый e-mail"))
 
     @property
     def avatar_url(self):
@@ -55,25 +54,11 @@ class CmsProfile(models.Model):
             return force_text(self)
 
     def get_absolute_url(self):
-        return reverse('another_profile', kwargs={'username': self.user.username})
-
-    '''
-    @receiver(post_save, sender=User)
-    def create_user_profile(sender, instance, created, **kwargs):
-        if created:
-            CmsProfile.objects.create(user=instance)
-
-    @receiver(post_save, sender=User)
-    def save_user_profile(sender, instance, **kwargs):
-        instance.profile.save()
-    '''
+        return reverse('profile', kwargs={'username': self.user.username})
 
     class Meta:
-      verbose_name = _("Profile")
-      verbose_name_plural = _("Profiles")
-      permissions = (
-          ("moderate_cmsprofile", _("Moderate profiles")),
-      )
+      verbose_name = _("Профиль пользователя")
+      verbose_name_plural = _("Профили пользователей")
 
     @receiver(post_save, sender=User)
     def add_to_default_group(sender, instance, created, **kwargs):

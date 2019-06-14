@@ -1,68 +1,40 @@
 {% load i18n %}
 {% load mptt_tags %}
+{% load markdown_extras %}
 {% load auth %}
-{% load thumbnail %}
 
 <ul>
     {% recursetree comments %}
         <li>
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
-                    <div class="user">
-                        <a href="{% url 'another_profile' username=node.author.username %}" >
-                            <i class="fa fa-user"></i>
-                            {{ node.author }}
-                        </a>
-                        <br>
-                        {% if node.author.profile.avatar %}
-                            {% thumbnail base_path|add:node.author.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
-                                <img src="{{ avatar.url }}" alt="{{ user_profile.get_display_name }} avatar"/>
-                            {% endthumbnail %}
-                        {% else %}
-                            <img src="{{ AVATAR_DEFAULT }}" alt="default avatar" width="{{ AVATAR_MAX_WIDTH }}" height="{{ AVATAR_MAX_HEIGHT }}"/>
-                        {% endif %}
-                        <p class="user-actions">
-                            <a href="{% url 'messages_compose_to' recipient=node.author %}">{% trans 'PM' %}</a>
-                        </p>
-                    </div>
+                    <img src="{{ avatar.url }}" alt="{{ user_profile.get_display_name }} avatar"/>
                     <div class="text">
                         <p class="info">
-                            <i class="fa fa-calendar"></i> {{ node.created_date }}
+                            <a href="{% url 'profile' username=node.author.username %}">{{ node.author }}</a>
+                            {{ node.created_date }}
+                            {% if node.modifed_date %}[{% trans "Edited " %} {{ node.modifed_date }}]{% endif %}
                         </p>
                         <p class="comment-message">
-                            {{ node.text|linebreaksbr }}
-                            {% if node.modifed_date %}
-                                <br />
-                                <br />
-                                <i class="edit-notice">{% trans "Edited " %} {{ node.modifed_date }}</i>
-                            {% endif %}
+                            {{ node.text | markdown | safe }}
                         </p>
                         <p class="actions">
                             {% auth_is_owner node as is_comment_owner %}
                             {% if user.is_authenticated %}
                                 {% if perms.cms.add_comment %}
-                                    <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">
-                                        <i class="fa fa-comment"></i>
-                                        {% trans "Reply" %}
-                                    </a>
+                                    <a href="{% url 'comment_reply' pk=post.pk cpk=node.pk %}">{% trans "Reply" %}</a>
                                 {% endif %}
                                 {% if perms.cms.change_comment and is_comment_owner %}
-                                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">
-                                        <i class="fa fa-edit"></i>
-                                        {% trans "Edit" %}
-                                    </a>
+                                    <a href="{% url 'comment_edit' pk=post.pk cpk=node.pk %}">{% trans "Edit" %}</a>
                                 {% endif %}
                                 {% if perms.cms.delete_comment and is_comment_owner %}
-                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}" onclick="return confirm('{% trans "Are you sure you want to delete the comment? Cancel this action will be impossible." %}')">
-                                        <i class="fa fa-trash"></i>
+                                    <a href="{% url 'comment_delete' pk=post.pk cpk=node.pk %}"
+                                       onclick="return confirm('{% trans "Are you sure you want to delete the comment? Cancel this action will be impossible." %}')">
                                         {% trans "Delete" %}
                                     </a>
                                 {% endif %}
                             {% endif %}
-                            <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">
-                                <i class="fa fa-link"></i>
-                                {% trans "Link" %}
-                            </a>
+                            <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">{% trans "Link" %}</a>
                         </p>
                     </div>
                 {% else %}

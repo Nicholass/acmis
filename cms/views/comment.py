@@ -5,15 +5,17 @@ from django.shortcuts import redirect, render
 from django.utils import timezone
 
 from ..shortcuts import get_permited_object_or_403, is_owner_or_403
-from ..forms import CommentForm
+from django.shortcuts import get_object_or_404
+from ..forms.comment import CommentForm
 
-from ..models import CmsPost, Comment
+from ..models.cmspost import CmsPost
+from ..models.comment import Comment
 
 
 @login_required
 @permission_required('cms.add_comment', raise_exception=True)
 def comment_new(request, pk):
-  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
+  post = get_object_or_404(CmsPost, pk=pk)
 
   if request.method == "POST":
     form = CommentForm(request.POST)
@@ -32,10 +34,8 @@ def comment_new(request, pk):
 @login_required
 @permission_required('cms.change_comment', raise_exception=True)
 def comment_edit(request, pk, cpk):
-  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
-  edited_comment = get_permited_object_or_403(Comment, request.user, pk=cpk)
-
-  is_owner_or_403(request.user, edited_comment)
+  post = get_object_or_404(CmsPost, pk=pk)
+  edited_comment = get_object_or_404(Comment, pk=cpk)
 
   if request.method == "POST":
     form = CommentForm(request.POST, instance=edited_comment)
@@ -49,14 +49,14 @@ def comment_edit(request, pk, cpk):
   else:
     form = CommentForm(instance=edited_comment)
 
-  return render(request, 'cms/comment_edit.html', {'form': form, 'post': post, 'comment': edited_comment})
+  return render(request, 'cms/comment_edit.html', {'form': form})
 
 
 @login_required
 @permission_required('cms.add_comment', raise_exception=True)
 def comment_reply(request, pk, cpk):
-  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
-  parent = get_permited_object_or_403(Comment, request.user, pk=cpk)
+  post = get_object_or_404(CmsPost, pk=pk)
+  parent = get_object_or_404(Comment, pk=cpk)
 
   if request.method == "POST":
     form = CommentForm(request.POST)
@@ -72,16 +72,13 @@ def comment_reply(request, pk, cpk):
   else:
     form = CommentForm()
 
-  return render(request, 'cms/comment_edit.html', {'form': form, 'post': post, 'parent': parent})
+  return render(request, 'cms/comment_edit.html', {'form': form, 'parent': parent})
 
 
 @login_required
 @permission_required('cms.delete_comment', raise_exception=True)
 def comment_delete(request, pk, cpk):
-  post = get_permited_object_or_403(CmsPost, request.user, pk=pk)
-  comment = get_permited_object_or_403(Comment, request.user, pk=cpk)
-
-  is_owner_or_403(request.user, comment)
+  comment = get_object_or_404(Comment, pk=cpk)
 
   comment.is_deleted = True
   comment.save()

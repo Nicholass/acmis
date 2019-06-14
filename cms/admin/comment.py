@@ -4,7 +4,8 @@ from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.contrib import admin
 from django.utils.translation import ugettext as _
 
-from ..models import Comment, CmsPost
+from ..models.comment import Comment
+from ..models.cmspost import CmsPost
 
 
 class ShortParentChoiseField(forms.ModelChoiceField):

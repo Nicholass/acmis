@@ -272,7 +272,6 @@ class Command(BaseCommand):
         if not map_cmscategory:
             raise CommandError('Map category not exists!')
 
-        map_cmscategory.allow_anonymous = False
         map_cmscategory.save()
 
         pm_report_cmscategory = CmsCategory.objects.get(route='pm_report')
@@ -280,7 +279,6 @@ class Command(BaseCommand):
         if not pm_report_cmscategory:
             raise CommandError('Permited report category not exists!')
 
-        pm_report_cmscategory.allow_anonymous = False
         pm_report_cmscategory.save()
 
         for arg in groups:

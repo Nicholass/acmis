@@ -1,13 +1,13 @@
 from django import template
-from cms.forms import CommentForm
-from cms.models import Comment
+from cms.forms.comment import CommentForm
+from cms.models.comment import Comment
 from django.conf import settings
 
 register = template.Library()
 
 @register.inclusion_tag("cms/comment_form.html")
 def comment_form(post):
-    form = CommentForm();
+    form = CommentForm()
     return {'form': form, 'post': post}
 
 @register.inclusion_tag("cms/comment_list.html", takes_context=True)

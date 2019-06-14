@@ -7,7 +7,11 @@ from django.views.decorators.cache import never_cache
 
 from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
 
-from . import views
+from .views import post
+from .views import comment
+from .views import registration
+from .views import profile
+from .views import ajax
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 from cms.forms.registration import RememberAuthenticationForm
@@ -21,38 +25,34 @@ sitemaps = {
 }
 
 urlpatterns = [
-  url(r'^$', views.post_list, name='post_list'),
-  url(r'^post/(?P<pk>[0-9]+)/$', views.post_detail, name='post_detail'),
+  url(r'^$', post.post_list, name='post_list'),
+  url(r'^post/new/$', post.post_new, name='post_new'),
+  url(r'^post/(?P<pk>[0-9]+)/$', post.post_detail, name='post_detail'),
 
   url(r'^i18n/', include('django.conf.urls.i18n')),
-  url(r'^category/(?P<category>\w+)/new/$', views.post_new, name='post_new'),
-  url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
-  url(r'^post/(?P<pk>[0-9]+)/delete/$', views.post_delete, name='post_delete'),
-  url(r'^post/(?P<pk>[0-9]+)/publish/$', views.post_publish, name='post_publish'),
-  url(r'^post/(?P<pk>[0-9]+)/approve/$', views.post_approve, name='post_approve'),
-  url(r'^category/(?P<category>\w+)/disapproved/$', views.post_disapproved, name='category_disapproved'),
-  url(r'^category/(?P<category>\w+)/draft/$', views.post_drafts, name='category_draft'),
+  url(r'^post/(?P<pk>[0-9]+)/edit/$', post.post_edit, name='post_edit'),
+  url(r'^post/(?P<pk>[0-9]+)/delete/$', post.post_delete, name='post_delete'),
 
-  url(r'^post/(?P<pk>[0-9]+)/comment/new/$', views.comment_new, name='comment_new'),
-  url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/reply/$', views.comment_reply, name='comment_reply'),
-  url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/edit/$', views.comment_edit, name='comment_edit'),
-  url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/delete/$', views.comment_delete, name='comment_delete'),
+  url(r'^post/(?P<pk>[0-9]+)/comment/new/$', comment.comment_new, name='comment_new'),
+  url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/reply/$', comment.comment_reply, name='comment_reply'),
+  url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/edit/$', comment.comment_edit, name='comment_edit'),
+  url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/delete/$', comment.comment_delete, name='comment_delete'),
 
-  url(r'^author/(?P<author>\w+)?/$', views.post_list, name='author_list'),
-  url(r'^author/(?P<author>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', views.post_list, name='author_tags_list'),
+  url(r'^author/(?P<author>\w+)?/$', post.post_list, name='author_list'),
+  url(r'^author/(?P<author>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', post.post_list, name='author_tags_list'),
 
-  url(r'^category/(?P<category>\w+)?/$', views.post_list, name='category_list'),
-  url(r'^category/(?P<category>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', views.post_list, name='category_tags_list'),
+  url(r'^category/(?P<category>\w+)?/$', post.post_list, name='category_list'),
+  url(r'^category/(?P<category>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', post.post_list, name='category_tags_list'),
 
-  url(r'^tags/(?P<tags>[\w\s\d\-_,]+)/$', views.post_list, name='tag_list'),
+  url(r'^tags/(?P<tags>[\w\s\d\-_,]+)/$', post.post_list, name='tag_list'),
 
-  url(r'^map/(?P<map_hash>\w+)/$', views.serve_map_file, name='map_file'),
+#  url(r'^map/(?P<map_hash>\w+)/$', views.serve_map_file, name='map_file'),
 
-  url(r'^accounts/login/$', views.remember_login, {'template_name': 'registration/login.html', 'authentication_form': RememberAuthenticationForm}, name='auth_login'),
+  url(r'^accounts/login/$', registration.remember_login, {'template_name': 'registration/login.html', 'authentication_form': RememberAuthenticationForm}, name='auth_login'),
   url(r'^accounts/logout/$', auth_views.LogoutView.as_view(template_name='registration/logout.html'), name='auth_logout'),
 
-  url(r'^accounts/activate/(?P<activation_key>[-:\w]+)/$', views.activation, name='registration_activate'),
-  url(r'^accounts/register/$', views.registration, name='registration_register'),
+  url(r'^accounts/activate/(?P<activation_key>[-:\w]+)/$', registration.activation, name='registration_activate'),
+  url(r'^accounts/register/$', registration.registration, name='registration_register'),
 
   url(r'^accounts/password/change/$',
       auth_views.PasswordChangeView.as_view(
@@ -79,20 +79,14 @@ urlpatterns = [
             success_url=reverse_lazy('auth_password_reset_complete')
         ),
         name='auth_password_reset_confirm'),
-  url(r'^accounts/profile/$', views.owner_profile, name='profile'),
-  url(r'^accounts/profile/edit/$', views.profile_edit, name='profile_edit'),
-  url(r'^accounts/profile/(?P<username>\w+)/$', views.profile, name='another_profile'),
-  url(r'^accounts/profile/(?P<username>\w+)/edit/$', views.profile_edit, name='another_profile_edit'),
-  url(r'^accounts/email/change/$', views.edit_email, name='auth_email_change'),
-  url(r'^accounts/email/change/done/(?P<uidb64>[0-9A-Za-z_\-]+)/'
-      r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', views.edit_email_done, name='auth_email_change_done'),
-  url(r'^accounts/userlist/$', views.userlist, name='users_list'),
+  url(r'^accounts/profile/(?P<username>\w+)/$', profile.profile, name='profile'),
+  url(r'^accounts/profile/(?P<username>\w+)/edit/$', profile.profile_edit, name='profile_edit'),
+  url(r'^accounts/userlist/$', profile.userlist, name='users_list'),
   url(r'^upload/', upload, name='ckeditor_upload'),
   url(r'^browse/', never_cache(browse), name='ckeditor_browse'),
-  url(r'^ajax/tags/', views.get_simular_tags, name="get_simular_tags"),
+  url(r'^ajax/tags/', ajax.get_simular_tags, name="get_simular_tags"),
   url(r'^messages/', include('django_messages.urls')),
   url(r'^sitemap\.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
-  url(r'^robots\.txt', include('robots.urls')),
   url(r'^latest/feed/', LatestEntriesFeed(), name="feed_latest"),
 ]
 
