@@ -145,19 +145,14 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/1.11/topics/i18n/
 
 LANGUAGE_CODE = 'uk'
-
 LANGUAGES = (
-    ('ru', 'Russian'),
-    ('en', 'English'),
     ('uk', 'Ukrainian'),
 )
 
 TIME_ZONE = 'Europe/Kiev'
 
-USE_I18N = True
-
+USE_I18N = False
 USE_L10N = True
-
 USE_TZ = True
 
 SITE_ID = 1
@@ -172,14 +167,6 @@ STATICFILES_FINDERS = (
     'django.contrib.staticfiles.finders.FileSystemFinder',
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
     'djangobower.finders.BowerFinder',
-)
-
-BOWER_COMPONENTS_ROOT = os.path.join(BASE_DIR, './')
-BOWER_INSTALLED_APPS = (
-    'jquery#3.3',
-    'jquery-ui#1.12',
-    'jquery.tagsinput#1.3.6',
-    'fancybox#3.3.5',
 )
 
 FILE_UPLOAD_PERMISSIONS = 0o755
@@ -198,9 +185,6 @@ EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER', '')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD', '')
 EMAIL_USE_TLS = os.getenv('EMAIL_USE_TLS', False) == 'True'
 DEFAULT_FROM_EMAIL = 'noreply@diggers.kiev.ua'
-
-#HOME_CATEGORY_ROUTE = 'news'
-MAPS_CATEGORY_ROUTE = 'map'
 
 BLEACH_ALLOWED_TAGS = [
   'p',
@@ -261,9 +245,6 @@ DEFAULT_REGISTRATION_GROUP = 'Users'
 PAGINATION_POSTS_COUNT = 25
 PAGINATION_USERS_COUNT = 50
 
-PREMODERATION_CATEGORIES = ['map', 'news']
-PREMODERATION_GROUPS = ['Users', 'Users with aditional access']
-
 SESSION_SAVE_EVERY_REQUEST = True
 
 ALLOWED_HOSTS = [
@@ -279,14 +260,6 @@ NOCAPTCHA = True
 
 TAGTOOLS_CLOUD_STEPS = 6
 TAGTOOLS_CLOUD_MIN_COUNT = 1
-
-THUMBNAIL_KVSTORE = 'sorl.thumbnail.kvstores.redis_kvstore.KVStore'
-THUMBNAIL_REDIS_HOST = os.getenv('THUMBNAIL_REDIS_HOST', 'localhost')
-THUMBNAIL_REDIS_PORT = os.getenv('THUMBNAIL_REDIS_PORT', 6379)
-THUMBNAIL_REDIS_PASSWORD = os.getenv('THUMBNAIL_REDIS_PASSWORD', '')
-THUMBNAIL_REDIS_DB = os.getenv('THUMBNAIL_REDIS_DB', 0)
-THUMBNAIL_UPSCALE = False
-THUMBNAIL_DEBUG = os.getenv('DEBUG', False) == 'True'
 
 OPENGRAPH_CONFIG = {
     'FB_ADMINS': '',
@@ -310,6 +283,7 @@ TRACK_IGNORE_URLS = (
     r'^ajax/tags',
     r'^ckeditor',
     r'^latest/feed',
+    r'^static/'
     # No need. This track by another tracking
     r'^post/\d',
     r'^category/\w+',

@@ -14,7 +14,6 @@ class Command(BaseCommand):
 
     def handle(self, *args, **options):
 
-        subprocess.call(['python', './manage.py', 'bower', 'install', '--', '--allow-root'])
         subprocess.call(['python', './manage.py', 'collectstatic'])
 
         geoip_dir = getattr(settings, 'GEOIP_PATH')

@@ -56,6 +56,9 @@
                         <div class="info">
                             <span><a href="{% url 'author_list' author=post.author %}">[{{ post.author }}]</a></span>
                             <span>{{ post.created_date }}</span>
+                            {% if post.modifed_date %}
+                                <span>[відредаговано {{ post.modifed_date }}]</span>
+                            {% endif %}
                         </div>
 
                         <div class="post-content clearfix">

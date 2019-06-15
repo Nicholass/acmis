@@ -43,3 +43,14 @@ class PathAndRename(object):
             filename = '{}.{}'.format(uuid4().hex, ext)
         # return the whole path to the file
         return os.path.join(self.path, filename)
+
+def is_owner(user, obj):
+    model_name = obj.__class__.__name__.lower()
+
+    is_moderator = user.has_perm('cms.moderate_%s' % model_name)
+    is_owner = (obj.author == user)
+
+    if is_owner or is_moderator:
+        return True
+
+    return False

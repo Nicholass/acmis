@@ -14,15 +14,15 @@ class PostAdmin(admin.ModelAdmin):
 
     class Media:
         js = (
-            'jquery/dist/jquery.min.js',
-            'jquery-ui/jquery-ui.min.js',
-            'jquery.tagsinput/src/jquery.tagsinput.js',
+            'js/jquery.min.js',
+            'js/jquery-ui/jquery-ui.min.js',
+            'js/jquery.tagsinput.min.js',
             'js/PostsForm.js'
         )
         css = {
             'screen': (
-                'jquery-ui/themes/base/jquery-ui.min.css',
-                'jquery.tagsinput/src/jquery.tagsinput.css',
+                'js/jquery-ui/jquery-ui.min.css',
+                'js/jquery.tagsinput.min.css',
             ),
         }
 
