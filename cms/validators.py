@@ -5,7 +5,6 @@ django-registration's various user-registration form classes.
 """
 from django.core.exceptions import ValidationError
 from django.utils import six
-from django.utils.translation import ugettext_lazy as _
 
 from confusable_homoglyphs import confusables
 
@@ -189,7 +188,7 @@ def free_email(value):
     email_domain = value.split('@')[1]
 
     if email_domain.lower() in BAD_EMAIL_DOMAINS:
-      raise ValidationError(_("Registration e-mail of this mail service is prohibited."))
+      raise ValidationError('Реэстрація e-mail розміщених на цьому поштовому сервісі заборонено')
   except IndexError:
     pass
 
@@ -202,7 +201,7 @@ def reserved_name(value):
   if not isinstance(value, six.text_type):
     return
   if value.lower() in DEFAULT_RESERVED_NAMES:
-    raise ValidationError(_("This username is reserved."))
+    raise ValidationError('Це ім\'я користувача зарезервовано')
 
 def validate_confusables(value):
     """
@@ -217,7 +216,7 @@ def validate_confusables(value):
     if not isinstance(value, six.text_type):
       return
     if confusables.is_dangerous(value):
-      raise ValidationError(_("This username cannot be registered."))
+      raise ValidationError('Це ім\'я користувача заборонено використовувати')
 
 
 def validate_confusables_email(value):
@@ -236,4 +235,4 @@ def validate_confusables_email(value):
     local_part, domain = value.split('@')
     if confusables.is_dangerous(local_part) or \
       confusables.is_dangerous(domain):
-       raise ValidationError(_("This e-mail cannot be registered."))
+       raise ValidationError('Цей e-mail заборонено використовувати')

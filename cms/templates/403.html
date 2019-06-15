@@ -1,13 +1,12 @@
 {% extends 'cms/base.html' %}
-{% load i18n %}
 
 {% block title %}
-    {% trans "Error 403" %}
+    Помилка 403
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Error 403 - Access denine" %}</h1>
+    <h1>Помилка 403 - доступ заборонено</h1>
     <p>
-        {% trans "You do not have permission to view this page." %}
+        Ви не маєте доступа до цієї сторінки
     </p>
 {% endblock %}

@@ -1,13 +1,12 @@
 {% extends 'cms/base.html' %}
-{% load i18n %}
 
 {% block title %}
-    {% trans "Error 400" %}
+    Помилка 400
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Error 400 - Bad request" %}</h1>
+    <h1>Помилка 400 - помилка запиту</h1>
     <p>
-        {% trans "An error occurred while processing the request." %}
+        Під час обробки запиту сталася помилка
     </p>
 {% endblock %}

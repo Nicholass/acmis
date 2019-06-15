@@ -1,15 +1,14 @@
-{% load i18n %}
 {% load auth %}
 
 <ul class="menu">
-    <li><a href="/">{% trans "Blog" %}</a></li>
-    <li><a href='{% url 'users_list' %}'>{% trans "Users" %}</a></li>
+    <li><a href="/">Блог</a></li>
+    <li><a href='{% url 'users_list' %}'>Користувачі</a></li>
 
     {% if user.is_staff %}
-        <li><a href='/admin/'>{% trans "Control panel" %}</a></li>
+        <li><a href='/admin/'>Адмінка</a></li>
     {% endif %}
 
     {% if user.is_authenticated %}
-        <li><a href='{% url 'auth_logout' %}?next={{ request.path }}'>{% trans "Logout" %}</a></li>
+        <li><a href='{% url 'auth_logout' %}?next={{ request.path }}'>Вихід</a></li>
     {% endif %}
 </ul>

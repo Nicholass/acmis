@@ -1,5 +1,4 @@
 {% extends 'cms/base.html' %}
-{% load i18n %}
 {% load comments %}
 {% load auth %}
 {% load bleach_tags %}
@@ -17,7 +16,7 @@
 {% endblock %}
 
 {% block breadcrumbs %}
-    <li><a href="/">{% trans "Blog" %}</a></li>
+    <li><a href="/">Блог</a></li>
     <li>
         <a href="{% url 'category_list' category=post.category.route %}">
             {{ post.category.name }}
@@ -55,12 +54,14 @@
                 {% auth_is_owner post as is_post_owner %}
 
                 {% if perms.cms.change_cmspost and is_post_owner %}
-                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans " Edit" %}</a>
+                    <a href="{% url 'post_edit' pk=post.pk %}">Редагувати</a>
                 {% endif %}
 
                 {% if perms.cms.delete_cmspost and is_post_owner %}
                     <a href="{% url 'post_delete' pk=post.pk %}"
-                       onclick="return confirm('{% trans "Are you sure you want to delete the post? Cancel this action will be impossible." %}')">{% trans " Delete" %}</a>
+                       onclick="return confirm('Ви впевнені, що хочете видалити пост?')">
+                        Видалити
+                    </a>
                 {% endif %}
             {% endif %}
         </div>

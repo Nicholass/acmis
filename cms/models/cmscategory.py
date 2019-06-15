@@ -1,19 +1,18 @@
 from django.db import models
-from django.utils.translation import ugettext as _
 
 class CmsCategory(models.Model):
-  name = models.CharField(max_length=200, verbose_name=_("Название"))
+  name = models.CharField(max_length=200, verbose_name='Назва')
   route = models.CharField(
     max_length=200,
-    verbose_name=_("Путь"),
+    verbose_name='Шлях',
   )
 
   def get_absolute_url(self):
-    return "/category/%s/" % self.route
+    return '/category/%s/' % self.route
 
   def __str__(self):
     return self.name
 
   class Meta:
-    verbose_name = _("Категория")
-    verbose_name_plural = _("Категории")
+    verbose_name = 'Категорія'
+    verbose_name_plural = 'Категорії'

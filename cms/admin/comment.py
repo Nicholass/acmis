@@ -2,7 +2,6 @@ from mptt.admin import MPTTModelAdmin
 from django import forms
 from django.contrib.admin.widgets import RelatedFieldWidgetWrapper
 from django.contrib import admin
-from django.utils.translation import ugettext as _
 
 from ..models.comment import Comment
 from ..models.cmspost import CmsPost
@@ -37,8 +36,8 @@ class CustomMPTTModelAdmin(MPTTModelAdmin):
   # specify pixel amount for this ModelAdmin only:
   mptt_level_indent = 10
   mptt_indent_field = 'get_short_text'
-  list_filter = ['created_date', 'is_moderated']
-  list_display = ('get_short_text', 'get_post', 'created_date', 'author', 'is_moderated', 'is_deleted', 'pk')
+  list_filter = ['created_date']
+  list_display = ('get_short_text', 'get_post', 'created_date', 'author', 'is_deleted', 'pk')
   date_hierarchy = 'created_date'
   search_fields = ['text']
   form = CustomMPTTAdminForm
@@ -49,5 +48,5 @@ class CustomMPTTModelAdmin(MPTTModelAdmin):
   def get_short_text(self, obj):
     return obj.short_text
 
-  get_short_text.short_description = _('Comment')
-  get_post.short_description = _('Post')
+  get_short_text.short_description = 'Коментар'
+  get_post.short_description = 'Пост'

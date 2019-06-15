@@ -1,26 +1,26 @@
 {% extends 'cms/base.html' %}
-{% load i18n %}
 
 {% block title %}
     {% if not parent %}
-        {% trans "Edit comment" %}
+        Редагування коментаря
     {% else %}
-        {% trans "Reply to comment" %}
+        Відповідь на коментар: {{ parent.author }}
     {% endif %}
 {% endblock %}
 
 {% block content %}
     <h2>
         {% if not parent %}
-            {% trans "Edit comment" %}
+            Редагування коментаря
         {% else %}
-            {% trans "Reply to comment: " %} {{ parent.author }}
+            Відповідь на коментар: {{ parent.author }}
         {% endif %}
     </h2>
 
     <form method="POST">
         {% csrf_token %}
+        {{ form.media }}
         {{ form.as_p }}
-        <button type="submit">{% trans "Send" %}</button>
+        <button type="submit">Відправити</button>
     </form>
 {% endblock %}

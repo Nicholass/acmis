@@ -1,13 +1,12 @@
 {% extends 'cms/base.html' %}
-{% load i18n %}
 
 {% block title %}
-    {% trans "Error 500" %}
+    Помилка 500
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Error 500 - Internal server error" %}</h1>
+    <h1>Помилка 500 - помилка на сервері</h1>
     <p>
-        {% trans "While processing the request an error occurred on the server." %}
+        Під час обробки запиту сталась помилка на сервері
     </p>
 {% endblock %}

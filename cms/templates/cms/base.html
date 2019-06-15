@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load i18n %}
 {% load inbox %}
 {% load opengraph %}
 
@@ -47,14 +46,14 @@
             <div id="logo-rt">&nbsp;</div>
         </div>
         <span id="logo"><a href="{{ request.scheme }}://{{ request.site }}/">Diggers.kiev.ua</a></span>
-        <span id="slogan">{% trans 'Site of Kiev Diggers' %}</span>
+        <span id="slogan">Сайт дигерів Києва</span>
         <span id="greeting">
             {% if user.is_authenticated %}
-                {% trans "You logged in as: " %}
+                Ви увійшли як:
                 <strong><a href="{% url 'profile' username=user.username %}">{{ user.username }}</a></strong>
             {% else %}
-                <strong><a href="{% url 'auth_login' %}">{% trans "Login " %}</a></strong>{% trans " or " %}
-                <strong><a href="{% url 'registration_register' %}">{% trans "register" %}</a></strong>
+                <strong><a href="{% url 'auth_login' %}">Увійдіть</a></strong>або
+                <strong><a href="{% url 'registration_register' %}">зареєструйтеся</a></strong>
             {% endif %}
         </span>
         {% if user.is_authenticated %}
@@ -62,22 +61,9 @@
                 {% url 'messages_inbox' as pm_url %}
                 {% inbox_count as pm_cout %}
                 {% if pm_cout > 0 %}<strong>{% endif %}
-                {% blocktrans with pm_url=pm_url %}
-                    You have <a href="{{ pm_url }}">{{ pm_cout }} personal messages</a>
-                {% endblocktrans %}
+                    Ви маєте <a href="{{ pm_url }}">{{ pm_cout }} персональних повідомлень</a>
                 {% if pm_cout > 0 %}</strong>{% endif %}
             </span>
-
-            {% if pm_cout > 0 %}
-                <div id="pm-notification" style="display: none; position: absolute; top: 30px; right: 50px;">
-                    {% blocktrans with pm_cout=pm_cout %}
-                        <p>You received {{ pm_cout }} personal messages</p>
-                    {% endblocktrans %}
-                    {% blocktrans with pm_cout=pm_cout %}
-                        <p>For view them go to <a href="{{ pm_url }}">link</a></p>
-                    {% endblocktrans %}
-                </div>
-            {% endif %}
         {% endif %}
 
         <!-- Menu Tabs -->
@@ -91,23 +77,6 @@
         <ul class="breadcrumbs">
             {% block breadcrumbs %}{% endblock %}
         </ul>
-        <form action="{% url 'set_language' %}" class="langSwitcher" method="post">{% csrf_token %}
-            {% get_current_language as LANGUAGE_CODE %}
-            {% get_available_languages as LANGUAGES %}
-            {% get_language_info_list for LANGUAGES as languages %}
-            <input name="next" type="hidden" value="{{ request.get_full_path }}"/>
-            <input name="language" type="hidden" value="{{ LANGUAGE_CODE }}">
-            <ul>
-                {% for language in languages %}
-                    <li class="langBtn{% if language.code == LANGUAGE_CODE %} selected{% endif %}"
-                        id="{{ language.code }}">
-                        <a href="#" title="{{ language.name_local }} ({{ language.code }})">
-                            <img src="{% static 'images/locale/' %}{{ language.code }}.png" alt="{{ language.code }}"/>
-                        </a>
-                    </li>
-                {% endfor %}
-            </ul>
-        </form>
     </div>
     <div class="content">
         {% block content %}{% endblock %}

@@ -710,7 +710,6 @@ form .help {
 }
 .comments form {
 	margin-top: 15px;
-	max-width: 500px;
 }
 .CodeMirror-scroll,
 .CodeMirror {

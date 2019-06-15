@@ -1,5 +1,4 @@
 {% extends 'cms/base.html' %}
-{% load i18n %}
 {% load comments %}
 {% load auth %}
 {% load bleach_tags %}
@@ -37,17 +36,13 @@
         <div id="main">
             {% if perms.cms.add_cmspost %}
                 <div class="actions">
-                    <a href="{% url 'post_new' %}">
-                        {% trans "Add post" %}
-                    </a>
+                    <a href="{% url 'post_new' %}">Додати новий пост</a>
                 </div>
             {% endif %}
 
             <div class="posts">
                 {% if not posts %}
-                    <p class="nocontent">
-                        {% trans "There are no materials for this request yet. " %}
-                    </p>
+                    <p class="nocontent">Поки що у цій категорії немає постів</p>
                 {% endif %}
 
                 {% for post in posts %}
@@ -74,12 +69,14 @@
                                 {% auth_is_owner post as is_post_owner %}
 
                                 {% if perms.cms.change_cmspost and is_post_owner %}
-                                    <a href="{% url 'post_edit' pk=post.pk %}">{% trans " Edit" %}</a>
+                                    <a href="{% url 'post_edit' pk=post.pk %}">Редагувати</a>
                                 {% endif %}
 
                                 {% if perms.cms.delete_cmspost and is_post_owner %}
                                     <a href="{% url 'post_delete' pk=post.pk %}"
-                                       onclick="return confirm('{% trans "Are you sure you want to delete the post? Cancel this action will be impossible." %}')">{% trans " Delete" %}</a>
+                                       onclick="return confirm('Ви впевнені, що хочете видалити пост?')">
+                                        Видалити
+                                    </a>
                                 {% endif %}
                             {% endif %}
 
@@ -87,9 +84,9 @@
                                 {% comment_count as comm_count %}
                                 {% if comm_count %}
                                     {{ comm_count }}
-                                    {% if comm_count|plural_type == 1 %}{% trans "comment" %}{% endif %}
-                                    {% if comm_count|plural_type == 2 %}{% trans "comments" %}{% endif %}
-                                    {% if comm_count|plural_type == 3 %}{% trans "comments " %}{% endif %}
+                                    {% if comm_count|plural_type == 1 %}коментар{% endif %}
+                                    {% if comm_count|plural_type == 2 %}коментяря{% endif %}
+                                    {% if comm_count|plural_type == 3 %}коментарів{% endif %}
                                 {% endif %}
                             </a>
                         </div>
@@ -122,7 +119,7 @@
         </div>
         <div id="sidebar">
             <div>
-                <h3>{% trans "Categories" %}</h3>
+                <h3>Категорії</h3>
                 <div class="block">
                     {% for category in categories_list %}
                         <a href="{% url 'category_list' category=category.route %}">{{ category }}</a>
@@ -130,7 +127,7 @@
                 </div>
             </div>
             <div>
-                <h3>{% trans "Tags" %}</h3>
+                <h3>Теги</h3>
                 <div class="block">
                     {% tags_cloud as cloud %}
                     {% for tag in cloud %}
@@ -141,7 +138,7 @@
             </div>
 
             <div>
-                <h3>{% trans "Discussed posts" %}</h3>
+                <h3>Коментуємі пости</h3>
                 <div class="block list">
                     {% last_comments 6 %}
                 </div>

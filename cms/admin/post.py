@@ -1,4 +1,3 @@
-from django.utils.translation import ugettext as _
 from django.contrib import admin
 
 from ..models.cmspost import CmsPost
@@ -30,4 +29,4 @@ class PostAdmin(admin.ModelAdmin):
     def get_short_title(self, obj):
         return obj.short_title
 
-    get_short_title.short_description = _('Post')
+    get_short_title.short_description = 'Пост'

@@ -1,4 +1,3 @@
-{% load i18n %}
 <ul>
     {% if comments %}
         {% for comment in comments %}
@@ -11,7 +10,7 @@
         {% endfor %}
     {% else %}
         <ul>
-            <li>{% trans "There are no new comments" %}</li>
+            <li>Коментуємих постів поки немає</li>
         </ul>
     {% endif %}
 </ul>
