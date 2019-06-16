@@ -1,6 +1,5 @@
 from django.utils import timezone
 from django.db import models
-from django.utils.translation import ugettext as _
 from django.db.models.signals import post_save
 from django.utils.encoding import force_text
 from django.dispatch import receiver
@@ -10,32 +9,38 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import User, Group
 from cms.utils import PathAndRename
 
+GENDER = (
+    ('BOY', 'Хлопець'),
+    ('GIRL', 'Дівчина'),
+)
+
 class CmsProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='profile')
 
-    avatar = models.ImageField(upload_to=PathAndRename('avatars/'), blank=True, null=True, verbose_name=_("Аватар"))
-    birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Дата рождения"))
-    location = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Местоположение"))
+    avatar = models.ImageField(upload_to=PathAndRename('avatars/'), blank=True, null=True, verbose_name='Аватар')
+    gender = models.CharField(max_length=10, null=True, blank=True, choices=GENDER, verbose_name='Стать')
+    birth_date = models.CharField(max_length=80, null=True, blank=True, verbose_name='Дата народження')
+    location = models.CharField(max_length=80, null=True, blank=True, verbose_name='Місце розташування')
 
-    facebook = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Facebook"))
-    vk = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Vkontakte"))
-    instagram = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Instagram"))
-    twitter = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Twitter"))
-    youtube = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("YouTube"))
+    facebook = models.CharField(max_length=80, null=True, blank=True, verbose_name='Facebook')
+    vk = models.CharField(max_length=80, null=True, blank=True, verbose_name='Vkontakte')
+    instagram = models.CharField(max_length=80, null=True, blank=True, verbose_name='Instagram')
+    twitter = models.CharField(max_length=80, null=True, blank=True, verbose_name='Twitter')
+    youtube = models.CharField(max_length=80, null=True, blank=True, verbose_name='YouTube')
 
-    telegram = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Telegram"))
-    skype = models.CharField(max_length=80, null=True, blank=True, verbose_name=_("Skype"))
-    last_activity = models.DateTimeField(null=True, blank=True, verbose_name=_("Был в сети"))
+    telegram = models.CharField(max_length=80, null=True, blank=True, verbose_name='Telegram')
+    skype = models.CharField(max_length=80, null=True, blank=True, verbose_name='Skype')
+    last_activity = models.DateTimeField(null=True, blank=True, verbose_name='Був на сайті')
 
-    email_change_token = models.CharField(max_length=42, verbose_name=_("Код подтверждения смены e-mail"))
-    new_email = models.CharField(max_length=256, verbose_name=_("Новый e-mail"))
+    email_change_token = models.CharField(max_length=42, verbose_name='Код підтвердження зміни e-mail')
+    new_email = models.CharField(max_length=256, verbose_name='Новий e-mail')
 
     @property
     def avatar_url(self):
         try:
             return self.avatar.url
         except:
-            return getattr(settings, 'STATIC_URL', '') + 'images/no_avatar.png'
+            return getattr(settings, 'AVATAR_DEFAULT', '')
 
     @property
     def online(self):
@@ -54,11 +59,20 @@ class CmsProfile(models.Model):
             return force_text(self)
 
     def get_absolute_url(self):
-        return reverse('profile', kwargs={'username': self.user.username})
+        return reverse('user', kwargs={'username': self.user.username})
+
+    @receiver(post_save, sender=User)
+    def create_user_profile(sender, instance, created, **kwargs):
+        if created:
+            CmsProfile.objects.create(user=instance)
+
+    @receiver(post_save, sender=User)
+    def save_user_profile(sender, instance, **kwargs):
+        instance.profile.save()
 
     class Meta:
-      verbose_name = _("Профиль пользователя")
-      verbose_name_plural = _("Профили пользователей")
+      verbose_name = 'Профіль користувача'
+      verbose_name_plural = 'Профілі користувачів'
 
     @receiver(post_save, sender=User)
     def add_to_default_group(sender, instance, created, **kwargs):

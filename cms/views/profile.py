@@ -5,9 +5,10 @@ from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.conf import settings
 
-from ..forms.profile import ProfileForm, UserForm
+from cms.forms.profile import ProfileForm, UserForm
 
 from django.contrib.auth.models import User
+from cms.models.cmspost import CmsPost
 
 def profile(request, username=None):
     if username:
@@ -15,12 +16,9 @@ def profile(request, username=None):
     else:
         user = request.user
 
-    context = {
-        'profile_user': user,
-        'base_path': settings.BASE_DIR,
-    }
+    posts = CmsPost.objects.filter(author=user).distinct().order_by('-created_date')[0:30]
 
-    return render(request, 'registration/profile.html', context)
+    return render(request, 'registration/profile.html', { 'user': user, 'posts': posts })
 
 @login_required
 @transaction.atomic
@@ -37,7 +35,11 @@ def profile_edit(request, username=None):
             user_form.save()
             profile_form.save()
 
-            return redirect('profile', username=user.username)
+            if username:
+                return redirect('profile', username=user.username)
+            else:
+                return redirect('me')
+
     else:
         user_form = UserForm(instance=user)
         profile_form = ProfileForm(instance=user.profile)
@@ -60,6 +62,4 @@ def userlist(request):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
 
-    return render(request, 'registration/users_list.html', {
-      'users': users
-    })
+    return render(request, 'registration/users_list.html', { 'users': users })

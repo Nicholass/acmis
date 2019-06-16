@@ -20,11 +20,6 @@ def comment_list(context):
       'post': post,
       'user': context['user'],
       'perms': context['perms'],
-      'AVATAR_MAX_WIDTH': settings.AVATAR_MAX_WIDTH,
-      'AVATAR_MAX_HEIGHT': settings.AVATAR_MAX_HEIGHT,
-      'AVATAR_DEFAULT': settings.AVATAR_DEFAULT,
-      'AVATAR_DIMENSIONS': settings.AVATAR_DIMENSIONS,
-      'base_path': settings.BASE_DIR
     }
 
 @register.assignment_tag(takes_context=True)

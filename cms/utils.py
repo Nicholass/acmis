@@ -2,6 +2,7 @@ import re
 import os
 from django.utils.deconstruct import deconstructible
 from uuid import uuid4
+from PIL import Image
 
 def clean_http(text):
     if not text:

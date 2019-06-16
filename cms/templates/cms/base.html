@@ -46,7 +46,7 @@
         <span id="greeting">
             {% if user.is_authenticated %}
                 Ви увійшли як:
-                <strong><a href="{% url 'profile' username=user.username %}">{{ user.username }}</a></strong>
+                <strong><a href="{% url 'user' username=user.username %}">{{ user.username }}</a></strong>
             {% else %}
                 <strong><a href="{% url 'auth_login' %}">Увійдіть</a></strong>або
                 <strong><a href="{% url 'registration_register' %}">зареєструйтеся</a></strong>

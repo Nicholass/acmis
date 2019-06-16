@@ -7,10 +7,10 @@
         <li>
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
-                    <img src="{{ avatar.url }}" alt="{{ user_profile.get_display_name }} avatar"/>
+                    <img src="{{ node.author.profile.avatar_url }}" alt="avatar"/>
                     <div class="text">
                         <p class="info">
-                            <a href="{% url 'profile' username=node.author.username %}">{{ node.author }}</a>
+                            {{ node.author.first_name }} {{ node.author.last_name }} [<a href="{% url 'user' username=node.author.username %}">{{ node.author }}</a>]
                             {{ node.created_date }}
                             {% if node.modifed_date %}[Відредаговано {{ node.modifed_date }}]{% endif %}
                         </p>

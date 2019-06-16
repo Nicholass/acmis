@@ -1,134 +1,125 @@
 {% extends "cms/base.html" %}
-{% load i18n %}
-{% load thumbnail %}
-{% load bleach_tags %}
+
+{% load comments %}
 
 {% block title %}
-    {% trans "User profile " %}{{ profile_user }}
+    {{ user.first_name }} {{ user.last_name }}[{{ user }}]
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "User profile " %}{{ profile_user }}</h1>
+    <h1>Профіль користувача</h1>
 
-    {% if user.is_authenticated %}
-        {% if is_owner or is_moderator %}
-            <div class="actions">
-                {% if is_owner %}
-                    <a href="{% url 'profile_edit' %}">{% trans "Edit" %}</a>
-                    <a href="{% url 'auth_password_change' %}">{% trans "Change password" %}</a>
-                    <a href="{% url 'auth_email_change' %}">{% trans "Change email" %}</a>
-                {% else %}
-                    <a href="{% url 'another_profile_edit' username=profile_user.username %}">{% trans "Edit" %}</a>
-                {% endif %}
-            </div>
-        {% endif %}
+    {% if user == request.user or perms.cms.change_user %}
+        <div class="actions">
+            {% if user == request.user %}
+                <a href="{% url 'me_edit' %}">Редагувати</a>
+                <a href="{% url 'auth_password_change' %}">Змінити пароль</a>
+                <a href="{% url 'auth_email_change' %}">Змінити e-mail</a>
+            {% else %}
+                <a href="{% url 'user_edit' username=user.username %}">Редагувати</a>
+            {% endif %}
+
+            <a href="{% url 'messages_compose_to' recipient=user.username %}">Повідомлення</a>
+        </div>
     {% endif %}
+
     <div class="profile">
-        <div>
-            <h2>{{ profile_user }}</h2>
-            {% if profile_user.profile.avatar %}
-                {% thumbnail base_path|add:profile_user.profile.avatar.url AVATAR_DIMENSIONS as avatar %}
-                    <img src="{{ avatar.url }}" alt="{{ profile_user }} avatar"/>
-                {% endthumbnail %}
-            {% else %}
-                <img src="{{ AVATAR_DEFAULT }}" alt="default avatar" width="{{ AVATAR_MAX_WIDTH }}" height="{{ AVATAR_MAX_HEIGHT }}"/>
-            {% endif %}
+        <div class="data">
+            <div class="basic">
+                <img src="{{ user.profile.avatar_url }}" alt="avatar"/>
+                <div>
+                    <p>{{ user.first_name }} {{ user.last_name }} [{{ user }}]</p>
+                    <p>Дата реєстрації: {{ user.date_joined|date:"d.m.Y" }}</p>
+                    <p>Онлайн: {% if user.profile.online %}Так{% else %}Ні{% endif %}</p>
+                    <p>
+                        Був онлайн:
+                        {% if user.profile.last_activity %}
+                            {{ user.profile.last_activity|date:"d.m.Y H:i" }}
+                        {% else %}
+                            Ніколи
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+
+            <div>
+                <p>
+                    Дата народження:
+                    {% if user.profile.birth_date %}
+                        {{ user.profile.birth_date }}
+                    {% endif %}
+                </p>
+                <p>
+                    Стать:
+                    {% if user.profile.gender == 'GIRL' %}
+                        Жіноча
+                    {% elif user.profile.gender == 'BOY' %}
+                        Чоловіча
+                    {% endif %}
+                </p>
+                <p>
+                    Місцезнаходження:
+                    {% if user.profile.location %}
+                        {{ user.profile.location }}
+                    {% endif %}
+                </p>
+
+                <p>
+                    Telegram:
+                    {% if user.profile.telegram %}
+                        <a href="http://t.me/{{ user.profile.telegram }}">{{ user.profile.telegram }}</a>
+                    {% endif %}
+                </p>
+
+                <p>
+                    Skype:
+                    {% if user.profile.skype %}
+                        <a href="skype:{{ user.profile.skype }}">{{ user.profile.skype }}</a>
+                    {% endif %}
+                </p>
+
+                <p>
+                    Facebook:
+                    {% if user.profile.facebook %}
+                        <a href="{{ user.profile.facebook }}">{{ user.profile.facebook }}</a>
+                    {% endif %}
+                </p>
+                <p>
+                    Vkontakte:
+                    {% if user.profile.vk %}
+                        <a href="{{ user.profile.vk }}">{{ user.profile.vk }}</a>
+                    {% endif %}
+                </p>
+                <p>
+                    Instagram:
+                    {% if user.profile.instagram %}
+                        <a href="{{ user.profile.instagram }}">{{ user.profile.instagram }}</a>
+                    {% endif %}
+                </p>
+                <p>
+                    Twitter:
+                    {% if user.profile.twitter %}
+                        <a href="{{ user.profile.twitter }}">{{ user.profile.twitter }}</a>
+                    {% endif %}
+                </p>
+                <p>
+                    Youtube:
+                    {% if user.profile.youtube %}
+                        <a href="{{ user.profile.youtube }}">{{ user.profile.youtube }}</a>
+                    {% endif %}
+                </p>
+            </div>
         </div>
-
-        <div>
-            <h2>{% trans "Basic" %}</h2>
-            {% if profile_user.first_name or profile_user.last_name %}
-                <p>{% trans "Name:" %}</p>
-                <p>{{ profile_user.first_name }} {{ profile_user.last_name }}</p>
-            {% endif %}
-
-            {% if not profile_user.profile.hide_email %}
-                <p>{% trans "E-mail:" %}</p>
-                <p><a href="mailto:{{ profile_user.email }}">{{ profile_user.email }}</a></p>
-            {% endif %}
-
-            <p>{% trans "Registration date:" %}</p>
-            <p>{{ profile_user.date_joined|date:"d.m.Y" }}</p>
-            <p>{% trans "Online:" %}</p>
-            <p>{% if profile_user.profile.online %}{% trans "Yes " %}{% else %}{% trans "No " %}{% endif %}</p>
-            {% if profile_user.last_login %}
-                <p>{% trans "Last login:" %}</p>
-                <p>{{ profile_user.last_login|date:"d.m.Y H:i" }}</p>
-            {% endif %}
-            {% if profile_user.profile.last_activity %}
-                <p>{% trans "Last online:" %}</p>
-                <p>{{ profile_user.profile.last_activity|date:"d.m.Y H:i" }}</p>
-            {% endif %}
-            <p>{% trans "Activity:" %}</p>
-            <p><a href="{% url 'author_list' author=profile_user.username %}">{% trans "User publications" %}</a></p>
+        <div class="posts">
+            <h2>Пости користувача (<a href="{% url 'author_list' author=user.username %}">{{ posts | length }}</a>)</h2>
+            <div class="list">
+                <p>Тема</p>
+                <p>Відповідей</p>
+                {% for post in posts %}
+                    <p><a href="{% url 'post_detail' pk=post.pk %}">{{ post.short_title }}</a></p>
+                    <p>{% comment_count %}</p>
+                {% endfor %}
+            </div>
         </div>
-
-        <div>
-            <h2>{% trans "Aditional" %}</h2>
-            {% if profile_user.profile.birth_date or  profile_user.profile.location or profile_user.profile.site %}
-                {% if profile_user.profile.birth_date %}
-                    <p>{% trans "Birth date:" %}</p>
-                    <p>{{ profile_user.profile.birth_date }}</p>
-                {% endif %}
-                {% if profile_user.profile.location %}
-                    <p>{% trans "Location:" %}</p>
-                    <p>{{ profile_user.profile.location }}</p>
-                {% endif %}
-                {% if profile_user.profile.site %}
-                    <p>{% trans "Site:" %}</p>
-                    <p><a href="{{ profile_user.profile.site }}">{{ profile_user.profile.site }}</a></p>
-                {% endif %}
-            {% else %}
-                <p class="grid-colspan-2">{% trans "Information not specified" %}</p>
-            {% endif %}
-        </div>
-
-         <div>
-             <h2>{% trans "Social" %}</h2>
-             {% if profile_user.profile.facebook or profile_user.profile.vk or profile_user.profile.instagram or profile_user.profile.twitter or profile_user.profile.youtube %}
-                 {% if profile_user.profile.facebook %}
-                     <p>{% trans "Facebook:" %}</p>
-                     <p><a href="{{ profile_user.profile.facebook }}">{{ profile_user.profile.facebook }}</a></p>
-                 {% endif %}
-                 {% if profile_user.profile.vk %}
-                     <p>{% trans "Vkontakte:" %}</p>
-                     <p><a href="{{ profile_user.profile.vk }}">{{ profile_user.profile.vk }}</a></p>
-                 {% endif %}
-                 {% if profile_user.profile.instagram %}
-                     <p>{% trans "Instagram:" %}</p>
-                     <p><a href="{{ profile_user.profile.instagram }}">{{ profile_user.profile.instagram }}</a></p>
-                 {% endif %}
-                 {% if profile_user.profile.twitter %}
-                     <p>{% trans "Twitter:" %}</p>
-                     <p><a href="{{ profile_user.profile.twitter }}">{{ profile_user.profile.twitter }}</a></p>
-                 {% endif %}
-                 {% if profile_user.profile.youtube %}
-                     <p>{% trans "Youtube:" %}</p>
-                     <p><a href="{{ profile_user.profile.youtube }}">{{ profile_user.profile.youtube }}</a></p>
-                 {% endif %}
-             {% else %}
-                 <p class="grid-colspan-2">{% trans "Information not specified" %}</p>
-             {% endif %}
-         </div>
-
-         <div>
-             <h2>{% trans "Contact" %}</h2>
-             {% if profile_user.profile.telegram or profile_user.profile.skype or profile_user.profile.jabber %}
-                 {% if profile_user.profile.telegram %}
-                     <p>{% trans "Telegram:" %}</p>
-                     <p><a href="http://t.me/{{ profile_user.profile.telegram }}">{{ profile_user.profile.telegram }}</a></p>
-                 {% endif %}
-                 {% if profile_user.profile.skype %}
-                     <p>{% trans "Skype:" %}</p>
-                     <p><a href="skype:{{ profile_user.profile.skype }}">{{ profile_user.profile.skype }}</a></p>
-                 {% endif %}
-                 {% if profile_user.profile.jabber %}
-                     <p>{% trans "Jabber:" %}</p>
-                     <p>{{ profile_user.profile.jabber }}</p>
-                 {% endif %}
-             {% else %}
-                 <p class="grid-colspan-2">{% trans "Information not specified" %}</p>
-             {% endif %}
-         </div>
     </div>
 {% endblock %}
