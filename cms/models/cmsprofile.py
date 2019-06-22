@@ -33,7 +33,9 @@ class CmsProfile(models.Model):
     last_activity = models.DateTimeField(null=True, blank=True, verbose_name='Був на сайті')
 
     email_change_token = models.CharField(max_length=42, verbose_name='Код підтвердження зміни e-mail')
-    new_email = models.CharField(max_length=256, verbose_name='Новий e-mail')
+    new_email = models.CharField(max_length=256, null=True, blank=True, verbose_name='Новий e-mail')
+
+    email_verefied = models.BooleanField(default=False, verbose_name='Підтвердити e-mail користувача')
 
     @property
     def avatar_url(self):
@@ -68,6 +70,9 @@ class CmsProfile(models.Model):
 
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
+        if instance.is_superuser:
+            instance.profile.email_verefied = True
+
         instance.profile.save()
 
     class Meta:

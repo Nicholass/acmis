@@ -1,12 +1,11 @@
 {% extends "cms/base.html" %}
-{% load i18n %}
 
 {% block title %}
-    {% trans "Registration" %}
+    Реєстрація
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Account registration" %}</h1>
+    <h1>Реєстрація</h1>
 
     <form method="post" action="." class="grid-form registration-form">
         {% csrf_token %}
@@ -35,7 +34,7 @@
         {% endfor %}
 
         <p class="buttons">
-            <button type="submit">{% trans "Register" %}</button>
+            <button type="submit">Зареєструватися</button>
         </p>
     </form>
 {% endblock %}

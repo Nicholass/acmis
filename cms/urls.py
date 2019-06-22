@@ -51,11 +51,15 @@ urlpatterns = [
         'template_name': 'registration/login.html',
         'authentication_form': RememberAuthenticationForm
     }, name='auth_login'),
-    url(r'^accounts/logout/$', auth_views.LogoutView.as_view(template_name='registration/logout.html'),
+    url(r'^accounts/logout/$', auth_views.LogoutView.as_view(next_page=reverse_lazy('post_list')),
         name='auth_logout'),
 
-    url(r'^accounts/activate/(?P<activation_key>[-:\w]+)/$', registration.activation, name='registration_activate'),
     url(r'^accounts/register/$', registration.registration, name='registration_register'),
+    url(r'^accounts/register/complete/$', registration.profile, name='registration_complete'),
+    url(r'^accounts/register/confirm/(?P<activation_key>[-:\w]+)/$', registration.activation,
+        name='registration_confirm'),
+    url(r'^accounts/register/send_confirm/$', registration.send_activation,
+        name='registration_send_confirm'),
 
     url(r'^accounts/password/change/$',
         auth_views.PasswordChangeView.as_view(

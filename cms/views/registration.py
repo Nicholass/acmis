@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 
-from django.contrib.auth.views import login
+from django.contrib.auth import views, authenticate, login
 from django.contrib.auth.models import User
 
-from ..forms.registration import RegistrationForm
-from ..forms.profile import EmailChangeForm
+from cms.forms.registration import RegistrationForm
+from cms.forms.profile import ProfileForm
+from cms.forms.profile import EmailChangeForm
 from django.contrib.auth.decorators import login_required
 
 from django.conf import settings
@@ -16,139 +17,165 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.core.mail import send_mail
 
-def send_activation_code(user, request):
-  current_site = get_current_site(request)
-  site_name = current_site.name
-  domain = current_site.domain
 
-  subject = render_to_string('registration/activation_email_subject.txt')
-  message = render_to_string('registration/activation_email.html', {
-    'email': user.email,
-    'domain': domain,
-    'site_name': site_name,
-    'protocol': 'https' if request.is_secure() else 'http',
-    'user': user,
-    'activation_key': signing.dumps(
-      obj = getattr(user, user.USERNAME_FIELD),
-      salt = getattr(settings, 'REGISTRATION_SALT', 'registration')
-    ),
-    'expiration_days': getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2)
-  })
-  user.email_user(subject, message)
+def send_activation_code(user, request):
+    current_site = get_current_site(request)
+    site_name = current_site.name
+    domain = current_site.domain
+
+    subject = render_to_string('registration/activation_email_subject.txt')
+    message = render_to_string('registration/activation_email.html', {
+        'email': user.email,
+        'domain': domain,
+        'site_name': site_name,
+        'protocol': 'https' if request.is_secure() else 'http',
+        'user': user,
+        'activation_key': signing.dumps(
+            obj=getattr(user, user.USERNAME_FIELD),
+            salt=getattr(settings, 'REGISTRATION_SALT', 'registration')
+        ),
+        'expiration_days': getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2)
+    })
+    user.email_user(subject, message)
+
 
 def registration(request):
-  if not getattr(settings, 'REGISTRATION_OPEN', True):
-    return render(request, 'registration/registration_closed.html')
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
 
-  if request.method == 'POST':
-    form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.is_active = True
+            user.save()
 
-    if form.is_valid():
-      user = form.save(commit=False)
-      user.is_active = False
-      user.save()
+            send_activation_code(user, request)
 
-      send_activation_code(user, request)
+            new_user = authenticate(username=form.cleaned_data['username'],
+                                    password=form.cleaned_data['password1'],
+                                    )
+            login(request, new_user)
 
-      return render(request, 'registration/registration_complete.html')
+            return redirect('registration_complete')
 
-  else:
-    if 'proceed' not in request.GET:
-      return render(request, 'registration/rules/{0}.html'.format(request.LANGUAGE_CODE))
-    elif 'accept' not in request.GET:
-      return redirect('post_list')
+    else:
+        form = RegistrationForm()
 
-    form = RegistrationForm()
+    return render(request, 'registration/registration_form.html', {'form': form})
 
-  return render(request, 'registration/registration_form.html', {'form': form})
+
+@login_required
+def profile(request):
+    user = request.user
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=user.profile)
+        if form.is_valid():
+            form.save()
+
+            return redirect('post_list')
+
+    else:
+        form = ProfileForm(instance=user.profile)
+
+    return render(request, 'registration/registration_complete.html', {
+        'form': form
+    })
+
+
+@login_required
+def send_activation(request):
+    send_activation_code(request.user, request)
+
+    return redirect('post_list')
 
 
 def activation(request, activation_key):
-  try:
-    username = signing.loads(
-        activation_key,
-        salt = getattr(settings, 'REGISTRATION_SALT', 'registration'),
-        max_age = getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2) * 86400
-    )
+    try:
+        username = signing.loads(
+            activation_key,
+            salt=getattr(settings, 'REGISTRATION_SALT', 'registration'),
+            max_age=getattr(settings, 'ACCOUNT_ACTIVATION_DAYS', 2) * 86400
+        )
 
-    if username is not None:
-      user = User.objects.get(**{
-        User.USERNAME_FIELD: username,
-        'is_active': False
-      })
+        if username is not None:
+            user = User.objects.get(**{
+                User.USERNAME_FIELD: username,
+                'profile__email_verefied': False
+            })
 
-  # SignatureExpired is a subclass of BadSignature, so this will
-  # catch either one.
-  except (signing.BadSignature, User.DoesNotExist):
-    user = None
+    # SignatureExpired is a subclass of BadSignature, so this will
+    # catch either one.
+    except (signing.BadSignature, User.DoesNotExist):
+        user = None
 
-  if user is not None:
-    user.is_active = True
-    user.save()
+    if user is not None:
+        user.profile.email_verefied = True
+        user.save()
 
-    return render(request, 'registration/activation_complete.html')
+        return redirect('post_list')
 
-  return render(request, 'registration/activation_failed.html')
+    return render(request, 'registration/activation_failed.html')
 
 
 def remember_login(request, *args, **kwargs):
-  if request.method == 'POST':
-    if not request.POST.get('remember', None):
-      request.session.set_expiry(0)
+    if request.method == 'POST':
+        if not request.POST.get('remember', None):
+            request.session.set_expiry(0)
 
-  return login(request, *args, **kwargs)
+    return views.login(request, *args, **kwargs)
 
 
 def send_email_confirmation_code(user, token, email, request):
-  current_site = get_current_site(request)
-  site_name = current_site.name
-  domain = current_site.domain
+    current_site = get_current_site(request)
+    site_name = current_site.name
+    domain = current_site.domain
 
-  subject = render_to_string('registration/email_change_subject.txt')
-  message = render_to_string('registration/email_change_email.html', {
-    'domain': domain,
-    'site_name': site_name,
-    'protocol': 'https' if request.is_secure() else 'http',
-    'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-    'token': token
-  })
-  send_mail(subject, message, getattr(settings, 'DEFAULT_FROM_EMAIL'), [email])
+    subject = render_to_string('registration/email_change_subject.txt')
+    message = render_to_string('registration/email_change_email.html', {
+        'domain': domain,
+        'site_name': site_name,
+        'protocol': 'https' if request.is_secure() else 'http',
+        'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+        'token': token
+    })
+    send_mail(subject, message, getattr(settings, 'DEFAULT_FROM_EMAIL'), [email])
+
 
 @login_required
 def edit_email(request):
-  if request.method == 'POST':
-    form = EmailChangeForm(request.POST)
+    if request.method == 'POST':
+        form = EmailChangeForm(request.POST)
 
-    if form.is_valid():
-      new_email = form.save(commit=False)
-      new_email.user = request.user
-      new_email.auth_key = default_token_generator.make_token(request.user)
-      new_email.save()
+        if form.is_valid():
+            user = request.user
+            user.profile.new_email = form.cleaned_data['new_email']
+            user.profile.email_change_token = default_token_generator.make_token(request.user)
+            user.save()
 
-      send_email_confirmation_code(request.user, new_email.auth_key, new_email.new_email, request)
+            send_email_confirmation_code(request.user, user.profile.email_change_token,  user.profile.new_email, request)
 
-      return render(request, 'registration/email_change_done.html')
-  else:
-    form = EmailChangeForm()
+            return render(request, 'registration/email_change_done.html')
+    else:
+        form = EmailChangeForm()
 
-  return render(request, 'registration/email_change_form.html', {
-    'form': form
-  })
+    return render(request, 'registration/email_change_form.html', {
+        'form': form
+    })
 
 
 def edit_email_done(request, uidb64, token):
-  try:
-    # urlsafe_base64_decode() decodes to bytestring on Python 3
-    uid = force_text(urlsafe_base64_decode(uidb64))
-    current_user = User.objects.get(pk=uid)
-  except (TypeError, ValueError, OverflowError, User.DoesNotExist):
-    return render(request, 'registration/email_change_reject.html')
+    try:
+        # urlsafe_base64_decode() decodes to bytestring on Python 3
+        uid = force_text(urlsafe_base64_decode(uidb64))
+        current_user = User.objects.get(pk=uid)
+    except (TypeError, ValueError, OverflowError, User.DoesNotExist):
+        return render(request, 'registration/email_change_reject.html')
 
-  if not default_token_generator.check_token(current_user, token):
-    return render(request, 'registration/email_change_reject.html')
+    if not default_token_generator.check_token(current_user, token):
+        return render(request, 'registration/email_change_reject.html')
 
-  current_user.email = current_user.profile.new_email
-  current_user.profile.new_email = None
-  current_user.save()
+    current_user.email = current_user.profile.new_email
+    current_user.profile.new_email = None
+    current_user.save()
 
-  return render(request, 'registration/email_change_confirm.html')
+    return render(request, 'registration/email_change_confirm.html')

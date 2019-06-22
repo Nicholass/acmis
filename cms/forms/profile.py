@@ -76,15 +76,24 @@ class ProfileForm(forms.ModelForm):
 
 
 class UserForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs):
-        super(UserForm, self).__init__(*args, **kwargs)
-
     class Meta:
         model = User
         fields = ('first_name', 'last_name')
 
 
 class EmailChangeForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+      super(EmailChangeForm, self).__init__(*args, **kwargs)
+
     class Meta:
         model = CmsProfile
         fields = ('new_email',)
+
+    def clean_new_email(self):
+        new_email = self.cleaned_data['new_email']
+
+        existing_user = User.objects.filter(email=new_email)
+        if existing_user:
+            raise forms.ValidationError('Користувач з таким e-mail вже існує')
+
+        return new_email

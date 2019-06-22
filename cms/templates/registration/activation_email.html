@@ -1,13 +1,7 @@
-{% load i18n %}
-{% blocktrans %}
-    You have registered at {{site_name}} as {{user}}.
-    To activate your account, click on the link below.
-{% endblocktrans %}
+Вас зареєстровано на {{site_name}} як {{user}}.
+Для підтвердження свого e-mail перейдіть будь ласка за посиланням нижче.
 
-{{ protocol }}://{{ domain }}{% url 'registration_activate' activation_key %}
+{{ protocol }}://{{ domain }}{% url 'registration_confirm' activation_key %}
 
-{% blocktrans %}
-    The link will be active {{expiration_days}} days.
-
-    If you have not registered on the site - just ignore this e-mail.
-{% endblocktrans %}
+Посилання будет актуальне {{expiration_days}} днів.
+Якщо ви не реєструвались на сайті - просто проігноруйте цей лист.

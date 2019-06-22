@@ -1,1 +1,1 @@
-{% load i18n %}{% trans "Change e-mail on diggers.kiev.ua" %}
+Змінення e-mail на сайті diggers.kiev.ua

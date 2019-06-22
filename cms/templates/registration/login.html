@@ -1,40 +1,41 @@
 {% extends "cms/base.html" %}
-{% load i18n %}
 
-{% block title %}{% trans "Login" %}{% endblock %}
+{% block title %}Вхід{% endblock %}
 
 {% block content %}
-    <h1>{% trans "Login" %}</h1>
+    <h1>Вхід</h1>
 
     <form method="post" action="." class="login-form">
-      {% csrf_token %}
+        {% csrf_token %}
 
-      {% for field in form.visible_fields %}
+        {% for field in form.visible_fields %}
+            <p>
+                {{ field.label_tag }}
+                {{ field }}
+            </p>
+        {% endfor %}
+
+        {{ form.non_field_errors }}
+
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        {% if next %}
+            <input type="hidden" name="next" value="{{ next }}"/>
+        {% else %}
+            <input type="hidden" name="next" value="{% url 'post_list' %}"/>
+        {% endif %}
+
         <p>
-          {{ field.label_tag }}
-          {{ field }}
+            <button type="submit">Увійти</button>
         </p>
-      {% endfor %}
-
-      {{ form.non_field_errors }}
-
-      {% for hidden in form.hidden_fields %}
-        {{ hidden }}
-      {% endfor %}
-
-      {% if next %}
-        <input type="hidden" name="next" value="{{ next }}" />
-      {% else %}
-        <input type="hidden" name="next" value="{% url 'post_list' %}" />
-      {% endif %}
-
-      <p>
-        <button type="submit">{% trans "Login" %}</button>
-      </p>
     </form>
 
-    <p>
-      <p><a href="{% url 'auth_password_reset' %}">{% trans "Forgot password?" %}</a></p>
-      <p><a href="{% url 'registration_register' %}">{% trans "Register" %}</a></p>
-    </p>
+    <div>
+        <p><a href="{% url 'auth_password_reset' %}">Забули пароль?</a></p>
+        {% if REGISTRATION_OPEN %}
+            <p><a href="{% url 'registration_register' %}">Реєстрація</a></p>
+        {% endif %}
+    </div>
 {% endblock %}

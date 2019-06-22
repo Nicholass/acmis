@@ -1,1 +1,1 @@
-{% load i18n %}{% trans "Account activation on diggers.kiev.ua" %}
+Підтвердження реєстрації на сайті diggers.kiev.ua

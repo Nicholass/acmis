@@ -1,11 +1,46 @@
 {% extends "cms/base.html" %}
-{% load i18n %}
 
 {% block title %}
-    {% trans "Registration" %}
+    Реєстрація
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Registration completed" %}</h1>
-    <p>{% trans "A confirmation code has been sent to this e-mail. To complete the registration, click on the link in the letter." %}</p>
+    <h1>Реєстрація</h1>
+    <p>Для підтвердження реєстрації перейдіть за посилянням у листі, який було відправлено на вказану електронну адресу.
+        Якщо лист не прийшов - зверніться до адміністрації у відповідному розділі.</p>
+    <p>Для завершення реэстрації ви можете заповнити профайл. Також це можна буде зробити у майбутньому.</p>
+
+        <form method="post" action="." class="pofile-edit-form" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+        {{ form.non_form_errors }}
+
+        {% for field in form.visible_fields %}
+            <p>
+
+                {% if field.errors %}
+                    {{ field.errors }}
+                {% endif %}
+
+                {{ field.label_tag }}
+                {{ field }}
+
+                {% if field.help_text %}
+                    <div class="help">
+                        {{ field.help_text|safe }}
+                    </div>
+                {% endif %}
+            </p>
+        {% endfor %}
+
+        {% for hidden in form.hidden_fields %}
+            {{ hidden }}
+        {% endfor %}
+
+        <p>
+            <button type="submit">Відправити</button>
+        </p>
+    </form>
+
 {% endblock %}

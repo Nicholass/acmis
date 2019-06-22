@@ -1,5 +1,4 @@
 {% load staticfiles %}
-{% load inbox %}
 {% load opengraph %}
 
 <!DOCTYPE html>
@@ -46,21 +45,14 @@
         <span id="greeting">
             {% if user.is_authenticated %}
                 Ви увійшли як:
-                <strong><a href="{% url 'user' username=user.username %}">{{ user.username }}</a></strong>
+                <strong><a href="{% url 'me' %}">{{ user.username }}</a></strong>
             {% else %}
-                <strong><a href="{% url 'auth_login' %}">Увійдіть</a></strong>або
-                <strong><a href="{% url 'registration_register' %}">зареєструйтеся</a></strong>
+                <strong><a href="{% url 'auth_login' %}">Увійдіть</a></strong>
+                {% if REGISTRATION_OPEN %}
+                    або <strong><a href="{% url 'registration_register' %}">зареєструйтеся</a></strong>
+                {% endif %}
             {% endif %}
         </span>
-        {% if user.is_authenticated %}
-            <span id="pm">
-                {% url 'messages_inbox' as pm_url %}
-                {% inbox_count as pm_cout %}
-                {% if pm_cout > 0 %}<strong>{% endif %}
-                    Ви маєте <a href="{{ pm_url }}">{{ pm_cout }} персональних повідомлень</a>
-                {% if pm_cout > 0 %}</strong>{% endif %}
-            </span>
-        {% endif %}
 
         <!-- Menu Tabs -->
         {% include "cms/menu.html" %}
@@ -74,6 +66,12 @@
             {% block breadcrumbs %}{% endblock %}
         </ul>
     </div>
+    {% if request.user.profile.email_verefied == False %}
+        <div class="messages">
+            <div>Ваш e-mail не підтверджено. Для підтвердження перейдіть за посиланням у листі, що мав надійти на вказану при реєстрації адресу.
+                Або зверніться до адміністрації у відповідному розділі. Також ви можете ще раз <a href="{% url 'registration_send_confirm' %}">надіслати код підтвердження</a>.</div>
+        </div>
+    {% endif %}
     <div class="content">
         {% block content %}{% endblock %}
     </div>

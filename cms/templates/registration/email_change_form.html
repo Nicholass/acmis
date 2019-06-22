@@ -1,12 +1,11 @@
 {% extends "cms/base.html" %}
-{% load i18n %}
 
 {% block title %}
-  {% trans "Change e-mail" %}
+  Змінення e-mail
 {% endblock %}
 
 {% block content %}
-    <h1>{% trans "Change e-mail" %}</h1>
+    <h1>Змінення e-mail</h1>
 
     <form method="post" action=".">
       {% csrf_token %}
@@ -34,7 +33,7 @@
       <input type="hidden" name="next" value="{{ next }}" />
 
       <p>
-        <button type="submit">{% trans "Change e-mail" %}</button>
+        <button type="submit">Змінити e-mail</button>
       </p>
     </form>
 {% endblock %}
