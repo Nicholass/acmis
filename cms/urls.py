@@ -2,19 +2,18 @@ from django.conf.urls import url, include
 from django.urls import reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
-from ckeditor_uploader.views import upload, browse
-from django.views.decorators.cache import never_cache
 
 from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
 
-from .views import post
-from .views import comment
-from .views import registration
-from .views import profile
-from .views import ajax
+from cms.views import post
+from cms.views import comment
+from cms.views import registration
+from cms.views import profile
+from cms.views import ajax
+
+from cms.forms.registration import RememberAuthenticationForm
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
-from cms.forms.registration import RememberAuthenticationForm
 
 from cms.views.rss import LatestEntriesFeed
 
@@ -97,8 +96,7 @@ urlpatterns = [
     url(r'^accounts/user/(?P<username>\w+)/edit/$', profile.profile_edit, name='user_edit'),
     url(r'^accounts/userlist/$', profile.userlist, name='users_list'),
 
-    url(r'^upload/', upload, name='ckeditor_upload'),
-    url(r'^browse/', never_cache(browse), name='ckeditor_browse'),
+    url(r'^upload/', post.upload, name='ckeditor_upload'),
 
     url(r'^ajax/tags/', ajax.get_simular_tags, name="get_simular_tags"),
 

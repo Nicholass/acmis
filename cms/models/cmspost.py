@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.template.defaultfilters import truncatechars
-from ckeditor.fields import RichTextField
+from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.urlresolvers import reverse
 from taggit.managers import TaggableManager
 
@@ -11,7 +11,7 @@ class CmsPost(models.Model):
     title = models.CharField(max_length=200, verbose_name='Заголовок')
     category = models.ForeignKey('CmsCategory', blank=True, null=False, verbose_name='Категорія')
 
-    text = RichTextField(verbose_name='Текст')
+    text = RichTextUploadingField(verbose_name='Текст')
 
     tags = TaggableManager(blank=True, verbose_name='Тэги')
     created_date = models.DateTimeField(default=timezone.now, verbose_name='Дата створення')

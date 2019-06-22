@@ -1,3 +1,5 @@
+import os
+
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q
 from django.conf import settings
@@ -6,6 +8,11 @@ from django.utils import timezone
 from django.contrib.auth.decorators import login_required, permission_required
 from hitcount.views import HitCountMixin
 from django.core.exceptions import PermissionDenied
+from django.core.files.storage import default_storage
+from django.views.decorators.csrf import csrf_exempt
+from ckeditor_uploader.views import ImageUploadView, get_upload_filename
+
+from PIL import Image
 
 from cms.forms.post import PostForm
 
@@ -139,3 +146,53 @@ def post_delete(request, pk):
     post.delete()
 
     return redirect('category_list', category=post.category.route)
+
+
+def calculate_size(img):
+    IMAGE_SIZE = getattr(settings, 'IMAGES_SIZE', (1024, 768))
+
+    img_ratio = img.size[0] / float(img.size[1])
+    ratio = IMAGE_SIZE[0] / float(IMAGE_SIZE[1])
+
+    if ratio > img_ratio:
+        if img.size[1] > IMAGE_SIZE[0]:
+            return (IMAGE_SIZE[0], int(IMAGE_SIZE[0] * img.size[1] / img.size[0]))
+    else:
+        if img.size[0] > IMAGE_SIZE[1]:
+            return (int(IMAGE_SIZE[1] * img.size[0] / img.size[1]), IMAGE_SIZE[1])
+
+    return img.size
+
+
+class ImageUploadViewResize(ImageUploadView):
+    def __init__(self, *args):
+        super().__init__(*args)
+
+    @staticmethod
+    def _save_file(request, uploaded_file):
+        filename = get_upload_filename(uploaded_file.name, request.user)
+
+        img_name, img_format = os.path.splitext(filename)
+        IMAGE_QUALITY = getattr(settings, "IMAGE_QUALITY", 60)
+        MEDIA_ROOT = getattr(settings, "MEDIA_ROOT")
+
+        saved_path = default_storage.save(filename, uploaded_file)
+
+        if(str(img_format).lower() == ".png"):
+
+            img = Image.open(uploaded_file)
+            img = img.resize(calculate_size(img), Image.ANTIALIAS)
+
+            img.save(os.path.join(MEDIA_ROOT, saved_path), quality=IMAGE_QUALITY, optimize=True)
+
+        elif(str(img_format).lower() == ".jpg" or str(img_format).lower() == ".jpeg"):
+
+            img = Image.open(uploaded_file)
+            img = img.resize(calculate_size(img), Image.ANTIALIAS)
+
+            img.save(os.path.join(MEDIA_ROOT, saved_path), quality=IMAGE_QUALITY, optimize=True)
+
+        return saved_path
+
+
+upload = csrf_exempt(ImageUploadViewResize.as_view())
