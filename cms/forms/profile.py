@@ -1,5 +1,4 @@
 from django import forms
-from django.conf import settings
 
 from ..utils import clean_http
 
@@ -12,14 +11,10 @@ class DateInput(forms.DateInput):
 
 
 class ProfileForm(forms.ModelForm):
-    AVATAR_WIDTH = getattr(settings, 'AVATAR_WIDTH', '80')
-    AVATAR_HEIGHT = getattr(settings, 'AVATAR_HEIGHT', '80')
-    AVATAR_MAX_SIZE = getattr(settings, 'AVATAR_MAX_SIZE', '20')
-
     def __init__(self, *args, **kwargs):
       super(ProfileForm, self).__init__(*args, **kwargs)
       self.fields['avatar'].help_text = ('<ul><li>Аватар повинен будти у форматі JPEG, GIF або PNG</li>'
-                                      '<li>Аватар повинен бути менше за %(size)s Kб</li></ul>' % {'size': self.AVATAR_MAX_SIZE})
+                                      '<li>Аватар буде автоматично змінено до потрібного розміру</li>')
 
     class Meta:
         model = CmsProfile
@@ -60,10 +55,6 @@ class ProfileForm(forms.ModelForm):
             main, sub = avatar.content_type.split('/')
             if not (main == 'image' and sub in ['jpeg', 'jpg', 'gif', 'png']):
                 raise forms.ValidationError('Аватар не є файлом JPEG, GIF або PNG')
-
-            #validate file size
-            if len(avatar) > int(self.AVATAR_MAX_SIZE * 1024):
-              raise forms.ValidationError('Об\'єм аватара перевищує %s Kб' % self.AVATAR_MAX_SIZE )
 
         except AttributeError:
           """

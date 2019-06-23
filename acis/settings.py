@@ -234,10 +234,9 @@ BLEACH_ALLOWED_IFRAME_SRC = [
   'www.youtube.com',
 ]
 
-AVATAR_WIDTH = 80
-AVATAR_HEIGHT = 80
-AVATAR_DEFAULT = STATIC_URL + 'images/no_avatar.png'
 
+AVATAR_DEFAULT = STATIC_URL + 'images/no_avatar.png'
+AVATAR_SIZE = (80, 80)
 IMAGES_SIZE = (1280, 1024)
 
 DEFAULT_REGISTRATION_GROUP = 'Користувачі'
