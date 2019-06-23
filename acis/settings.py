@@ -290,6 +290,7 @@ TRACK_IGNORE_URLS = (
 
 CKEDITOR_CONFIGS = {
     'default': {
+        'width': '99%',
         'filebrowserBrowseUrl': '',
         'filebrowserImageBrowseUrl': '',
         'filebrowserFlashBrowseUrl': '',

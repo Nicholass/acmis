@@ -14,16 +14,16 @@
     {% if category %}
         {{ category }}
     {% elif tags %}
-        Посты по тэгам:
+        Пости за тегами:
         {% for tag in tags %}
             {% if not forloop.first %}&nbsp;{% endif %}
             {{ tag }}
             {% if not forloop.last %}, {% endif %}
         {% endfor %}
     {% elif author %}
-        Посты пользователя {{ author }}
+        Пости користувача {{ author }}
     {% else %}
-        Все посты
+        Всі пости
     {% endif %}
 {% endblock %}
 
@@ -32,8 +32,25 @@
 {% endblock %}
 
 {% block content %}
-    <div class="content-two-column">
+    <div class="post-list">
         <div id="main">
+            <h1>
+                {% if category %}
+                    {{ category }}
+                {% elif tags %}
+                    Пости за тегами:
+                    {% for tag in tags %}
+                        {% if not forloop.first %}&nbsp;{% endif %}
+                        {{ tag }}
+                        {% if not forloop.last %}, {% endif %}
+                    {% endfor %}
+                {% elif author %}
+                    Пости користувача {{ author }}
+                {% else %}
+                    Всі пости
+                {% endif %}
+            </h1>
+
             {% if perms.cms.add_cmspost %}
                 <div class="actions">
                     <a href="{% url 'post_new' %}">Додати новий пост</a>
@@ -49,22 +66,29 @@
                     {% auth_is_owner post as is_post_owner %}
 
                     <div class="post" id="{{ post.pk }}">
-                        <h2>
-                            <a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a> - </a><a href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
-                        </h2>
+                        <div class="post-body">
+                            <img src="{{ post.author.profile.avatar_url }}" alt="avatar" />
 
-                        <div class="info">
-                            <span>{{ post.author.first_name }} {{ post.author.last_name }} [<a href="{% url 'user' username=post.author.username %}">{{ post.author }}</a>]</span>
-                            <span>{{ post.created_date }}</span>
-                            {% if post.modifed_date %}
-                                <span>[відредаговано {{ post.modifed_date }}]</span>
-                            {% endif %}
-                        </div>
+                            <div class="info">
+                                <span>{{ post.author.first_name }} {{ post.author.last_name }} [<a class="username"
+                                        href="{% url 'user' username=post.author.username %}">{{ post.author }}</a>]</span>
+                                <span>{{ post.created_date }}</span>
+                                {% if post.modifed_date %}
+                                    <span>[відредаговано {{ post.modifed_date }}]</span>
+                                {% endif %}
+                            </div>
 
-                        <div class="post-content clearfix">
-                            {{ post.text|hide_announced_item|bleach_src|truncatechars:800|bleach }}
-                            {% get_announce post as announce %}
-                            <p>{{ announce|bleach_src|bleach }}</p>
+                            <h2>
+                                <a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a>
+                                - </a><a class="post-title" href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+                            </h2>
+
+
+                            <div class="post-content clearfix">
+                                {{ post.text|hide_announced_item|bleach_src|truncatechars:800|bleach }}
+                                {% get_announce post as announce %}
+                                <p>{{ announce|bleach_src|bleach }}</p>
+                            </div>
                         </div>
 
                         <div class="actions">
@@ -123,15 +147,21 @@
         <div id="sidebar">
             <div>
                 <h3>Категорії</h3>
-                <div class="block">
-                    {% for category in categories_list %}
-                        <a href="{% url 'category_list' category=category.route %}">{{ category }}</a>
-                    {% endfor %}
+                <div class="block categories">
+                    <ul>
+                        <li><a href="/">Всі пости</a></li>
+                        {% for category in categories_list %}
+                            <li>
+                                <a href="{% url 'category_list' category=category.route %}">{{ category }}</a>
+                                ({{ category.posts_count }})
+                            </li>
+                        {% endfor %}
+                    </ul>
                 </div>
             </div>
             <div>
                 <h3>Теги</h3>
-                <div class="block">
+                <div class="block tags">
                     {% tags_cloud as cloud %}
                     {% for tag in cloud %}
                         <a href="{% url 'tag_list' tags=tag.name %}"

@@ -1,4 +1,4 @@
-<form method="POST" action="{% url 'comment_new' pk=post.pk %}">
+<form method="POST" id="comment-form" action="{% url 'comment_new' pk=post.pk %}">
     {% csrf_token %}
     {{ form.media }}
     {{ form.as_p }}

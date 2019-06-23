@@ -1,7 +1,7 @@
 import os
 
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from django.db.models import Q
+from django.db.models import Q, Count
 from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
@@ -63,7 +63,7 @@ def post_list(request, tags=None, category=None, author=None):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    categories = CmsCategory.objects.all()
+    categories = CmsCategory.objects.annotate(posts_count=Count('cmspost')).all()
 
     return render(request, 'cms/post_list.html', {
         'posts': posts,

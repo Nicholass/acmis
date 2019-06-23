@@ -8,16 +8,16 @@
             <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
                     <img src="{{ node.author.profile.avatar_url }}" alt="avatar"/>
-                    <div class="text">
-                        <p class="info">
+                    <div class="comment-body">
+                        <div class="info">
                             {{ node.author.first_name }} {{ node.author.last_name }} [<a href="{% url 'user' username=node.author.username %}">{{ node.author }}</a>]
                             {{ node.created_date }}
                             {% if node.modifed_date %}[Відредаговано {{ node.modifed_date }}]{% endif %}
-                        </p>
-                        <p class="comment-message">
+                        </div>
+                        <div class="comment-message">
                             {{ node.text | markdown | safe }}
-                        </p>
-                        <p class="actions">
+                        </div>
+                        <div class="actions">
                             {% auth_is_owner node as is_comment_owner %}
                             {% if user.is_authenticated %}
                                 {% if perms.cms.add_comment %}
@@ -33,8 +33,8 @@
                                     </a>
                                 {% endif %}
                             {% endif %}
-                            <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}">Посилання</a>
-                        </p>
+                            <a href="{% url 'post_detail' pk=post.pk %}#comment{{ node.pk }}" class="comment-link">Посилання</a>
+                        </div>
                     </div>
                 {% else %}
                     <p class="media-content">

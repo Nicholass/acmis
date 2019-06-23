@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>
-        {% block title %}{% endblock %} - Cайт диггеров Киева
+        {% block title %}{% endblock %} - Сайт дигерів Києва
     </title>
 
     {% block extra_head %}{% endblock %}
@@ -60,7 +60,7 @@
     </div>
 </div>
 <!-- content-wrap starts here -->
-<div id="content-wrap">
+<div id="content-wrap" {% if post %}class="no-bacground"{% endif %}>
     <div class="navbar">
         <ul class="breadcrumbs">
             {% block breadcrumbs %}{% endblock %}

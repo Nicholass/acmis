@@ -15,7 +15,7 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = CmsPost
-        fields = ('title', 'text', 'category', 'tags')
+        fields = ('title', 'text', 'category', 'tags', 'is_permited')
 
     class Media:
         js = (
