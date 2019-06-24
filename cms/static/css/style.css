@@ -333,7 +333,8 @@ button {
     padding-bottom: 20px;
 }
 
-#content-wrap .post-list {
+#content-wrap .post-list,
+#content-wrap .pm {
     display: grid;
     grid-template-columns: 8fr 2fr;
 }
@@ -572,14 +573,44 @@ figcaption {
 }
 
 /* PM */
-.message-headers {
-    display: grid;
-    grid-template-columns: 1fr 5fr;
+#content-wrap .pm .nocontent {
+    margin: 30px 0;
 }
 
-.message-body {
-    padding: 30px 0;
+.messages {
+    width: 100%;
 }
+.messages tr th.user {
+    width: 30%;
+}
+.messages tr th.date {
+    width: 15%;
+}
+.messages tr th.actions {
+    width: 10%;
+    margin-bottom: 0;
+}
+.message {
+    display: flex;
+    flex-direction: column;
+    height: 95%;
+}
+.message .message-body {
+    padding: 10px 0;
+    flex: 1;
+}
+.message .actions a {
+    font-size: 0.9em;
+    margin-right: 10px;
+}
+
+.message-headers {
+    font-size: 0.9em;
+    display: grid;
+    grid-template-columns: 0.5fr 5fr;
+}
+
+/* Userlist */
 
 .userlist > div:first-child {
     font-weight: bold;
@@ -730,7 +761,8 @@ div[name=Upload] {
     margin: 0 10px;
 }
 
-#sidebar .categories ul li {
+#sidebar .categories ul li,
+#sidebar .pm-menu ul li {
     border-bottom: 1px dashed #0D0D0D;
     display: block;
     font-weight: bold;
@@ -739,17 +771,21 @@ div[name=Upload] {
     padding: 5px 0 5px 20px;
     line-height: 1.5em;
 }
-#sidebar .categories ul li a {
+#sidebar .categories ul li a,
+#sidebar .pm-menu ul li a {
     color: #6A6A6A;
 }
-#sidebar .categories ul li:first-child {
+#sidebar .categories ul li:first-child,
+#sidebar .pm-menu ul li:first-child {
     border-top: 1px dashed #0D0D0D;
 }
-#sidebar .categories ul li:hover {
+#sidebar .categories ul li:hover,
+#sidebar .pm-menu ul li:hover {
     padding-left: 15px;
     border-left: 5px solid #D30F16;
 }
-#sidebar .categories ul li:hover a {
+#sidebar .categories ul li:hover a,
+#sidebar .pm-menu ul li:hover a {
     color: #D30F16;
 }
 

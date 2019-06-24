@@ -1,38 +1,47 @@
 {% extends "django_messages/base.html" %}
-{% load i18n %}
+
+{% block title %}
+    Перегляд повідомлення
+{% endblock %}
 
 {% block content %}
-<h1>{% trans "View Message" %}</h1>
-<dl class="message-headers">
-    <dt>{% trans "Subject" %}</dt>
-    <dd><strong>{{ message.subject }}</strong></dd>
-    <dt>{% trans "Sender" %}</dt>
-    <dd>{{ message.sender }}</dd>
-    <dt>{% trans "Date" %} </dt>
-    <dd>{{ message.sent_at|date:"d.m.Y H:i" }}</dd>
-    <dt>{% trans "Recipient" %}</dt>
-    <dd>{{ message.recipient }}</dd>
-</dl>
-<div class="message-body">
-{{ message.body|linebreaksbr }}
-</div>
-<div class="actions">
-    {% ifequal message.recipient.pk user.pk %}
-        <a href="{% url 'messages_reply' message.id %}"><i class="fa fa-reply"></i> {% trans "Reply" %}</a>
-    {% endifequal %}
-    <a href="{% url 'messages_delete' message.id %}"><i class="fa fa-trash"></i> {% trans "Delete" %}</a>
-</div>
-
-{% comment %}Example reply_form integration
-{% if reply_form %}
-<h1>{% trans "Compose reply"%}</h1>
-<form action="{% url 'messages_reply' message.id %}" method="post">
-{% csrf_token %}
-<table>
-{{ reply_form.as_table }}
-</table>
-<input type="submit" value="{% trans "Send" %} &raquo;"/>
-</form>
-{% endif %}
-{% endcomment %}
+    <div class="pm">
+        <div id="main">
+            <h1>Перегляд повідомлення</h1>
+            <div class="message">
+                <dl class="message-headers">
+                    <dt>Тема</dt>
+                    <dd><strong>{{ message.subject }}</strong></dd>
+                    <dt>Відправник</dt>
+                    <dd>{{ message.sender }}</dd>
+                    <dt>Дата</dt>
+                    <dd>{{ message.sent_at|date:"d.m.Y H:i" }}</dd>
+                    <dt>Отримувач</dt>
+                    <dd>{{ message.recipient }}</dd>
+                </dl>
+                <div class="message-body">
+                    {{ message.body|linebreaksbr }}
+                </div>
+                <div class="actions">
+                    {% ifequal message.recipient.pk user.pk %}
+                        <a href="{% url 'messages_reply' message.id %}">Відповісти</a>
+                    {% endifequal %}
+                    <a href="{% url 'messages_delete' message.id %}">Видалити</a>
+                </div>
+            </div>
+        </div>
+        <div id="sidebar">
+            <div>
+                <h3>Розділи</h3>
+                <div class="block pm-menu">
+                    <ul>
+                        <li><a href="{% url 'messages_inbox' %} ">Отримані</a></li>
+                        <li><a href="{% url 'messages_outbox' %} ">Відправлені</a></li>
+                        <li><a href="{% url 'messages_compose' %} ">Нове повідомлення</a></li>
+                        <li><a href="{% url 'messages_trash' %} ">Кошик</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

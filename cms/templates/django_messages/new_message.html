@@ -1,11 +1,9 @@
-{% load i18n %}
-
-{% blocktrans with recipient=message.recipient sender=message.sender %}Hello, {{ recipient }}.
-You have received a personal message from {{ sender }} with the following content:{% endblocktrans %}
+Доброго часу доби, {{ message.recipient }}.
+Ви отримали персональне повідомлення від {{ message.sаenderя  }} з наступним змістом:
 
 {{ message.body|safe }}
 
 --
-{% blocktrans %}Sent from {{ site_url }}{% endblocktrans %}
-{% trans "Inbox" %}: {{ site_url }}{% url 'messages_inbox' %}
-{% trans "Reply" %}: {{ site_url }}{% url 'messages_reply' message.pk %}
+Відправлено з сайту {{ site_url }}
+Отримані повідомлення: {{ site_url }}{% url 'messages_inbox' %}
+Відповісти: {{ site_url }}{% url 'messages_reply' message.pk %}
