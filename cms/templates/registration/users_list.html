@@ -11,19 +11,39 @@
     <h1>Користувачі</h1>
 
     <div class="userlist">
-
-      {% for user in users %}
-        <div class="user">
-            <img src="{{ user.profile.avatar_url }}" alt="avatar"/>
-            <div>
-                <p>{{ user.first_name }} {{ user.last_name }} [{{ user.username }}]</p>
-                <p>
-                    <a href="{% url 'user' username=user.username %}">Профіль</a>
-                    <a href="{% url 'messages_compose_to' recipient=user.username %}">Повідомлення</a>
-                </p>
-            </div>
+        <div>
+            <div class="main">Користвач</div>
+            <div class="posts_count">К-сть постів</div>
+            <div class="comments_count">К-сть комментарів</div>
         </div>
-      {% endfor %}
+
+        {% for user in users %}
+            <div class="user">
+                <div class="main">
+                    <img src="{{ user.profile.avatar_url }}" alt="avatar"/>
+                    <div class="data">
+                        <div class="username">{{ user.first_name }} {{ user.last_name }} [{{ user.username }}]</div>
+                        <div class="info">
+                            <p>Онлайн: {% if user.profile.online %}Так{% else %}Ні{% endif %}</p>
+                            <p>
+                                Був онлайн:
+                                {% if user.profile.last_activity %}
+                                    {{ user.profile.last_activity|date:"d.m.Y H:i" }}
+                                {% else %}
+                                    Ніколи
+                                {% endif %}
+                            </p>
+                        </div>
+                        <div class="actions">
+                            <a href="{% url 'user' username=user.username %}">Профіль</a>
+                            <a href="{% url 'messages_compose_to' recipient=user.username %}">Повідомлення</a>
+                        </div>
+                    </div>
+                </div>
+                <div class="posts_count">{{ user.posts_count }}</div>
+                <div class="comments_count">{{ user.comments_count }}</div>
+            </div>
+        {% endfor %}
 
     </div>
 

@@ -64,25 +64,6 @@ ul span, ol span {
     color: #CCC;
 }
 
-/* images */
-img:not(.langSwitcher img) {
-    background: #111;
-    border: 1px solid #222;
-    padding: 8px;
-}
-
-img.no-border {
-    border: none;
-}
-
-img.float-right {
-    margin: 5px 0 5px 15px;
-}
-
-img.float-left {
-    margin: 5px 15px 5px 0;
-}
-
 code {
     margin: 5px 0;
     padding: 20px 15px;
@@ -122,6 +103,10 @@ input {
     padding: 3px 0;
 }
 
+button {
+    padding: 3px 2px;
+    margin: 10px 0;
+}
 /* ------------------------------------------
 	  LAYOUT
 --------------------------------------------- */
@@ -515,21 +500,75 @@ figcaption {
 
 /* Profile */
 .profile {
+    padding-top: 10px;
     display: grid;
-    grid-template-columns: 3fr 3fr;
+    grid-template-columns: 5fr 5fr 5fr;
+}
+.profile .data {
+    padding-right: 10px;
+}
+.profile .data .basic {
+    position: relative;
+}
+.profile .data .basic img {
+    position: absolute;
+}
+.profile .data .info {
+    padding-left: 90px;
+    min-height: 80px;
+}
+.profile .data .info p {
+    font-size: 0.9em;
+    line-height: 0.8em;
+    padding: 3px 0;
+}
+.profile .actions {
+    border: 1px dashed #151515;
+    padding: 5px 10px;
+    margin: 15px 0 10px 0;
+    background: #000;
+}
+.profile .actions a {
+    font-size: 0.9em;
+    margin-right: 5px;
+}
+.profile .actions a:hover {
+    color: #FFF;
+}
+.profile .contacts {
+    padding: 0 15px;
+}
+.profile .contacts a,
+.profile .value,
+.profile .nodata {
+    margin-left: 10px;
+}
+.profile .nodata {
+    font-size: 0.9em;
+    font-style: italic;
 }
 
-.profile .posts .list p {
-    display: grid;
-    grid-template-columns: 8fr 2fr;
+.profile .profile_fields p,
+.profile .contacts p {
+    padding: 0 10px;
 }
-
-.profile .data img {
-    float: left
+.profile .profile_fields p:nth-child(2n),
+.profile .contacts p:nth-child(2n),
+.profile .user_posts tr:nth-child(2n)
+{
+    background: #050505;
 }
-
-.profile .data .basic div {
-    padding-left: 100px;
+.profile .user_posts table {
+    width: 100%;
+}
+.profile h3 {
+    padding-bottom: 10px;
+}
+.profile th {
+    padding: 5px 0;
+}
+.profile th:nth-child(2n) {
+    width: 100px;
 }
 
 /* PM */
@@ -542,35 +581,56 @@ figcaption {
     padding: 30px 0;
 }
 
-.userlist .user {
-    display: flex;
+.userlist > div:first-child {
+    font-weight: bold;
+    padding: 10px 0;
 }
 
+.userlist > div {
+    display: flex;
+    margin-top: 10px;
+}
+.userlist > div:first-child,
+.userlist > div:nth-child(2) {
+    margin-top: 0;
+}
+.userlist .main {
+    flex: 1;
+    position: relative;
+}
+.userlist .main img {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+}
+.userlist .main .data {
+    height: 90px;
+    margin-left: 100px;
+    padding-top: 10px;
+}
+.userlist .main .data .info p {
+    font-size: 0.9em;
+    line-height: 0.8em;
+    padding: 3px 0;
+
+}
+.userlist .posts_count,
+.userlist .comments_count {
+    flex: 0.15;
+}
+.userlist > div:not(:first-child) .posts_count,
+.userlist > div:not(:first-child) .comments_count {
+    line-height: 100px;
+}
+.userlist .actions a {
+    font-size: 0.9em;
+    margin-right: 5px;
+}
 .userlist .user:nth-child(odd) {
     background: #000;
 }
-
 .userlist .user:nth-child(even) {
     background: #222;
-}
-
-.userlist .user p {
-    padding: 2px 10px;
-}
-
-.userlist .user p:first-child {
-    width: 80%;
-    text-align: left;
-}
-
-.userlist .user p:last-child {
-    width: 20%;
-    text-align: right;
-}
-
-.userlist .user p:last-child a {
-    margin-left: 10px;
-    display: inline-block;
 }
 
 /* forms */
@@ -589,6 +649,11 @@ form .help {
 .post-form input[type=text] {
     width:99%;
 }
+
+div[name=Upload] {
+    min-width: 290px !important;
+}
+
 
 .login-form label[for=id_remember],
 .registration-rules-form label,

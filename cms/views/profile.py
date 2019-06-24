@@ -4,6 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.conf import settings
+from django.db.models import Count
 
 from cms.forms.profile import ProfileForm, UserForm
 
@@ -51,7 +52,7 @@ def profile_edit(request, username=None):
     })
 
 def userlist(request):
-    users_list = User.objects.all().order_by('username')
+    users_list = User.objects.annotate(posts_count=Count('cmspost', distinct=True)).annotate(comments_count=Count('comment', distinct=True)).all().order_by('username')
     page = request.GET.get('page', 1)
 
     paginator = Paginator(users_list, getattr(settings, 'PAGINATION_USERS_COUNT', 25))

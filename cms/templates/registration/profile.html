@@ -9,27 +9,12 @@
 {% block content %}
     <h1>Профіль користувача</h1>
 
-    {% if user == request.user or perms.cms.change_user %}
-        <div class="actions">
-            {% if user == request.user %}
-                <a href="{% url 'me_edit' %}">Редагувати</a>
-                <a href="{% url 'auth_password_change' %}">Змінити пароль</a>
-                <a href="{% url 'auth_email_change' %}">Змінити e-mail</a>
-            {% else %}
-                <a href="{% url 'user_edit' username=user.username %}">Редагувати</a>
-            {% endif %}
-
-            <a href="{% url 'messages_compose_to' recipient=user.username %}">Повідомлення</a>
-        </div>
-    {% endif %}
-
     <div class="profile">
         <div class="data">
             <div class="basic">
                 <img src="{{ user.profile.avatar_url }}" alt="avatar"/>
-                <div>
-                    <p>{{ user.first_name }} {{ user.last_name }} [{{ user }}]</p>
-                    <p>Дата реєстрації: {{ user.date_joined|date:"d.m.Y" }}</p>
+                <div class="info">
+                    <h2>{{ user.first_name }} {{ user.last_name }} [{{ user }}]</h2>
                     <p>Онлайн: {% if user.profile.online %}Так{% else %}Ні{% endif %}</p>
                     <p>
                         Був онлайн:
@@ -42,11 +27,27 @@
                 </div>
             </div>
 
-            <div>
+            {% if user == request.user or perms.cms.change_user %}
+                <div class="actions">
+                    {% if user == request.user %}
+                        <a href="{% url 'me_edit' %}">Редагувати</a>
+                        <a href="{% url 'auth_password_change' %}">Змінити пароль</a>
+                        <a href="{% url 'auth_email_change' %}">Змінити e-mail</a>
+                    {% else %}
+                        <a href="{% url 'user_edit' username=user.username %}">Редагувати</a>
+                    {% endif %}
+
+                    <a href="{% url 'messages_compose_to' recipient=user.username %}">Повідомлення</a>
+                </div>
+            {% endif %}
+            <div class="profile_fields">
+                <p>Дата реєстрації: <span class="value">{{ user.date_joined|date:"d.m.Y" }}</span></p>
                 <p>
                     Дата народження:
                     {% if user.profile.birth_date %}
                         {{ user.profile.birth_date }}
+                    {% else %}
+                        <span class="nodata">Немає данних</span>
                     {% endif %}
                 </p>
                 <p>
@@ -55,71 +56,95 @@
                         Жіноча
                     {% elif user.profile.gender == 'BOY' %}
                         Чоловіча
+                    {% else %}
+                        <span class="nodata">Немає данних</span>
                     {% endif %}
                 </p>
                 <p>
                     Місцезнаходження:
                     {% if user.profile.location %}
                         {{ user.profile.location }}
-                    {% endif %}
-                </p>
-
-                <p>
-                    Telegram:
-                    {% if user.profile.telegram %}
-                        <a href="http://t.me/{{ user.profile.telegram }}">{{ user.profile.telegram }}</a>
-                    {% endif %}
-                </p>
-
-                <p>
-                    Skype:
-                    {% if user.profile.skype %}
-                        <a href="skype:{{ user.profile.skype }}">{{ user.profile.skype }}</a>
-                    {% endif %}
-                </p>
-
-                <p>
-                    Facebook:
-                    {% if user.profile.facebook %}
-                        <a href="{{ user.profile.facebook }}">{{ user.profile.facebook }}</a>
-                    {% endif %}
-                </p>
-                <p>
-                    Vkontakte:
-                    {% if user.profile.vk %}
-                        <a href="{{ user.profile.vk }}">{{ user.profile.vk }}</a>
-                    {% endif %}
-                </p>
-                <p>
-                    Instagram:
-                    {% if user.profile.instagram %}
-                        <a href="{{ user.profile.instagram }}">{{ user.profile.instagram }}</a>
-                    {% endif %}
-                </p>
-                <p>
-                    Twitter:
-                    {% if user.profile.twitter %}
-                        <a href="{{ user.profile.twitter }}">{{ user.profile.twitter }}</a>
-                    {% endif %}
-                </p>
-                <p>
-                    Youtube:
-                    {% if user.profile.youtube %}
-                        <a href="{{ user.profile.youtube }}">{{ user.profile.youtube }}</a>
+                    {% else %}
+                        <span class="nodata">Немає данних</span>
                     {% endif %}
                 </p>
             </div>
         </div>
-        <div class="posts">
-            <h2>Пости користувача (<a href="{% url 'author_list' author=user.username %}">{{ posts | length }}</a>)</h2>
-            <div class="list">
-                <p>Тема</p>
-                <p>Відповідей</p>
+        <div class="contacts">
+            <h3>Контакти</h3>
+            <p>
+                Telegram:
+                {% if user.profile.telegram %}
+                    <a href="http://t.me/{{ user.profile.telegram }}">{{ user.profile.telegram }}</a>
+                {% else %}
+                    <span class="nodata">Немає данних</span>
+                {% endif %}
+            </p>
+
+            <p>
+                Skype:
+                {% if user.profile.skype %}
+                    <a href="skype:{{ user.profile.skype }}">{{ user.profile.skype }}</a>
+                {% else %}
+                    <span class="nodata">Немає данних</span>
+                {% endif %}
+            </p>
+
+            <p>
+                Facebook:
+                {% if user.profile.facebook %}
+                    <a href="{{ user.profile.facebook }}">{{ user.profile.facebook }}</a>
+                {% else %}
+                    <span class="nodata">Немає данних</span>
+                {% endif %}
+            </p>
+            <p>
+                Vkontakte:
+                {% if user.profile.vk %}
+                    <a href="{{ user.profile.vk }}">{{ user.profile.vk }}</a>
+                {% else %}
+                    <span class="nodata">Немає данних</span>
+                {% endif %}
+            </p>
+            <p>
+                Instagram:
+                {% if user.profile.instagram %}
+                    <a href="{{ user.profile.instagram }}">{{ user.profile.instagram }}</a>
+                {% else %}
+                    <span class="nodata">Немає данних</span>
+                {% endif %}
+            </p>
+            <p>
+                Twitter:
+                {% if user.profile.twitter %}
+                    <a href="{{ user.profile.twitter }}">{{ user.profile.twitter }}</a>
+                {% else %}
+                    <span class="nodata">Немає данних</span>
+                {% endif %}
+            </p>
+            <p>
+                Youtube:
+                {% if user.profile.youtube %}
+                    <a href="{{ user.profile.youtube }}">{{ user.profile.youtube }}</a>
+                {% else %}
+                    <span class="nodata">Немає данних</span>
+                {% endif %}
+            </p>
+        </div>
+        <div class="user_posts">
+            <h3>Пости користувача (<a href="{% url 'author_list' author=user.username %}">{{ posts | length }}</a>)</h3>
+            <table>
+                <tr>
+                    <th>Тема</th>
+                    <th>Відповідей</th>
+                </tr>
                 {% for post in posts %}
-                    <p><a href="{% url 'post_detail' pk=post.pk %}">{{ post.short_title }}</a></p>
-                    <p>{% comment_count %}</p>
+                    <tr>
+                        <td><a href="{% url 'post_detail' pk=post.pk %}">{{ post.short_title }}</a></td>
+                        <td>{% comment_count %}</td>
+                    </tr>
                 {% endfor %}
-            </div>
+            </table>
         </div>
     </div>
 {% endblock %}

@@ -60,7 +60,7 @@
     </div>
 </div>
 <!-- content-wrap starts here -->
-<div id="content-wrap" {% if post %}class="no-bacground"{% endif %}>
+<div id="content-wrap" {% if post or user %}class="no-bacground"{% endif %}>
     <div class="navbar">
         <ul class="breadcrumbs">
             {% block breadcrumbs %}{% endblock %}
