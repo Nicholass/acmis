@@ -580,13 +580,19 @@ figcaption {
 .messages {
     width: 100%;
 }
-.messages tr th.user {
+.messages > div {
+    display: flex;
+}
+.messages .user {
     width: 30%;
 }
-.messages tr th.date {
+.messages .subject {
+    flex: 1;
+}
+.messages .date {
     width: 15%;
 }
-.messages tr th.actions {
+.messages .actions {
     width: 10%;
     margin-bottom: 0;
 }
