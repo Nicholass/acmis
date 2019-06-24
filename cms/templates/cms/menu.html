@@ -7,7 +7,7 @@
 
     {% if user.is_authenticated %}
         {% inbox_count as pm_cout %}
-        <li><a href="{% url 'messages_inbox' %}">ПП (<span {% if pm_cout > 0 %}сlass="blink"{% endif %}>{{ pm_cout }}</span>)</a></li>
+        <li {% if pm_cout > 0 %}class="blink"{% endif %}><a href="{% url 'messages_inbox' %}">ПП ({{ pm_cout }})</a></li>
         <li><a href="{% url 'me' %}">Профайл</a></li>
     {% endif %}
 
