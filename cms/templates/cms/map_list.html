@@ -1,29 +1,24 @@
 {% extends 'cms/base.html' %}
-{% load comments %}
 {% load auth %}
 {% load bleach_tags %}
 {% load staticfiles %}
 {% load opengraph %}
-{% load announce %}
 {% load hitcount_tags %}
-{% load bleach_src_filter %}
-{% load comment_posts %}
 {% load tags_cloud %}
+{% load comment_posts %}
 
 {% block title %}
-    {% if category %}
-        {{ category }}
-    {% elif tags %}
-        Пости за тегами:
+    {% if tags %}
+        Мапи за тегами:
         {% for tag in tags %}
             {% if not forloop.first %}&nbsp;{% endif %}
             {{ tag }}
             {% if not forloop.last %}, {% endif %}
         {% endfor %}
     {% elif author %}
-        Пости користувача {{ author }}
+        Мапи користувача {{ author }}
     {% else %}
-        Всі пости
+        Мапи
     {% endif %}
 {% endblock %}
 
@@ -35,85 +30,70 @@
     <div class="post-list">
         <div id="main">
             <h1>
-                {% if category %}
-                    {{ category }}
-                {% elif tags %}
-                    Пости за тегами:
+                {% if tags %}
+                    Мапи за тегами:
                     {% for tag in tags %}
                         {% if not forloop.first %}&nbsp;{% endif %}
                         {{ tag }}
                         {% if not forloop.last %}, {% endif %}
                     {% endfor %}
                 {% elif author %}
-                    Пости користувача {{ author }}
+                    Мапи користувача {{ author }}
                 {% else %}
-                    Всі пости
+                    Мапи
                 {% endif %}
             </h1>
 
-            {% if perms.cms.add_cmspost %}
+            {% if perms.cms.add_map %}
                 <div class="actions">
-                    <a href="{% url 'post_new' %}">Додати новий пост</a>
+                    <a href="{% url 'map_new' %}">Додати нову мапу</a>
                 </div>
             {% endif %}
 
             <div class="posts">
-                {% if not posts %}
-                    <p class="nocontent">Поки що у цій категорії немає постів</p>
+                {% if not maps %}
+                    <p class="nocontent">Поки що мап немає у розділі</p>
                 {% endif %}
 
-                {% for post in posts %}
-                    <div class="post" id="{{ post.pk }}">
+                {% for map in maps %}
+                    <div class="post" id="{{ map.pk }}">
                         <div class="post-body">
-                            <img src="{{ post.author.profile.avatar_url }}" alt="avatar" />
+                            <img src="{{ map.author.profile.avatar_url }}" alt="avatar" />
 
                             <div class="info">
-                                <span>{{ post.author.first_name }} {{ post.author.last_name }} [<a class="username"
-                                        href="{% url 'user' username=post.author.username %}">{{ post.author }}</a>]</span>
-                                <span>{{ post.created_date }}</span>
-                                {% if post.modifed_date %}
-                                    <span>[відредаговано {{ post.modifed_date }}]</span>
+                                <span>{{ map.author.first_name }} {{ map.author.last_name }} [<a class="username"
+                                        href="{% url 'user' username=map.author.username %}">{{ map.author }}</a>]</span>
+                                <span>{{ map.created_date }}</span>
+                                {% if map.modifed_date %}
+                                    <span>[відредаговано {{ map.modifed_date }}]</span>
                                 {% endif %}
                             </div>
 
                             <h2>
-                                <a href="{% url 'category_list' category=post.category.route %}">{{ post.category }}</a>
-                                - </a><a class="post-title" href="{% url 'post_detail' pk=post.pk %}">{{ post.title }}</a>
+                                <a class="post-title" href="{% url 'map_file' pk=map.pk %}">{{ map.title }}</a>
                             </h2>
 
 
                             <div class="post-content clearfix">
-                                {{ post.text|hide_announced_item|bleach_src|truncatechars:800|bleach }}
-                                {% get_announce post as announce %}
-                                <p>{{ announce|bleach_src|bleach }}</p>
+                                {{ map.description|bleach }}
                             </div>
                         </div>
 
                         <div class="actions">
                             {% if user.is_authenticated %}
-                                {% auth_is_owner post as is_post_owner %}
+                                {% auth_is_owner map as is_map_owner %}
 
-                                {% if perms.cms.change_cmspost and is_post_owner %}
-                                    <a href="{% url 'post_edit' pk=post.pk %}">Редагувати</a>
+                                {% if perms.cms.change_map and is_map_owner %}
+                                    <a href="{% url 'map_edit' pk=map.pk %}">Редагувати</a>
                                 {% endif %}
 
-                                {% if perms.cms.delete_cmspost and is_post_owner %}
-                                    <a href="{% url 'post_delete' pk=post.pk %}"
-                                       onclick="return confirm('Ви впевнені, що хочете видалити пост?')">
+                                {% if perms.cms.delete_map and is_map_owner %}
+                                    <a href="{% url 'map_delete' pk=map.pk %}"
+                                       onclick="return confirm('Ви впевнені, що хочете видалити мапу?')">
                                         Видалити
                                     </a>
                                 {% endif %}
                             {% endif %}
-
-                            <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">
-                                {% comment_count as comm_count %}
-                                {% if comm_count %}
-                                    {{ comm_count }}
-                                    {% if comm_count|plural_type == 1 %}коментар{% endif %}
-                                    {% if comm_count|plural_type == 2 %}коментяря{% endif %}
-                                    {% if comm_count|plural_type == 3 %}коментарів{% endif %}
-                                {% endif %}
-                            </a>
                         </div>
                     </div>
                 {% endfor %}
@@ -154,21 +134,19 @@
                                 ({{ category.posts_count }})
                             </li>
                         {% endfor %}
-                        {% if perms.cms.map_access %}
-                            <li>
-                                <a href="{% url 'maps_list' %}">Мапи</a>
-                                ({{ maps_count }})
-                            </li>
-                        {% endif %}
+                        <li>
+                            <a href="{% url 'maps_list' %}">Мапи</a>
+                            ({{ maps_count }})
+                        </li>
                     </ul>
                 </div>
             </div>
             <div>
                 <h3>Теги</h3>
                 <div class="block tags">
-                    {% tags_cloud as cloud %}
+                    {% maps_tags_cloud as cloud %}
                     {% for tag in cloud %}
-                        <a href="{% url 'tag_list' tags=tag.name %}"
+                        <a href="{% url 'maps_tag_list' tags=tag.name %}"
                            class="tag-size-{{ tag.font_size }}">{{ tag.name }}</a>
                     {% endfor %}
                 </div>

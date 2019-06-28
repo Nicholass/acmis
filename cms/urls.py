@@ -5,6 +5,7 @@ from django.conf import settings
 
 from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
 
+from cms.views import map
 from cms.views import post
 from cms.views import comment
 from cms.views import registration
@@ -44,7 +45,16 @@ urlpatterns = [
 
     url(r'^tags/(?P<tags>[\w\s\d\-_,]+)/$', post.post_list, name='tag_list'),
 
-    #  url(r'^map/(?P<map_hash>\w+)/$', views.serve_map_file, name='map_file'),
+    url(r'^maps/$', map.maps_list, name='maps_list'),
+    url(r'^maps/new/$', map.map_new, name='map_new'),
+    url(r'^maps/(?P<pk>[0-9]+)/$', map.serve_map_file, name='map_file'),
+    url(r'^maps/(?P<pk>[0-9]+)/edit/$', map.map_edit, name='map_edit'),
+    url(r'^maps/(?P<pk>[0-9]+)/delete/$', map.map_delete, name='map_delete'),
+
+    url(r'^maps/author/(?P<author>\w+)?/$', map.maps_list, name='maps_author_list'),
+    url(r'^maps/author/(?P<author>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', map.maps_list, name='maps_author_tags_list'),
+
+    url(r'^maps/tags/(?P<tags>[\w\s\d\-_,]+)/$', map.maps_list, name='maps_tag_list'),
 
     url(r'^accounts/login/$', registration.remember_login, {
         'template_name': 'registration/login.html',
