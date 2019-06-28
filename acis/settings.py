@@ -109,6 +109,14 @@ DATABASES = {
         'PASSWORD': os.getenv('POSTGRES_PASSWORD', ''),
         'HOST': os.getenv('POSTGRES_HOST', 'localhost'),
         'PORT': os.getenv('POSTGRES_PORT', 5432),
+    },
+    'tmp': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.getenv('POSTGRES_TMP_DBNAME', 'postgres'),
+        'USER': os.getenv('POSTGRES_TMP_USER', 'postgres'),
+        'PASSWORD': os.getenv('POSTGRES_TMP_PASSWORD', ''),
+        'HOST': os.getenv('POSTGRES_TMP_HOST', 'localhost'),
+        'PORT': os.getenv('POSTGRES_TMP_PORT', 5432),
     }
 }
 
