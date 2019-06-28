@@ -17,6 +17,7 @@ from PIL import Image
 from cms.forms.post import PostForm
 
 from cms.models.cmspost import CmsPost
+from cms.models.map import Map
 from cms.models.cmscategory import CmsCategory
 from django.contrib.auth.models import User
 from hitcount.models import HitCount
@@ -64,11 +65,13 @@ def post_list(request, tags=None, category=None, author=None):
         posts = paginator.page(paginator.num_pages)
 
     categories = CmsCategory.objects.annotate(posts_count=Count('cmspost')).all()
+    maps_count = Map.objects.all().count()
 
     return render(request, 'cms/post_list.html', {
         'posts': posts,
         'category': c,
         'categories_list': categories,
+        'maps_count': maps_count,
         'tags': t,
         'author': author,
     })

@@ -1,30 +1,125 @@
-from hashlib import md5
-from django.contrib.auth.signals import user_logged_in
 from django.http import HttpResponse, Http404
+from django.contrib.auth.decorators import login_required, permission_required
+from django.db.models import Q, Count
 from django.conf import settings
-import random
+from django.utils import timezone
+from django.core.exceptions import PermissionDenied
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.shortcuts import get_object_or_404, render, redirect
+from cms.forms.map import MapForm
+from cms.utils import is_owner
 
-from ..shortcuts import get_permited_object_or_403
-
-from ..models.cmspost import CmsPost
-
-
-def serve_map_file(request, map_hash):
-  try:
-    map_pk = request.session['map_urls'][map_hash]
-    m = get_permited_object_or_403(CmsPost, request.user, pk=map_pk)
-
-    # import sys
-    # for key, value in request.session.items(): print('{} => {}'.format(key, value), file=sys.stderr)
-
-    return HttpResponse(m.file.file, content_type='image/jpg')
-  except KeyError:
-    raise Http404("No map found.")
+from cms.models.cmscategory import CmsCategory
+from cms.models.map import Map
+from django.contrib.auth.models import User
 
 
-def do_stuff(sender, user, request, **kwargs):
-  maps = CmsPost.objects.filter(category__route = getattr(settings, 'MAPS_CATEGORY_ROUTE', 'map'))
-  request.session['map_urls'] = {md5(str(m.pk + random.randint(1, 32)).encode()).hexdigest(): m.pk for m in maps}
+@login_required
+@permission_required('cms.map_access', raise_exception=True)
+def serve_map_file(request, pk):
+    try:
+        m = get_object_or_404(Map, pk=pk)
+
+        return HttpResponse(m.file, content_type='image/jpg')
+    except KeyError:
+        raise Http404("No map found.")
 
 
-user_logged_in.connect(do_stuff)
+
+@login_required
+@permission_required('cms.map_access', raise_exception=True)
+def maps_list(request, tags=None, author=None):
+    t = None
+
+    if tags:
+        t = tags.split(",")
+
+    if author:
+        get_object_or_404(User, username=author)
+
+    query = {
+        'tags__name__in': t,
+        'author__username': author,
+    }
+
+    q = {k: v for k, v in query.items() if v is not None}
+
+    maps_list = Map.objects.filter(Q(**q)).distinct().order_by('-created_date')
+
+    page = request.GET.get('page', 1)
+
+    paginator = Paginator(maps_list, getattr(settings, 'PAGINATION_MAPS_COUNT', 50))
+    try:
+        maps = paginator.page(page)
+    except PageNotAnInteger:
+        maps = paginator.page(1)
+    except EmptyPage:
+        maps = paginator.page(paginator.num_pages)
+
+    categories = CmsCategory.objects.annotate(posts_count=Count('cmspost')).all()
+    maps_count = Map.objects.all().count()
+
+    return render(request, 'cms/map_list.html', {
+        'maps': maps,
+        'tags': t,
+        'author': author,
+        'categories_list': categories,
+        'maps_count': maps_count
+    })
+
+@login_required
+@permission_required('cms.add_map', raise_exception=True)
+def map_new(request):
+    if request.method == "POST":
+        form = MapForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            map = form.save(commit=False)
+            map.author = request.user
+
+            map.save()
+            form.save_m2m()
+
+            return redirect('maps_list')
+
+    else:
+        form = MapForm()
+
+    return render(request, 'cms/map_edit.html', {'form': form})
+
+@login_required
+@permission_required('cms.change_map', raise_exception=True)
+def map_edit(request, pk):
+    map = get_object_or_404(Map, pk=pk)
+
+    if not is_owner(request.user, map):
+        raise PermissionDenied()
+
+    if request.method == "POST":
+        form = MapForm(request.POST, instance=map)
+
+        if form.is_valid():
+            map = form.save(commit=False)
+            map.modifed_date = timezone.now()
+
+            map.save()
+            form.save_m2m()
+
+            return redirect('maps_list')
+
+    else:
+        form = MapForm(instance=map)
+
+    return render(request, 'cms/map_edit.html', {'form': form, 'map': map})
+
+@login_required
+@permission_required('cms.delete_map', raise_exception=True)
+def map_delete(request, pk):
+    map = get_object_or_404(Map, pk=pk)
+
+    if not is_owner(request.user, map):
+        raise PermissionDenied()
+
+    map.delete()
+
+    return redirect('maps_list')

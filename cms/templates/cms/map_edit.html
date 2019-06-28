@@ -1,0 +1,27 @@
+{% extends 'cms/base.html' %}
+{% load staticfiles %}
+
+{% block title %}
+    {% if post %}
+        Редягування мапи
+    {% else %}
+        Завантаження мапи
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+    <h1>
+        {% if post %}
+            Редагування мапи
+        {% else %}
+            Завантаження мапи
+        {% endif %}
+    </h1>
+
+    <form method="POST" class="post-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_p }}
+        <button type="submit">Відправити</button>
+    </form>
+{% endblock %}
