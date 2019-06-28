@@ -3,9 +3,7 @@ from django import forms
 
 from ..models.map import Map
 
-
 class MapForm(forms.ModelForm):
-
     def __init__(self, *args, **kwargs):
         super(MapForm, self).__init__(*args, **kwargs)
         # Making location required
@@ -15,6 +13,9 @@ class MapForm(forms.ModelForm):
     class Meta:
         model = Map
         fields = ('title', 'file', 'description', 'tags')
+        widgets = {
+            'file': forms.FileInput
+        }
 
     class Media:
         js = (

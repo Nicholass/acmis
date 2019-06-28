@@ -11,7 +11,7 @@ class Map(models.Model):
     tags = TaggableManager(blank=True, verbose_name='Тэги')
 
     file = models.ImageField(
-        upload_to='maps/',
+        upload_to='uploads/%Y/%m/%d/',
         verbose_name='Файл'
     )
     description = models.TextField(max_length=200, verbose_name='Опис', blank=True)

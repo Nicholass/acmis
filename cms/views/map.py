@@ -96,7 +96,7 @@ def map_edit(request, pk):
         raise PermissionDenied()
 
     if request.method == "POST":
-        form = MapForm(request.POST, instance=map)
+        form = MapForm(request.POST, request.FILES, instance=map)
 
         if form.is_valid():
             map = form.save(commit=False)

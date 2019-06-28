@@ -6,6 +6,7 @@ from ..views.registration import send_activation_code
 from ..forms.profile import ProfileForm
 
 from ..models.cmspost import CmsPost
+from ..models.map import Map
 from ..models.cmscategory import CmsCategory
 from ..models.comment import Comment
 from ..models.cmsprofile import CmsProfile
@@ -14,11 +15,13 @@ from tracking.models import Visitor, Pageview
 
 from .comment import CustomMPTTModelAdmin
 from .post import PostAdmin
+from .map import MapAdmin
 from .tracking2 import PageviewCustomAdmin, VisitorCustomAdmin
 
 admin.site.register(Comment, CustomMPTTModelAdmin)
 
 admin.site.register(CmsPost, PostAdmin)
+admin.site.register(Map, MapAdmin)
 
 admin.site.unregister(Visitor)
 admin.site.register(Visitor, VisitorCustomAdmin)
