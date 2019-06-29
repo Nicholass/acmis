@@ -67,7 +67,7 @@ class CmsProfile(models.Model):
             output.seek(0)
 
             self.avatar = InMemoryUploadedFile(output, 'ImageField', "%s.png" % self.avatar.name.split('.')[0], 'image/png', sys.getsizeof(output), None)
-            super(CmsProfile, self).save()
+        super(CmsProfile, self).save()
 
     @property
     def avatar_url(self):
