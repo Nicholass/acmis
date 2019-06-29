@@ -170,5 +170,73 @@ class Command(BaseCommand):
             )
             print('Created comment from %s' % author)
 
+        ### Add forum threads as posts and replyes as comments
+
+        cursor.execute('SELECT * FROM pybb_topic WHERE TRUE')
+        topics = cursor.fetchall()
+
+        for topic in topics:
+            existing_post = CmsPost.objects.filter(title=topic[1])
+            if existing_post:
+                continue
+
+            cursor.execute('SELECT * FROM pybb_post WHERE topic_id = %d ORDER BY id ASC' % topic[0])
+            posts = cursor.fetchall()
+            author = User.objects.get(id=topic[12])
+            category = None
+            hidden = False
+
+            if topic[11] == 4 or topic[11] == 6:
+                category = CmsCategory.objects.get(route='events')
+
+            if topic[11] == 11:
+                category = CmsCategory.objects.get(route='events')
+                hidden = True
+
+            if topic[11] == 1 or topic[11] == 2:
+                category = CmsCategory.objects.get(route='talking')
+
+            if topic[11] == 10 or topic[11] == 20:
+                category = CmsCategory.objects.get(route='talking')
+                hidden = True
+
+            if topic[11] == 2:
+                category = CmsCategory.objects.get(route='talking')
+
+            if topic[11] == 8:
+                category = CmsCategory.objects.get(route='equip')
+
+            if topic[11] == 7 or topic[11] == 21:
+                continue
+
+            post = CmsPost.objects.create(
+                title=topic[1],
+                author=author,
+                created_date=topic[2],
+                text=posts[0][2],
+                category=category,
+                is_permited=hidden,
+            )
+
+            posts.pop(0)
+
+            for original_post in posts:
+                post_author = User.objects.get(id=original_post[9])
+
+                existing_comment = Comment.objects.filter(text=original_post[2])
+                if existing_comment:
+                    continue
+
+                Comment.objects.create(
+                    post=post,
+                    text=original_post[2],
+                    created_date=original_post[4],
+                    author=post_author
+                )
+
+                print('Added reply %s to post %s' % (post_author, topic[1],))
+
+            print('Added post %s to category %s' % (topic[1], category.name,))
+
         cursor.close()
         conn.close()
