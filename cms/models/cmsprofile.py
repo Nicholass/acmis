@@ -42,7 +42,7 @@ class CmsProfile(models.Model):
 
     email_verefied = models.BooleanField(default=False, verbose_name='Підтвердити e-mail користувача')
 
-    def save(self):
+    def save(self, **kwargs):
         if self.avatar:
 
             AVATAR_SIZE = getattr(settings, 'AVATAR_SIZE', (80, 80))
@@ -67,7 +67,8 @@ class CmsProfile(models.Model):
             output.seek(0)
 
             self.avatar = InMemoryUploadedFile(output, 'ImageField', "%s.png" % self.avatar.name.split('.')[0], 'image/png', sys.getsizeof(output), None)
-            super(CmsProfile, self).save()
+
+        super(CmsProfile, self).save()
 
     @property
     def avatar_url(self):
