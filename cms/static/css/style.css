@@ -272,7 +272,8 @@ button {
 }
 
 #content-wrap .navbar {
-    padding: 10px 0 10px 0;
+    padding: 10px 15px 10px 15px;
+    box-sizing: border-box;
 }
 
 /* Хдебные крошки */
@@ -330,7 +331,24 @@ button {
 #content-wrap .content {
     text-align: left;
     margin: 0 auto;
-    padding-bottom: 20px;
+    padding: 0 15px 20px 15px;
+    box-sizing: border-box;
+}
+
+.mobile-menu {
+    display: none;
+}
+.mobile-menu i {
+    background: rgba(0, 0, 0, 0.5);
+    width: 30px;
+    height: 30px;
+    font-size: 1.6em;
+    text-align: center;
+    line-height: 1.4em;
+}
+.mobile-menu a {
+    margin-left: 10px;
+    display: inline-block;
 }
 
 #content-wrap .post-list,
@@ -614,6 +632,10 @@ figcaption {
     font-size: 0.9em;
     display: grid;
     grid-template-columns: 0.5fr 5fr;
+}
+
+.pm textarea {
+    width: 100%;
 }
 
 /* Userlist */
@@ -947,7 +969,8 @@ ul.pagination a:hover {
 
 #footer .content {
     margin: 0 auto;
-    padding: 15px 0 0 0;
+    padding: 15px 15px 0 15px;
+    box-sizing: border-box;
     display: grid;
     grid-template-columns: 8fr 2fr;
 }
@@ -1055,29 +1078,6 @@ ul.pagination a:hover {
     grid-column-end: 3;
 }
 
-#pm-notification {
-    position: absolute;
-    top: 30px;
-    right: 50px;
-    color: #004085;
-    background-color: #cce5ff;
-    padding: .75rem 1.25rem;
-    margin-bottom: 1rem;
-    border: 1px solid #b8daff;
-    border-radius: .25rem;
-    z-index: 9000;
-}
-
-#pm-notification a {
-    color: #004085;
-    font-weight: bold;
-    text-decoration: underline;
-}
-
-#pm-notification a:hover {
-    color: #F88F26;
-}
-
 @media (max-width: 600px) {
 
     /* layout */
@@ -1154,76 +1154,7 @@ ul.pagination a:hover {
         margin: 1px 1px;
     }
 
-    .breadcrumbs {
-        display: flex;
-        padding-left: 15px;
-        align-self: flex-start;
-        margin-top: 7px;
-        flex-direction: column;
-        align-items: flex-start;
-        overflow: hidden;
-    }
-
-    .breadcrumbs li {
-        height: auto;
-    }
-
-    .breadcrumbs li:not(.sep) {
-        display: none;
-    }
-
-    .breadcrumbs li.current {
-        display: block;
-        width: 98%;
-    }
-
-    .breadcrumbs li:before {
-        content: '';
-        height: 1.75em;
-        margin: 0 10px 0 0;
-        width: 16px;
-        background: #000 url(../images/arrow.gif) no-repeat;
-        color: #A0080D;
-        display: inline-block;
-        vertical-align: text-top;
-    }
-
-    .breadcrumbs li a {
-        display: inline-block;
-        max-width: 90%;
-        vertical-align: top;
-    }
-
     /* content */
-    #content-wrap {
-        background: #000;
-    }
-
-    #content-wrap .content {
-        display: block;
-    }
-
-    #content-wrap .navbar {
-        padding: 0;
-        grid-template-columns: 5fr 1fr;
-    }
-
-    .langSwitcher {
-        align-self: flex-start;
-    }
-
-    .langSwitcher ul {
-        padding-right: 0;
-    }
-
-    .langSwitcher li:not(.selected) {
-        display: none;
-    }
-
-    .langSwitcher li:first-child {
-        margin-left: 10px;
-    }
-
     .posts {
         padding-right: 0;
     }
@@ -1231,10 +1162,6 @@ ul.pagination a:hover {
     .post img,
     .post iframe {
         max-width: 100%;
-    }
-
-    .post-form input[name=title] {
-        width: 100%;
     }
 
     .post-form #cke_id_text {
@@ -1245,18 +1172,44 @@ ul.pagination a:hover {
         width: 100%;
     }
 
-    .profile {
+    #content-wrap .post-list, #content-wrap .pm {
         display: block;
     }
 
-    .category-table td, .category-table th,
-    .topic-list td, .topic-list th {
+    .messages .date {
+        width: 25%;
+    }
+    .messages .actions {
+        width: 20%;
+    }
+
+    .profile {
+        display: block;
+    }
+    .profile .contacts {
+        padding: 0;
+    }
+    .profile h3 {
+        padding-top: 10px;
+    }
+
+    .userlist .main .data {
+        margin-left: 70px;
+    }
+    .userlist .main img {
+        width: 50px;
+    }
+    .userlist .posts_count,
+    .userlist .comments_count {
         word-break: break-word;
     }
 
-    .topic-post .post-info,
-    .topic-post .post-content {
-        word-break: break-all;
+    .mobile-menu {
+        display: block;
+        position: fixed;
+        top: 10px;
+        right: 15px;
+        z-index: 9999;
     }
 
     /* footer */

@@ -32,6 +32,11 @@
 {% endblock %}
 
 {% block content %}
+    <div class="mobile-menu">
+        <a href="#header"><i class="fas fa-caret-up"></i></a>
+        <a href="#sidebar"><i class="fas fa-bars"></i></a>
+    </div>
+
     <div class="post-list">
         <div id="main">
             <h1>
@@ -105,15 +110,19 @@
                                 {% endif %}
                             {% endif %}
 
-                            <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">
-                                {% comment_count as comm_count %}
-                                {% if comm_count %}
+                            {% comment_count as comm_count %}
+                            {% if comm_count %}
+                                <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">
                                     {{ comm_count }}
                                     {% if comm_count|plural_type == 1 %}коментар{% endif %}
                                     {% if comm_count|plural_type == 2 %}коментяря{% endif %}
                                     {% if comm_count|plural_type == 3 %}коментарів{% endif %}
+                                </a>
+                            {% else %}
+                                {% if perms.cms.add_comment %}
+                                    <a href="{% url 'post_detail' pk=post.pk %}#comment-form">Коментувати</a>
                                 {% endif %}
-                            </a>
+                            {% endif %}
                         </div>
                     </div>
                 {% endfor %}
