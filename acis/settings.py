@@ -260,7 +260,7 @@ SESSION_SAVE_EVERY_REQUEST = True
 ALLOWED_HOSTS = [
     'www.diggers.kiev.ua',
     'diggers.kiev.ua',
-    '159.65.127.90',
+    '142.93.107.25',
     '127.0.0.1',
 ]
 
@@ -275,7 +275,7 @@ OPENGRAPH_CONFIG = {
     'FB_ADMINS': '',
     'FB_APP_ID': '',
     'DEFAULT_IMAGE': '%simages/og_image.png' % STATIC_URL,
-    'SITE_NAME': 'Сайт диггеров Киева',
+    'SITE_NAME': 'Сайт дигерів Києва',
 }
 
 # Number of seconds of inactivity before a user is marked offline
@@ -322,7 +322,7 @@ CKEDITOR_CONFIGS = {
 }
 
 SIMPLEMDE_OPTIONS = {
-    'placeholder': 'Комментар',
+    'placeholder': 'Коментар',
     'status': False,
     'autosave': {
         'enabled': True
