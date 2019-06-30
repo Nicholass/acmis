@@ -70,7 +70,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'ban.middleware.BanManagement',
-    'cms.midlewares.XForwardedForMiddleware',
+    'cms.middlewares.ActiveUserMiddleware',
+    'cms.middlewares.OnlineUsersMiddleware',
+    'cms.middlewares.XForwardedForMiddleware',
     'django_user_agents.middleware.UserAgentMiddleware',
     'tracking.middleware.VisitorTrackingMiddleware',
 ]
