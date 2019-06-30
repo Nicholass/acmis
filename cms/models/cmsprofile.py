@@ -42,7 +42,7 @@ class CmsProfile(models.Model):
 
     email_verefied = models.BooleanField(default=False, verbose_name='Підтвердити e-mail користувача')
 
-    def save(self):
+    def save(self, **kwargs):
         if self.avatar:
 
             AVATAR_SIZE = getattr(settings, 'AVATAR_SIZE', (80, 80))
