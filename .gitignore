@@ -3,7 +3,7 @@ __pycache__
 diggers_venv
 media
 draft
-static
+/static
 data
 bower_components
 geoip-data
