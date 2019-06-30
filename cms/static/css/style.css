@@ -506,6 +506,11 @@ a.feed:hover {
     margin: 0;
 }
 
+.post .not-allowed-comments {
+    font-size: 0.9em;
+    text-align: center;
+}
+
 figure {
     display: inline-block;
 }

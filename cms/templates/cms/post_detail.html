@@ -54,8 +54,9 @@
                 </div>
             {% endif %}
         </div>
-        <div class="actions">
-            {% if user.is_authenticated %}
+
+        {% if user.is_authenticated and perms.cms.add_comment %}
+            <div class="actions">
                 {% auth_is_owner post as is_post_owner %}
 
                 {% if perms.cms.change_cmspost and is_post_owner %}
@@ -72,8 +73,8 @@
                 {% if perms.cms.add_comment %}
                     <a href="#comment-form">Коментувати</a>
                 {% endif %}
-            {% endif %}
-        </div>
+            </div>
+        {% endif %}
     </div>
 
     <div class="comments" id="comments">
@@ -81,6 +82,8 @@
 
         {% if perms.cms.add_comment %}
             {% comment_form post %}
+        {% else %}
+            <p class="not-allowed-comments">Увійдіть або зареєструйтеся щоб додавати коментарі</p>
         {% endif %}
     </div>
 {% endblock %}
