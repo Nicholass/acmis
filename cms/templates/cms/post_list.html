@@ -115,7 +115,7 @@
                             <a href="{% url 'post_detail' pk=post.pk %}#comments" class="comments-link">
                                 {{ comm_count }}
                                 {% if comm_count|plural_type == 1 %}коментар{% endif %}
-                                {% if comm_count|plural_type == 2 %}коментяря{% endif %}
+                                {% if comm_count|plural_type == 2 %}коментаря{% endif %}
                                 {% if comm_count|plural_type == 3 %}коментарів{% endif %}
                             </a>
 
