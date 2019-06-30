@@ -1,13 +1,13 @@
 {% load comments %}
 
 <ul>
-    {% if posts %}
-        {% for post in posts %}
+    {% if comments %}
+        {% for comment in comments %}
             <li>
-                <a href="{% url 'post_detail' post.pk %}#comment">{{ post.title }}</a> - {{ post.author }}, {{ post.comments_count }}
-                {% if post.comments_count|plural_type == 1 %}відповідь{% endif %}
-                {% if post.comments_count|plural_type == 2 %}відповіді{% endif %}
-                {% if post.comments_count|plural_type == 3 %}відповіді{% endif %}
+                <a href="{% url 'post_detail' comment.post.pk %}#comment{{ comment.pk }}">
+                    {{ comment.post.title }}
+                </a> -
+                {{ comment.author }}
             </li>
         {% endfor %}
     {% else %}

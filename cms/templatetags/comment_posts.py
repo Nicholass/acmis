@@ -1,23 +1,23 @@
 from django import template
 from django.db.models import Count
 
+from cms.models.comment import Comment
 from cms.models.cmspost import CmsPost
 
 register = template.Library()
 
-
 @register.inclusion_tag("cms/comment_posts.html", takes_context=False)
 def comment_posts(count=10):
-    posts = CmsPost.objects.annotate(comments_count=Count('comment')).order_by('-comments_count').select_related()
-    posts_count = posts.count()
+    comments = Comment.objects.select_related().order_by('-created_date')
+    comments_count = comments.count()
 
-    if posts_count < count:
-        count = posts_count
-    elif posts_count == 0:
+    if comments_count < count:
+        count = comments_count
+    elif comments_count == 0:
         return None
 
-    posts = posts[:count]
+    comments = comments[:count]
 
     return {
-        'posts': posts
+        'comments': comments
     }
