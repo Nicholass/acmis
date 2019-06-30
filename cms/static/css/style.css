@@ -600,40 +600,40 @@ figcaption {
     margin: 30px 0;
 }
 
-.messages {
+.pm .messages {
     width: 100%;
 }
-.messages > div {
+.pm .messages > div {
     display: flex;
 }
-.messages .user {
+.pm .messages .user {
     width: 30%;
 }
-.messages .subject {
+.pm .messages .subject {
     flex: 1;
 }
-.messages .date {
+.pm .messages .date {
     width: 15%;
 }
-.messages .actions {
+.pm .messages .actions {
     width: 10%;
     margin-bottom: 0;
 }
-.message {
+.pm .message {
     display: flex;
     flex-direction: column;
     height: 95%;
 }
-.message .message-body {
+.pm .message .message-body {
     padding: 10px 0;
     flex: 1;
 }
-.message .actions a {
+.pm .message .actions a {
     font-size: 0.9em;
     margin-right: 10px;
 }
 
-.message-headers {
+.pm .message-headers {
     font-size: 0.9em;
     display: grid;
     grid-template-columns: 0.5fr 5fr;
