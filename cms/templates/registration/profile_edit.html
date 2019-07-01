@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Редагування профілю {{ user }}</h1>
+    <h1>Редагування профілю {{ profile_user }}</h1>
 
     <form method="post" action="." class="pofile-edit-form" enctype="multipart/form-data">
         {% csrf_token %}

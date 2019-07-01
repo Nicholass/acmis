@@ -3,7 +3,7 @@
 {% load comments %}
 
 {% block title %}
-    {{ user.first_name }} {{ user.last_name }}[{{ user }}]
+    {{ profile_user.first_name }} {{ profile_user.last_name }}[{{ profile_user }}]
 {% endblock %}
 
 {% block content %}
@@ -12,14 +12,14 @@
     <div class="profile">
         <div class="data">
             <div class="basic">
-                <img src="{{ user.profile.avatar_url }}" alt="avatar"/>
+                <img src="{{ profile_user.profile.avatar_url }}" alt="avatar"/>
                 <div class="info">
-                    <h2>{{ user.first_name }} {{ user.last_name }} [{{ user }}]</h2>
-                    <p>Онлайн: {% if user.profile.online %}Так{% else %}Ні{% endif %}</p>
+                    <h2>{{ profile_user.first_name }} {{ profile_user.last_name }} [{{ profile_user }}]</h2>
+                    <p>Онлайн: {% if profile_user.profile.online %}Так{% else %}Ні{% endif %}</p>
                     <p>
                         Був онлайн:
-                        {% if user.profile.last_activity %}
-                            {{ user.profile.last_activity|date:"d.m.Y H:i" }}
+                        {% if profile_user.profile.last_activity %}
+                            {{ profile_user.profile.last_activity|date:"d.m.Y H:i" }}
                         {% else %}
                             Ніколи
                         {% endif %}
@@ -27,34 +27,34 @@
                 </div>
             </div>
 
-            {% if user == request.user or perms.cms.change_user %}
+            {% if profile_user == request.user or perms.cms.change_user %}
                 <div class="actions">
-                    {% if user == request.user %}
+                    {% if profile_user == request.user %}
                         <a href="{% url 'me_edit' %}">Редагувати</a>
                         <a href="{% url 'auth_password_change' %}">Змінити пароль</a>
                         <a href="{% url 'auth_email_change' %}">Змінити e-mail</a>
                     {% else %}
-                        <a href="{% url 'user_edit' username=user.username %}">Редагувати</a>
+                        <a href="{% url 'user_edit' username=profile_user.username %}">Редагувати</a>
                     {% endif %}
 
-                    <a href="{% url 'messages_compose_to' recipient=user.username %}">Повідомлення</a>
+                    <a href="{% url 'messages_compose_to' recipient=profile_user.username %}">Повідомлення</a>
                 </div>
             {% endif %}
             <div class="profile_fields">
-                <p>Дата реєстрації: <span class="value">{{ user.date_joined|date:"d.m.Y" }}</span></p>
+                <p>Дата реєстрації: <span class="value">{{ profile_user.date_joined|date:"d.m.Y" }}</span></p>
                 <p>
                     Дата народження:
-                    {% if user.profile.birth_date %}
-                        {{ user.profile.birth_date }}
+                    {% if profile_user.profile.birth_date %}
+                        {{ profile_user.profile.birth_date }}
                     {% else %}
                         <span class="nodata">Немає данних</span>
                     {% endif %}
                 </p>
                 <p>
                     Стать:
-                    {% if user.profile.gender == 'GIRL' %}
+                    {% if profile_user.profile.gender == 'GIRL' %}
                         Жіноча
-                    {% elif user.profile.gender == 'BOY' %}
+                    {% elif profile_user.profile.gender == 'BOY' %}
                         Чоловіча
                     {% else %}
                         <span class="nodata">Немає данних</span>
@@ -62,8 +62,8 @@
                 </p>
                 <p>
                     Місцезнаходження:
-                    {% if user.profile.location %}
-                        {{ user.profile.location }}
+                    {% if profile_user.profile.location %}
+                        {{ profile_user.profile.location }}
                     {% else %}
                         <span class="nodata">Немає данних</span>
                     {% endif %}
@@ -74,8 +74,8 @@
             <h3>Контакти</h3>
             <p>
                 Telegram:
-                {% if user.profile.telegram %}
-                    <a href="http://t.me/{{ user.profile.telegram }}">{{ user.profile.telegram }}</a>
+                {% if profile_user.profile.telegram %}
+                    <a href="http://t.me/{{ profile_user.profile.telegram }}">{{ profile_user.profile.telegram }}</a>
                 {% else %}
                     <span class="nodata">Немає данних</span>
                 {% endif %}
@@ -83,8 +83,8 @@
 
             <p>
                 Skype:
-                {% if user.profile.skype %}
-                    <a href="skype:{{ user.profile.skype }}">{{ user.profile.skype }}</a>
+                {% if profile_user.profile.skype %}
+                    <a href="skype:{{ profile_user.profile.skype }}">{{ profile_user.profile.skype }}</a>
                 {% else %}
                     <span class="nodata">Немає данних</span>
                 {% endif %}
@@ -92,47 +92,47 @@
 
             <p>
                 Facebook:
-                {% if user.profile.facebook %}
-                    <a href="{{ user.profile.facebook }}">{{ user.profile.facebook }}</a>
+                {% if profile_user.profile.facebook %}
+                    <a href="{{ profile_user.profile.facebook }}">{{ profile_user.profile.facebook }}</a>
                 {% else %}
                     <span class="nodata">Немає данних</span>
                 {% endif %}
             </p>
             <p>
                 Vkontakte:
-                {% if user.profile.vk %}
-                    <a href="{{ user.profile.vk }}">{{ user.profile.vk }}</a>
+                {% if profile_user.profile.vk %}
+                    <a href="{{ profile_user.profile.vk }}">{{ profile_user.profile.vk }}</a>
                 {% else %}
                     <span class="nodata">Немає данних</span>
                 {% endif %}
             </p>
             <p>
                 Instagram:
-                {% if user.profile.instagram %}
-                    <a href="{{ user.profile.instagram }}">{{ user.profile.instagram }}</a>
+                {% if profile_user.profile.instagram %}
+                    <a href="{{ profile_user.profile.instagram }}">{{ profile_user.profile.instagram }}</a>
                 {% else %}
                     <span class="nodata">Немає данних</span>
                 {% endif %}
             </p>
             <p>
                 Twitter:
-                {% if user.profile.twitter %}
-                    <a href="{{ user.profile.twitter }}">{{ user.profile.twitter }}</a>
+                {% if profile_user.profile.twitter %}
+                    <a href="{{ profile_user.profile.twitter }}">{{ profile_user.profile.twitter }}</a>
                 {% else %}
                     <span class="nodata">Немає данних</span>
                 {% endif %}
             </p>
             <p>
                 Youtube:
-                {% if user.profile.youtube %}
-                    <a href="{{ user.profile.youtube }}">{{ user.profile.youtube }}</a>
+                {% if profile_user.profile.youtube %}
+                    <a href="{{ profile_user.profile.youtube }}">{{ profile_user.profile.youtube }}</a>
                 {% else %}
                     <span class="nodata">Немає данних</span>
                 {% endif %}
             </p>
         </div>
         <div class="user_posts">
-            <h3>Пости користувача (<a href="{% url 'author_list' author=user.username %}">{{ posts | length }}</a>)</h3>
+            <h3>Пости користувача (<a href="{% url 'author_list' author=profile_user.username %}">{{ posts | length }}</a>)</h3>
             <table>
                 <tr>
                     <th>Тема</th>

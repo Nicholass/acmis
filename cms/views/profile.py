@@ -19,7 +19,7 @@ def profile(request, username=None):
 
     posts = CmsPost.objects.filter(author=user).distinct().order_by('-created_date')[0:30]
 
-    return render(request, 'registration/profile.html', { 'user': user, 'posts': posts })
+    return render(request, 'registration/profile.html', { 'profile_user': user, 'posts': posts })
 
 @login_required
 @transaction.atomic
@@ -46,7 +46,7 @@ def profile_edit(request, username=None):
         profile_form = ProfileForm(instance=user.profile)
 
     return render(request, 'registration/profile_edit.html', {
-        'user': user,
+        'profile_user': user,
         'user_form': user_form,
         'profile_form': profile_form
     })
