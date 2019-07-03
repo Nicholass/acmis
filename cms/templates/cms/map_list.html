@@ -80,7 +80,7 @@
                         </div>
 
                         {% auth_is_owner map as is_map_owner %}
-                        {% if is_map_owner or perms.cms.change_map or perms.cms.delete_map %}
+                        {% if is_map_owner and perms.cms.change_map or perms.cms.delete_map %}
                             <div class="actions">
 
                                 {% if perms.cms.change_map and is_map_owner %}
