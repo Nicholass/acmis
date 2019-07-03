@@ -79,9 +79,9 @@
                             </div>
                         </div>
 
-                        <div class="actions">
-                            {% if user.is_authenticated %}
-                                {% auth_is_owner map as is_map_owner %}
+                        {% auth_is_owner map as is_map_owner %}
+                        {% if is_map_owner or perms.cms.change_map or perms.cms.delete_map %}
+                            <div class="actions">
 
                                 {% if perms.cms.change_map and is_map_owner %}
                                     <a href="{% url 'map_edit' pk=map.pk %}">Редагувати</a>
@@ -93,8 +93,8 @@
                                         Видалити
                                     </a>
                                 {% endif %}
-                            {% endif %}
-                        </div>
+                            </div>
+                        {% endif %}
                     </div>
                 {% endfor %}
 
