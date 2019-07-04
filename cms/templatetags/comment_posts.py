@@ -8,7 +8,7 @@ register = template.Library()
 
 @register.inclusion_tag("cms/comment_posts.html", takes_context=False)
 def comment_posts(count=10):
-    comments = Comment.objects.select_related().order_by('-created_date')
+    comments = Comment.objects.filter(is_deleted=False).select_related().order_by('-created_date')
     comments_count = comments.count()
 
     if comments_count < count:
