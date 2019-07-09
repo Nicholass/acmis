@@ -4,11 +4,6 @@ from cms.models.comment import Comment
 from cms.models.comment_unread import CommentUnread
 from django.db.models import Exists, OuterRef
 
-import logging
-
-dblog = logging.getLogger('django.db.backends')
-dblog.setLevel(logging.DEBUG)
-dblog.addHandler(logging.StreamHandler())
 register = template.Library()
 
 @register.inclusion_tag("cms/comment_form.html")

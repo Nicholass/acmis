@@ -7,8 +7,8 @@ from cms.models.cmspost import CmsPost
 from django.contrib.auth.models import User
 
 class CmsPostUnread(models.Model):
-    user = models.ForeignKey('auth.User', verbose_name='Користувач')
-    post = models.ForeignKey('cms.cmspost', verbose_name='Пост')
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Користувач')
+    post = models.ForeignKey('cms.cmspost', on_delete=models.CASCADE, verbose_name='Пост')
 
     @receiver(post_save, sender=CmsPost)
     def create_unread_record(sender, instance, created, **kwargs):

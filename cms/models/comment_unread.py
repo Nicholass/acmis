@@ -7,9 +7,9 @@ from cms.models.comment import Comment
 from django.contrib.auth.models import User
 
 class CommentUnread(models.Model):
-    user = models.ForeignKey('auth.User', verbose_name='Користувач')
-    post = models.ForeignKey('cms.cmspost', verbose_name='Пост')
-    comment = models.ForeignKey('cms.comment', verbose_name='Коментар')
+    user = models.ForeignKey('auth.User', on_delete=models.CASCADE, verbose_name='Користувач')
+    post = models.ForeignKey('cms.cmspost', on_delete=models.CASCADE, verbose_name='Пост')
+    comment = models.ForeignKey('cms.comment', on_delete=models.CASCADE, verbose_name='Коментар')
 
     @receiver(post_save, sender=Comment)
     def create_unread_record(sender, instance, created, **kwargs):
