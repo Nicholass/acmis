@@ -476,7 +476,7 @@ a.feed:hover {
     background: #000;
 }
 
-.post .actions a {
+.post .actions {
     font-size: 0.9em;
 }
 
@@ -865,7 +865,7 @@ div[name=Upload] {
 
 /* Comments */
 .comments {
-    margin-top: 10px;
+    padding-top: 10px;
 }
 
 .comments form {
