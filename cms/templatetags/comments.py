@@ -43,6 +43,10 @@ def comment_count(context):
 
 @register.assignment_tag(takes_context=True)
 def new_comment_count(context):
+    user = context['user']
+    if not user.is_authenticated:
+        return 0
+
     return CommentUnread.objects.filter(post=context['post'], user=context['user']).count()
 
 @register.filter
