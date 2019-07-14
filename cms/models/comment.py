@@ -1,4 +1,5 @@
 from django.db import models
+from django.template.defaultfilters import truncatechars
 from mptt.models import MPTTModel, TreeForeignKey
 from django.utils import timezone
 from simplemde.fields import SimpleMDEField
@@ -19,6 +20,10 @@ class Comment(MPTTModel):
 
     def __str__(self):
         return self.text
+
+    @property
+    def short_text(self):
+        return truncatechars(self.text, 50)
 
     class Meta:
         verbose_name = 'Коментар'
