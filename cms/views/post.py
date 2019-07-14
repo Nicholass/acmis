@@ -27,7 +27,9 @@ from tracking_analyzer.models import Tracker
 from cms.utils import is_owner
 
 def post_list(request, tags=None, category=None, author=None):
-    if getattr(settings, 'DEBUG') and request.user.is_authenticated == False:
+    if getattr(settings, 'DEBUG') \
+            and request.user.is_authenticated == False \
+            and os.getenv('ENV') == 'production':
         return render(request, 'unconstruction.html')
 
     t = c = None
