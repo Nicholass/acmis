@@ -27,6 +27,7 @@ class CustomMPTTAdminForm(forms.ModelForm):
   def __init__(self, *args, **kwargs):
     super(CustomMPTTAdminForm, self).__init__(*args, **kwargs)
     self.fields['parent'] = ShortParentChoiseField(queryset=Comment.objects.all(), label='Reply to')
+    self.fields['parent'].required = False
     self.fields['post'] = ShortPostChoiseField(queryset=CmsPost.objects.all(), label='Post')
     add_related_field_wrapper(self, 'parent')
     add_related_field_wrapper(self, 'post')

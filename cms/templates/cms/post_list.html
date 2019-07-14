@@ -119,6 +119,14 @@
                                 {% if comm_count|plural_type == 3 %}коментарів{% endif %}
                             </a>
 
+                            {% new_comment_count as new_comm_count %}
+                            {% if new_comm_count %}
+                                /
+                                <a href="{% url 'post_detail' pk=post.pk %}#comments_new" class="comments-link">
+                                    <strong>{{ new_comm_count }} нових</strong>
+                                </a>
+                            {% endif %}
+
                         </div>
                     </div>
                 {% endfor %}
@@ -182,7 +190,7 @@
             <div>
                 <h3>Останні коментарі</h3>
                 <div class="block list">
-                    {% comment_posts 10 %}
+                    {% comment_posts 10 user %}
                 </div>
             </div>
         </div>

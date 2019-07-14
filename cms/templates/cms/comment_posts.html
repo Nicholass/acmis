@@ -1,13 +1,13 @@
 {% load comments %}
 
 <ul>
-    {% if comments %}
-        {% for comment in comments %}
+    {% if posts %}
+        {% for post in posts %}
             <li>
-                <a href="{% url 'post_detail' comment.post.pk %}#comment{{ comment.pk }}">
-                    {{ comment.post.title }}
+                <a href="{% url 'post_detail' post.pk %}#comment{{ post.last_comment.pk }}">
+                    {{ post.title }}
                 </a> -
-                {{ comment.author }}
+                {{ post.last_comment.author }}
             </li>
         {% endfor %}
     {% else %}

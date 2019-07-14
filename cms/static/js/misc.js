@@ -26,4 +26,29 @@ $(document).ready(function(){
             });
         }, 200);
     }
+
+    // Show new comments
+    filter_new_comments();
+    $(window).on('hashchange', function () {
+        filter_new_comments();
+    });
 });
+
+function filter_new_comments() {
+    var comments = $('.comment');
+    var comments_all_link = $('#сomments_new');
+
+    if (window.location.hash === '#comments_new') {
+        if (comments.filter('.new').length) {
+            comments.not('.new').hide();
+            comments_all_link.show();
+        }
+
+        $([document.documentElement, document.body]).animate({
+            scrollTop: $('#comments').offset().top
+        }, 0);
+    } else {
+        comments.show();
+        comments_all_link.hide();
+    }
+}

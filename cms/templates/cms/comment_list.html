@@ -2,10 +2,12 @@
 {% load markdown_extras %}
 {% load auth %}
 
+<p id="сomments_new" style="display: none;">Показані тілкі нові коментарі. <a href="#comments">Показати всі</a></p>
+
 <ul>
     {% recursetree comments %}
         <li>
-            <div class="comment{% if node.is_deleted %} deleted{% endif %}" id="comment{{ node.pk }}">
+            <div class="comment{% if node.is_deleted %} deleted{% endif %}{% if node.new %} new{% endif %}" id="comment{{ node.pk }}">
                 {% if not node.is_deleted %}
                     <img src="{{ node.author.profile.avatar_url }}" alt="avatar"/>
                     <div class="comment-body">

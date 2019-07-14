@@ -79,6 +79,7 @@
 
     <div class="comments" id="comments">
         {% if comm_count %}{% comment_list %}{% endif %}
+        {% clear_unread_comments %}
 
         {% if perms.cms.add_comment %}
             {% comment_form post %}

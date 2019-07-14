@@ -17,6 +17,7 @@ from PIL import Image
 from cms.forms.post import PostForm
 
 from cms.models.cmspost import CmsPost
+from cms.models.cmspost_unread import CmsPostUnread
 from cms.models.map import Map
 from cms.models.cmscategory import CmsCategory
 from django.contrib.auth.models import User
@@ -86,6 +87,9 @@ def post_detail(request, pk):
     hit_count = HitCount.objects.get_for_object(post)
     HitCountMixin.hit_count(request, hit_count)
 
+    if request.user.is_authenticated:
+        CmsPostUnread.objects.filter(user=request.user, post=post).delete()
+
     Tracker.objects.create_from_request(request, post)
 
     return render(request, 'cms/post_detail.html', {'post': post})
@@ -149,7 +153,6 @@ def post_delete(request, pk):
     post.delete()
 
     return redirect('category_list', category=post.category.route)
-
 
 def calculate_size(img):
     IMAGE_SIZE = getattr(settings, 'IMAGES_SIZE', (1024, 768))
