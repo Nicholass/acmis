@@ -4,7 +4,7 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from django.shortcuts import get_object_or_404
 from django.conf import settings
-from django.db.models import Count
+from django.db.models import Count, Q
 
 from cms.forms.profile import ProfileForm, UserForm
 
@@ -12,8 +12,13 @@ from django.contrib.auth.models import User
 from cms.models.cmspost import CmsPost
 
 def profile(request, username=None):
+    query = {}
     user = get_object_or_404(User, username=username)
-    posts = CmsPost.objects.filter(author=user).distinct().order_by('-created_date')[0:30]
+
+    if request.user.is_authenticated and not user.has_perm('cms.permited_access'):
+        query['is_permited'] = False
+
+    posts = CmsPost.objects.filter(~Q(author=user) & Q(**query)).distinct().order_by('-created_date')[0:30]
 
     return render(request, 'registration/profile.html', { 'profile_user': user, 'posts': posts })
 
