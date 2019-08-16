@@ -24,7 +24,7 @@ def profile(request, username=None):
 
 @login_required
 def my_profile(request):
-    return profile(request.user)
+    return profile(request, request.user)
 
 @login_required
 @transaction.atomic
