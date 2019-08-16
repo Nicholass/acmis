@@ -12,14 +12,14 @@ from django.contrib.auth.models import User
 from cms.models.cmspost import CmsPost
 
 def profile(request, username=None):
-    if username:
-        user = get_object_or_404(User, username=username)
-    else:
-        user = request.user
-
+    user = get_object_or_404(User, username=username)
     posts = CmsPost.objects.filter(author=user).distinct().order_by('-created_date')[0:30]
 
     return render(request, 'registration/profile.html', { 'profile_user': user, 'posts': posts })
+
+@login_required
+def my_profile(request):
+    return profile(request.user)
 
 @login_required
 @transaction.atomic

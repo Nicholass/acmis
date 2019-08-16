@@ -100,7 +100,7 @@ urlpatterns = [
     url(r'^accounts/email/change/done/(?P<uidb64>[0-9A-Za-z_\-]+)/'
         r'(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$', registration.edit_email_done, name='auth_email_change_done'),
 
-    url(r'^accounts/me/$', profile.profile, name='me'),
+    url(r'^accounts/me/$', profile.my_profile, name='me'),
     url(r'^accounts/me/edit/$', profile.profile_edit, name='me_edit'),
     url(r'^accounts/user/(?P<username>\w+)/$', profile.profile, name='user'),
     url(r'^accounts/user/(?P<username>\w+)/edit/$', profile.profile_edit, name='user_edit'),
