@@ -12,13 +12,15 @@ from django.contrib.auth.models import User
 from cms.models.cmspost import CmsPost
 
 def profile(request, username=None):
-    query = {}
     user = get_object_or_404(User, username=username)
+    query = {
+        'author': user
+    }
 
     if request.user.is_authenticated and not user.has_perm('cms.permited_access'):
         query['is_permited'] = False
 
-    posts = CmsPost.objects.filter(~Q(author=user) & Q(**query)).distinct().order_by('-created_date')[0:30]
+    posts = CmsPost.objects.filter(Q(**query)).distinct().order_by('-created_date')[0:30]
 
     return render(request, 'registration/profile.html', { 'profile_user': user, 'posts': posts })
 
