@@ -676,8 +676,8 @@ figcaption {
 .userlist .comments_count {
     flex: 0.15;
 }
-.userlist > div:not(:first-child) .posts_count,
-.userlist > div:not(:first-child) .comments_count {
+.userlist > div:not(.header, .searchform) .posts_count,
+.userlist > div:not(.header, .searchform) .comments_count {
     line-height: 100px;
 }
 .userlist .actions a {
@@ -689,6 +689,21 @@ figcaption {
 }
 .userlist .user:nth-child(even) {
     background: #222;
+}
+.userlist .search-form-inline {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    justify-content: center;
+}
+.userlist .search-form-inline p {
+    display: flex;
+    padding-left: 20px;
+}
+.userlist .search-form-inline p input,
+.userlist .search-form-inline input[type=submit],
+.userlist .search-form-inline input[type=reset] {
+    margin-left: 20px;
 }
 
 /* forms */
@@ -1206,6 +1221,18 @@ ul.pagination a:hover {
     .userlist .posts_count,
     .userlist .comments_count {
         word-break: break-word;
+    }
+    .userlist .search-form-inline,
+    .userlist .search-form-inline p {
+        display: block;
+    }
+    .userlist .search-form-inline p,
+    .userlist .search-form-inline p input {
+        margin-left: 0;
+    }
+    .userlist .search-form-inline input[type=submit],
+    .userlist .search-form-inline input[type=reset] {
+        margin-top: 10px;
     }
 
     .mobile-menu {

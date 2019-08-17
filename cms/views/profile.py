@@ -6,7 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.conf import settings
 from django.db.models import Count, Q
 
-from cms.forms.profile import ProfileForm, UserForm
+from cms.forms.profile import ProfileForm, UserForm, UserSearchForm
 
 from django.contrib.auth.models import User
 from cms.models.cmspost import CmsPost
@@ -59,10 +59,25 @@ def profile_edit(request, username=None):
     })
 
 def userlist(request):
-    users_list = User.objects.annotate(posts_count=Count('cmspost', distinct=True)).annotate(comments_count=Count('comment', distinct=True)).all().order_by('username')
+    query = {}
+    if request.GET:
+        form = UserSearchForm(request.GET)
+        if form.is_valid():
+            if form.cleaned_data['username']:
+                query['username__icontains'] = form.cleaned_data['username']
+            if form.cleaned_data['first_name']:
+                query['first_name__icontains'] = form.cleaned_data['first_name']
+            if form.cleaned_data['last_name']:
+                query['last_name__icontains'] = form.cleaned_data['last_name']
+    else:
+        form = UserSearchForm()
+
+    users_list = User.objects.annotate(posts_count=Count('cmspost', distinct=True))
+    users_list = users_list.annotate(comments_count=Count('comment', distinct=True))
+    users_list = users_list.filter(Q(**query)).order_by('username')
     page = request.GET.get('page', 1)
 
-    paginator = Paginator(users_list, getattr(settings, 'PAGINATION_USERS_COUNT', 25))
+    paginator = Paginator(users_list, 5)
     try:
         users = paginator.page(page)
     except PageNotAnInteger:
@@ -70,4 +85,4 @@ def userlist(request):
     except EmptyPage:
         users = paginator.page(paginator.num_pages)
 
-    return render(request, 'registration/users_list.html', { 'users': users })
+    return render(request, 'registration/users_list.html', { 'users': users, 'form': form })

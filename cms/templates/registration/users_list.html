@@ -2,6 +2,7 @@
 {% load auth %}
 {% load staticfiles %}
 {% load hitcount_tags %}
+{% load url_replace %}
 
 {% block title %}
     Користувачі
@@ -11,11 +12,24 @@
     <h1>Користувачі</h1>
 
     <div class="userlist">
-        <div>
+        <div class="serachform">
+            <form action="." class="search-form-inline">
+                {{ form.as_p }}
+                <input type="submit" value="Пошук">
+                <input type="reset" value="Очистити">
+            </form>
+        </div>
+        <div class="header">
             <div class="main">Користувач</div>
             <div class="posts_count">К-сть постів</div>
             <div class="comments_count">К-сть комментарів</div>
         </div>
+
+        {% if not users %}
+            <div class="user">
+                <p>За вашим запитом намає користувачів</p>
+            </div>
+        {% endif %}
 
         {% for user in users %}
             <div class="user">
@@ -50,7 +64,7 @@
     {% if users.has_other_pages %}
       <ul class="pagination">
         {% if users.has_previous %}
-          <li><a href="?page={{ users.previous_page_number }}">&laquo;</a></li>
+          <li><a href="?{% url_replace request 'page' users.previous_page_number %}">&laquo;</a></li>
         {% else %}
           <li class="disabled"><span>&laquo;</span></li>
         {% endif %}
@@ -58,11 +72,11 @@
           {% if users.number == i %}
             <li class="active"><span>{{ i }}</span></li>
           {% else %}
-            <li><a href="?page={{ i }}">{{ i }}</a></li>
+            <li><a href="?{% url_replace request 'page' i %}">{{ i }}</a></li>
           {% endif %}
         {% endfor %}
         {% if users.has_next %}
-          <li><a href="?page={{ users.next_page_number }}">&raquo;</a></li>
+          <li><a href="?{% url_replace request 'page' users.next_page_number %}">&raquo;</a></li>
         {% else %}
           <li class="disabled"><span>&raquo;</span></li>
         {% endif %}

@@ -32,6 +32,13 @@ $(document).ready(function(){
     $(window).on('hashchange', function () {
         filter_new_comments();
     });
+
+    // Clear user search result after form reset
+    $('.search-form-inline input[type=reset]').click(function (e) {
+        e.preventDefault();
+        var url = location.href.split('?');
+        if (url.length) location.href = url[0];
+    });
 });
 
 function filter_new_comments() {

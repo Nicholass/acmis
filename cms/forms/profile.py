@@ -88,3 +88,9 @@ class EmailChangeForm(forms.ModelForm):
             raise forms.ValidationError('Користувач з таким e-mail вже існує')
 
         return new_email
+
+
+class UserSearchForm(forms.Form):
+    username = forms.CharField(label='Логін', max_length=80, required=False)
+    first_name = forms.CharField(label='Ім`я', max_length=80, required=False)
+    last_name = forms.CharField(label='Прізвище', max_length=80, required=False)
