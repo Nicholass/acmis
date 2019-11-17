@@ -1,5 +1,7 @@
 import os
 
+from django.http import HttpResponse, JsonResponse
+from django.utils.html import escape
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.db.models import Q, Count
 from django.conf import settings
@@ -10,7 +12,9 @@ from hitcount.views import HitCountMixin
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
 from django.views.decorators.csrf import csrf_exempt
+
 from ckeditor_uploader.views import ImageUploadView, get_upload_filename
+from ckeditor_uploader import utils
 
 from PIL import Image
 
@@ -157,17 +161,15 @@ def post_delete(request, pk):
     return redirect('category_list', category=post.category.route)
 
 def calculate_size(img):
-    IMAGE_SIZE = getattr(settings, 'IMAGES_SIZE', (1024, 768))
+    IMAGE_SIZE = getattr(settings, 'IMAGES_SIZE', 1024)
 
     img_ratio = img.size[0] / float(img.size[1])
-    ratio = IMAGE_SIZE[0] / float(IMAGE_SIZE[1])
-
-    if ratio > img_ratio:
-        if img.size[1] > IMAGE_SIZE[0]:
-            return (IMAGE_SIZE[0], int(IMAGE_SIZE[0] * img.size[1] / img.size[0]))
+    if img_ratio < 1:
+        if img.size[1] > IMAGE_SIZE:
+            return (int(IMAGE_SIZE * img.size[0] / float(img.size[1])), IMAGE_SIZE)
     else:
-        if img.size[0] > IMAGE_SIZE[1]:
-            return (int(IMAGE_SIZE[1] * img.size[0] / img.size[1]), IMAGE_SIZE[1])
+        if img.size[0] > IMAGE_SIZE:
+            return (IMAGE_SIZE, int(IMAGE_SIZE * img.size[1] / float(img.size[0])))
 
     return img.size
 
@@ -175,6 +177,38 @@ def calculate_size(img):
 class ImageUploadViewResize(ImageUploadView):
     def __init__(self, *args):
         super().__init__(*args)
+
+    def post(self, request, **kwargs):
+        """
+        Uploads a file and send back its URL to CKEditor.
+        """
+        uploaded_file = request.FILES['upload']
+
+        ck_func_num = request.GET.get('CKEditorFuncNum')
+        if ck_func_num:
+            ck_func_num = escape(ck_func_num)
+
+        try:
+            saved_path = self._save_file(request, uploaded_file)
+        except TypeError:
+            return HttpResponse("""
+                <script type='text/javascript'>
+                window.parent.CKEDITOR.tools.callFunction({0}, '', 'Invalid file type.');
+                </script>""".format(ck_func_num))
+
+        url = utils.get_media_url(saved_path)
+
+        if ck_func_num:
+            # Respond with Javascript sending ckeditor upload url.
+            return HttpResponse("""
+            <script type='text/javascript'>
+                window.parent.CKEDITOR.tools.callFunction({0}, '{1}');
+            </script>""".format(ck_func_num, url))
+        else:
+            _, filename = os.path.split(saved_path)
+            retdata = {'url': url, 'uploaded': '1',
+                       'fileName': filename}
+            return JsonResponse(retdata)
 
     @staticmethod
     def _save_file(request, uploaded_file):
@@ -184,21 +218,24 @@ class ImageUploadViewResize(ImageUploadView):
         IMAGE_QUALITY = getattr(settings, "IMAGE_QUALITY", 60)
         MEDIA_ROOT = getattr(settings, "MEDIA_ROOT")
 
+        allow_nonimages = getattr(settings, 'CKEDITOR_ALLOW_NONIMAGE_FILES', True)
         saved_path = default_storage.save(filename, uploaded_file)
-
-        if(str(img_format).lower() == ".png"):
-
-            img = Image.open(uploaded_file)
-            img = img.resize(calculate_size(img), Image.ANTIALIAS)
-
-            img.save(os.path.join(MEDIA_ROOT, saved_path), quality=IMAGE_QUALITY, optimize=True)
-
-        elif(str(img_format).lower() == ".jpg" or str(img_format).lower() == ".jpeg"):
+        img_format = str(img_format).lower()
+        if img_format == ".png":
 
             img = Image.open(uploaded_file)
             img = img.resize(calculate_size(img), Image.ANTIALIAS)
 
             img.save(os.path.join(MEDIA_ROOT, saved_path), quality=IMAGE_QUALITY, optimize=True)
+
+        elif img_format == ".jpg" or img_format == ".jpeg":
+
+            img = Image.open(uploaded_file)
+            img = img.resize(calculate_size(img), Image.ANTIALIAS)
+
+            img.save(os.path.join(MEDIA_ROOT, saved_path), quality=IMAGE_QUALITY, optimize=True)
+        elif not allow_nonimages:
+            raise TypeError('Invalid file type')
 
         return saved_path
 
