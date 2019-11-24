@@ -22,3 +22,4 @@ uuid==1.30
 django-tracking-analyzer==0.2
 django-simplemde==0.1.3
 Markdown==3.1.1
+django-webpush==0.3.1

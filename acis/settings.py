@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'simplemde',
     'django_user_agents',
     'tracking_analyzer',
+    'webpush',
 ]
 
 MIDDLEWARE = [
@@ -82,7 +83,7 @@ ROOT_URLCONF = 'acis.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -330,6 +331,14 @@ SIMPLEMDE_OPTIONS = {
     'spellChecker': False,
     'forceSync': True,
 }
+
+WEBPUSH_SETTINGS = {
+    'VAPID_PUBLIC_KEY': os.getenv('VAPID_PUBLIC_KEY', ''),
+    'VAPID_PRIVATE_KEY': os.getenv('VAPID_PRIVATE_KEY', ''),
+    'VAPID_ADMIN_EMAIL': 'admin@diggers.kiev.ua'
+}
+
+WEBPUSH_ICON_URL = 'https://diggers.kiev.ua/static/images/og_image.png'
 
 '''
 CSP_DEFAULT_SRC = ("'self'")

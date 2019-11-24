@@ -114,6 +114,7 @@ urlpatterns = [
 
     url(r'^sitemap\.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^latest/feed/', LatestEntriesFeed(), name="feed_latest"),
+    url(r'^webpush/', include('webpush.urls')),
 ]
 
 if settings.ENV == 'development':
