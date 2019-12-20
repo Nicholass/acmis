@@ -1,0 +1,57 @@
+version: '2'
+
+services:
+  nginx:
+    image: nginx:latest
+    restart: always
+    ports:
+      - "80:80"
+    volumes:
+      - ./app:/usr/src/app
+      - ./nginx:/etc/nginx/conf.d
+    depends_on:
+      - app
+
+  app:
+    build: ./app
+    restart: always
+    image: diggers_websource
+    command: gunicorn acis.wsgi -b 0.0.0.0:8000
+    volumes:
+      - ./app:/usr/src/app
+    expose:
+      - "8000"
+    depends_on:
+      - postgres
+      - postfix
+    env_file:
+      - .env
+
+  postgres:
+    image: postgres:latest
+    restart: always
+    environment:
+      SITE_NAME: Kiev urban exploration site
+      SITE_DOMAIN: diggers.kiev.ua
+    volumes:
+      - ./postgres:/root
+      - postgres_data:/var/lib/postgresql/data/
+    env_file:
+      - .env
+
+  postfix:
+    build: ./postfix/
+    restart: always
+    container_name: postfix
+    command: /usr/bin/supervisord -c /supervisord.conf
+    environment:
+      - DOMAINS=diggers.kiev.ua localhost
+    ports:
+      - "25:25"
+    volumes:
+      - ./opendkim:/etc/opendkim
+    env_file:
+      - .env
+
+volumes:
+  postgres_data:
