@@ -1,7 +1,7 @@
 from django.core.management.base import BaseCommand
 
-from ....cms.models.cmspost import CmsPost
-from ....cms.models.comment import Comment
+from cms.models.cmspost import CmsPost
+from cms.models.comment import Comment
 
 class Command(BaseCommand):
     help = 'Fetch last comments for posts'
