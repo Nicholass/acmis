@@ -7,6 +7,8 @@ data/
 geoip-data/
 postgres/
 opendkim/keys/
+certbot/conf/
+certbot/www/
 *.pyc
 *.mo
 .DS_Store
