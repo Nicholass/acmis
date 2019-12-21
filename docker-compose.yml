@@ -16,7 +16,7 @@ services:
     build: ./app
     restart: always
     image: diggers_websource
-    command: gunicorn acis.wsgi -b 0.0.0.0:8000
+    command: gunicorn diggers.wsgi -b 0.0.0.0:8000
     volumes:
       - ./app:/usr/src/app
     expose:
