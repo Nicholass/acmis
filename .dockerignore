@@ -1,5 +1,4 @@
 diggers_venv/
-static/
 config/
 *.sqlite3
 *.sqlite3.*
