@@ -1,5 +1,6 @@
 from django.contrib.syndication.views import Feed
 from django.utils.translation import ugettext as _
+from django.template.defaultfilters import truncatechars
 import re
 
 from cms.models.cmspost import CmsPost
@@ -17,8 +18,4 @@ class LatestEntriesFeed(Feed):
 
     def item_description(self, item):
         tag_re = re.compile(r'<[^>]+>')
-
-        if item.category.route == 'drawing' or item.category.route == 'photo':
-          return tag_re.sub('', item.description)
-        else:
-          return tag_re.sub('', item.short_text)
+        return tag_re.sub('', truncatechars(item.text, 400))
