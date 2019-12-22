@@ -60,8 +60,6 @@ services:
     restart: always
     container_name: postfix
     command: /usr/bin/supervisord -c /supervisord.conf
-    environment:
-      - DOMAINS=diggers.kiev.ua localhost
     ports:
       - "25:25"
     volumes:
