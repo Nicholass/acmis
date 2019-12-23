@@ -57,11 +57,29 @@ class ProfileInline(admin.StackedInline):
     fk_name = 'user'
 
 
+class EmailVerefiedFilter(admin.SimpleListFilter):
+
+    title = 'підтвержденням e-mail'
+    parameter_name = 'email_verefied'
+
+    def lookups(self, request, model_admin):
+        return [(True, 'Так'), (False, 'Ні')]
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            return queryset.filter(profile__email_verefied=self.value())
+
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline, )
-    list_filter = ['is_active', 'is_staff', 'last_login']
-    list_display = ('username', 'email', 'is_active', 'is_staff', 'last_login')
+    list_filter = ['is_active', 'is_staff', EmailVerefiedFilter, 'last_login']
+    list_display = ('username', 'email', 'is_active', 'email_verefied', 'is_staff', 'last_login')
     actions = [send_activation,]
+
+    def email_verefied(self, obj):
+        return obj.profile.email_verefied
+    email_verefied.boolean = True
+    email_verefied.short_description = 'Пошту підтверджено'
+    email_verefied.admin_order_field = 'profile__email_verefied'
 
     def __init__(self, *args, **kwargs):
       super(CustomUserAdmin, self).__init__(*args, **kwargs)

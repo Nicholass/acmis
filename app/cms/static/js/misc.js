@@ -46,8 +46,10 @@ function filter_new_comments() {
     var comments_all_link = $('#сomments_new');
 
     if (window.location.hash === '#comments_new') {
-        if (comments.filter('.new').length) {
-            comments.not('.new').hide();
+        var new_comments = comments.filter('.new');
+        var old_comments = comments.not('.new');
+        if (new_comments.length && old_comments.length) {
+            old_comments.hide();
             comments_all_link.show();
         }
 

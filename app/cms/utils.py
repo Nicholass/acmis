@@ -12,22 +12,6 @@ def clean_http(text):
         text = "%s%s" % ('https://', text)
     return text
 
-def hide_first_item(text):
-    items = re.search('(<p>)?((<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>))(</p>)?', text)
-    if items:
-        item = items.group(0)
-        text = text.replace(item, '')
-    return text
-
-def get_post_announce(item):
-    text = item.text
-
-    items = re.search('(<img[^>]+>)|(<iframe[^>]+>[^<]*</iframe>)', text)
-    if items:
-        return items.group(0)
-
-    return ''
-
 @deconstructible
 class PathAndRename(object):
 
