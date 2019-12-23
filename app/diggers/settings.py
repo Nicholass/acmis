@@ -235,7 +235,7 @@ BLEACH_ALLOWED_IFRAME_SRC = [
 ]
 
 
-AVATAR_DEFAULT = STATIC_URL + 'images/no_avatar.png'
+AVATAR_DEFAULT =  '%simages/no_avatar.png' % STATIC_URL
 AVATAR_SIZE = (80, 80)
 IMAGES_SIZE = 1280
 
@@ -264,7 +264,7 @@ TAGTOOLS_CLOUD_MIN_COUNT = 1
 OPENGRAPH_CONFIG = {
     'FB_ADMINS': '',
     'FB_APP_ID': '',
-    'DEFAULT_IMAGE': '%simages/og_image.png' % STATIC_URL,
+    'DEFAULT_IMAGE': 'images/og_image.png',
     'SITE_NAME': 'Сайт дигерів Києва',
 }
 
