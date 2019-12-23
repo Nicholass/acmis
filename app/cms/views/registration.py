@@ -99,8 +99,7 @@ def activation(request, activation_key):
 
         if username is not None:
             user = User.objects.get(**{
-                User.USERNAME_FIELD: username,
-                'profile__email_verefied': False
+                User.USERNAME_FIELD: username
             })
 
     # SignatureExpired is a subclass of BadSignature, so this will
