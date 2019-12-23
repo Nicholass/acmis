@@ -88,9 +88,11 @@
 
 
                             <div class="post-content clearfix">
-                                {{ post.text|hide_announced_item|bleach_src|truncatechars:800|bleach }}
+                                {{ post.short_text|hide_announced|bleach_src|bleach }}
                                 {% get_announce post as announce %}
-                                <p>{{ announce|bleach_src|bleach }}</p>
+                                {% if announce %}
+                                    <p>{{ announce|bleach_src|bleach }}</p>
+                                {% endif %}
                             </div>
                         </div>
 

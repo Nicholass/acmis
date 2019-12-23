@@ -27,6 +27,10 @@ class CmsPost(models.Model):
     def short_title(self):
         return truncatechars(self.title, 100)
 
+    @property
+    def short_text(self):
+        return truncatechars(self.text, 800)
+
     def _tags(self):
         return [t.name for t in self.tags.all()]
 
