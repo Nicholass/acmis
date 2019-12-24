@@ -355,15 +355,17 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.getenv('SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET',
 
 SOCIAL_AUTH_FACEBOOK_KEY = os.getenv('SOCIAL_AUTH_FACEBOOK_KEY', '')
 SOCIAL_AUTH_FACEBOOK_SECRET = os.getenv('SOCIAL_AUTH_FACEBOOK_SECRET', '')
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_link', 'user_gender', 'user_birthday']
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
-  'fields': 'id, name, email, picture.type(large), link'
+  'fields': 'id, name, email, picture.type(large), link, gender, birthday'
 }
 SOCIAL_AUTH_FACEBOOK_EXTRA_DATA = [
     ('name', 'name'),
     ('email', 'email'),
     ('picture', 'picture'),
     ('link', 'profile_url'),
+    ('gender', 'gender'),
+    ('birthday', 'birthday')
 ]
 
 SOCIAL_AUTH_PIPELINE = (

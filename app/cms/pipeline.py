@@ -2,6 +2,7 @@ from __future__ import with_statement
 import os
 import wget
 import contextlib
+import datetime
 from uuid import uuid4
 from django.conf import settings
 from django.contrib.auth.models import User
@@ -43,13 +44,13 @@ def save_profile(backend, user, response, *args, **kwargs):
         if avatar and not profile.avatar:
             profile.avatar = download_avatar(avatar['data']['url'])
 
-        print(avatar['data']['url'])
-
         link = response.get('link')
         if link and not profile.facebook:
             profile.facebook = make_tiny(link)
 
-        print(link)
+        birthday = response.get('birthday')
+        if birthday and not profile.birth_date:
+            profile.birth_date = datetime.datetime.strptime(birthday, '%m/%d/%Y').strftime('%Y-%m-%d')
 
         gender = response.get('gender')
         if gender and not profile.gender:
@@ -57,3 +58,5 @@ def save_profile(backend, user, response, *args, **kwargs):
                 profile.gender = 'BOY'
             elif gender == 'female':
                 profile.gender = 'GIRL'
+
+    profile.save()
