@@ -38,4 +38,10 @@
             <p><a href="{% url 'registration_register' %}">Реєстрація</a></p>
         {% endif %}
     </div>
+    <!--
+    <div>
+        <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ index }}">Login with Google</a>
+        <a href="{% url 'social:begin' 'facebook' %}?next={{ index }}">Login with Facebook</a>
+    </div>
+    -->
 {% endblock %}
