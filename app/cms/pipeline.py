@@ -24,9 +24,23 @@ def save_profile(backend, user, response, *args, **kwargs):
     print(backend.name)
     print(response)
     profile = user.profile
+
     if backend.name == 'google-oauth2':
         avatar_url = response.get('picture')
         if avatar_url and not profile.avatar:
             profile.avatar = download_avatar(avatar_url)
+
     if backend.name == 'facebook':
-        print('login with facebook')
+        avatar = response.get('picture')
+        if avatar and not profile.avatar:
+            profile.avatar = download_avatar(avatar.data.url)
+
+        if not profile.facebook:
+            profile.facebook = response.get('link')
+
+        gender = response.get('gender')
+        if gender and not profile.gender:
+            if gender == 'male':
+                profile.gender = 'BOY'
+            elif gender == 'female':
+                profile.gender = 'GIRL'
