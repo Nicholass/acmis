@@ -43,9 +43,13 @@ def save_profile(backend, user, response, *args, **kwargs):
         if avatar and not profile.avatar:
             profile.avatar = download_avatar(avatar['data']['url'])
 
+        print(avatar['data']['url'])
+
         link = response.get('link')
         if link and not profile.facebook:
             profile.facebook = make_tiny(link)
+
+        print(link)
 
         gender = response.get('gender')
         if gender and not profile.gender:
