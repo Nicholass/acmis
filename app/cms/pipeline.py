@@ -32,7 +32,7 @@ def save_profile(backend, user, response, *args, **kwargs):
 
     if backend.name == 'facebook':
         avatar = response.get('picture')
-        if avatar and not profile.avatar:
+        if avatar['data'] and avatar['data']['url'] and not profile.avatar:
             profile.avatar = download_avatar(avatar['data']['url'])
 
         if not profile.facebook:
