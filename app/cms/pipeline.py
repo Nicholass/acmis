@@ -23,16 +23,13 @@ def load_user(**kwargs):
     try:
         email = kwargs['details']['email']
         kwargs['user'] = User.objects.get(email=email)
-        print(kwargs['user'])
     except:
         pass
     return kwargs
 
 def save_profile(backend, user, response, *args, **kwargs):
-    print(user.username)
-    print(backend.name)
-    print(response)
     profile = user.profile
+    profile.email_verefied = True
 
     if backend.name == 'google-oauth2':
         avatar_url = response.get('picture')
