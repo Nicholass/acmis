@@ -4,5 +4,6 @@ Disallow: /maps/*
 Disallow: /author/*
 Disallow: /tags/*
 Disallow: /post/*/#comments
+Disallow: /donate
 
 Sitemap: https://www.diggers.kiev.ua/sitemap.xml
