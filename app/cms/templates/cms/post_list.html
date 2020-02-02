@@ -195,6 +195,17 @@
                     {% comment_posts 10 user %}
                 </div>
             </div>
+
+            <div>
+                <div class="block buttons">
+                    <div class="button donate">
+                        <i class="fa fa-donate"></i>
+                        <a href="{% url 'donate_form' %}">
+                            Підтримати сайт
+                        </a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

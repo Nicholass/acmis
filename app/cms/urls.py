@@ -10,6 +10,8 @@ from cms.forms.registration import RememberAuthenticationForm
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 
+from cms.views.donate import donate_form
+
 from cms.views.rss import LatestEntriesFeed
 
 sitemaps = {
@@ -109,7 +111,9 @@ urlpatterns = [
     url(r'^sitemap\.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^latest/feed/', LatestEntriesFeed(), name="feed_latest"),
     url(r'^webpush/', include('webpush.urls')),
-    url('', include('social_django.urls', namespace='social'))
+    url('', include('social_django.urls', namespace='social')),
+
+    url(r'donate/', donate_form, name='donate_form'),
 ]
 
 if settings.ENV == 'development':

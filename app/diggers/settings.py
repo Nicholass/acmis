@@ -384,3 +384,14 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.social_auth.load_extra_data',
     'social_core.pipeline.user.user_details',
 )
+
+LIQPAY_PUBLIC_KEY = os.getenv('LIQPAY_PUBLIC_KEY', '')
+LIQPAY_PRIVATE_KEY = os.getenv('LIQPAY_PRIVATE_KEY', '')
+
+# Payment currency. Example value: USD, EUR, RUB, UAH, BYN, KZT.
+LIQPAY_DEFAULT_CURRENCY = 'UAH'
+LIQPAY_DEFAULT_LANGUAGE = 'uk'
+
+# Transaction type. Possible values: pay - payment, hold - amount of hold on sender's account,
+# subscribe - regular payment, paydonate - donation, auth - card preauth
+LIQPAY_DEFAULT_ACTION = 'paydonate'
