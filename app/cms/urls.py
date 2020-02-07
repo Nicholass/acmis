@@ -33,8 +33,8 @@ urlpatterns = [
     url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/edit/$', comment.comment_edit, name='comment_edit'),
     url(r'^post/(?P<pk>[0-9]+)/comment(?P<cpk>[0-9]+)/delete/$', comment.comment_delete, name='comment_delete'),
 
-    url(r'^author/(?P<author>\w+)?/$', post.post_list, name='author_list'),
-    url(r'^author/(?P<author>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', post.post_list, name='author_tags_list'),
+    url(r'^author/(?P<author>[\w\.@+\-]+)?/$', post.post_list, name='author_list'),
+    url(r'^author/(?P<author>[\w\.@+\-]+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', post.post_list, name='author_tags_list'),
 
     url(r'^category/(?P<category>\w+)?/$', post.post_list, name='category_list'),
     url(r'^category/(?P<category>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', post.post_list, name='category_tags_list'),
@@ -47,8 +47,8 @@ urlpatterns = [
     url(r'^maps/(?P<pk>[0-9]+)/edit/$', map.map_edit, name='map_edit'),
     url(r'^maps/(?P<pk>[0-9]+)/delete/$', map.map_delete, name='map_delete'),
 
-    url(r'^maps/author/(?P<author>\w+)?/$', map.maps_list, name='maps_author_list'),
-    url(r'^maps/author/(?P<author>\w+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', map.maps_list, name='maps_author_tags_list'),
+    url(r'^maps/author/(?P<author>[\w\.@+\-]+)?/$', map.maps_list, name='maps_author_list'),
+    url(r'^maps/author/(?P<author>[\w\.@+\-]+)/tags/(?P<tags>[\w\s\d\-_,]+)?/$', map.maps_list, name='maps_author_tags_list'),
 
     url(r'^maps/tags/(?P<tags>[\w\s\d\-_,]+)/$', map.maps_list, name='maps_tag_list'),
 
@@ -98,8 +98,8 @@ urlpatterns = [
 
     url(r'^accounts/me/$', profile.my_profile, name='me'),
     url(r'^accounts/me/edit/$', profile.profile_edit, name='me_edit'),
-    url(r'^accounts/user/(?P<username>\w+)/$', profile.profile, name='user'),
-    url(r'^accounts/user/(?P<username>\w+)/edit/$', profile.profile_edit, name='user_edit'),
+    url(r'^accounts/user/(?P<username>[\w\.@+\-]+)/$', profile.profile, name='user'),
+    url(r'^accounts/user/(?P<username>[\w\.@+\-]+)/edit/$', profile.profile_edit, name='user_edit'),
     url(r'^accounts/userlist/$', profile.userlist, name='users_list'),
 
     url(r'^upload/', post.upload, name='ckeditor_upload'),
