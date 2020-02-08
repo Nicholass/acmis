@@ -1,12 +1,9 @@
 .idea/
 __pycache__
-diggers_venv/
-media/
-/app/static/
-data/
+app/diggers_venv/
+app/media/
+app/static/
 geoip-data/
-postgres/
-opendkim/keys/
 *.pyc
 *.mo
 .DS_Store
