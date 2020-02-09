@@ -28,7 +28,9 @@ services:
     env_file:
       - .env
     networks:
-      - diggers
+      diggers:
+        aliases:
+          - app.website.diggers
 
 networks:
   diggers:
