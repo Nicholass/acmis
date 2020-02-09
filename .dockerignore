@@ -1,4 +1,3 @@
-diggers_venv/
-config/
+app/diggers_venv/
 *.sqlite3
 *.sqlite3.*
