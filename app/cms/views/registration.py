@@ -23,12 +23,13 @@ def send_activation_code(user, request):
     site_name = current_site.name
     domain = current_site.domain
 
+    print(domain)
+
     subject = render_to_string('registration/activation_email_subject.txt')
     message = render_to_string('registration/activation_email.html', {
         'email': user.email,
         'domain': domain,
         'site_name': site_name,
-        'protocol': 'https' if request.is_secure() else 'http',
         'user': user,
         'activation_key': signing.dumps(
             obj=getattr(user, user.USERNAME_FIELD),
