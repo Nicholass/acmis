@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'ckeditor',
     'django_bleach',
-    'ban',
     'captcha',
     'simplemde',
     'webpush',
@@ -54,6 +53,7 @@ INSTALLED_APPS = [
     # Custom vendored packages
     'vendors.django_messages',
     'vendors.django_liqpay',
+    'vendors.django_ban',
 ]
 
 MIDDLEWARE = [
@@ -66,7 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'ban.middleware.BanManagement',
+    'vendors.django_ban.middleware.BanManagement',
     'cms.middlewares.ActiveUserMiddleware',
     'cms.middlewares.OnlineUsersMiddleware',
     'cms.middlewares.XForwardedForMiddleware',
