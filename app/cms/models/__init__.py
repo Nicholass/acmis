@@ -4,7 +4,7 @@ from django.dispatch import receiver
 from webpush import send_user_notification
 from django.conf import settings
 
-from django_messages.models import Message
+from vendors.django_messages.models import Message
 from .comment import Comment
 
 @receiver(post_save, sender=Message)

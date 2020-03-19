@@ -8,7 +8,5 @@ RUN apt-get install -y gettext
 COPY . .
 
 RUN pip install -r ./requirements.txt
-RUN pip install ./packages/django-messages-master.zip
-RUN pip install ./packages/mp-liqpay-master.zip
 
 EXPOSE 8000

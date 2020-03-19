@@ -8,7 +8,6 @@ from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from django.contrib.auth.decorators import login_required, permission_required
-from hitcount.views import HitCountMixin
 from django.core.exceptions import PermissionDenied
 from django.core.files.storage import default_storage
 from django.views.decorators.csrf import csrf_exempt
@@ -25,8 +24,6 @@ from cms.models.cmspost_unread import CmsPostUnread
 from cms.models.map import Map
 from cms.models.cmscategory import CmsCategory
 from django.contrib.auth.models import User
-from hitcount.models import HitCount
-from tracking_analyzer.models import Tracker
 
 from cms.utils import is_owner
 
@@ -40,7 +37,6 @@ def post_list(request, tags=None, category=None, author=None):
 
     if category:
         c = get_object_or_404(CmsCategory, route=category)
-        Tracker.objects.create_from_request(request, c)
 
     if tags:
         t = tags.split(",")
@@ -90,13 +86,8 @@ def post_detail(request, pk):
     if post.is_permited and not request.user.has_perm('cms.permited_access'):
         raise PermissionDenied()
 
-    hit_count = HitCount.objects.get_for_object(post)
-    HitCountMixin.hit_count(request, hit_count)
-
     if request.user.is_authenticated:
         CmsPostUnread.objects.filter(user=request.user, post=post).delete()
-
-    Tracker.objects.create_from_request(request, post)
 
     return render(request, 'cms/post_detail.html', {'post': post})
 

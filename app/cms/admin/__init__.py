@@ -11,24 +11,15 @@ from cms.models.cmscategory import CmsCategory
 from cms.models.comment import Comment
 from cms.models.cmsprofile import CmsProfile
 from django.contrib.auth.models import User, Permission
-from tracking.models import Visitor, Pageview
 
 from .comment import CustomMPTTModelAdmin
 from .post import PostAdmin
 from .map import MapAdmin
-from .tracking2 import PageviewCustomAdmin, VisitorCustomAdmin
 
 admin.site.register(Comment, CustomMPTTModelAdmin)
 
 admin.site.register(CmsPost, PostAdmin)
 admin.site.register(Map, MapAdmin)
-
-admin.site.unregister(Visitor)
-admin.site.register(Visitor, VisitorCustomAdmin)
-
-admin.site.unregister(Pageview)
-admin.site.register(Pageview, PageviewCustomAdmin)
-
 
 class CmsCategoryAdmin(admin.ModelAdmin):
     base_model = CmsCategory

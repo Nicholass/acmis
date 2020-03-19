@@ -41,24 +41,22 @@ INSTALLED_APPS = [
     'django.contrib.sitemaps',
     'taggit',
     'mptt',
-    'tracking',
     'cms',
     'django.contrib.admin',
     'ckeditor',
     'django_bleach',
     'ban',
-    'django_messages',
     'captcha',
-    'hitcount',
     'simplemde',
-    'django_user_agents',
-    'tracking_analyzer',
     'webpush',
     'social_django',
+
+    # Custom vendored packages
+    'vendors.django_messages',
+    'vendors.django_liqpay',
 ]
 
 MIDDLEWARE = [
-#    'csp.middleware.CSPMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sites.middleware.CurrentSiteMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -72,8 +70,6 @@ MIDDLEWARE = [
     'cms.middlewares.ActiveUserMiddleware',
     'cms.middlewares.OnlineUsersMiddleware',
     'cms.middlewares.XForwardedForMiddleware',
-    'django_user_agents.middleware.UserAgentMiddleware',
-    'tracking.middleware.VisitorTrackingMiddleware',
 ]
 
 ROOT_URLCONF = 'diggers.urls'
@@ -278,24 +274,6 @@ OPENGRAPH_CONFIG = {
 # Number of seconds of inactivity before a user is marked offline
 USER_ONLINE_TIMEOUT = 60 * 15
 
-GEOIP_PATH = os.path.join(BASE_DIR, 'geoip-data')
-
-TRACK_USING_GEOIP = True
-TRACK_REFERER = True
-TRACK_PAGEVIEWS = True
-
-TRACK_IGNORE_URLS = (
-    r'^(favicon\.ico|robots\.txt|sitemap\.xml)$',
-    r'^admin(?!/login).*$',
-    r'^ajax/tags',
-    r'^ckeditor',
-    r'^latest/feed',
-    r'^static/'
-    # No need. This track by another tracking
-    r'^post/\d',
-    r'^category/\w+',
-)
-
 CKEDITOR_CONFIGS = {
     'default': {
         'width': '99%',
@@ -335,15 +313,6 @@ WEBPUSH_SETTINGS = {
 }
 
 WEBPUSH_ICON_URL = 'https://diggers.kiev.ua/static/images/og_image.png'
-
-'''
-CSP_DEFAULT_SRC = ("'self'")
-CSP_SCRIPT_SRC = ("'self'", 'https://www.google.com/recaptcha/', 'https://www.gstatic.com/recaptcha/')
-CSP_FRAME_SRC = ('https://www.google.com/recaptcha/')
-CSP_STYLE_SRC = ("'self'", "'unsafe-inline'")
-CSP_FONT_SRC = ("'self'")
-CSP_IMG_SRC = ("'self'")
-'''
 
 SOCIAL_AUTH_POSTGRES_JSONFIELD = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'

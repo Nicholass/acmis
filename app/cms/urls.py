@@ -106,7 +106,7 @@ urlpatterns = [
 
     url(r'^ajax/tags/', ajax.get_simular_tags, name="get_simular_tags"),
 
-    url(r'^messages/', include('django_messages.urls')),
+    url(r'^messages/', include('vendors.django_messages.urls')),
 
     url(r'^sitemap\.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
     url(r'^latest/feed/', LatestEntriesFeed(), name="feed_latest"),

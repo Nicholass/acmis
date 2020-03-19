@@ -1,4 +1,4 @@
-django==1.11.27
+django~=1.11
 django-polymorphic==1.3
 django-taggit==0.22.1
 pytz==2017.2
@@ -12,14 +12,8 @@ DjangoBan==1.9.0
 psycopg2-binary==2.8.2
 gunicorn==19.8.1
 django-recaptcha==1.4.0
-sorl-thumbnail==12.4.1
-redis==2.10.6
-django-hitcount==1.3.0
-django-tracking2==0.4.0
 python-dotenv==0.9.1
-django-csp==3.4
 uuid==1.30
-django-tracking-analyzer==0.2
 django-simplemde==0.1.3
 Markdown==3.1.1
 django-webpush==0.3.1

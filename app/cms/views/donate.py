@@ -1,6 +1,6 @@
 import uuid
+from vendors.django_liqpay import liqpay
 from django.shortcuts import render
-from liqpay import liqpay
 from django.contrib.sites.shortcuts import get_current_site
 
 def donate_form(request):
@@ -14,4 +14,4 @@ def donate_form(request):
         server_url=current_site.domain
     )
 
-    return render(request, 'donate/donate_form.html', {'checkout_form': checkout_form})
+    return render(request, 'django_liqpay/donate_form.html', {'checkout_form': checkout_form})
