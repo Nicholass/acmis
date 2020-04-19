@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.11/ref/settings/
 """
 
 import os
+import ldap
+from django_auth_ldap.config import LDAPSearch, GroupOfNamesType
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -137,6 +139,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTHENTICATION_BACKENDS = [
+    'django_auth_ldap.backend.LDAPBackend',
     'social_core.backends.google.GoogleOAuth2',
     'social_core.backends.facebook.FacebookOAuth2',
     'social_core.backends.instagram.InstagramOAuth2',
@@ -364,3 +367,35 @@ LIQPAY_DEFAULT_LANGUAGE = 'uk'
 # Transaction type. Possible values: pay - payment, hold - amount of hold on sender's account,
 # subscribe - regular payment, paydonate - donation, auth - card preauth
 LIQPAY_DEFAULT_ACTION = 'paydonate'
+
+LDAP_BASE_DN = os.getenv('LDAP_BASE_DN', 'dc=localhost')
+
+AUTH_LDAP_SERVER_URI = os.getenv('LDAP_SERVER_URI', 'ldap://localhost')
+AUTH_LDAP_BIND_DN = 'ou={},{}'.format(os.getenv('LDAP_BIND_DN', 'admin'), LDAP_BASE_DN)
+AUTH_LDAP_BIND_PASSWORD = os.getenv('LDAP_BIND_PASSWORD', '')
+AUTH_LDAP_USER_DN_TEMPLATE = 'uid=%(user)s,ou=users,{}'.format(LDAP_BASE_DN)
+
+AUTH_LDAP_GROUP_SEARCH = LDAPSearch(
+    'ou=django,ou=groups,{}'.format(LDAP_BASE_DN),
+    ldap.SCOPE_SUBTREE,
+    '(objectClass=groupOfNames)',
+)
+AUTH_LDAP_GROUP_TYPE = GroupOfNamesType(name_attr='cn')
+AUTH_LDAP_DENY_GROUP = "cn=disabled,ou=django,ou=groups,dc=example,dc=com"
+
+AUTH_LDAP_USER_ATTR_MAP = {
+    'first_name': 'givenName',
+    'last_name': 'sn',
+    'email': 'email',
+}
+
+AUTH_LDAP_USER_FLAGS_BY_GROUP = {
+    'is_active': 'cn=active,ou=django,ou=groups,{}'.format(LDAP_BASE_DN),
+    'is_staff': 'cn=staff,ou=django,ou=groups,{}'.format(LDAP_BASE_DN),
+    'is_superuser': 'cn=superuser,ou=django,ou=groups,{}'.format(LDAP_BASE_DN),
+}
+
+AUTH_LDAP_AUTHORIZE_ALL_USERS = True
+AUTH_LDAP_ALWAYS_UPDATE_USER = True
+AUTH_LDAP_FIND_GROUP_PERMS = True
+AUTH_LDAP_CACHE_TIMEOUT = 3600
