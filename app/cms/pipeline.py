@@ -29,7 +29,7 @@ def load_user(**kwargs):
 
 def save_profile(backend, user, response, *args, **kwargs):
     profile = user.profile
-    profile.email_verefied = True
+    profile.email_verified = True
 
     if backend.name == 'google-oauth2':
         avatar_url = response.get('picture')

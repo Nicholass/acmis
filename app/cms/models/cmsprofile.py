@@ -40,7 +40,8 @@ class CmsProfile(models.Model):
     email_change_token = models.CharField(max_length=42, verbose_name='Код підтвердження зміни e-mail')
     new_email = models.CharField(max_length=256, null=True, blank=True, verbose_name='Новий e-mail')
 
-    email_verefied = models.BooleanField(default=False, verbose_name='Підтвердити e-mail користувача')
+    email_verified = models.BooleanField(default=False, verbose_name='Підтвердити e-mail користувача')
+    is_banned = models.BooleanField(default=False, verbose_name='Заблокувати користувача')
 
     def save(self, **kwargs):
         if self.avatar:
@@ -103,7 +104,7 @@ class CmsProfile(models.Model):
     @receiver(post_save, sender=User)
     def save_user_profile(sender, instance, **kwargs):
         if instance.is_superuser:
-            instance.profile.email_verefied = True
+            instance.profile.email_verified = True
 
         instance.profile.save()
 

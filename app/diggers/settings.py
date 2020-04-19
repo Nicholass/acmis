@@ -53,7 +53,6 @@ INSTALLED_APPS = [
     # Custom vendored packages
     'vendors.django_messages',
     'vendors.django_liqpay',
-    'vendors.django_ban',
 ]
 
 MIDDLEWARE = [
@@ -66,10 +65,10 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.locale.LocaleMiddleware',
-    'vendors.django_ban.middleware.BanManagement',
+    'cms.middlewares.XForwardedForMiddleware',
+    'cms.middlewares.BanManagement',
     'cms.middlewares.ActiveUserMiddleware',
     'cms.middlewares.OnlineUsersMiddleware',
-    'cms.middlewares.XForwardedForMiddleware',
 ]
 
 ROOT_URLCONF = 'diggers.urls'

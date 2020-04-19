@@ -3,7 +3,7 @@
 
 <ul class="menu">
     <li><a href="/">Блог</a></li>
-    <li><a href='{% url 'users_list' %}'>Користувачі</a></li>
+    <li><a href="{% url 'users_list' %}">Користувачі</a></li>
 
     {% if user.is_authenticated %}
         {% inbox_count as pm_cout %}
@@ -12,10 +12,10 @@
     {% endif %}
 
     {% if user.is_staff %}
-        <li><a href='/admin/'>Адмінка</a></li>
+        <li><a href="/admin/">Адмінка</a></li>
     {% endif %}
 
     {% if user.is_authenticated %}
-        <li><a href='{% url 'auth_logout' %}?next={{ request.path }}'>Вихід</a></li>
+        <li><a href="{% url 'auth_logout' %}?next={{ request.path }}">Вихід</a></li>
     {% endif %}
 </ul>

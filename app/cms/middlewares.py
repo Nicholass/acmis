@@ -5,6 +5,7 @@ from django.utils import timezone
 from django.contrib.auth.signals import user_logged_out, user_logged_in
 from django.core.cache import cache
 from django.conf import settings
+from django.template.response import TemplateResponse
 
 from django.contrib.auth.models import User
 from django.utils.deprecation import MiddlewareMixin
@@ -98,3 +99,17 @@ class XForwardedForMiddleware(MiddlewareMixin):
             request.META["HTTP_X_PROXY_REMOTE_ADDR"] = request.META["REMOTE_ADDR"]
             parts = request.META["HTTP_X_FORWARDED_FOR"].split(",", 1)
             request.META["REMOTE_ADDR"] = parts[0]
+
+class BanManagement(MiddlewareMixin):
+
+    def process_response(self, request, response):
+        current_user = request.user
+        if request.user.is_authenticated():
+            user = User.objects.get(pk=current_user.pk)
+
+            if user.profile.is_banned:
+                response = TemplateResponse(request, 'cms/you_banned.html')
+                response._is_rendered = False
+                response.render()
+
+        return response

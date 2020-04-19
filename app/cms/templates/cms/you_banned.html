@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
     <title>
-        {% block title %}{% endblock %} - Сайт дигерів Києва
+        Аккаунт заблоковано - Сайт дигерів Києва
     </title>
 
     {% block extra_head %}{% endblock %}
@@ -47,37 +47,30 @@
         <span id="logo"><a href="{{ request.scheme }}://{{ request.site }}/">Diggers.kiev.ua</a></span>
         <span id="slogan">Сайт дигерів Києва</span>
         <span id="greeting">
-            {% if user.is_authenticated %}
-                Ви увійшли як:
-                <strong><a href="{% url 'me' %}">{{ user.username }}</a></strong>
-            {% else %}
-                <strong><a href="{% url 'auth_login' %}">Увійдіть</a></strong>
-                {% if REGISTRATION_OPEN %}
-                    або <strong><a href="{% url 'registration_register' %}">зареєструйтеся</a></strong>
-                {% endif %}
-            {% endif %}
+            Ви увійшли як:
+            <strong><a href="{% url 'me' %}">{{ user.username }}</a></strong>
         </span>
 
         <!-- Menu Tabs -->
-        {% include "cms/menu.html" %}
+        <ul class="menu">
+            <li><a href="{% url 'auth_logout' %}?next={{ request.path }}">Вихід</a></li>
+        </ul>
         <!-- Menu Tabs -->
     </div>
 </div>
 <!-- content-wrap starts here -->
-<div id="content-wrap" {% if post or user %}class="no-bacground"{% endif %}>
+<div id="content-wrap">
     <div class="navbar">
         <ul class="breadcrumbs">
             {% block breadcrumbs %}{% endblock %}
         </ul>
     </div>
-    {% if request.user.profile.email_verified == False %}
-        <div class="messages">
-            <div>Ваш e-mail не підтверджено. Для підтвердження перейдіть за посиланням у листі, що мав надійти на вказану при реєстрації адресу.
-                Або зверніться до адміністрації у відповідному розділі. Також ви можете ще раз <a href="{% url 'registration_send_confirm' %}">надіслати код підтвердження</a>.</div>
-        </div>
-    {% endif %}
+
     <div class="content">
-        {% block content %}{% endblock %}
+        <h1>Аккаунт заблоковано</h1>
+
+        <p>Ваш аккаунт заблоковано</p>
+        <p>Для оскарження рішення щодо блокування звертайтеся за адресою <a href="mailto:admin@diggers.kiev.ua">admin@diggers.kiev.ua</a></p>
     </div>
 </div>
 <!-- content-wrap ends here -->
@@ -86,7 +79,9 @@
 <div id="footer">
     <div class="content">
         <div>
-            {% include "cms/menu.html" %}
+            <ul class="menu">
+                <li><a href="{% url 'auth_logout' %}?next={{ request.path }}">Вихід</a></li>
+            </ul>
         </div>
         <div>
             <p>

@@ -21,6 +21,7 @@ admin.site.register(Comment, CustomMPTTModelAdmin)
 admin.site.register(CmsPost, PostAdmin)
 admin.site.register(Map, MapAdmin)
 
+
 class CmsCategoryAdmin(admin.ModelAdmin):
     base_model = CmsCategory
     list_display = ('name', 'route')
@@ -40,10 +41,16 @@ def send_activation(modeladmin, request, queryset):
 send_activation.short_description = _('Send activation code')
 
 
+class ProfileAdminForm(ProfileForm):
+
+    class Meta(ProfileForm.Meta):
+        fields = (('email_verified', 'is_banned',) + ProfileForm.Meta.fields)
+
+
 class ProfileInline(admin.StackedInline):
     model = CmsProfile
     can_delete = False
-    form = ProfileForm
+    form = ProfileAdminForm
     verbose_name_plural = _('Profile')
     fk_name = 'user'
 
@@ -51,7 +58,7 @@ class ProfileInline(admin.StackedInline):
 class EmailVerefiedFilter(admin.SimpleListFilter):
 
     title = 'підтвержденням e-mail'
-    parameter_name = 'email_verefied'
+    parameter_name = 'email_verified'
 
     def lookups(self, request, model_admin):
         return [(True, 'Так'), (False, 'Ні')]
@@ -60,17 +67,37 @@ class EmailVerefiedFilter(admin.SimpleListFilter):
         if self.value() is not None:
             return queryset.filter(profile__email_verefied=self.value())
 
+
+class BannedFilter(admin.SimpleListFilter):
+
+    title = 'блокуванням'
+    parameter_name = 'is_banned'
+
+    def lookups(self, request, model_admin):
+        return [(True, 'Так'), (False, 'Ні')]
+
+    def queryset(self, request, queryset):
+        if self.value() is not None:
+            return queryset.filter(profile__is_banned=self.value())
+
+
 class CustomUserAdmin(UserAdmin):
     inlines = (ProfileInline, )
-    list_filter = ['is_active', 'is_staff', EmailVerefiedFilter, 'last_login']
-    list_display = ('username', 'email', 'is_active', 'email_verefied', 'is_staff', 'last_login')
+    list_filter = ['is_active', 'is_staff', EmailVerefiedFilter, BannedFilter, 'last_login']
+    list_display = ('username', 'email', 'is_active', 'email_verified', 'is_banned', 'is_staff', 'last_login')
     actions = [send_activation,]
 
-    def email_verefied(self, obj):
-        return obj.profile.email_verefied
-    email_verefied.boolean = True
-    email_verefied.short_description = 'Пошту підтверджено'
-    email_verefied.admin_order_field = 'profile__email_verefied'
+    def email_verified(self, obj):
+        return obj.profile.email_verified
+    email_verified.boolean = True
+    email_verified.short_description = 'Пошту підтверджено'
+    email_verified.admin_order_field = 'profile__email_verefied'
+
+    def is_banned(self, obj):
+        return obj.profile.is_banned
+    is_banned.boolean = True
+    is_banned.short_description = 'Заблоковано'
+    is_banned.admin_order_field = 'profile__is_banned'
 
     def __init__(self, *args, **kwargs):
       super(CustomUserAdmin, self).__init__(*args, **kwargs)
@@ -80,8 +107,10 @@ class CustomUserAdmin(UserAdmin):
             return list()
         return super(CustomUserAdmin, self).get_inline_instances(request, obj)
 
+
 admin.site.unregister(User)
 admin.site.register(User, CustomUserAdmin)
+
 
 class PermissionModel(admin.ModelAdmin):
     model = Permission

@@ -109,7 +109,7 @@ def activation(request, activation_key):
         user = None
 
     if user is not None:
-        user.profile.email_verefied = True
+        user.profile.email_verified = True
         user.save()
 
         return redirect('post_list')
