@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.dispatch import receiver
-from django.db.models.signals import post_save, pre_delete
+from django.db.models.signals import post_save, post_delete
 from django.template.defaultfilters import truncatechars
 from ckeditor_uploader.fields import RichTextUploadingField
 from django.core.urlresolvers import reverse
@@ -21,7 +21,7 @@ class CmsPost(models.Model):
     modifed_date = models.DateTimeField(null=True, blank=True, verbose_name='Дата редагування')
     is_permited = models.BooleanField(default=False, verbose_name='Зробити прихованим')
 
-    last_comment = models.ForeignKey('Comment', verbose_name='Останній коментар', blank=True, null=True)
+    last_comment = models.ForeignKey('Comment', verbose_name='Останній коментар', blank=True, null=True, on_delete=models.SET_NULL)
 
     @property
     def short_title(self):
@@ -52,7 +52,7 @@ class CmsPost(models.Model):
 
         post.save()
 
-    @receiver(pre_delete, sender=Comment)
+    @receiver(post_delete, sender=Comment)
     def change_last_comment_on_delete(sender, instance, **kwargs):
         post = CmsPost.objects.get(pk=instance.post.pk)
         post.last_comment = Comment.objects.filter(post=instance.post, is_deleted=False).order_by('-created_date').first()
