@@ -65,7 +65,7 @@ class EmailVerefiedFilter(admin.SimpleListFilter):
 
     def queryset(self, request, queryset):
         if self.value() is not None:
-            return queryset.filter(profile__email_verefied=self.value())
+            return queryset.filter(profile__email_verified=self.value())
 
 
 class BannedFilter(admin.SimpleListFilter):
@@ -91,7 +91,7 @@ class CustomUserAdmin(UserAdmin):
         return obj.profile.email_verified
     email_verified.boolean = True
     email_verified.short_description = 'Пошту підтверджено'
-    email_verified.admin_order_field = 'profile__email_verefied'
+    email_verified.admin_order_field = 'profile__email_verified'
 
     def is_banned(self, obj):
         return obj.profile.is_banned
