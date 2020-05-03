@@ -203,12 +203,18 @@ BLEACH_ALLOWED_TAGS = [
   'tbody',
   'caption',
   'hr',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
   'span',
   'img',
   'br',
   'iframe',
   'figcaption',
   'figure',
+  'pre',
 ]
 BLEACH_ALLOWED_ATTRIBUTES = ['href', 'title', 'style', 'cellpadding', 'cellspacing', 'border', 'target', 'alt', 'src', 'allowfullscreen', 'frameborder', 'height', 'width']
 BLEACH_ALLOWED_STYLES = [
@@ -275,18 +281,20 @@ USER_ONLINE_TIMEOUT = 60 * 15
 
 CKEDITOR_CONFIGS = {
     'default': {
+        'format_tags': 'p;h2;h3;h4;h5;h6;pre',
         'width': '99%',
         'filebrowserBrowseUrl': '',
         'filebrowserImageBrowseUrl': '',
         'filebrowserFlashBrowseUrl': '',
         'toolbar': 'Custom',
         'toolbar_Custom': [
-            ['Styles', 'Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
+            ['Format', 'Bold', 'Italic', 'Underline', 'Strike', 'SpellChecker', 'Undo', 'Redo'],
             ['Link', 'Unlink', 'Anchor'],
             ['Image', 'Youtube', 'Table', 'HorizontalRule'],
             ['TextColor', 'BGColor'],
             ['Smiley', 'SpecialChar'], ['Source'],
         ],
+        'removePlugins': 'image',
         'extraPlugins': ','.join([
           'youtube',
           'autoembed',
