@@ -72,6 +72,9 @@
                             <img src="{{ post.author.profile.avatar_url }}" alt="avatar" />
 
                             <div class="info">
+                                {% if post.is_permited %}
+                                    <span><i class="fas fa-lock" title="Прихованний пост"></i></span>
+                                {% endif %}
                                 <span>{{ post.author.first_name }} {{ post.author.last_name }} [<a class="username"
                                         href="{% url 'user' username=post.author.username %}">{{ post.author }}</a>]</span>
                                 <span>{{ post.created_date }}</span>
