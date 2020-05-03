@@ -501,8 +501,14 @@ a.feed:hover {
     height: auto !important;
 }
 
-.post-content p {
-    margin: 0;
+.post-content p,
+.post-content h2,
+.post-content h3,
+.post-content h4,
+.post-content h5,
+.post-content h6
+{
+    margin: 1em 0;
 }
 
 figure {

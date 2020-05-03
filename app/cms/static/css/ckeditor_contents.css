@@ -1,0 +1,9 @@
+.cke_editable p,
+.cke_editable h2,
+.cke_editable h3,
+.cke_editable h4,
+.cke_editable h5,
+.cke_editable h6
+{
+    margin: 1em 0;
+}

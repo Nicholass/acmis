@@ -278,7 +278,6 @@ OPENGRAPH_CONFIG = {
 
 # Number of seconds of inactivity before a user is marked offline
 USER_ONLINE_TIMEOUT = 60 * 15
-
 CKEDITOR_CONFIGS = {
     'default': {
         'format_tags': 'p;h2;h3;h4;h5;h6;pre',
@@ -299,9 +298,14 @@ CKEDITOR_CONFIGS = {
           'youtube',
           'autoembed',
           'image2'
-        ])
+        ]),
+        'contentsCss': [
+            '/static/ckeditor/ckeditor/contents.css',
+            '/static/css/ckeditor_contents.css',
+        ],
     }
 }
+
 
 SIMPLEMDE_OPTIONS = {
     'placeholder': 'Коментар',
