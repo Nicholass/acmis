@@ -70,12 +70,6 @@
             {% block breadcrumbs %}{% endblock %}
         </ul>
     </div>
-    {% if request.user.profile.email_verified == False %}
-        <div class="messages">
-            <div>Ваш e-mail не підтверджено. Для підтвердження перейдіть за посиланням у листі, що мав надійти на вказану при реєстрації адресу.
-                Або зверніться до адміністрації у відповідному розділі. Також ви можете ще раз <a href="{% url 'registration_send_confirm' %}">надіслати код підтвердження</a>.</div>
-        </div>
-    {% endif %}
     <div class="content">
         {% block content %}{% endblock %}
     </div>

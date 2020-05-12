@@ -1,10 +1,9 @@
 from django.shortcuts import render, redirect
 
-from django.contrib.auth import views, authenticate, login
+from django.contrib.auth import views, login
 from django.contrib.auth.models import User
 
 from cms.forms.registration import RegistrationForm
-from cms.forms.profile import ProfileForm
 from cms.forms.profile import EmailChangeForm
 from django.contrib.auth.decorators import login_required
 
@@ -44,17 +43,12 @@ def registration(request):
 
         if form.is_valid():
             user = form.save(commit=False)
-            user.is_active = True
+            user.is_active = False
             user.save()
 
             send_activation_code(user, request)
 
-            new_user = authenticate(username=form.cleaned_data['username'],
-                                    password=form.cleaned_data['password1'],
-                                    )
-            login(request, new_user)
-
-            return redirect('registration_complete')
+            return render(request, 'registration/registration_complete.html')
 
     else:
         form = RegistrationForm()
@@ -62,33 +56,9 @@ def registration(request):
     return render(request, 'registration/registration_form.html', {'form': form})
 
 
-@login_required
-def profile(request):
-    user = request.user
-
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, request.FILES, instance=user.profile)
-        if form.is_valid():
-            form.save()
-
-            return redirect('post_list')
-
-    else:
-        form = ProfileForm(instance=user.profile)
-
-    return render(request, 'registration/registration_complete.html', {
-        'form': form
-    })
-
-
-@login_required
-def send_activation(request):
-    send_activation_code(request.user, request)
-
-    return redirect('post_list')
-
-
 def activation(request, activation_key):
+    user = None
+
     try:
         username = signing.loads(
             activation_key,
@@ -107,6 +77,7 @@ def activation(request, activation_key):
         user = None
 
     if user is not None:
+        user.is_active = True
         user.profile.email_verified = True
         user.save()
 

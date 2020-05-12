@@ -60,11 +60,8 @@ urlpatterns = [
         name='auth_logout'),
 
     url(r'^accounts/register/$', registration.registration, name='registration_register'),
-    url(r'^accounts/register/complete/$', registration.profile, name='registration_complete'),
     url(r'^accounts/register/confirm/(?P<activation_key>[-:\w]+)/$', registration.activation,
         name='registration_confirm'),
-    url(r'^accounts/register/send_confirm/$', registration.send_activation,
-        name='registration_send_confirm'),
 
     url(r'^accounts/password/change/$',
         auth_views.PasswordChangeView.as_view(
