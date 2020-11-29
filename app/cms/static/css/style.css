@@ -64,7 +64,7 @@ ul span, ol span {
 }
 
 pre {
-    word-break: break-word;
+    white-space: break-spaces;
 }
 
 code {
