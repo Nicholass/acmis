@@ -63,6 +63,10 @@ ul span, ol span {
     color: #CCC;
 }
 
+pre {
+    word-break: break-word;
+}
+
 code {
     margin: 5px 0;
     padding: 20px 15px;
@@ -70,7 +74,7 @@ code {
     display: block;
     overflow: auto;
     font: 500 1em/1.5em 'Lucida Console', 'courier new', monospace;
-    /* white-space: pre; */
+    white-space: pre;
     background: #111;
     border: 1px solid #151515;
 }
