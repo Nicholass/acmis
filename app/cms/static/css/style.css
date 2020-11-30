@@ -913,6 +913,10 @@ div[name=Upload] {
     text-align: center;
 }
 
+.comments ul {
+    list-style: none;
+}
+
 .CodeMirror-scroll,
 .CodeMirror {
     min-height: 100px !important;
