@@ -891,13 +891,6 @@ div[name=Upload] {
     flex-direction: row;
     align-items: center;
 }
-#sidebar .block.buttons .button.donate a{
-    padding-left: 10px;
-    font-size: 1.2em;
-}
-#sidebar .block.buttons .button.donate i{
-    font-size: 1.5em;
-}
 
 /* Comments */
 .comments {

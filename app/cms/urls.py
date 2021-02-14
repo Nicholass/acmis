@@ -3,16 +3,15 @@ from django.urls import reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
 
-from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
-from cms.views import post, ajax, comment, profile, map, registration
+from views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
+from views import post, ajax, comment, profile, map, registration
 
-from cms.forms.registration import RememberAuthenticationForm
+from forms.registration import RememberAuthenticationForm
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
+from django.views.generic import TemplateView
 
-from cms.views.donate import donate_form
-
-from cms.views.rss import LatestEntriesFeed
+from views.rss import LatestEntriesFeed
 
 sitemaps = {
     'categories': CategoriesSitemap,
@@ -110,7 +109,7 @@ urlpatterns = [
     url(r'^webpush/', include('webpush.urls')),
     url('', include('social_django.urls', namespace='social')),
 
-    url(r'donate/', donate_form, name='donate_form'),
+    url(r'donated/', TemplateView.as_view(template_name='donated.html'), name='donated'),
 ]
 
 if settings.ENV == 'development':

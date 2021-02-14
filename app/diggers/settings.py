@@ -52,7 +52,6 @@ INSTALLED_APPS = [
 
     # Custom vendored packages
     'vendors.django_messages',
-    'vendors.django_liqpay',
 ]
 
 MIDDLEWARE = [
@@ -262,8 +261,8 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
 ]
 
-RECAPTCHA_PUBLIC_KEY = '6LegnF0UAAAAAIbP1Xu21W_e6kObQIOYbqFs2VBC'
-RECAPTCHA_PRIVATE_KEY = '6LegnF0UAAAAAONkfdiI5dU1MhqA2BAvQsaGI2bp'
+RECAPTCHA_PUBLIC_KEY = os.getenv('RECAPTCHA_PUBLIC_KEY', '')
+RECAPTCHA_PRIVATE_KEY = os.getenv('RECAPTCHA_PRIVATE_KEY', '')
 NOCAPTCHA = True
 
 TAGTOOLS_CLOUD_STEPS = 6
@@ -365,13 +364,4 @@ SOCIAL_AUTH_PIPELINE = (
     'social_core.pipeline.user.user_details',
 )
 
-LIQPAY_PUBLIC_KEY = os.getenv('LIQPAY_PUBLIC_KEY', '')
-LIQPAY_PRIVATE_KEY = os.getenv('LIQPAY_PRIVATE_KEY', '')
-
-# Payment currency. Example value: USD, EUR, RUB, UAH, BYN, KZT.
-LIQPAY_DEFAULT_CURRENCY = 'UAH'
-LIQPAY_DEFAULT_LANGUAGE = 'uk'
-
-# Transaction type. Possible values: pay - payment, hold - amount of hold on sender's account,
-# subscribe - regular payment, paydonate - donation, auth - card preauth
-LIQPAY_DEFAULT_ACTION = 'paydonate'
+PAYPAL_BUTTON_ID = os.getenv('PAYPAL_BUTTON_ID', '')
