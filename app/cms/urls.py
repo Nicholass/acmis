@@ -3,15 +3,15 @@ from django.urls import reverse_lazy
 from django.conf.urls.static import static
 from django.conf import settings
 
-from views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
-from views import post, ajax, comment, profile, map, registration
+from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
+from cms.views import post, ajax, comment, profile, map, registration
 
 from forms.registration import RememberAuthenticationForm
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
 
-from views.rss import LatestEntriesFeed
+from cms.views.rss import LatestEntriesFeed
 
 sitemaps = {
     'categories': CategoriesSitemap,
