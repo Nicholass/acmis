@@ -6,7 +6,7 @@ from django.conf import settings
 from cms.views.sitemap import CategoriesSitemap, PostsSitemap, StaticSitemap
 from cms.views import post, ajax, comment, profile, map, registration
 
-from forms.registration import RememberAuthenticationForm
+from cms.forms.registration import RememberAuthenticationForm
 from django.contrib.sitemaps.views import sitemap
 from django.contrib.auth import views as auth_views
 from django.views.generic import TemplateView
